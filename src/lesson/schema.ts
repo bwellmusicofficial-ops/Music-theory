@@ -1,0 +1,226 @@
+/**
+ * Lesson content schema.
+ *
+ * CONTRACT FILE (P0-01). Owned by the orchestrator.
+ *
+ * Lessons are JSON files in `content/lessons/<grade>/<unit>/<slug>.json`,
+ * validated against `lessonSchema` in CI. A lesson is data only: it never
+ * contains code or markup beyond the limited inline text format below.
+ *
+ * Inline text format (`RichText`): plain text plus
+ *   **bold**, *italic*, and [[term-id|shown text]] glossary links.
+ * Hard limit of 60 words per text block, enforced by the schema.
+ */
+
+import { z } from 'zod';
+
+// --- shared ids -------------------------------------------------------------
+
+export const STRANDS = [
+  'rhythm',
+  'pitch',
+  'scales-keys',
+  'intervals',
+  'harmony',
+  'composition',
+  'terms',
+  'score-reading',
+] as const;
+export const strandSchema = z.enum(STRANDS);
+export type Strand = z.infer<typeof strandSchema>;
+
+export const GRADES = ['start', '1', '2', '3', '4', '5', '6', '7', '8'] as const;
+export const gradeSchema = z.enum(GRADES);
+export type Grade = z.infer<typeof gradeSchema>;
+
+export const QUESTION_TYPES = [
+  'note-on-stave',
+  'play-keyboard',
+  'tap-rhythm',
+  'by-ear',
+  'complete-bar',
+  'spot-mistake',
+  'ordering',
+  'multiple-choice',
+  'match-up',
+] as const;
+export const questionTypeSchema = z.enum(QUESTION_TYPES);
+export type QuestionTypeId = z.infer<typeof questionTypeSchema>;
+
+/** kebab-case, e.g. "g1-rhythm-01-crotchets-and-minims". */
+const idSchema = z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+
+/** Skill ids are dotted: "<strand>.<topic>.<detail>", e.g. "pitch.treble.lines". */
+export const skillIdSchema = z.string().regex(/^[a-z0-9-]+(\.[a-z0-9-]+){1,3}$/);
+
+const wordCount = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
+export const MAX_WORDS_PER_BLOCK = 60;
+export const richTextSchema = z
+  .string()
+  .min(1)
+  .refine((s) => wordCount(s) <= MAX_WORDS_PER_BLOCK, {
+    message: `Text blocks are limited to ${MAX_WORDS_PER_BLOCK} words`,
+  });
+export type RichText = z.infer<typeof richTextSchema>;
+
+// --- media that a step can show --------------------------------------------
+
+/**
+ * Something to see and hear alongside text. `passage` is an engine `Passage`
+ * (validated structurally by the stave, not here). `audioClip` is a path under
+ * /public/audio for the few cases a synthesised passage will not do.
+ */
+export const exhibitSchema = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('passage'), passage: z.unknown(), tempo: z.number().optional() }),
+  z.object({
+    kind: z.literal('keyboard'),
+    /** Pitches to highlight, ASCII form ("C4"). */
+    highlight: z.array(z.string()).default([]),
+    low: z.string().default('C3'),
+    high: z.string().default('C5'),
+  }),
+  z.object({ kind: z.literal('audioClip'), src: z.string(), caption: z.string() }),
+]);
+export type Exhibit = z.infer<typeof exhibitSchema>;
+
+// --- questions ---------------------------------------------------------------
+
+/**
+ * A question is either authored (`payload` given) or generated (`generator`
+ * given). The payload's shape belongs to the question type's own module, which
+ * validates it with its `payloadSchema` when the lesson loads.
+ */
+const questionBase = {
+  id: idSchema,
+  type: questionTypeSchema,
+  /** The single skill this question gives evidence for. */
+  skill: skillIdSchema,
+  prompt: richTextSchema,
+  /** Shown after a first wrong answer. */
+  hint: richTextSchema.optional(),
+};
+
+export const authoredQuestionSchema = z.object({
+  ...questionBase,
+  source: z.literal('authored'),
+  payload: z.unknown(),
+});
+
+export const generatedQuestionSchema = z.object({
+  ...questionBase,
+  source: z.literal('generated'),
+  generator: z.object({
+    /** Registered generator id, e.g. "name-note-on-stave". */
+    id: idSchema,
+    params: z.record(z.string(), z.unknown()).default({}),
+  }),
+});
+
+export const questionSchema = z.discriminatedUnion('source', [
+  authoredQuestionSchema,
+  generatedQuestionSchema,
+]);
+export type Question = z.infer<typeof questionSchema>;
+
+// --- the six steps ------------------------------------------------------------
+
+/** 1. Hook: a 10-20 second clip or question that makes the idea matter. */
+export const hookStepSchema = z.object({
+  text: richTextSchema,
+  exhibit: exhibitSchema.optional(),
+});
+
+/** 2. Hear it, play it: free interaction before any terminology. */
+export const exploreStepSchema = z.object({
+  text: richTextSchema,
+  /** Which instrument the learner plays with. */
+  instrument: z.enum(['keyboard', 'stave', 'rhythm-pad']),
+  exhibit: exhibitSchema.optional(),
+  /** What the learner must do to continue, in words; the player shows it as a goal. */
+  goal: richTextSchema,
+});
+
+/** 3. Name it: the concept, its notation and one sentence of explanation. */
+export const nameStepSchema = z.object({
+  /** One to three short cards, each at most 60 words. */
+  cards: z
+    .array(z.object({ text: richTextSchema, exhibit: exhibitSchema.optional() }))
+    .min(1)
+    .max(3),
+  /** A second explanation using a different approach ("explain it another way"). */
+  alternative: z.object({ text: richTextSchema, exhibit: exhibitSchema.optional() }),
+});
+
+/** 4. Guided practice: three to five questions with instant feedback. */
+export const practiceStepSchema = z.object({
+  questions: z.array(questionSchema).min(3).max(5),
+});
+
+/** 5. Challenge: a scored round that decides whether the lesson is complete. */
+export const challengeStepSchema = z.object({
+  /** Seconds allowed; the untimed accessibility mode ignores this. */
+  seconds: z.number().int().min(60).max(90),
+  /** Pool the round draws from; generated questions repeat with new seeds. */
+  questions: z.array(questionSchema).min(3),
+  /** Fraction correct needed to complete the lesson. */
+  passMark: z.number().min(0.5).max(1).default(0.8),
+});
+
+/** 6. Recap card: one screen saved to the learner's library. */
+export const recapStepSchema = z.object({
+  /** Two to four bullet-length points. */
+  points: z.array(richTextSchema).min(2).max(4),
+  exhibit: exhibitSchema.optional(),
+});
+
+// --- lesson ---------------------------------------------------------------------
+
+export const lessonSchema = z.object({
+  /** Bumped only by the orchestrator when the schema changes shape. */
+  schemaVersion: z.literal(1),
+  id: idSchema,
+  title: z.string().min(1).max(60),
+  /** One line shown on unit pages and in search. */
+  summary: z.string().min(1).max(140),
+  grade: gradeSchema,
+  /** Unit id, unique within the grade, e.g. "rhythm-1". */
+  unit: idSchema,
+  /** Position within the unit, starting at 1. */
+  order: z.number().int().min(1),
+  strand: strandSchema,
+  /** Skills this lesson teaches; every question's skill must be listed here. */
+  skills: z.array(skillIdSchema).min(1),
+  /** Lesson ids recommended first. Nothing is locked; this drives the suggested path. */
+  prerequisites: z.array(idSchema).default([]),
+  estimatedMinutes: z.number().int().min(5).max(8),
+  /** Glossary term ids introduced here. */
+  newTerms: z.array(idSchema).default([]),
+  steps: z.object({
+    hook: hookStepSchema,
+    explore: exploreStepSchema,
+    name: nameStepSchema,
+    practice: practiceStepSchema,
+    challenge: challengeStepSchema,
+    recap: recapStepSchema,
+  }),
+});
+export type Lesson = z.infer<typeof lessonSchema>;
+
+export const STEP_ORDER = ['hook', 'explore', 'name', 'practice', 'challenge', 'recap'] as const;
+export type StepId = (typeof STEP_ORDER)[number];
+
+// --- glossary -------------------------------------------------------------------
+
+export const glossaryEntrySchema = z.object({
+  id: idSchema,
+  /** UK term is canonical; `us` is shown when the terminology setting is "us". */
+  term: z.string().min(1),
+  us: z.string().optional(),
+  /** Language of origin for Italian, French and German terms. */
+  language: z.enum(['en', 'it', 'fr', 'de']).default('en'),
+  definition: richTextSchema,
+  grade: gradeSchema,
+  strand: strandSchema,
+  exhibit: exhibitSchema.optional(),
+});
+export type GlossaryEntry = z.infer<typeof glossaryEntrySchema>;
