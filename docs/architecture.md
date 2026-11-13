@@ -117,6 +117,13 @@ export function getAudioEngine(): AudioEngine;
 
 ## Stave component contract (P0-07 refines, P0-08 implements)
 
+Superseded: the accepted `StaveProps` is the revised interface in section 13 of
+`docs/stave-interaction.md`. The original is kept below for history. Token names
+in that document map to the real tokens as: `--text-primary` -> `--text`;
+`--strand-current` is set by the parent and falls back to `--accent`.
+The proposed engine functions `accidentalSigns` and `spokenPitch` stay local to
+the stave folder until Phase 1.
+
 ```ts
 export interface StaveProps {
   passage: Passage;

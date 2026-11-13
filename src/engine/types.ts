@@ -115,10 +115,11 @@ export interface NoteEvent {
   duration: Duration;
   tieToNext?: boolean;
   /**
-   * Whether an accidental sign is drawn. Omit to let the engine decide from
-   * key signature and earlier notes in the bar.
+   * Whether an accidental sign is drawn. Omit to let the stave decide from
+   * key signature and earlier notes in the bar. A single boolean applies to
+   * every pitch; an array is parallel to `pitches` (needed for chords).
    */
-  showAccidental?: boolean;
+  showAccidental?: boolean | boolean[];
 }
 
 export interface RestEvent {
