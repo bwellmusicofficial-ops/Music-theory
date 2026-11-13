@@ -1,0 +1,156 @@
+/*
+ * Design tokens for Music Theory Now.
+ * Dark is the default theme (:root); light is opted into with
+ * <html data-theme="light">. Colours are plain hex so the contrast test
+ * (src/components/ui/contrast.test.ts) can parse them. Components never use
+ * raw colours; they use the Tailwind utilities wired in globals.css.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Background layers, back to front */
+  --bg: #0a0a12;
+  --bg-raised: #11111c;
+  --surface: #181826;
+  --surface-raised: #222234;
+
+  /* Boundaries: --border meets 3:1 for UI boundaries; --border-subtle is decorative only */
+  --border: #7a7a9c;
+  --border-subtle: #2c2c42;
+
+  /* Text */
+  --text: #f4f4fb;
+  --text-secondary: #c9c9de;
+  --text-muted: #a2a2bd;
+
+  /* Brand accent and the text that sits on it */
+  --accent: #9b7bff;
+  --accent-hover: #b199ff;
+  --on-accent: #0a0a12;
+
+  /* Status colours, readable as text on bg and surface layers */
+  --success: #34d399;
+  --danger: #ff7b7b;
+  --warning: #fbbf24;
+  --on-success: #0a0a12;
+  --on-danger: #0a0a12;
+  --on-warning: #0a0a12;
+
+  --focus-ring: #5eead4;
+  --scrim: rgb(5 5 10 / 0.72);
+
+  /* Strand accents */
+  --strand-rhythm: #ff9a4d;
+  --strand-pitch: #4cc2ff;
+  --strand-scales-keys: #a6e22e;
+  --strand-intervals: #ff6fae;
+  --strand-harmony: #d9a0ff;
+  --strand-composition: #ffd23f;
+  --strand-terms: #3fe0c5;
+  --strand-score-reading: #8f9cff;
+
+  /* Shadow */
+  --elev-sm: 0 1px 2px rgb(0 0 0 / 0.5);
+  --elev-md: 0 6px 18px rgb(0 0 0 / 0.5);
+  --elev-lg: 0 18px 48px rgb(0 0 0 / 0.65);
+  --elev-glow: 0 0 24px rgb(155 123 255 / 0.35);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f4f4fa;
+  --bg-raised: #fafafd;
+  --surface: #ffffff;
+  --surface-raised: #ececf6;
+
+  --border: #6a6a88;
+  --border-subtle: #d4d4e4;
+
+  --text: #12121c;
+  --text-secondary: #38384e;
+  --text-muted: #565670;
+
+  --accent: #5b2fd6;
+  --accent-hover: #4a22b8;
+  --on-accent: #ffffff;
+
+  --success: #047857;
+  --danger: #b91c1c;
+  --warning: #92400e;
+  --on-success: #ffffff;
+  --on-danger: #ffffff;
+  --on-warning: #ffffff;
+
+  --focus-ring: #1d4ed8;
+  --scrim: rgb(18 18 28 / 0.55);
+
+  --strand-rhythm: #b6420a;
+  --strand-pitch: #0369a1;
+  --strand-scales-keys: #4a7510;
+  --strand-intervals: #be185d;
+  --strand-harmony: #8a2bd0;
+  --strand-composition: #8a5a00;
+  --strand-terms: #0b7467;
+  --strand-score-reading: #4338ca;
+
+  --elev-sm: 0 1px 2px rgb(30 30 60 / 0.12);
+  --elev-md: 0 6px 18px rgb(30 30 60 / 0.14);
+  --elev-lg: 0 18px 48px rgb(30 30 60 / 0.22);
+  --elev-glow: 0 0 24px rgb(91 47 214 / 0.2);
+}
+
+/* Theme-independent tokens */
+:root {
+  --font-family-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Spacing (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Radius */
+  --r-sm: 0.375rem;
+  --r-md: 0.75rem;
+  --r-lg: 1.25rem;
+  --r-full: 9999px;
+
+  /* Type scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.625rem;
+  --font-size-2xl: 2.125rem;
+  --font-size-3xl: 3rem;
+
+  /* Motion */
+  --motion-duration-fast: 120ms;
+  --motion-duration-base: 200ms;
+  --motion-duration-slow: 360ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --motion-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Reduced motion: durations collapse to zero. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 0ms;
+    --motion-duration-base: 0ms;
+    --motion-duration-slow: 0ms;
+  }
+}
+
+html[data-reduced-motion="true"] {
+  --motion-duration-fast: 0ms;
+  --motion-duration-base: 0ms;
+  --motion-duration-slow: 0ms;
+}
