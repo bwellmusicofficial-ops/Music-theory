@@ -1,0 +1,56 @@
+import type { PitchEngine } from '../api';
+import {
+  chroma,
+  comparePitch,
+  displayPitchClass,
+  enharmonicallyEqual,
+  formatPitch,
+  parsePitch,
+  parsePitchClass,
+  pitchAtStavePosition,
+  stavePosition,
+  toMidi,
+} from './core';
+import { intervalBetween, intervalName, semitones, transpose } from './interval';
+import {
+  allKeys,
+  degree,
+  degreeName,
+  keyFromSignature,
+  keyName,
+  keySignature,
+  relativeKey,
+  scale,
+  signatureAccidentals,
+} from './key';
+import { identifyTriad, romanNumeral, triadOnDegree, triadPitches } from './triad';
+
+export const pitch: PitchEngine = {
+  parsePitch,
+  parsePitchClass,
+  formatPitch,
+  displayPitchClass,
+  toMidi,
+  chroma,
+  enharmonicallyEqual,
+  comparePitch,
+  stavePosition,
+  pitchAtStavePosition,
+  intervalBetween,
+  transpose,
+  semitones,
+  intervalName,
+  allKeys,
+  keySignature,
+  keyFromSignature,
+  signatureAccidentals,
+  relativeKey,
+  keyName,
+  scale,
+  degree,
+  degreeName,
+  triadPitches,
+  triadOnDegree,
+  romanNumeral,
+  identifyTriad,
+};
