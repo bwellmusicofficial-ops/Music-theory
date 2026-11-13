@@ -1,0 +1,185 @@
+[
+  {
+    "id": "pulse",
+    "term": "pulse",
+    "language": "en",
+    "definition": "The steady tick you feel under a piece of music, like a clock or a heartbeat. It is what your foot taps to, and it carries on even when the tune holds a long note.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "beat",
+    "term": "beat",
+    "language": "en",
+    "definition": "One tick of the [[pulse|pulse]]. Notes are measured in beats: a note can last 1 beat, 2 beats, or more.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "crotchet",
+    "term": "crotchet",
+    "us": "quarter note",
+    "language": "en",
+    "definition": "A note with a filled-in head and a stem. In the music you meet first it lasts 1 beat.",
+    "grade": "1",
+    "strand": "rhythm",
+    "exhibit": {
+      "kind": "passage",
+      "tempo": 80,
+      "passage": {
+        "clef": "treble",
+        "key": {
+          "tonic": {
+            "letter": "C",
+            "accidental": 0
+          },
+          "mode": "major"
+        },
+        "time": {
+          "beats": 4,
+          "beatUnit": 4
+        },
+        "bars": [
+          {
+            "events": [
+              {
+                "kind": "note",
+                "pitches": [
+                  {
+                    "letter": "B",
+                    "accidental": 0,
+                    "octave": 4
+                  }
+                ],
+                "duration": {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              },
+              {
+                "kind": "note",
+                "pitches": [
+                  {
+                    "letter": "B",
+                    "accidental": 0,
+                    "octave": 4
+                  }
+                ],
+                "duration": {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              },
+              {
+                "kind": "note",
+                "pitches": [
+                  {
+                    "letter": "B",
+                    "accidental": 0,
+                    "octave": 4
+                  }
+                ],
+                "duration": {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              },
+              {
+                "kind": "note",
+                "pitches": [
+                  {
+                    "letter": "B",
+                    "accidental": 0,
+                    "octave": 4
+                  }
+                ],
+                "duration": {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "minim",
+    "term": "minim",
+    "us": "half note",
+    "language": "en",
+    "definition": "A note with a hollow head and a stem. It lasts twice as long as a [[crotchet|crotchet]]: 2 beats in the music you meet first.",
+    "grade": "1",
+    "strand": "rhythm",
+    "exhibit": {
+      "kind": "passage",
+      "tempo": 80,
+      "passage": {
+        "clef": "treble",
+        "key": {
+          "tonic": {
+            "letter": "C",
+            "accidental": 0
+          },
+          "mode": "major"
+        },
+        "time": {
+          "beats": 4,
+          "beatUnit": 4
+        },
+        "bars": [
+          {
+            "events": [
+              {
+                "kind": "note",
+                "pitches": [
+                  {
+                    "letter": "B",
+                    "accidental": 0,
+                    "octave": 4
+                  }
+                ],
+                "duration": {
+                  "value": "minim",
+                  "dots": 0
+                }
+              },
+              {
+                "kind": "note",
+                "pitches": [
+                  {
+                    "letter": "B",
+                    "accidental": 0,
+                    "octave": 4
+                  }
+                ],
+                "duration": {
+                  "value": "minim",
+                  "dots": 0
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "bar",
+    "term": "bar",
+    "us": "measure",
+    "language": "en",
+    "definition": "One of the equal boxes that music is divided into. Every [[bar|bar]] in a piece normally holds the same number of beats.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "bar-line",
+    "term": "bar line",
+    "language": "en",
+    "definition": "The upright line drawn across the music where one [[bar|bar]] ends and the next begins.",
+    "grade": "1",
+    "strand": "rhythm"
+  }
+]

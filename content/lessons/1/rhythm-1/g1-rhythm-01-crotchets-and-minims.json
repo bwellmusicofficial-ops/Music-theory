@@ -1,0 +1,2194 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-rhythm-01-crotchets-and-minims",
+  "title": "Crotchets and minims",
+  "summary": "Find the steady pulse, then meet the 1-beat crotchet and the 2-beat minim.",
+  "grade": "1",
+  "unit": "rhythm-1",
+  "order": 1,
+  "strand": "rhythm",
+  "skills": [
+    "rhythm.pulse.steady",
+    "rhythm.note-values.crotchet-minim",
+    "rhythm.perform.crotchet-minim"
+  ],
+  "prerequisites": [],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "pulse",
+    "beat",
+    "crotchet",
+    "minim",
+    "bar",
+    "bar-line"
+  ],
+  "steps": {
+    "hook": {
+      "text": "First-aiders learn to press on the chest in time with *Stayin' Alive*. Why that song? Because something in it ticks along as evenly as a clock. Press play, then tap your foot to this tune. Can you feel the tick?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 104,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Your turn. A click will tick away. Start by tapping the pad once on every click. Then get sneaky: tap, let one click go by, and tap again. Same click, but each tap now lasts twice as long.",
+      "instrument": "rhythm-pad",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "goal": "Tap along with all 8 short notes, then all 4 long ones."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "That steady tick you tapped is the [[pulse|pulse]]. Each tick is one [[beat|beat]]. The pulse carries on even when a tune holds a long note, like a clock ticking away under the music."
+        },
+        {
+          "text": "A note that lasts 1 beat is a [[crotchet|crotchet]]: a filled-in head with a stem. A note that lasts 2 beats is a [[minim|minim]]: same stem, but a hollow head. Easy way to remember: hollow means hold.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 80,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "Music is packed into boxes called [[bar|bars]], split up by upright [[bar-line|bar lines]]. Every [[bar|bar]] in this lesson holds 4 beats: 4 [[crotchet|crotchets]], 2 [[minim|minims]], or a mix. (The two 4s at the start say so. More on them next lesson.)",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 80,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Think of walking. Each footstep is one beat. A [[crotchet|crotchet]] is one step: say \"walk\". A [[minim|minim]] takes two steps of time: say \"sta-ay\" and hold it. Now say this in time with your feet: walk, walk, sta-ay. You just read the [[bar|bar]] below.",
+        "exhibit": {
+          "kind": "passage",
+          "tempo": 80,
+          "passage": {
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-tap-the-pulse",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Tap the [[pulse|pulse]]: one tap on every click, 8 taps in all. Every note here is a [[crotchet|crotchet]], so each one gets 1 beat.",
+          "hint": "Do not chase the click. Listen to the count-in, feel how far apart the clicks are, then tap with them like footsteps.",
+          "source": "authored",
+          "payload": {
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "bpm": 80,
+            "countInBars": 1,
+            "showNotation": true,
+            "listenFirst": false
+          }
+        },
+        {
+          "id": "p2-hear-the-minims",
+          "type": "by-ear",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "Listen to clip A and clip B. Which one is made of [[minim|minims]]?",
+          "hint": "Tap a steady beat while you listen. Each [[minim|minim]] lasts for 2 of your taps.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A is all short notes of 1 beat each, so those are [[crotchet|crotchets]]. The [[minim|minims]] are the slow 2-beat notes in clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p3-fill-the-bar",
+          "type": "complete-bar",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "This [[bar|bar]] needs 4 beats but only has 2. Add **one** note to fill it.",
+          "hint": "Two [[crotchet|crotchets]] make 2 beats. Which single note is worth the 2 beats still missing?",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "barIndex": 0,
+            "palette": [
+              {
+                "kind": "note",
+                "duration": {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              },
+              {
+                "kind": "note",
+                "duration": {
+                  "value": "minim",
+                  "dots": 0
+                }
+              }
+            ],
+            "fillPitch": {
+              "letter": "B",
+              "accidental": 0,
+              "octave": 4
+            },
+            "count": 1
+          }
+        },
+        {
+          "id": "p4-tap-the-rhythm",
+          "type": "tap-rhythm",
+          "skill": "rhythm.perform.crotchet-minim",
+          "prompt": "Listen, then tap this rhythm. One tap for each note. Remember: hollow means hold.",
+          "hint": "Say it as you tap: \"walk\" for each [[crotchet|crotchet]], \"sta-ay\" for each [[minim|minim]]. Each [[minim|minim]] gets one tap, then you wait for its second beat.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "require": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 80,
+              "showNotation": true,
+              "listenFirst": true
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-tap-new-rhythm",
+          "type": "tap-rhythm",
+          "skill": "rhythm.perform.crotchet-minim",
+          "prompt": "Tap this rhythm. One tap for each note.",
+          "hint": "A [[minim|minim]] gets one tap, then you wait for its second beat before the next note.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "require": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 88,
+              "showNotation": true,
+              "listenFirst": false
+            }
+          }
+        },
+        {
+          "id": "c2-tap-long-first",
+          "type": "tap-rhythm",
+          "skill": "rhythm.perform.crotchet-minim",
+          "prompt": "Tap this rhythm. Watch out: it starts with a long note.",
+          "hint": "The first note is a [[minim|minim]]. Tap it on the first click, then let the second click go by.",
+          "source": "authored",
+          "payload": {
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "bpm": 88,
+            "countInBars": 1,
+            "showNotation": true,
+            "listenFirst": false
+          }
+        },
+        {
+          "id": "c3-which-is-a-crotchet",
+          "type": "multiple-choice",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "Which note is a [[crotchet|crotchet]]?",
+          "hint": "Hollow means hold. The [[crotchet|crotchet]] is the short one, so its head is not hollow.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "glyph",
+                  "glyph": {
+                    "kind": "note",
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "glyph",
+                  "glyph": {
+                    "kind": "note",
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                },
+                "reason": "That head is hollow, so it is a [[minim|minim]] and lasts 2 beats. The [[crotchet|crotchet]] has a filled-in head."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "glyph",
+                  "glyph": {
+                    "kind": "note",
+                    "duration": {
+                      "value": "semibreve",
+                      "dots": 0
+                    }
+                  }
+                },
+                "reason": "That note has no stem, and it is hollow. A [[crotchet|crotchet]] has a filled-in head and a stem."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c4-minim-beats",
+          "type": "multiple-choice",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "How many beats does a [[minim|minim]] last?",
+          "hint": "Think \"walk, walk, sta-ay\". How many footsteps does \"sta-ay\" take?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "1 beat"
+                },
+                "reason": "The 1-beat note is the [[crotchet|crotchet]]. A [[minim|minim]] is the hollow one, and hollow means hold: it lasts 2 beats."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "2 beats"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "4 beats"
+                },
+                "reason": "4 beats would fill a whole [[bar|bar]] in this lesson. A [[minim|minim]] fills half of one: 2 beats."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c5-fill-the-bar",
+          "type": "complete-bar",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "Add **one** note to fill this [[bar|bar]] with 4 beats.",
+          "hint": "Add up what is there: a [[minim|minim]] is 2 beats and a [[crotchet|crotchet]] is 1. How many are missing?",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "barIndex": 0,
+            "palette": [
+              {
+                "kind": "note",
+                "duration": {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              },
+              {
+                "kind": "note",
+                "duration": {
+                  "value": "minim",
+                  "dots": 0
+                }
+              }
+            ],
+            "fillPitch": {
+              "letter": "B",
+              "accidental": 0,
+              "octave": 4
+            },
+            "count": 1
+          }
+        },
+        {
+          "id": "c6-which-bar-did-you-hear",
+          "type": "by-ear",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "Listen. Which [[bar|bar]] did you hear?",
+          "hint": "Listen for the long note. Does it come first or last?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "minim",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "That [[bar|bar]] starts with its long note. The one you heard went short, short, long."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "minim",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "minim",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "That [[bar|bar]] has only two notes, both long. You heard three notes: short, short, long."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "minim",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-too-many-beats",
+          "type": "spot-mistake",
+          "skill": "rhythm.note-values.crotchet-minim",
+          "prompt": "Every [[bar|bar]] here should hold 4 beats. One [[bar|bar]] has too many. Tap it.",
+          "hint": "Count each [[bar|bar]]: 1 for every filled-in note, 2 for every hollow one.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "select": "bar",
+            "mistake": {
+              "bar": 1
+            },
+            "explanation": "[[bar|Bar]] 2 has 5 beats: a [[minim|minim]] (2), a [[crotchet|crotchet]] (1) and another [[minim|minim]] (2). That is one beat too many."
+          }
+        },
+        {
+          "id": "c8-pulse-under-long-note",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "A tune lands on a long note and holds it. What does the [[pulse|pulse]] do?",
+          "hint": "Think back to your long taps on the pad. What was the click doing while you waited?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "It keeps ticking at the same speed"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "It stops until the next note"
+                },
+                "reason": "The [[pulse|pulse]] never waits for the tune. It kept ticking under your long taps, and it does the same under any long note."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "It slows down"
+                },
+                "reason": "Long notes do not slow the [[pulse|pulse]]. The beats stay the same distance apart; the note just lasts for more of them."
+              }
+            ],
+            "correct": "a"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The [[pulse|pulse]] is the steady tick under the music. Each tick is one [[beat|beat]].",
+        "A [[crotchet|crotchet]] has a filled-in head and a stem. It lasts 1 beat.",
+        "A [[minim|minim]] has a hollow head and a stem. It lasts 2 beats: hollow means hold.",
+        "[[bar-line|Bar lines]] split music into [[bar|bars]]. In this lesson every [[bar|bar]] holds 4 beats."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
