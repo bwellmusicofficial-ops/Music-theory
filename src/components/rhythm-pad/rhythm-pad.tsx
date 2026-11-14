@@ -14,7 +14,7 @@ import {
   scoreTaps,
 } from './scoring';
 import { TapTarget } from './tap-target';
-import { METRONOME_START_LEAD_S, METRONOME_STOP_MARGIN_S, PULSE_MS, TICK_MS } from './timing';
+import { METRONOME_STOP_MARGIN_S, PULSE_MS, TICK_MS } from './timing';
 import type { RhythmPadProps, TapResult } from './types';
 
 type Phase = 'idle' | 'starting' | 'count-in' | 'playing' | 'done';
@@ -162,10 +162,10 @@ export function RhythmPad({
 
     const spb = 60 / bpm;
     const countInBeats = free ? 0 : Math.max(0, Math.round(countInBars)) * perBar;
-    const metronomeStart = engine.now() + METRONOME_START_LEAD_S;
+    const metro = engine.startMetronome(time, bpm);
+    const metronomeStart = metro.startTime;
     const playStart = metronomeStart + countInBeats * spb;
     const scoreBeats = bars.length * perBar;
-    const metro = engine.startMetronome(time, bpm);
     const stopOffset = Math.min(METRONOME_STOP_MARGIN_S, spb - 0.01);
     run.current = {
       metro,

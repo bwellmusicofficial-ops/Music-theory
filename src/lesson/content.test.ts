@@ -5,15 +5,19 @@
  * it against the schemas plus the cross-file rules in
  * docs/lesson-authoring-guide.md. This is the test CI runs on lesson content.
  *
- * Payload shapes are checked by each question type's own `payloadSchema` once
- * the registry exists (P0-12, P0-13). Until then this file checks only what it
- * can know without them: passages, text length and glossary links.
+ * Payload shapes are checked by each question type's own `payloadSchema` from
+ * the real registry, and generated questions are drawn from the real
+ * generators (bottom of this file). The rest checks what needs no registry:
+ * passages, text length and glossary links.
  */
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { basename, join, relative, sep } from 'node:path';
 import { z } from 'zod';
+import { createRng } from '../engine/rng';
 import type { Bar, Duration, NoteValue, TimeSignature } from '../engine/types';
+import { generators } from './generators';
+import { questionTypes } from './questions';
 import {
   glossaryEntrySchema,
   lessonSchema,
@@ -361,6 +365,71 @@ describe.each(lessonFiles.map((file) => [label(file), file] as const))('lesson %
         problems.push(`${question.id}: barIndex does not point at a bar`);
       } else if (barLength(bar as Bar) >= fullBar(passage.data.time) - 1e-9) {
         problems.push(`${question.id}: the bar to complete is already full or too long`);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+});
+
+// --- payloads against the real question types and generators ----------------------
+
+describe.each(lessonFiles.map((file) => [label(file), file] as const))('registered types and generators: %s', (_name, file) => {
+  const parsed = lessonSchema.safeParse(readJson(file));
+  if (!parsed.success) return;
+  const questions = allQuestions(parsed.data);
+
+  it('registers a question type for every question', () => {
+    const missing = questions.filter(({ question }) => !questionTypes[question.type]).map(({ question }) => `${question.id}: ${question.type}`);
+    expect(missing).toEqual([]);
+  });
+
+  it("validates every authored payload against its type's payloadSchema", () => {
+    const problems: string[] = [];
+    for (const { question, path } of questions) {
+      if (question.source !== 'authored') continue;
+      const result = questionTypes[question.type]?.payloadSchema.safeParse(question.payload);
+      if (result && !result.success) {
+        for (const issue of result.error.issues) {
+          problems.push(`${path} (${question.id}, ${question.type}) payload.${issue.path.join('.')}: ${issue.message}`);
+        }
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+
+  it('resolves every generated question through the real generators for 20 seeds, and the payload validates', () => {
+    const problems: string[] = [];
+    for (const { question, path } of questions) {
+      if (question.source !== 'generated') continue;
+      const generator = generators[question.generator.id];
+      if (!generator) {
+        problems.push(`${path} (${question.id}): no generator "${question.generator.id}"`);
+        continue;
+      }
+      const params = generator.paramsSchema.safeParse(question.generator.params);
+      if (!params.success) {
+        problems.push(`${path} (${question.id}): params rejected: ${params.error.message}`);
+        continue;
+      }
+      for (let seed = 1; seed <= 20; seed++) {
+        for (const terminology of ['uk', 'us'] as const) {
+          let made;
+          try {
+            made = generator.generate(params.data, createRng(seed), terminology);
+          } catch (e) {
+            problems.push(`${path} (${question.id}) seed ${seed}: threw ${e instanceof Error ? e.message : String(e)}`);
+            continue;
+          }
+          if (made.type !== question.type) {
+            problems.push(`${path} (${question.id}) seed ${seed}: generated type ${made.type}, lesson says ${question.type}`);
+          }
+          const result = questionTypes[made.type]?.payloadSchema.safeParse(made.payload);
+          if (!result) problems.push(`${path} (${question.id}) seed ${seed}: no question type ${made.type}`);
+          else if (!result.success) problems.push(`${path} (${question.id}) seed ${seed}: ${result.error.issues[0]?.message}`);
+          if (made.prompt !== undefined && wordCount(made.prompt) > MAX_WORDS_PER_BLOCK) {
+            problems.push(`${path} (${question.id}) seed ${seed}: prompt is over the word limit`);
+          }
+        }
       }
     }
     expect(problems).toEqual([]);

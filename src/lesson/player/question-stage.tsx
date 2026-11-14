@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, type ReactNode } from 'react';
 import { Button, FeedbackBanner } from '@/components/ui';
 import type { LearnerSettings, MarkResult, QuestionTypeRegistry } from '../contracts';
 import { ActionBar } from './action-bar';
 import { DevErrorCard } from './dev-error-card';
 import type { QuestionRun, ResolvedQuestion } from './machine';
 import { QuestionBoundary } from './question-boundary';
-import { makeGlossaryLookup, plainText, type GlossarySource } from './rich-text';
+import { makeGlossaryLookup, type GlossarySource } from './rich-text';
 import { RichTextView } from './rich-text-view';
 import { ScreenHeading } from './screen-heading';
 
@@ -95,15 +95,16 @@ export function QuestionStage({
   }
 
   const showHint = mode === 'practice' && run.attempt === 2 && !feedback && item.hint;
-  let banner: { kind: 'correct' | 'wrong'; reason: string } | null = null;
+  let banner: { kind: 'correct' | 'wrong'; reason: ReactNode } | null = null;
+  const rich = (text: string) => <RichTextView text={text} terminology={terminology} glossary={lookup} />;
   if (feedback && run.result) {
     const r = run.result;
     if (run.outcome === 'retry' && item.hint) {
-      banner = { kind: 'wrong', reason: `Hint: ${plainText(item.hint, terminology, lookup)}` };
+      banner = { kind: 'wrong', reason: <>Hint: {rich(item.hint)}</> };
     } else if (r.correct) {
-      banner = { kind: 'correct', reason: r.reason ? plainText(r.reason, terminology, lookup) : "That's right." };
+      banner = { kind: 'correct', reason: r.reason ? rich(r.reason) : "That's right." };
     } else {
-      banner = { kind: 'wrong', reason: r.reason ? plainText(r.reason, terminology, lookup) : 'Not quite.' };
+      banner = { kind: 'wrong', reason: r.reason ? rich(r.reason) : 'Not quite.' };
     }
   }
 

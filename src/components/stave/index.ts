@@ -1,5 +1,5 @@
 export { Stave } from './stave';
-export { NoteSprite, staveMetrics, type NoteSpriteProps, type StaveMetrics } from './note-sprite';
+export { NOTE_SPRITE_HEAD_X, NoteSprite, staveMetrics, type NoteSpriteProps, type StaveMetrics } from './note-sprite';
 export type {
   StaveEditOptions,
   StaveMark,
@@ -20,3 +20,4 @@ export type {
   RejectReason,
 } from './edit/actions';
 export { buildConstraints } from './edit/constraints';
+export { loadVexFlow, type VexFlowModule } from './vexflow-loader';

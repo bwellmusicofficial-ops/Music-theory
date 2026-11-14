@@ -57,7 +57,13 @@ function Marker({ state, black }: { state: HighlightState; black: boolean }) {
       aria-hidden="true"
       data-marker={state}
       className="pointer-events-none absolute left-1/2 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full"
-      style={{ background: c.solid, color: c.on, bottom: black ? '0.5rem' : '2rem' }}
+      style={{
+        background: c.solid,
+        color: c.on,
+        bottom: black ? '0.5rem' : '2rem',
+        // A ring in the opposite key colour keeps the marker readable on a white and on a black key.
+        boxShadow: `0 0 0 2px ${black ? 'var(--piano-white)' : 'var(--piano-black)'}`,
+      }}
     >
       {state === 'target' && <span className="block h-2 w-2 rounded-full" style={{ background: 'currentColor' }} />}
       {state === 'correct' && (
@@ -341,26 +347,26 @@ export function Keyboard({
     const isPressed = pressed.has(key.midi);
     const colour = state ? STATE_COLOUR[state] : null;
     let background: string;
-    if (isPressed) background = 'var(--accent)';
+    if (isPressed) background = key.black ? 'var(--piano-black-pressed)' : 'var(--piano-white-pressed)';
     else if (key.black) {
       background = colour
-        ? `color-mix(in srgb, ${colour.solid} 55%, var(--bg))`
-        : 'linear-gradient(180deg, var(--surface-raised), var(--bg))';
+        ? `color-mix(in srgb, ${colour.solid} 55%, var(--piano-black))`
+        : 'var(--piano-black)';
     } else {
-      background = colour ? `color-mix(in srgb, ${colour.solid} 40%, var(--text))` : 'var(--text)';
+      background = colour ? `color-mix(in srgb, ${colour.solid} 40%, var(--piano-white))` : 'var(--piano-white)';
     }
     const style: CSSProperties = {
       left: pct(key.left),
       width: pct(key.width),
       height: key.black ? '62%' : '100%',
       background,
-      color: isPressed ? 'var(--on-accent)' : key.black ? 'var(--text)' : 'var(--bg)',
+      color: 'var(--piano-label)',
       touchAction,
       transitionDuration: 'var(--motion-duration-fast)',
       transform: isPressed ? 'translateY(2px) scale(0.985)' : undefined,
       transformOrigin: 'top center',
       boxShadow: isPressed
-        ? 'inset 0 -6px 14px rgb(0 0 0 / 0.35), var(--elev-glow)'
+        ? 'inset 0 -6px 14px rgb(0 0 0 / 0.35)'
         : key.black
           ? 'var(--elev-md)'
           : 'inset 0 -4px 0 rgb(0 0 0 / 0.18)',
@@ -390,7 +396,7 @@ export function Keyboard({
           'absolute top-0 select-none transition-[background-color,transform,box-shadow] ease-(--motion-ease-standard) [-webkit-touch-callout:none] [-webkit-tap-highlight-color:transparent]',
           key.black
             ? 'z-10 rounded-b-md border border-border'
-            : 'z-0 rounded-b-lg border border-border-subtle',
+            : 'z-0 rounded-b-lg border border-border',
           'focus-visible:z-20',
         ].join(' ')}
       >

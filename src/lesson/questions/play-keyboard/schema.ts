@@ -1,15 +1,7 @@
 import { z } from 'zod';
 import { pitch } from '@/engine/pitch';
-import { passageSchema } from '@/lesson/questions/face-view';
+import { passageSchema, pitchSchema } from '@/lesson/questions/face-view/face-schema';
 import type { PlayKeyboardPayload } from './types';
-
-const letterSchema = z.enum(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
-const accidentalSchema = z.union([z.literal(-2), z.literal(-1), z.literal(0), z.literal(1), z.literal(2)]);
-const pitchSchema = z.strictObject({
-  letter: letterSchema,
-  accidental: accidentalSchema,
-  octave: z.number().int(),
-});
 
 /** docs/question-payloads.md 2.5 "Validation". */
 export const payloadSchema: z.ZodType<PlayKeyboardPayload> = z

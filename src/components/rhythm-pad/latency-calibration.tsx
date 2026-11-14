@@ -7,7 +7,7 @@ import type { TimeSignature } from '@/engine/types';
 import { BeatIndicator } from './beat-indicator';
 import { calibrationOffset, matchTaps } from './scoring';
 import { TapTarget } from './tap-target';
-import { METRONOME_START_LEAD_S, PULSE_MS, TICK_MS } from './timing';
+import { PULSE_MS, TICK_MS } from './timing';
 
 export const CALIBRATION_CLICKS = 8;
 const TIME: TimeSignature = { beats: 4, beatUnit: 4 };
@@ -118,9 +118,8 @@ export function LatencyCalibration({ onCalibrated, bpm = 80 }: LatencyCalibratio
     }
     if (!mounted.current) return;
     const spb = 60 / bpm;
-    const startAt = engine.now() + METRONOME_START_LEAD_S;
     const metro = engine.startMetronome(TIME, bpm);
-    state.current = { start: startAt, spb, metro, timer: setInterval(tick, TICK_MS) };
+    state.current = { start: metro.startTime, spb, metro, timer: setInterval(tick, TICK_MS) };
     changePhase('running');
     setAnnounce(`Tap along with the ${CALIBRATION_CLICKS} clicks.`);
   }, [bpm, tick, changePhase]);

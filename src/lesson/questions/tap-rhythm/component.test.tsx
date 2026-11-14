@@ -2,9 +2,12 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { TapResult } from '@/components/rhythm-pad';
 import type { MarkResult } from '@/lesson/contracts';
+import { DEFAULT_SETTINGS } from '@/lesson/contracts';
+import { LessonContextProvider } from '@/lesson/player';
+import { mark } from './mark';
 import { TapRhythm, describeRhythm, setTapRhythmNotationRenderer, toPassage } from './component';
 import { bar, note, payloadOf, rest } from './test-helpers';
-import type { TapRhythmPayload } from './types';
+import { matchWindowMs, type TapRhythmPayload } from './types';
 
 const fake = vi.hoisted(() => ({
   clock: 0,
@@ -59,7 +62,7 @@ beforeEach(() => {
   fake.rejectPlay = false;
   fake.resolveDone = null;
   for (const mock of [fake.getAudioEngine, fake.unlock, fake.load, fake.stop, fake.playUi, fake.playPassage]) mock.mockClear();
-  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop }));
+  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop, startTime: fake.clock + 0.1 }));
   fake.playPassage.mockReset().mockImplementation(() => {
     const done = new Promise<void>((resolve) => {
       fake.resolveDone = resolve;
@@ -207,8 +210,7 @@ describe('TapRhythm: answering', () => {
     const { onAnswer } = setup(rhythm);
     await clickButton('Start');
     tapAt(ONSET(0));
-    advanceTo(ONSET(0) + 0.2);
-    tapAt(ONSET(0) + 0.3); // extra: no onset within 150 ms
+    tapAt(ONSET(0) + 0.1); // extra: the nearest unmatched onset is 400 ms away, outside the window
     advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
     const result = onAnswer.mock.calls[0]?.[0] as TapResult;
     expect(result.errorsMs[1]).toBeNull();
@@ -216,12 +218,53 @@ describe('TapRhythm: answering', () => {
     expect(result.extraTaps).toBe(1);
   });
 
-  it('gives the pad the payload tolerance: a tap 130 ms off counts at 150 but not at 100', async () => {
+  it('gives the pad a window of 2.5 times the payload tolerance, capped at 450 ms', async () => {
+    const wide = setup({ ...rhythm, toleranceMs: 100 });
+    await clickButton('Start');
+    tapAt(ONSET(0) - 0.24); // 240 ms early: inside 250
+    advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
+    expect((wide.onAnswer.mock.calls[0]?.[0] as TapResult).errorsMs[0]).toBeCloseTo(-240, -1);
+  });
+
+  it('a tap outside the window is not matched', async () => {
     const tight = setup({ ...rhythm, toleranceMs: 100 });
     await clickButton('Start');
-    tapAt(ONSET(0) + 0.13);
+    tapAt(ONSET(0) + 0.27); // 270 ms late: outside 250
     advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
     expect((tight.onAnswer.mock.calls[0]?.[0] as TapResult).errorsMs[0]).toBeNull();
+  });
+
+  it('matchWindowMs scales the tolerance and caps at 450 ms', () => {
+    expect(matchWindowMs(100)).toBe(250);
+    expect(matchWindowMs(150)).toBe(375);
+    expect(matchWindowMs(250)).toBe(450);
+  });
+
+  it('an early tap outside the tolerance but inside the window gives the early reason from mark', async () => {
+    const { onAnswer } = setup(rhythm); // tolerance 150, window 375
+    await clickButton('Start');
+    tapAt(ONSET(0));
+    tapAt(ONSET(1) - 0.25); // 250 ms early: outside 150, inside 375
+    tapAt(ONSET(2));
+    advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
+    const answer = onAnswer.mock.calls[0]?.[0] as TapResult;
+    expect(answer.errorsMs[1]).toBeLessThan(-150);
+    const marked = mark(rhythm, answer);
+    expect(marked.correct).toBe(false);
+    expect(marked.reason).toContain('Tap 2 came too early');
+  });
+
+  it('applies the learner latency offset from the lesson settings before scoring', async () => {
+    const onAnswer = vi.fn<(r: TapResult) => void>();
+    render(
+      <LessonContextProvider settings={{ ...DEFAULT_SETTINGS, latencyOffsetMs: 100 }} glossary={[]}>
+        <TapRhythm payload={rhythm} terminology="uk" locked={false} result={null} onAnswer={onAnswer} />
+      </LessonContextProvider>,
+    );
+    await clickButton('Start');
+    tapAt(ONSET(0) + 0.1); // the device reported this tap 100 ms late
+    advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
+    expect(Math.abs((onAnswer.mock.calls[0]?.[0] as TapResult).errorsMs[0] as number)).toBeLessThan(10);
   });
 
   it('after listening, the performance also reports its answer', async () => {

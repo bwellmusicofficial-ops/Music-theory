@@ -22,3 +22,15 @@ export interface TapRhythmPayload {
 export type TapRhythmAnswer = TapResult;
 
 export const DEFAULT_TOLERANCE_MS = 150;
+
+/** The pad matches taps this far out, so that `mark` can tell "early" and "late" from "missed". */
+const MATCH_WINDOW_FACTOR = 2.5;
+const MAX_MATCH_WINDOW_MS = 450;
+
+/**
+ * How far from a beat the rhythm pad still pairs a tap with it: wider than the
+ * payload tolerance, which only `mark` judges against.
+ */
+export function matchWindowMs(toleranceMs: number): number {
+  return Math.min(MAX_MATCH_WINDOW_MS, toleranceMs * MATCH_WINDOW_FACTOR);
+}

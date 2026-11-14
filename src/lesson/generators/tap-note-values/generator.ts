@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { TheoryError } from '@/engine/api';
 import { rhythm } from '@/engine/rhythm';
 import type { Bar, Duration, Fraction, Pitch, Rng, ScoreEvent, TimeSignature } from '@/engine/types';
+import { plainDurationSchema, timeSchema } from '@/lesson/questions/face-view/face-schema';
 import type { GeneratedQuestion, QuestionGenerator } from '@/lesson/contracts';
 
 /** docs/question-payloads.md 3.2 */
@@ -20,23 +21,13 @@ export interface TapNoteValuesParams {
   listenFirst?: boolean;
 }
 
-const noteValueSchema = z.enum(['breve', 'semibreve', 'minim', 'crotchet', 'quaver', 'semiquaver', 'demisemiquaver']);
-const durationSchema = z.strictObject({
-  value: noteValueSchema,
-  dots: z.union([z.literal(0), z.literal(1), z.literal(2)]),
-});
-const timeSchema = z.strictObject({
-  beats: z.number().int().min(1),
-  beatUnit: z.union([z.literal(1), z.literal(2), z.literal(4), z.literal(8), z.literal(16)]),
-});
-
 const sameDuration = (a: Duration, b: Duration) => a.value === b.value && a.dots === b.dots;
 
 export const paramsSchema: z.ZodType<TapNoteValuesParams> = z
   .strictObject({
     time: timeSchema,
-    values: z.array(durationSchema).min(1).max(6),
-    require: z.array(durationSchema).default([]),
+    values: z.array(plainDurationSchema).min(1).max(6),
+    require: z.array(plainDurationSchema).default([]),
     bars: z.number().int().min(1).max(4),
     bpm: z.number().int().min(50).max(120),
     showNotation: z.boolean().default(true),

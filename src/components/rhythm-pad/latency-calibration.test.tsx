@@ -40,7 +40,7 @@ beforeEach(() => {
   vi.useFakeTimers();
   fake.clock = 0;
   fake.stop.mockClear();
-  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop }));
+  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop, startTime: fake.clock + 0.1 }));
 });
 afterEach(() => vi.useRealTimers());
 

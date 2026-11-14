@@ -104,8 +104,16 @@ export interface AudioEngine {
     passage: Passage,
     options: { bpm: number; countInBeats?: number; onEvent?: (bar: number, event: number) => void },
   ): { stop(): void; done: Promise<void> };
-  /** Metronome click on felt beats, with an accented first beat. */
-  startMetronome(time: TimeSignature, bpm: number, onBeat?: (beat: number) => void): { stop(): void };
+  /**
+   * Metronome click on felt beats, with an accented first beat. `startTime` is
+   * the audio-clock time (see `now()`) of the first click, so callers can line
+   * beats and expected taps up with what the learner hears.
+   */
+  startMetronome(
+    time: TimeSignature,
+    bpm: number,
+    onBeat?: (beat: number) => void,
+  ): { stop(): void; startTime: number };
   /** Short interface sounds; silent when muted. */
   playUi(sound: 'correct' | 'wrong' | 'tap' | 'complete'): void;
   setMuted(muted: boolean): void;
@@ -179,5 +187,12 @@ export interface TapResult {
 }
 ```
 
-Latency calibration stores a single offset in ms under the settings store and
-is applied before scoring.
+Latency calibration stores a single offset in ms as
+`LearnerSettings.latencyOffsetMs` (default 0) and it is applied before scoring.
+Sign: positive means taps arrive late (the device registers a tap after the
+learner made it), so the pad subtracts the offset from every tap time. The
+lesson player provides the settings to question components through a React
+context (`useLearnerSettings()` in `src/lesson/player`); `tap-rhythm` passes
+`latencyOffsetMs` to the pad. Tap matching uses a wider window than the
+marking tolerance (2.5 times `toleranceMs`, at most 450 ms) so that `mark` can
+report "early" and "late" rather than "missed".

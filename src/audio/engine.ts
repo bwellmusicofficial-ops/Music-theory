@@ -319,16 +319,17 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
     time: TimeSignature,
     bpm: number,
     onBeat?: (beat: number) => void,
-  ): { stop(): void } {
+  ): { stop(): void; startTime: number } {
     const interval = beatSeconds(bpm);
     const perBar = feltBeatsPerBar(time);
     const Tone = this.ready();
     const clicker = this.clicker;
-    if (!Tone || !clicker) return { stop() {} };
+    if (!Tone || !clicker) return { stop() {}, startTime: this.now() };
 
     const ctx = Tone.getContext();
     const draw = Tone.getDraw();
-    let nextTime = ctx.currentTime + START_LEAD;
+    const startTime = ctx.currentTime + START_LEAD;
+    let nextTime = startTime;
     let beat = 0;
     let stopped = false;
 
@@ -356,6 +357,7 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
         stopped = true;
         clearInterval(handle);
       },
+      startTime,
     };
   }
 

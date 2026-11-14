@@ -1,13 +1,13 @@
-import type { Duration, Fraction, NoteValue, Passage, Pitch, TimeSignature } from '@/engine/types';
+import { rhythm } from '@/engine/rhythm';
+import type { Duration, Fraction, Passage, Pitch, TimeSignature } from '@/engine/types';
 import { midiToFrequency, pitchToMidi } from './pitch';
 
 /**
- * Pure duration and scheduling arithmetic for playback.
- *
- * NOTE: this duplicates a small part of the rhythm engine (`src/engine/rhythm`)
- * because that was written in parallel. It should be swapped for
- * `rhythm.durationLength`, `rhythm.beatLength`, `rhythm.beatsPerBar` and
- * `rhythm.onsetTimes` once available.
+ * Pure duration and scheduling arithmetic for playback. Note lengths come from
+ * the rhythm engine. The felt-beat helpers below stay local: they differ from
+ * `rhythm.beatsPerBar` / `rhythm.beatLength` for 6/4 (the engine counts any
+ * 6, 9 or 12 over any unit as compound) and for irregular metres (the engine
+ * throws; playback needs a beat to click).
  */
 
 // --- fractions (whole notes) ------------------------------------------------
@@ -26,40 +26,14 @@ export function fraction(n: number, d = 1): Fraction {
   return { n: (sign * n) / g, d: (sign * d) / g };
 }
 
-export function addFractions(a: Fraction, b: Fraction): Fraction {
-  return fraction(a.n * b.d + b.n * a.d, a.d * b.d);
-}
-
-export function mulFractions(a: Fraction, b: Fraction): Fraction {
-  return fraction(a.n * b.n, a.d * b.d);
-}
-
 export function fractionValue(f: Fraction): number {
   return f.n / f.d;
 }
 
 // --- durations ----------------------------------------------------------------
 
-const BASE_LENGTH: Record<NoteValue, Fraction> = {
-  breve: fraction(2),
-  semibreve: fraction(1),
-  minim: fraction(1, 2),
-  crotchet: fraction(1, 4),
-  quaver: fraction(1, 8),
-  semiquaver: fraction(1, 16),
-  demisemiquaver: fraction(1, 32),
-};
-
 /** Length in whole notes including dots and tuplet ratio. */
-export function durationLength(duration: Duration): Fraction {
-  const base = BASE_LENGTH[duration.value];
-  // Each dot adds half of the previous addition: 1, 1.5, 1.75.
-  const dotted = fraction(base.n * (2 ** (duration.dots + 1) - 1), base.d * 2 ** duration.dots);
-  if (!duration.tuplet) return dotted;
-  const { actual, normal } = duration.tuplet;
-  if (actual <= 0 || normal <= 0) throw new RangeError('Tuplet ratio must be positive');
-  return mulFractions(dotted, fraction(normal, actual));
-}
+export const durationLength: (duration: Duration) => Fraction = rhythm.durationLength;
 
 // --- metre ----------------------------------------------------------------------
 
@@ -182,7 +156,7 @@ export function schedulePassage(
         length: lengthSeconds,
         attacks,
       });
-      position = addFractions(position, length);
+      position = rhythm.addFractions(position, length);
     });
   });
 

@@ -11,6 +11,7 @@ import type {
   QuestionTypeRegistry,
 } from '../contracts';
 import { STEP_ORDER, type GlossaryEntry, type Lesson, type StepId } from '../schema';
+import { LessonContextProvider } from './context';
 import { ChallengeIntro, ChallengeResultScreen } from './challenge-screens';
 import { ExploreStage } from './explore-stage';
 import {
@@ -89,7 +90,7 @@ export function LessonPlayer(props: LessonPlayerProps) {
 
   if (!loaded || loaded.lessonId !== lesson.id) {
     return (
-      <div className="flex min-h-dvh items-center justify-center bg-bg text-fg-secondary" role="status" data-testid="player-loading">
+      <div className="flex flex-1 items-center justify-center bg-bg text-fg-secondary" role="status" data-testid="player-loading">
         Loading lesson
       </div>
     );
@@ -336,15 +337,17 @@ function PlayerRun({
 
 
   return (
-    <Shell
-      progress={progressFraction(state)}
-      stepLabel={stepLabel}
-      strand={lesson.strand}
-      onExit={onExit}
-      trailing={countdown}
-      announce={announce}
-    >
-      {body}
-    </Shell>
+    <LessonContextProvider settings={settings} glossary={glossary}>
+      <Shell
+        progress={progressFraction(state)}
+        stepLabel={stepLabel}
+        strand={lesson.strand}
+        onExit={onExit}
+        trailing={countdown}
+        announce={announce}
+      >
+        {body}
+      </Shell>
+    </LessonContextProvider>
   );
 }
