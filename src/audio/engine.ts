@@ -64,6 +64,29 @@ const UI_SOUNDS: Record<UiSound, ReadonlyArray<readonly [number, number, number]
   ],
 };
 
+/** How long one unlock attempt waits for the browser before giving up. */
+const UNLOCK_WAIT_MS = 1500;
+
+/** True unless the browser reports the context as suspended, interrupted or closed. */
+function contextIsRunning(Tone: ToneModule): boolean {
+  const state = (Tone.getContext() as { state?: string }).state;
+  return state === undefined || state === 'running';
+}
+
+/**
+ * On iPhone and iPad, web audio follows the ring/silent switch unless the page
+ * asks for the "playback" audio session (Safari 16.4 and later). A music
+ * learning site should sound like a music app, so ask for it where it exists.
+ */
+function preferPlaybackAudioSession(): void {
+  try {
+    const session = (navigator as unknown as { audioSession?: { type: string } }).audioSession;
+    if (session && session.type !== 'playback') session.type = 'playback';
+  } catch {
+    // Not supported: nothing to do.
+  }
+}
+
 export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
   private readonly baseUrl: string;
   private readonly loadTimeoutMs: number;
@@ -131,20 +154,52 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
     this.uiSynth = ui.toDestination() as unknown as Clicker;
   }
 
+  /**
+   * Downloads the audio library ahead of the first gesture. Makes no sound and
+   * needs no gesture. Call it when a page loads so that `unlock()` can start
+   * the audio context synchronously inside the first tap.
+   */
+  preload(): Promise<void> {
+    if (!inBrowser()) return Promise.resolve();
+    return this.loadTone().then(
+      () => undefined,
+      () => undefined,
+    );
+  }
+
+  /**
+   * Must be called from a user gesture. Safe to call on every gesture: it
+   * retries until the context is really running.
+   *
+   * iOS Safari only lets a context start from inside the gesture handler. If
+   * the library is already loaded (see `preload`), the start call below runs
+   * synchronously in the gesture. If it is not, this attempt may come too late
+   * and the context stays suspended; nothing is cached in that case, so the
+   * next gesture tries again with the library loaded.
+   */
   unlock(): Promise<void> {
     if (!inBrowser()) return Promise.resolve();
+    if (this.unlocked && this.tone && contextIsRunning(this.tone)) return Promise.resolve();
+    preferPlaybackAudioSession();
+    if (this.tone) return this.startContext(this.tone);
     if (!this.unlockPromise) {
       this.unlockPromise = this.loadTone()
-        .then(async (Tone) => {
-          await Tone.start();
-          this.unlocked = true;
-        })
-        .catch((error: unknown) => {
+        .then((Tone) => this.startContext(Tone))
+        .finally(() => {
           this.unlockPromise = null;
-          throw error;
         });
     }
     return this.unlockPromise;
+  }
+
+  private startContext(Tone: ToneModule): Promise<void> {
+    // Called without awaiting anything first, so it stays inside the gesture.
+    const started = Promise.resolve(Tone.start()).catch(() => undefined);
+    // Outside a gesture iOS leaves the start pending for ever: never wait on it.
+    const giveUp = new Promise<void>((resolve) => setTimeout(resolve, UNLOCK_WAIT_MS));
+    return Promise.race([started, giveUp]).then(() => {
+      this.unlocked = contextIsRunning(Tone);
+    });
   }
 
   isUnlocked(): boolean {

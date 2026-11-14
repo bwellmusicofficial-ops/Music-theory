@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from 'react';
-import { getAudioEngine } from '@/audio';
+import { getAudioEngine, installGestureUnlock } from '@/audio';
 import type { LearnerSettings } from '@/lesson/contracts';
 import { getServerSettingsSnapshot, getSettingsSnapshot, subscribeSettings, updateSettings } from './store';
 
@@ -37,6 +37,15 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     () => false,
   );
   const update = useCallback((patch: Partial<LearnerSettings>) => updateSettings(patch), []);
+
+  // Sound must be started from a tap, and on iPhone only from the end of one.
+  useEffect(() => {
+    try {
+      return installGestureUnlock(getAudioEngine());
+    } catch {
+      return undefined;
+    }
+  }, []);
 
   useEffect(() => {
     if (loaded) applyToDocument(settings);

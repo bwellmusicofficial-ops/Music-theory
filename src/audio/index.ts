@@ -4,6 +4,7 @@ import type { AudioEngine, AudioEngineVoice } from './types';
 export type { AudioEngine, AudioEngineVoice } from './types';
 export { ToneAudioEngine } from './engine';
 export type { AudioEngineOptions } from './engine';
+export { installGestureUnlock } from './gesture-unlock';
 
 let instance: ToneAudioEngine | null = null;
 

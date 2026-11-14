@@ -34,6 +34,8 @@ export interface AudioEngine {
 export interface AudioEngineVoice {
   /** Which piano voice is active: real samples, or the built-in synth fallback. */
   voice(): 'sampled' | 'synth';
+  /** Downloads the audio library ahead of the first gesture; silent and gesture-free. */
+  preload(): Promise<void>;
 }
 
 export type UiSound = Parameters<AudioEngine['playUi']>[0];
