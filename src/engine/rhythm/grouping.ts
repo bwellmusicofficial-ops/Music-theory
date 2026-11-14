@@ -60,7 +60,7 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
   const levelAt = (p: Fraction): number => (onBeat(p) ? level(beatIndex(p)) : 0);
   const where = (p: Fraction): string =>
     onBeat(p)
-      ? ordinal(beatIndex(p) + 1)
+      ? `on ${ordinal(beatIndex(p) + 1)}`
       : `part-way through ${ordinal(beatIndex(p) + 1)}`;
   const beatName = (): string => {
     const d = plainDuration(beat);
@@ -78,7 +78,16 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
     return out;
   };
 
-  // (d) A bar that is wholly silent is one whole-bar rest.
+  // (d) A bar that is wholly silent is one whole-bar rest. The conventional
+  // whole-bar glyph (semibreve rest, breve rest in 4/2) is accepted on its own
+  // whatever the bar's arithmetic length (9/8, 12/8, 3/4, ...).
+  {
+    const only = events[0].duration;
+    const glyph = time.beats === 4 && time.beatUnit === 2 ? 'breve' : 'semibreve';
+    if (events.length === 1 && events[0].kind === 'rest' && only.value === glyph && isPlain(only)) {
+      return [];
+    }
+  }
   const total = pos[pos.length - 1].end;
   if (events.every((e) => e.kind === 'rest') && eq(total, barLen)) {
     const breveBar = time.beats === 4 && time.beatUnit === 2;
@@ -110,7 +119,7 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
         if (crosses && !allowed) {
           flag(
             i,
-            `This ${name} starts on ${where(s)} and carries across the middle of the bar. Split it into two tied notes so the middle of the bar (the start of beat 3) can be seen.`,
+            `This ${name} starts ${where(s)} and carries across the middle of the bar. Split it into two tied notes so the middle of the bar (the start of beat 3) can be seen.`,
           );
         }
       } else if (kind === 'compound') {
@@ -118,7 +127,7 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
         if (hidden.length > 0 && !wholeBeats) {
           flag(
             i,
-            `This ${name} starts on ${where(s)} and hides the start of ${ordinal(hidden[0] + 1)}. In compound time show each dotted beat: split the note and tie the parts.`,
+            `This ${name} starts ${where(s)} and hides the start of ${ordinal(hidden[0] + 1)}. In compound time show each dotted beat: split the note and tie the parts.`,
           );
         }
       }
@@ -130,7 +139,7 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
     if (quad && twoBeats && !(onBeat(s) && (beatIndex(s) === 0 || beatIndex(s) === 2))) {
       flag(
         i,
-        `This ${name} lasts two beats but starts on ${where(s)}. In a bar of four beats a two-beat rest may only start on beat 1 or beat 3. Use two separate ${beatName()}s instead.`,
+        `This ${name} lasts two beats but starts ${where(s)}. In a bar of four beats a two-beat rest may only start on beat 1 or beat 3. Use two separate ${beatName()}s instead.`,
       );
       return;
     }
@@ -144,14 +153,14 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
     if (quad && lt(s, mid) && lt(mid, en)) {
       flag(
         i,
-        `This ${name} starts on ${where(s)} and carries across the middle of the bar. Split it so the start of beat 3 is shown.`,
+        `This ${name} starts ${where(s)} and carries across the middle of the bar. Split it so the start of beat 3 is shown.`,
       );
       return;
     }
     if (hiddenBeats(s, en).some((k) => level(k) > levelAt(s))) {
       flag(
         i,
-        `This ${name} starts on ${where(s)} and carries over a stronger beat. Split the rest so that beat can be seen.`,
+        `This ${name} starts ${where(s)} and carries over a stronger beat. Split the rest so that beat can be seen.`,
       );
     }
   });
@@ -183,6 +192,30 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
         ? `These rests fill all of ${ordinal(k + 1)}. In compound time a silent beat is one ${beatName()}, or a crotchet-sized rest followed by a quaver-sized rest (in that order), not several smaller rests.`
         : `These rests fill all of ${ordinal(k + 1)}. Write one ${beatName()} instead of several smaller rests.`,
     );
+  }
+
+  // Quadruple metres: two one-beat rests filling a whole half bar are one
+  // two-beat rest instead (beats 2-3 stay as two separate rests).
+  if (quad) {
+    const twoBeat = plainDuration(mul(beat, frac(2)));
+    const oneBeatRest = (i: number, at: Fraction): boolean =>
+      i >= 0 &&
+      i < events.length &&
+      events[i].kind === 'rest' &&
+      !events[i].duration.tuplet &&
+      eq(pos[i].start, at) &&
+      eq(sub(pos[i].end, pos[i].start), beat);
+    for (const h of [0, 2]) {
+      const first = pos.findIndex((p) => eq(p.start, beatStart(h)));
+      if (oneBeatRest(first, beatStart(h)) && oneBeatRest(first + 1, beatStart(h + 1))) {
+        const one = beatName();
+        const two = twoBeat ? restName(twoBeat, 'uk') : 'two-beat rest';
+        flag(
+          first,
+          `Beats ${h + 1} and ${h + 2} are completely silent, so write them as one ${two} instead of two ${one}s.`,
+        );
+      }
+    }
   }
 
   return result();
