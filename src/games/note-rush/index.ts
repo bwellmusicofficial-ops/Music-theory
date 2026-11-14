@@ -1,0 +1,28 @@
+export { NoteRush, type NoteRushProps } from './note-rush';
+export {
+  answer,
+  buildResult,
+  clampLevel,
+  createGame,
+  DEFAULT_CONFIG,
+  leadingNote,
+  levelParams,
+  multiplierForStreak,
+  poolForLevel,
+  resolveConfig,
+  tick,
+  widestRange,
+  type AnswerMode,
+  type FlyingNote,
+  type GameEvent,
+  type GameEventType,
+  type GameResult,
+  type GameState,
+  type LevelParams,
+  type NoteRushConfig,
+  type PitchMistake,
+  type PositionRange,
+  type RushClef,
+  type Step,
+} from './engine';
+export { describeStavePosition, staveWord } from './position-words';
