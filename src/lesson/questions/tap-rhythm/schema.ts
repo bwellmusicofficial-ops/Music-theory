@@ -2,30 +2,8 @@ import { z } from 'zod';
 import { rhythm } from '@/engine/rhythm';
 import { pitch } from '@/engine/pitch';
 import type { Bar, ScoreEvent } from '@/engine/types';
+import { barSchema, timeSchema } from '@/lesson/questions/face-view/face-schema';
 import type { TapRhythmPayload } from './types';
-
-const letterSchema = z.enum(['C', 'D', 'E', 'F', 'G', 'A', 'B']);
-const accidentalSchema = z.union([z.literal(-2), z.literal(-1), z.literal(0), z.literal(1), z.literal(2)]);
-const pitchSchema = z.strictObject({ letter: letterSchema, accidental: accidentalSchema, octave: z.number().int() });
-const noteValueSchema = z.enum(['breve', 'semibreve', 'minim', 'crotchet', 'quaver', 'semiquaver', 'demisemiquaver']);
-const dotsSchema = z.union([z.literal(0), z.literal(1), z.literal(2)]);
-/** No tuplets in Phase 0 (2.6), so the duration has no `tuplet` key at all. */
-const durationSchema = z.strictObject({ value: noteValueSchema, dots: dotsSchema });
-const eventSchema = z.discriminatedUnion('kind', [
-  z.strictObject({
-    kind: z.literal('note'),
-    pitches: z.array(pitchSchema).min(1),
-    duration: durationSchema,
-    tieToNext: z.boolean().optional(),
-    showAccidental: z.union([z.boolean(), z.array(z.boolean())]).optional(),
-  }),
-  z.strictObject({ kind: z.literal('rest'), duration: durationSchema }),
-]);
-const barSchema = z.strictObject({ events: z.array(eventSchema).min(1) });
-const timeSchema = z.strictObject({
-  beats: z.number().int().min(1),
-  beatUnit: z.union([z.literal(1), z.literal(2), z.literal(4), z.literal(8), z.literal(16)]),
-});
 
 const spell = (event: ScoreEvent & { kind: 'note' }) =>
   event.pitches.map((p) => pitch.formatPitch(p)).sort().join('|');
@@ -48,6 +26,16 @@ export const payloadSchema: z.ZodType<TapRhythmPayload> = z
       ctx.addIssue({ code: 'custom', path: ['time'], message: 'This time signature has no felt beat the pad can click' });
     }
     payload.bars.forEach((bar, index) => {
+      // No tuplets in Phase 0 (2.6).
+      bar.events.forEach((event, eventIndex) => {
+        if (event.duration.tuplet) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['bars', index, 'events', eventIndex, 'duration', 'tuplet'],
+            message: 'Tuplets are not supported in tap-rhythm',
+          });
+        }
+      });
       const check = rhythm.checkBarLength(bar as Bar, payload.time);
       if (check.status !== 'complete') {
         ctx.addIssue({
