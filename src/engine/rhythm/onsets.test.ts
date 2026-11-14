@@ -23,6 +23,10 @@ const cases: [string, string[], TimeSignature, number, number[]][] = [
   ['2/2 crotchets at 60', ['c c c c'], T(2, 2), 60, [0, 0.5, 1, 1.5]],
   ['3/4 at 90', ['c c c'], T(3, 4), 90, [0, 2 / 3, 4 / 3]],
   ['3/8 beat is a quaver', ['q q q'], T(3, 8), 120, [0, 0.5, 1]],
+  ['whole-bar rest in 3/4 advances a full bar', ['rs', 'c c c'], T(3, 4), 60, [3, 4, 5]],
+  ['whole-bar rest in 6/8 advances a full bar', ['rs', 'c. c.'], T(6, 8), 60, [2, 3]],
+  ['whole-bar rest in 12/8 at 120', ['c. c. c. c.', 'rs', 'c.'], T(12, 8), 120, [0, 0.5, 1, 1.5, 4]],
+  ['whole-bar breve rest in 4/2 at 60', ['rB', 'm m m m'], T(4, 2), 60, [4, 5, 6, 7]],
   ['no bars', [], T(4, 4), 60, []],
 ];
 
