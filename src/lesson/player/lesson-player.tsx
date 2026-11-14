@@ -90,7 +90,7 @@ export function LessonPlayer(props: LessonPlayerProps) {
 
   if (!loaded || loaded.lessonId !== lesson.id) {
     return (
-      <div className="flex min-h-dvh items-center justify-center bg-bg text-fg-secondary" role="status" data-testid="player-loading">
+      <div className="flex flex-1 items-center justify-center bg-bg text-fg-secondary" role="status" data-testid="player-loading">
         Loading lesson
       </div>
     );

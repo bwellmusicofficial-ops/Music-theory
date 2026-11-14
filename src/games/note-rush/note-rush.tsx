@@ -21,7 +21,7 @@ export interface NoteRushProps {
   seed?: number;
 }
 
-type Screen = { name: 'start' } | { name: 'play'; run: number; clef: RushClef; mode: AnswerMode; seed: number } | { name: 'results'; result: GameResult };
+type Screen = { name: 'start' } | { name: 'play'; run: number; clef: RushClef; mode: AnswerMode; seed: number } | { name: 'results'; result: GameResult; previousBest: number | undefined };
 
 /** Runs an audio call without letting a failure reach the UI. */
 function safely(fn: () => unknown) {
@@ -56,10 +56,11 @@ export function NoteRush({ settings, config, bestScore, onFinish, onExit, seed }
 
   const handleFinished = useCallback(
     (result: GameResult) => {
-      setScreen({ name: 'results', result });
+      // The best before this round: the caller may update `bestScore` as soon as `onFinish` runs.
+      setScreen({ name: 'results', result, previousBest: bestScore });
       onFinish(result);
     },
-    [onFinish],
+    [onFinish, bestScore],
   );
 
   const playConfig = useMemo(
@@ -94,7 +95,7 @@ export function NoteRush({ settings, config, bestScore, onFinish, onExit, seed }
       {screen.name === 'results' ? (
         <ResultsScreen
           result={screen.result}
-          bestScore={bestScore}
+          bestScore={screen.previousBest}
           onPlayAgain={() => begin(choice.clef, choice.mode)}
           onExit={onExit}
         />

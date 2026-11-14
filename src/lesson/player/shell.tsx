@@ -19,7 +19,7 @@ export interface ShellProps {
 /** The full-screen frame: thin progress bar on top, one task below. */
 export function Shell({ progress, stepLabel, strand, onExit, trailing, announce, children }: ShellProps) {
   return (
-    <div className="flex min-h-dvh flex-col bg-bg text-fg" data-testid="lesson-player">
+    <div className="flex flex-1 flex-col bg-bg text-fg" data-testid="lesson-player">
       <header className="sticky top-0 z-10 border-b border-border-subtle bg-bg px-4 pt-3 pb-2">
         <div className="mx-auto flex w-full max-w-xl items-center gap-3">
           <IconButton
