@@ -1,44 +1,97 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Button } from '@/components/ui';
 import { BUTTON_BASE, BUTTON_SIZES, BUTTON_VARIANTS } from '@/components/ui/button-styles';
 import { cn } from '@/components/ui/cn';
+import { rhythm } from '@/engine/rhythm';
+import type { Terminology } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
 import { FaceView, ResultMark, plainText } from '@/lesson/questions/face-view';
 import type { OrderingAnswer, OrderingPayload } from './types';
 
 type Direction = 'up' | 'down';
+type Item = OrderingPayload['items'][number];
+
+/** What a screen reader calls an item: its text, its note name, or its place in the starting order. */
+function itemLabel(item: Item, startIndex: number, terminology: Terminology): string {
+  switch (item.face.kind) {
+    case 'text':
+      return plainText(item.face.text);
+    case 'glyph':
+      return item.face.glyph.kind === 'rest'
+        ? rhythm.restName(item.face.glyph.duration, terminology)
+        : rhythm.noteValueName(item.face.glyph.duration, terminology);
+    case 'passage':
+      return `notation ${startIndex + 1}`;
+  }
+}
 
 /**
  * A vertical list the learner reorders with "Move up" and "Move down" buttons.
  * Items keep their starting order until the learner moves them.
  */
-export function Ordering({ payload, locked, result, onAnswer }: QuestionProps<OrderingPayload, OrderingAnswer>) {
+export function Ordering({
+  payload,
+  terminology,
+  locked,
+  result,
+  onAnswer,
+}: QuestionProps<OrderingPayload, OrderingAnswer>) {
   const [order, setOrder] = useState<string[]>(() => payload.items.map((item) => item.id));
-  const pendingFocus = useRef<{ id: string; direction: Direction } | null>(null);
+  const [announcement, setAnnouncement] = useState('');
+  /** After a move, focus returns to the row (arrow keys) or to the same button (buttons). */
+  const pendingFocus = useRef<{ id: string; via: Direction | 'row' } | null>(null);
   const buttons = useRef(new Map<string, HTMLButtonElement>());
+  const rows = useRef(new Map<string, HTMLLIElement>());
+  const hintId = useId();
+
+  // Every label is unique, so every Move button has a unique accessible name.
+  const labels = new Map<string, string>();
+  const raw = payload.items.map((item, index) => itemLabel(item, index, terminology));
+  payload.items.forEach((item, index) => {
+    const label = raw[index] as string;
+    labels.set(item.id, raw.filter((other) => other === label).length > 1 ? `${label} (item ${index + 1})` : label);
+  });
 
   // Keep keyboard focus on the moved item after it changes position.
   useEffect(() => {
     const pending = pendingFocus.current;
     if (!pending) return;
     pendingFocus.current = null;
-    const other: Direction = pending.direction === 'up' ? 'down' : 'up';
-    const same = buttons.current.get(`${pending.id}:${pending.direction}`);
+    if (pending.via === 'row') {
+      rows.current.get(pending.id)?.focus();
+      return;
+    }
+    const other: Direction = pending.via === 'up' ? 'down' : 'up';
+    const same = buttons.current.get(`${pending.id}:${pending.via}`);
     const fallback = buttons.current.get(`${pending.id}:${other}`);
     (same && !same.disabled ? same : fallback)?.focus();
   }, [order]);
 
-  function move(id: string, direction: Direction) {
+  function move(id: string, direction: Direction, via: Direction | 'row' = direction) {
     if (locked) return;
+    const label = labels.get(id) ?? id;
     const from = order.indexOf(id);
     const to = direction === 'up' ? from - 1 : from + 1;
-    if (from === -1 || to < 0 || to >= order.length) return;
+    if (from === -1) return;
+    if (to < 0 || to >= order.length) {
+      setAnnouncement(`${label} is already ${direction === 'up' ? 'first' : 'last'}.`);
+      return;
+    }
     const next = [...order];
     [next[from], next[to]] = [next[to] as string, next[from] as string];
-    pendingFocus.current = { id, direction };
+    pendingFocus.current = { id, via };
     setOrder(next);
+    setAnnouncement(`${label} moved to position ${to + 1} of ${order.length}.`);
+  }
+
+  function onRowKeyDown(event: React.KeyboardEvent<HTMLLIElement>, id: string) {
+    // Only when the row itself has focus; the buttons inside keep their own keys.
+    if (event.target !== event.currentTarget || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    event.preventDefault();
+    move(id, event.key === 'ArrowUp' ? 'up' : 'down', 'row');
   }
 
   const itemById = new Map(payload.items.map((item) => [item.id, item]));
@@ -57,9 +110,18 @@ export function Ordering({ payload, locked, result, onAnswer }: QuestionProps<Or
           return (
             <li
               key={id}
+              ref={(element) => {
+                if (element) rows.current.set(id, element);
+                else rows.current.delete(id);
+              }}
+              tabIndex={locked ? undefined : 0}
+              aria-describedby={hintId}
+              aria-keyshortcuts="ArrowUp ArrowDown"
+              onKeyDown={(event) => onRowKeyDown(event, id)}
               data-state={result === null ? 'idle' : inPlace ? 'in-place' : 'out-of-place'}
               className={cn(
                 'flex flex-wrap items-center gap-3 rounded-lg border-2 bg-surface p-3 text-fg',
+                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
                 stateClass,
               )}
             >
@@ -92,6 +154,7 @@ export function Ordering({ payload, locked, result, onAnswer }: QuestionProps<Or
                       }}
                       type="button"
                       disabled={disabled}
+                      aria-label={`Move ${labels.get(id) ?? id} ${direction}`}
                       onClick={() => move(id, direction)}
                       className={cn(
                         BUTTON_BASE,
@@ -100,7 +163,8 @@ export function Ordering({ payload, locked, result, onAnswer }: QuestionProps<Or
                         'disabled:opacity-40',
                       )}
                     >
-                      {direction === 'up' ? 'Move up' : 'Move down'}
+                      <span aria-hidden="true">{direction === 'up' ? '\u2191' : '\u2193'}</span>
+                      {direction === 'up' ? 'Up' : 'Down'}
                     </button>
                   );
                 })}
@@ -110,6 +174,12 @@ export function Ordering({ payload, locked, result, onAnswer }: QuestionProps<Or
         })}
       </ol>
       <p className="text-sm font-semibold uppercase tracking-wide text-muted">{plainText(payload.ends.last)}</p>
+      <p id={hintId} className="sr-only">
+        Focus an item, then press the up or down arrow key to move it.
+      </p>
+      <p role="status" aria-live="polite" className="sr-only" data-testid="ordering-announcement">
+        {announcement}
+      </p>
       <div>
         <Button size="lg" className="w-full sm:w-auto" disabled={locked} onClick={() => onAnswer({ order })}>
           Check
