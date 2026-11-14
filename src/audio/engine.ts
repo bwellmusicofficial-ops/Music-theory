@@ -1,7 +1,7 @@
 import type * as ToneNs from 'tone';
 import type { Passage, Pitch, TimeSignature } from '@/engine/types';
 import { pitchToFrequency } from './pitch';
-import { DEFAULT_PIANO_BASE_URL, normaliseBaseUrl, pianoSampleUrls } from './samples';
+import { DEFAULT_PIANO_BASE_URL, PIANO_MANIFEST_FILE, availableSampleUrls, normaliseBaseUrl } from './samples';
 import { feltBeatsPerBar, beatSeconds, schedulePassage } from './timing';
 import type { AudioEngine, AudioEngineVoice, UiSound } from './types';
 
@@ -24,6 +24,8 @@ export interface AudioEngineOptions {
   sampleBaseUrl?: string;
   /** Give up on samples (and use the synth) after this long. Default 8000 ms. */
   loadTimeoutMs?: number;
+  /** For tests: replaces the global fetch used to read the sample manifest. */
+  fetchImpl?: typeof fetch;
 }
 
 /** Audio context lookAhead in seconds: low for responsive taps. */
@@ -65,6 +67,7 @@ const UI_SOUNDS: Record<UiSound, ReadonlyArray<readonly [number, number, number]
 export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
   private readonly baseUrl: string;
   private readonly loadTimeoutMs: number;
+  private readonly fetchImpl: typeof fetch | undefined;
 
   private tonePromise: Promise<ToneModule> | null = null;
   private tone: ToneModule | null = null;
@@ -81,6 +84,7 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
   constructor(options: AudioEngineOptions = {}) {
     this.baseUrl = normaliseBaseUrl(options.sampleBaseUrl ?? DEFAULT_PIANO_BASE_URL);
     this.loadTimeoutMs = options.loadTimeoutMs ?? 8000;
+    this.fetchImpl = options.fetchImpl;
   }
 
   // --- lifecycle ------------------------------------------------------------
@@ -152,9 +156,28 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
     return this.loadPromise;
   }
 
+  /**
+   * One cheap request: the manifest lists the sample files that exist. Without a
+   * manifest nothing else is requested, so a site with no samples makes no failed
+   * mp3 requests. Returns an empty map when there is nothing to load.
+   */
+  private async discoverSamples(): Promise<Record<string, string>> {
+    const doFetch = this.fetchImpl ?? (typeof fetch === 'function' ? fetch : undefined);
+    if (!doFetch) return {};
+    try {
+      const response = await doFetch(`${this.baseUrl}${PIANO_MANIFEST_FILE}`);
+      if (!response.ok) return {};
+      return availableSampleUrls(await response.json());
+    } catch {
+      return {};
+    }
+  }
+
   /** Never rejects: any failure leaves the synth voice in place. */
   private async loadSamples(): Promise<void> {
     if (!inBrowser()) return;
+    const urls = await this.discoverSamples();
+    if (Object.keys(urls).length === 0) return;
     let Tone: ToneModule;
     try {
       Tone = await this.loadTone();
@@ -167,7 +190,7 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
       await new Promise<void>((resolve, reject) => {
         timer = setTimeout(() => reject(new Error('Piano samples timed out')), this.loadTimeoutMs);
         candidate = new Tone.Sampler({
-          urls: pianoSampleUrls(),
+          urls,
           baseUrl: this.baseUrl,
           release: 1,
           onload: () => resolve(),

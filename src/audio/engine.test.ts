@@ -84,6 +84,7 @@ vi.mock('tone', () => {
   };
 });
 
+import { pianoSampleUrls } from './samples';
 import { ToneAudioEngine } from './engine';
 
 const C4: Pitch = { letter: 'C', accidental: 0, octave: 4 };
@@ -121,8 +122,16 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
+const ALL_FILES = Object.values(pianoSampleUrls());
+/** A fetch that serves a manifest listing the given files (default: all 30), and records the requests. */
+function manifestFetch(files: string[] | null = ALL_FILES) {
+  return vi.fn<typeof fetch>(async () =>
+    files ? new Response(JSON.stringify({ files }), { status: 200 }) : new Response('', { status: 404 }),
+  );
+}
+
 async function unlocked(options?: ConstructorParameters<typeof ToneAudioEngine>[0]) {
-  const engine = new ToneAudioEngine(options);
+  const engine = new ToneAudioEngine({ fetchImpl: manifestFetch(), ...options });
   await engine.unlock();
   return engine;
 }
@@ -167,6 +176,45 @@ describe('piano voice', () => {
     const engine = await unlocked();
     await engine.load();
     expect(h.samplerOptions?.baseUrl).toBe('/audio/piano/');
+  });
+
+  it('makes exactly one request when there is no manifest, and never asks for an mp3', async () => {
+    const fetchImpl = manifestFetch(null);
+    const engine = await unlocked({ fetchImpl });
+    await engine.load();
+    await engine.load();
+    expect(fetchImpl.mock.calls.map((c) => String(c[0]))).toEqual(['/audio/piano/manifest.json']);
+    expect(engine.voice()).toBe('synth');
+    expect(h.samplerOptions).toBeNull();
+    engine.noteOn(C4);
+    expect(calls('poly', 'triggerAttack')).toHaveLength(1);
+  });
+
+  it('falls back to the synth when the manifest request fails or is not valid', async () => {
+    for (const fetchImpl of [
+      vi.fn(async () => Promise.reject(new Error('offline'))),
+      vi.fn(async () => new Response('not json', { status: 200 })),
+      vi.fn(async () => new Response(JSON.stringify({ files: [] }), { status: 200 })),
+    ]) {
+      const engine = await unlocked({ fetchImpl });
+      await engine.load();
+      expect(engine.voice()).toBe('synth');
+    }
+    expect(h.samplerOptions).toBeNull();
+  });
+
+  it('with a manifest, loads only the listed files', async () => {
+    const engine = await unlocked({ fetchImpl: manifestFetch(['A0.mp3', 'C4.mp3', 'Fs4.mp3']) });
+    await engine.load();
+    expect(engine.voice()).toBe('sampled');
+    expect(h.samplerOptions?.urls).toEqual({ A0: 'A0.mp3', C4: 'C4.mp3', 'F#4': 'Fs4.mp3' });
+  });
+
+  it('reads the manifest from the configured base URL', async () => {
+    const fetchImpl = manifestFetch();
+    const engine = await unlocked({ sampleBaseUrl: '/custom/piano', fetchImpl });
+    await engine.load();
+    expect(String(fetchImpl.mock.calls[0][0])).toBe('/custom/piano/manifest.json');
   });
 
   it('falls back to the synth when samples fail, and still resolves', async () => {
