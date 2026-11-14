@@ -1,0 +1,280 @@
+/* Note Rush. Colours come from tokens only; --strand-pitch is the game's accent. */
+
+.nr-root {
+  --nr-accent: var(--strand-pitch);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text);
+  background:
+    radial-gradient(120% 80% at 85% -10%, color-mix(in srgb, var(--nr-accent) 22%, transparent), transparent 60%),
+    radial-gradient(90% 70% at 0% 110%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+    var(--bg-raised);
+  box-shadow: var(--elev-lg);
+}
+
+.nr-title {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(2.75rem, 11vw, 5rem);
+  text-transform: uppercase;
+  font-style: italic;
+  background: linear-gradient(100deg, var(--text) 10%, var(--nr-accent) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nr-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  text-shadow: 0 0 28px color-mix(in srgb, var(--nr-accent) 55%, transparent);
+}
+
+.nr-stat {
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  padding: 0.25rem 0.75rem;
+}
+
+.nr-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nr-accent) 16%, transparent), transparent 35%),
+    var(--bg);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.nr-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--text);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.nr-target {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--nr-accent);
+  box-shadow: 0 0 18px 2px var(--nr-accent);
+  pointer-events: none;
+}
+
+.nr-note {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--nr-accent);
+  will-change: transform;
+  pointer-events: none;
+}
+.nr-note--lead {
+  color: var(--text);
+}
+.nr-note--lead svg {
+  filter: drop-shadow(0 0 6px var(--nr-accent));
+}
+.nr-note--ghost {
+  will-change: auto;
+}
+.nr-note--correct {
+  color: var(--success);
+}
+.nr-note--miss {
+  color: var(--warning);
+}
+.nr-note--wrong {
+  color: var(--danger);
+}
+.nr-ghost-label {
+  position: absolute;
+  left: 50%;
+  bottom: 0.1rem;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--warning);
+  text-shadow: 0 0 10px var(--bg);
+}
+
+.nr-key {
+  min-height: 3.5rem;
+  border-radius: var(--r-md);
+  border: 2px solid color-mix(in srgb, var(--nr-accent) 60%, var(--border-subtle));
+  background: linear-gradient(180deg, var(--surface-raised), var(--surface));
+  color: var(--text);
+  font-weight: 900;
+  font-size: 1.75rem;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.nr-key:hover:not(:disabled) {
+  background: var(--surface-raised);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--nr-accent) 45%, transparent);
+}
+.nr-key:active:not(:disabled) {
+  transform: translateY(2px) scale(0.97);
+  background: color-mix(in srgb, var(--nr-accent) 30%, var(--surface));
+}
+.nr-key:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nr-choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0 1rem;
+  border-radius: var(--r-md);
+  border: 2px solid var(--border);
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--surface);
+}
+input:checked + .nr-choice {
+  border-color: var(--nr-accent);
+  background: color-mix(in srgb, var(--nr-accent) 22%, var(--surface));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--nr-accent) 40%, transparent);
+}
+input:focus-visible + .nr-choice {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.nr-pip {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--border-subtle);
+}
+.nr-pip--on {
+  background: var(--nr-accent);
+  box-shadow: 0 0 8px var(--nr-accent);
+}
+
+.nr-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  text-align: center;
+}
+.nr-count {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--nr-accent);
+  text-shadow: 0 0 30px var(--nr-accent);
+}
+
+.nr-feedback {
+  min-height: 2.25rem;
+  font-weight: 900;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+.nr-feedback[data-kind='correct'] {
+  color: var(--success);
+}
+.nr-feedback[data-kind='wrong'] {
+  color: var(--danger);
+}
+.nr-feedback[data-kind='miss'] {
+  color: var(--warning);
+}
+.nr-feedback[data-kind='level'] {
+  color: var(--nr-accent);
+}
+
+/* Decorative motion: all of it switches off with reduced motion. */
+.nr-root:not([data-reduced='true']) .nr-feedback > span {
+  display: inline-block;
+  animation: nr-pop var(--motion-duration-slow) var(--motion-ease-spring);
+}
+.nr-root:not([data-reduced='true']) .nr-note--ghost.nr-note--correct {
+  animation: nr-out 0.7s var(--motion-ease-out) forwards;
+}
+.nr-root:not([data-reduced='true']) .nr-note--ghost.nr-note--miss {
+  animation: nr-fade 0.9s var(--motion-ease-out) forwards;
+}
+.nr-root:not([data-reduced='true']) .nr-note--shake {
+  animation: nr-shake 0.35s linear;
+}
+.nr-root:not([data-reduced='true']) .nr-target {
+  animation: nr-pulse 1.6s ease-in-out infinite;
+}
+.nr-root:not([data-reduced='true']) .nr-count {
+  animation: nr-pop 0.6s var(--motion-ease-spring);
+}
+
+@keyframes nr-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes nr-out {
+  to {
+    opacity: 0;
+    translate: 0 -14px;
+    scale: 1.4;
+  }
+}
+@keyframes nr-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes nr-shake {
+  20% {
+    translate: -5px 0;
+  }
+  40% {
+    translate: 5px 0;
+  }
+  60% {
+    translate: -3px 0;
+  }
+  80% {
+    translate: 3px 0;
+  }
+}
+@keyframes nr-pulse {
+  50% {
+    box-shadow: 0 0 28px 6px var(--nr-accent);
+  }
+}
