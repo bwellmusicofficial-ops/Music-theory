@@ -2,11 +2,11 @@ import { TheoryError } from '../api';
 import type { Bar, TimeSignature } from '../types';
 import { durationLength } from './duration';
 import { ZERO, add, div, toNumber } from './fraction';
-import { feltBeat, validateTime } from './metre';
+import { barLength, feltBeat, isWholeBarRest, validateTime } from './metre';
 
 /**
  * Onset times in seconds. Time runs on from the actual lengths of the events
- * (short bars are not padded). A note that follows a note marked tieToNext is a
+ * (short bars are not padded), except that a lone whole-bar rest advances by the full bar. A note that follows a note marked tieToNext is a
  * continuation and has no onset; rests never do. Irregular metres count the
  * written beat unit as the beat.
  */
@@ -20,7 +20,13 @@ export function onsetTimes(bars: Bar[], time: TimeSignature, bpm: number): numbe
   const out: number[] = [];
   let t = ZERO;
   let tied = false;
+  const full = barLength(time);
   for (const bar of bars) {
+    if (isWholeBarRest(bar.events, time)) {
+      tied = false;
+      t = add(t, full);
+      continue;
+    }
     for (const e of bar.events) {
       if (e.kind === 'note' && !tied) {
         out.push(toNumber(div(t, beat)) * secondsPerBeat);

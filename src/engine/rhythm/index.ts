@@ -4,7 +4,7 @@ import { beamGroups } from './beams';
 import { NOTE_VALUES, durationLength, eventsLength, noteValueName, restName } from './duration';
 import { add, cmp, normalise } from './fraction';
 import { groupingProblems } from './grouping';
-import { barLength, beatLength, beatsPerBar, metreKind, metreName } from './metre';
+import { barLength, beatLength, beatsPerBar, isWholeBarRest, metreKind, metreName } from './metre';
 import { onsetTimes } from './onsets';
 import { restsToFill } from './rest-fill';
 
@@ -13,6 +13,7 @@ function checkBarLength(
   time: TimeSignature,
 ): { status: 'complete' | 'short' | 'long'; difference: Fraction } {
   const full = barLength(time);
+  if (isWholeBarRest(bar.events, time)) return { status: 'complete', difference: { n: 0, d: 1 } };
   const actual = eventsLength(bar.events);
   const order = cmp(actual, full);
   if (order === 0) return { status: 'complete', difference: { n: 0, d: 1 } };

@@ -92,6 +92,10 @@ describe('fraction helpers', () => {
   it('rejects a zero denominator', () => {
     expect(() => rhythm.addFractions({ n: 1, d: 0 }, { n: 1, d: 2 })).toThrow(TheoryError);
   });
+  it('keeps eventsLength and durationLength arithmetic for a whole-bar rest', () => {
+    expect(rhythm.eventsLength(bar('rs').events)).toEqual({ n: 1, d: 1 });
+    expect(rhythm.barLength(T(3, 4))).toEqual({ n: 3, d: 4 });
+  });
   it('sums event lengths', () => {
     expect(rhythm.eventsLength(bar('c c m').events)).toEqual({ n: 1, d: 1 });
     expect(rhythm.eventsLength(bar('q3 q3 q3 rc').events)).toEqual({ n: 1, d: 2 });
@@ -110,6 +114,17 @@ describe('checkBarLength', () => {
     ['3/4 long by a dotted crotchet', 'm. c.', T(3, 4), 'long', { n: 3, d: 8 }],
     ['triplets complete 2/4', 'q3 q3 q3 c', T(2, 4), 'complete', { n: 0, d: 1 }],
     ['empty bar', '', T(2, 4), 'short', { n: 1, d: 2 }],
+    ['whole-bar rest in 4/4', 'rs', T(4, 4), 'complete', { n: 0, d: 1 }],
+    ['whole-bar rest in 3/4', 'rs', T(3, 4), 'complete', { n: 0, d: 1 }],
+    ['whole-bar rest in 2/4', 'rs', T(2, 4), 'complete', { n: 0, d: 1 }],
+    ['whole-bar rest in 6/8', 'rs', T(6, 8), 'complete', { n: 0, d: 1 }],
+    ['whole-bar rest in 12/8', 'rs', T(12, 8), 'complete', { n: 0, d: 1 }],
+    ['whole-bar breve rest in 4/2', 'rB', T(4, 2), 'complete', { n: 0, d: 1 }],
+    ['lone semibreve rest in 4/2 is only half a bar', 'rs', T(4, 2), 'short', { n: 1, d: 1 }],
+    ['lone breve rest in 4/4 is too long', 'rB', T(4, 4), 'long', { n: 1, d: 1 }],
+    ['lone minim rest in 2/4 is not the whole-bar glyph', 'rm', T(2, 4), 'complete', { n: 0, d: 1 }],
+    ['semibreve rest with a note in 3/4 is long', 'rs c', T(3, 4), 'long', { n: 1, d: 2 }],
+    ['semibreve rest after a note in 3/4 is long', 'c rs', T(3, 4), 'long', { n: 1, d: 2 }],
   ];
   it.each(cases)('%s', (_n, text, time, status, difference) => {
     expect(rhythm.checkBarLength(bar(text), time)).toEqual({ status, difference });

@@ -12,7 +12,7 @@ import {
   mul,
   sub,
 } from './fraction';
-import { barLength, beatsPerBar, feltBeat, metreKind, validateTime } from './metre';
+import { barLength, beatsPerBar, feltBeat, isWholeBarRest, metreKind, validateTime } from './metre';
 
 export interface GroupingProblem {
   eventIndex: number;
@@ -81,13 +81,7 @@ export function groupingProblems(bar: Bar, time: TimeSignature): GroupingProblem
   // (d) A bar that is wholly silent is one whole-bar rest. The conventional
   // whole-bar glyph (semibreve rest, breve rest in 4/2) is accepted on its own
   // whatever the bar's arithmetic length (9/8, 12/8, 3/4, ...).
-  {
-    const only = events[0].duration;
-    const glyph = time.beats === 4 && time.beatUnit === 2 ? 'breve' : 'semibreve';
-    if (events.length === 1 && events[0].kind === 'rest' && only.value === glyph && isPlain(only)) {
-      return [];
-    }
-  }
+  if (isWholeBarRest(events, time)) return [];
   const total = pos[pos.length - 1].end;
   if (events.every((e) => e.kind === 'rest') && eq(total, barLen)) {
     const breveBar = time.beats === 4 && time.beatUnit === 2;
