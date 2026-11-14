@@ -46,6 +46,7 @@ export function RhythmPad({
   onTap,
   perfectMs = DEFAULT_PERFECT_MS,
   toleranceMs = DEFAULT_TOLERANCE_MS,
+  showRetry = true,
   children,
 }: RhythmPadProps) {
   const free = mode === 'free';
@@ -255,7 +256,7 @@ export function RhythmPad({
             Stop
           </Button>
         ) : null}
-        {phase === 'done' ? (
+        {phase === 'done' && showRetry ? (
           <Button variant="secondary" onClick={start}>
             Try again
           </Button>
