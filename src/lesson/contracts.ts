@@ -31,7 +31,8 @@ export interface MarkResult {
   /**
    * Required when `correct` is false: one sentence saying specifically what
    * was wrong ("That note is on the second line, which is G, not A").
-   * Never just "Incorrect".
+   * Never just "Incorrect". This is RichText (see schema.ts), rendered by the
+   * lesson player's renderer, which applies the US terminology swap.
    */
   reason?: string;
 }

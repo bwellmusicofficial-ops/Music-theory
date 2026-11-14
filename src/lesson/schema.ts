@@ -10,6 +10,12 @@
  * Inline text format (`RichText`): plain text plus
  *   **bold**, *italic*, and [[term-id|shown text]] glossary links.
  * Hard limit of 60 words per text block, enforced by the schema.
+ *
+ * US terminology: text is written in UK terms. When the learner's setting is
+ * "us", the renderer replaces the glossary `term` inside the shown text of a
+ * [[term-id|shown text]] link with that entry's `us` value, keeping plural and
+ * capital. Authors therefore link every use of a term that has a US equivalent.
+ * Glossary ids for note values equal the engine `NoteValue` ids (crotchet, ...).
  */
 
 import { z } from 'zod';
@@ -133,7 +139,10 @@ export const hookStepSchema = z.object({
 /** 2. Hear it, play it: free interaction before any terminology. */
 export const exploreStepSchema = z.object({
   text: richTextSchema,
-  /** Which instrument the learner plays with. */
+  /**
+   * Which instrument the learner plays with. For 'rhythm-pad', a `passage`
+   * exhibit supplies the bars and its `tempo` the bpm (free play-along mode).
+   */
   instrument: z.enum(['keyboard', 'stave', 'rhythm-pad']),
   exhibit: exhibitSchema.optional(),
   /** What the learner must do to continue, in words; the player shows it as a goal. */
@@ -162,6 +171,12 @@ export const challengeStepSchema = z.object({
   seconds: z.number().int().min(60).max(90),
   /** Pool the round draws from; generated questions repeat with new seeds. */
   questions: z.array(questionSchema).min(3),
+  /**
+   * How many questions the round asks, drawn from the pool in order and
+   * cycling if the pool is smaller. Unanswered questions when time runs out
+   * count as wrong. Hints are not shown during the round.
+   */
+  count: z.number().int().min(5).max(12).default(8),
   /** Fraction correct needed to complete the lesson. */
   passMark: z.number().min(0.5).max(1).default(0.8),
 });
@@ -182,6 +197,9 @@ export const lessonSchema = z.object({
   title: z.string().min(1).max(60),
   /** One line shown on unit pages and in search. */
   summary: z.string().min(1).max(140),
+  /** Shown instead of title/summary when terminology is "us" (plain strings, no links). */
+  usTitle: z.string().min(1).max(60).optional(),
+  usSummary: z.string().min(1).max(140).optional(),
   grade: gradeSchema,
   /** Unit id, unique within the grade, e.g. "rhythm-1". */
   unit: idSchema,
