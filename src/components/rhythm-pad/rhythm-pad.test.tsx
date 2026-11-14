@@ -242,6 +242,14 @@ describe('RhythmPad perform mode', () => {
     expect(screen.getByRole('region')).toHaveAttribute('data-phase', 'count-in');
   });
 
+  it('showRetry={false} hides the pad\'s own Try again but still shows the result', async () => {
+    render(<RhythmPad bars={bars} time={TIME} bpm={120} onComplete={vi.fn()} showRetry={false} />);
+    await clickStart();
+    advanceTo(ONSET(0) + 3);
+    expect(screen.getByTestId('result')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Try again' })).not.toBeInTheDocument();
+  });
+
   it('renders children above the tap target and stops the metronome on unmount', async () => {
     const onComplete = vi.fn();
     const { unmount } = render(

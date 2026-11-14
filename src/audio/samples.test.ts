@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normaliseBaseUrl, pianoSampleUrls } from './samples';
+import { availableSampleUrls, normaliseBaseUrl, pianoSampleUrls } from './samples';
 
 describe('pianoSampleUrls', () => {
   const urls = pianoSampleUrls();
@@ -27,5 +27,17 @@ describe('normaliseBaseUrl', () => {
   it('ensures a single trailing slash', () => {
     expect(normaliseBaseUrl('/a')).toBe('/a/');
     expect(normaliseBaseUrl('/a/')).toBe('/a/');
+  });
+});
+
+describe('availableSampleUrls', () => {
+  it('keeps only the listed files', () => {
+    expect(availableSampleUrls({ files: ['C4.mp3', 'Fs4.mp3', 'Zz9.mp3'] })).toEqual({ C4: 'C4.mp3', 'F#4': 'Fs4.mp3' });
+    expect(Object.keys(availableSampleUrls({ files: Object.values(pianoSampleUrls()) }))).toHaveLength(30);
+  });
+  it('gives nothing for a malformed manifest', () => {
+    for (const bad of [null, undefined, 'x', {}, { files: 'C4.mp3' }, { files: [1, 2] }]) {
+      expect(availableSampleUrls(bad)).toEqual({});
+    }
   });
 });

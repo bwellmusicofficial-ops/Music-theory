@@ -19,8 +19,8 @@ export interface ShellProps {
 /** The full-screen frame: thin progress bar on top, one task below. */
 export function Shell({ progress, stepLabel, strand, onExit, trailing, announce, children }: ShellProps) {
   return (
-    <div className="flex flex-1 flex-col bg-bg text-fg" data-testid="lesson-player">
-      <header className="sticky top-0 z-10 border-b border-border-subtle bg-bg px-4 pt-3 pb-2">
+    <div className="flex h-dvh flex-col overflow-hidden bg-bg text-fg" data-testid="lesson-player">
+      <header className="z-10 shrink-0 border-b border-border-subtle bg-bg px-4 pt-3 pb-2">
         <div className="mx-auto flex w-full max-w-xl items-center gap-3">
           <IconButton
             aria-label="Exit lesson"
@@ -36,7 +36,10 @@ export function Shell({ progress, stepLabel, strand, onExit, trailing, announce,
         </div>
         <p data-testid="step-label" className="mx-auto w-full max-w-xl pt-1 pl-14 text-xs font-semibold text-muted">{stepLabel}</p>
       </header>
-      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pt-6 pb-4">{children}</div>
+      {/* The only scrolling region: a long screen scrolls here while the header and the action bar stay put. */}
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        <div className="mx-auto flex min-h-full w-full max-w-xl flex-col px-4 pt-6">{children}</div>
+      </div>
       <p role="status" aria-live="polite" className="sr-only" data-testid="announcer">
         {announce}
       </p>

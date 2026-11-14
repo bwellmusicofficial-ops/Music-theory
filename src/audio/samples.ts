@@ -24,3 +24,17 @@ export function pianoSampleUrls(extension = 'mp3'): Record<string, string> {
 export function normaliseBaseUrl(baseUrl: string): string {
   return baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
 }
+
+/** Name of the small file next to the samples that lists which ones exist. */
+export const PIANO_MANIFEST_FILE = 'manifest.json';
+
+/**
+ * Reads a manifest (`{ "files": ["A0.mp3", ...] }`) and keeps the sample map
+ * entries whose files it lists. Anything else gives an empty map.
+ */
+export function availableSampleUrls(manifest: unknown, urls: Record<string, string> = pianoSampleUrls()): Record<string, string> {
+  const files = (manifest as { files?: unknown } | null)?.files;
+  if (!Array.isArray(files)) return {};
+  const listed = new Set(files.filter((f): f is string => typeof f === 'string'));
+  return Object.fromEntries(Object.entries(urls).filter(([, file]) => listed.has(file)));
+}

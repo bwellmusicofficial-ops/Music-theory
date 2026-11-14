@@ -165,6 +165,8 @@ export function TapRhythm({
             // A wider window than the payload tolerance, so a mistimed tap is reported as early or late (mark judges it).
             toleranceMs={matchWindowMs(payload.toleranceMs ?? DEFAULT_TOLERANCE_MS)}
             latencyOffsetMs={latencyOffsetMs}
+            // Retrying belongs to the lesson player (hint, then "Try again" remounts this question).
+            showRetry={false}
             onComplete={handleComplete}
           />
         </div>

@@ -326,6 +326,42 @@ describe('LessonPlayer with the real registries and the real exemplar lesson', (
     expect(within(banner()!).getByRole('button', { name: 'quarter notes' })).toBeInTheDocument();
   }, 30_000);
 
+  it('a tapped rhythm has exactly one retry (the player\'s), which resets the pad; a pass has only Continue', async () => {
+    await mount();
+    click('Continue');
+    await act(async () => {
+      click('Start');
+    });
+    fireEvent.pointerDown(screen.getByTestId('tap-target'));
+    await waitFor(() => expect(btn('Continue')).toBeEnabled());
+    click('Continue');
+    for (let guard = 0; guard < 6 && !screen.queryByTestId('eyebrow')?.textContent?.startsWith('Practice'); guard++) {
+      click(/^Continue/);
+    }
+    const retries = () => screen.queryAllByRole('button', { name: 'Try again' });
+
+    // Attempt 1: no taps at all, so the pad ends and the answer is wrong.
+    await act(async () => {
+      click('Start');
+    });
+    const first = lastPayload<{ time: { beats: number; beatUnit: 1 | 2 | 4 | 8 | 16 }; bars: Parameters<typeof rhythm.onsetTimes>[0]; bpm: number; countInBars?: number }>('tap-rhythm');
+    const beatSeconds = 60 / first.bpm;
+    audio.clock += (first.countInBars ?? 1) * rhythm.beatsPerBar(first.time) * beatSeconds + rhythm.beatsPerBar(first.time) * first.bars.length * beatSeconds + 2;
+    await waitFor(() => expect(banner()).toHaveAttribute('data-kind', 'wrong'), { timeout: 3000 });
+    expect(banner()).toHaveTextContent('Hint:');
+    expect(retries()).toHaveLength(1);
+
+    // The player's Try again resets the pad: Start is back, no old result, and a second performance can pass.
+    click('Try again');
+    expect(retries()).toHaveLength(0);
+    expect(screen.queryByTestId('result')).toBeNull();
+    expect(btn('Start')).toBeEnabled();
+    await driveTapRhythm();
+    expect(banner()).toHaveAttribute('data-kind', 'correct');
+    expect(retries()).toHaveLength(0);
+    expect(screen.getAllByRole('button', { name: /^Continue/ })).toHaveLength(1);
+  }, 30_000);
+
   it('registers every question type and generator the schema knows', () => {
     for (const type of QUESTION_TYPES) {
       expect(questionTypes[type], type).toBeDefined();

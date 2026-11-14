@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import { SiteHeader } from '@/components/site/site-header';
 import { NO_FLASH_SCRIPT, SettingsProvider } from '@/settings';
 import './globals.css';
 
@@ -25,8 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="flex min-h-dvh flex-col">
         <SettingsProvider>
-          <SiteHeader />
-          <main className="flex flex-1 flex-col">{children}</main>
+          {children}
         </SettingsProvider>
       </body>
     </html>

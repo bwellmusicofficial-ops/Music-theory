@@ -27,6 +27,8 @@ export interface RhythmPadProps {
   /** Perform mode scoring windows. Defaults 60 and 180 ms. */
   perfectMs?: number;
   toleranceMs?: number;
+  /** Show the pad's own "Try again" after a performance. Default true; a parent that owns retrying (the lesson player) passes false. */
+  showRetry?: boolean;
   /** Rendered above the tap target (the parent shows the notation here). */
   children?: ReactNode;
 }
