@@ -187,5 +187,12 @@ export interface TapResult {
 }
 ```
 
-Latency calibration stores a single offset in ms under the settings store and
-is applied before scoring.
+Latency calibration stores a single offset in ms as
+`LearnerSettings.latencyOffsetMs` (default 0) and it is applied before scoring.
+Sign: positive means taps arrive late (the device registers a tap after the
+learner made it), so the pad subtracts the offset from every tap time. The
+lesson player provides the settings to question components through a React
+context (`useLearnerSettings()` in `src/lesson/player`); `tap-rhythm` passes
+`latencyOffsetMs` to the pad. Tap matching uses a wider window than the
+marking tolerance (2.5 times `toleranceMs`, at most 450 ms) so that `mark` can
+report "early" and "late" rather than "missed".

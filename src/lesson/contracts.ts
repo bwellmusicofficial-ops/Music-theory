@@ -148,6 +148,12 @@ export interface LearnerSettings {
   /** Accessibility: challenges run without a clock. */
   untimed: boolean;
   theme: 'dark' | 'light';
+  /**
+   * Calibrated input delay in milliseconds. Positive means taps arrive late
+   * (the device registers a tap after the learner made it), so the rhythm pad
+   * subtracts this from every tap time before scoring. Default 0.
+   */
+  latencyOffsetMs: number;
 }
 
 export const DEFAULT_SETTINGS: LearnerSettings = {
@@ -156,4 +162,5 @@ export const DEFAULT_SETTINGS: LearnerSettings = {
   reducedMotion: false,
   untimed: false,
   theme: 'dark',
+  latencyOffsetMs: 0,
 };

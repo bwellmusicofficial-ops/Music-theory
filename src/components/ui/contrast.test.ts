@@ -67,6 +67,8 @@ function pairs(): [string, string, number][] {
   }
   out.push(['--on-accent', '--accent', 4.5], ['--on-accent', '--accent-hover', 4.5]);
   for (const s of STATUS) out.push([`--on-${s}`, `--${s}`, 4.5]);
+  // Piano keys: the white-key labels must read on a resting and on a pressed key.
+  out.push(['--piano-label', '--piano-white', 4.5], ['--piano-label', '--piano-white-pressed', 4.5]);
   return out;
 }
 
@@ -89,6 +91,14 @@ describe('tokens.css contrast (WCAG AA)', () => {
           expect(ratio, `${tokens[fg]} on ${tokens[bg]} = ${ratio.toFixed(2)}`).toBeGreaterThanOrEqual(min);
         });
       }
+
+      it('keeps white keys light and black keys dark, so it looks like a piano', () => {
+        expect(luminance(tokens['--piano-white'])).toBeGreaterThan(0.5);
+        expect(luminance(tokens['--piano-white-pressed'])).toBeGreaterThan(0.35);
+        expect(luminance(tokens['--piano-black'])).toBeLessThan(0.05);
+        expect(luminance(tokens['--piano-black-pressed'])).toBeLessThan(0.15);
+        expect(contrastRatio(tokens['--piano-white'], tokens['--piano-black'])).toBeGreaterThanOrEqual(7);
+      });
 
       it('gives each strand a distinct colour', () => {
         const colours = STRANDS.map((s) => tokens[`--strand-${s}`].toLowerCase());

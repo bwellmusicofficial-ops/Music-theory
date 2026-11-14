@@ -1,6 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { installStaveStubs } from '@/components/stave/test-utils';
 import type { MarkResult } from '@/lesson/contracts';
 import { ByEar, setByEarNotationRenderer } from './component';
 import { passageOf, specExample } from './test-helpers';
@@ -50,6 +51,8 @@ beforeEach(() => {
   audio.load.mockClear();
 });
 afterEach(() => setByEarNotationRenderer(null));
+
+beforeAll(() => installStaveStubs());
 
 function setup(payload: ByEarPayload, options: { locked?: boolean; result?: MarkResult | null } = {}) {
   const onAnswer = vi.fn<(a: ByEarAnswer) => void>();
@@ -245,9 +248,9 @@ describe('ByEar: notation faces', () => {
     correct: 'b',
   };
 
-  it('shows a placeholder for a passage face without a renderer, and never plays it', () => {
+  it('draws a passage face as notation without an injected renderer, and never plays it', () => {
     setup(passageOptions);
-    expect(screen.getAllByText('Notation')).toHaveLength(2);
+    expect(document.querySelectorAll('[data-face="passage"] [data-passage-view]')).toHaveLength(2);
     expect(audio.plays).toHaveLength(0);
   });
 

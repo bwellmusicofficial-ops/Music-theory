@@ -273,6 +273,9 @@ describe('LessonPlayer: the six steps', () => {
   });
 });
 
+/** The feedback banner; its reason is rich text, so a glossary link splits the text into elements. */
+const feedbackBanner = () => document.querySelector('[role="status"][data-kind]') as HTMLElement;
+
 describe('LessonPlayer: practice', () => {
   it('first wrong answer shows the hint, then a second attempt; the second result stands', async () => {
     const { sink } = await setup();
@@ -292,7 +295,7 @@ describe('LessonPlayer: practice', () => {
     right();
     expect(screen.getByText('Correct')).toBeInTheDocument();
     expect(audio.playUi).toHaveBeenLastCalledWith('correct');
-    expect(screen.getByText(/Right, that is the correct crotchet\./)).toBeInTheDocument();
+    expect(feedbackBanner()).toHaveTextContent('Right, that is the correct crotchet.');
     next();
     expect(screen.getByTestId('eyebrow')).toHaveTextContent('Practice 2 of 4');
     await act(async () => {});
@@ -309,7 +312,7 @@ describe('LessonPlayer: practice', () => {
     next('Try again');
     wrong();
     expect(screen.queryByText(/Hint:/)).toBeNull();
-    expect(screen.getByText(/That was wrong: a crotchet lasts 1 beat\./)).toBeInTheDocument();
+    expect(feedbackBanner()).toHaveTextContent('That was wrong: a crotchet lasts 1 beat.');
     expect(screen.queryByRole('button', { name: 'Try again' })).toBeNull();
     next();
     expect(screen.getByTestId('eyebrow')).toHaveTextContent('Practice 2 of 4');
@@ -323,7 +326,9 @@ describe('LessonPlayer: practice', () => {
     next();
     next();
     right();
-    expect(screen.getByText(/Right, that is the correct quarter note\./)).toBeInTheDocument();
+    expect(feedbackBanner()).toHaveTextContent('Right, that is the correct quarter note.');
+    // The glossary link in the reason survives as a button.
+    expect(within(feedbackBanner()).getByRole('button', { name: 'quarter note' })).toBeInTheDocument();
   });
 
   it('plays sounds only when soundOn', async () => {

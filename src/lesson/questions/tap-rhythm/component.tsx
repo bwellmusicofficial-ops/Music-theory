@@ -8,7 +8,8 @@ import { rhythm } from '@/engine/rhythm';
 import type { Passage, Terminology } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
 import { ResultMark } from '@/lesson/questions/face-view';
-import { DEFAULT_TOLERANCE_MS, type TapRhythmAnswer, type TapRhythmPayload } from './types';
+import { useLearnerSettings } from '@/lesson/player';
+import { DEFAULT_TOLERANCE_MS, matchWindowMs, type TapRhythmAnswer, type TapRhythmPayload } from './types';
 
 type NotationRenderer = (passage: Passage) => ReactNode;
 
@@ -62,6 +63,7 @@ export function TapRhythm({
   const handle = useRef<{ stop(): void } | null>(null);
   const alive = useRef(true);
   const answered = useRef(false);
+  const { latencyOffsetMs } = useLearnerSettings();
 
   useEffect(() => {
     alive.current = true;
@@ -160,7 +162,9 @@ export function TapRhythm({
             time={payload.time}
             bpm={payload.bpm}
             countInBars={payload.countInBars ?? 1}
-            toleranceMs={payload.toleranceMs ?? DEFAULT_TOLERANCE_MS}
+            // A wider window than the payload tolerance, so a mistimed tap is reported as early or late (mark judges it).
+            toleranceMs={matchWindowMs(payload.toleranceMs ?? DEFAULT_TOLERANCE_MS)}
+            latencyOffsetMs={latencyOffsetMs}
             onComplete={handleComplete}
           />
         </div>

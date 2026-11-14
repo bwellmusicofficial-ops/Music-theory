@@ -40,6 +40,13 @@
   --focus-ring: #5eead4;
   --scrim: rgb(5 5 10 / 0.72);
 
+  /* Piano keys look like a piano in both themes: light white keys, dark black keys */
+  --piano-white: #f4f4fb;
+  --piano-white-pressed: #c4b3ff;
+  --piano-black: #1b1b2b;
+  --piano-black-pressed: #5b3fc4;
+  --piano-label: #12121c;
+
   /* Strand accents */
   --strand-rhythm: #ff9a4d;
   --strand-pitch: #4cc2ff;
@@ -85,6 +92,12 @@
 
   --focus-ring: #1d4ed8;
   --scrim: rgb(18 18 28 / 0.55);
+
+  --piano-white: #ffffff;
+  --piano-white-pressed: #d3c7f7;
+  --piano-black: #1b1b2b;
+  --piano-black-pressed: #5b3fc4;
+  --piano-label: #12121c;
 
   --strand-rhythm: #b6420a;
   --strand-pitch: #0369a1;

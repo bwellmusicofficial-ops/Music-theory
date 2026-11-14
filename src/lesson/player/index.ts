@@ -1,4 +1,5 @@
 export { LessonPlayer, type LessonPlayerProps } from './lesson-player';
+export { LessonContextProvider, useLearnerSettings, useLessonText, type LessonTextContextValue } from './context';
 export { RichTextView, type RichTextViewProps } from './rich-text-view';
 export { displayTerm, parseRichText, plainText, stripRichText, makeGlossaryLookup } from './rich-text';
 export type { GlossarySource, RichNode } from './rich-text';

@@ -1,10 +1,10 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from './cn';
 
 export interface FeedbackBannerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'title'> {
   kind: 'correct' | 'wrong';
-  /** Why the answer is right or wrong; shown as text. */
-  reason: string;
+  /** Why the answer is right or wrong. Text, or nodes such as rich text with links. */
+  reason: ReactNode;
   /** Overrides the default heading ("Correct" / "Not quite"). */
   title?: string;
 }

@@ -11,6 +11,7 @@ import type {
   QuestionTypeRegistry,
 } from '../contracts';
 import { STEP_ORDER, type GlossaryEntry, type Lesson, type StepId } from '../schema';
+import { LessonContextProvider } from './context';
 import { ChallengeIntro, ChallengeResultScreen } from './challenge-screens';
 import { ExploreStage } from './explore-stage';
 import {
@@ -336,15 +337,17 @@ function PlayerRun({
 
 
   return (
-    <Shell
-      progress={progressFraction(state)}
-      stepLabel={stepLabel}
-      strand={lesson.strand}
-      onExit={onExit}
-      trailing={countdown}
-      announce={announce}
-    >
-      {body}
-    </Shell>
+    <LessonContextProvider settings={settings} glossary={glossary}>
+      <Shell
+        progress={progressFraction(state)}
+        stepLabel={stepLabel}
+        strand={lesson.strand}
+        onExit={onExit}
+        trailing={countdown}
+        announce={announce}
+      >
+        {body}
+      </Shell>
+    </LessonContextProvider>
   );
 }
