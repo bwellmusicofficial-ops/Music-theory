@@ -48,39 +48,81 @@ export interface Plan {
   scrolls: boolean;
 }
 
+function systemNatural(measures: BarMeasure[], editable: boolean[], from: number, to: number): number {
+  let sum = 0;
+  for (let i = from; i < to; i++) sum += naturalWidth(measures[i], i === from, editable[i]);
+  return sum;
+}
+
+function toSystem(measures: BarMeasure[], editable: boolean[], from: number, to: number) {
+  const bars: number[] = [];
+  const naturals: number[] = [];
+  for (let i = from; i < to; i++) {
+    bars.push(i);
+    naturals.push(naturalWidth(measures[i], i === from, editable[i]));
+  }
+  return { bars, naturals };
+}
+
+/** Greedy count of systems: the fewest lines the passage needs. */
+function countSystems(measures: BarMeasure[], available: number, editable: boolean[], maxPerSystem: number): number {
+  let count = 0;
+  let start = 0;
+  while (start < measures.length) {
+    let end = start + 1;
+    while (end < measures.length && end - start < maxPerSystem && systemNatural(measures, editable, start, end + 1) <= available) end++;
+    count++;
+    start = end;
+  }
+  return count;
+}
+
+/**
+ * Breaks into the fewest systems greedy breaking needs, then moves the breaks so
+ * the systems are as even as possible (no short orphan system): minimises the
+ * widest system, then prefers the earliest break when widths tie.
+ */
 function breakBars(
   measures: BarMeasure[],
   available: number,
   editable: boolean[],
   maxPerSystem: number,
 ): { bars: number[]; naturals: number[] }[] {
-  const systems: { bars: number[]; naturals: number[] }[] = [];
-  let cur: { bars: number[]; naturals: number[] } = { bars: [], naturals: [] };
-  let sum = 0;
-  measures.forEach((m, i) => {
-    const first = cur.bars.length === 0;
-    const w = naturalWidth(m, first, editable[i]);
-    if (!first && (sum + w > available || cur.bars.length >= maxPerSystem)) {
-      systems.push(cur);
-      cur = { bars: [], naturals: [] };
-      sum = 0;
-      const w2 = naturalWidth(m, true, editable[i]);
-      cur.bars.push(i);
-      cur.naturals.push(w2);
-      sum = w2;
-      return;
+  const n = measures.length;
+  const k = countSystems(measures, available, editable, maxPerSystem);
+  if (k <= 1) return n ? [toSystem(measures, editable, 0, n)] : [];
+  // best[j][i]: smallest possible widest-system width for the first i bars in j systems.
+  const best: number[][] = Array.from({ length: k + 1 }, () => Array<number>(n + 1).fill(Infinity));
+  const cut: number[][] = Array.from({ length: k + 1 }, () => Array<number>(n + 1).fill(0));
+  best[0][0] = 0;
+  for (let j = 1; j <= k; j++) {
+    for (let i = j; i <= n; i++) {
+      for (let from = Math.max(j - 1, i - maxPerSystem); from < i; from++) {
+        const w = systemNatural(measures, editable, from, i);
+        // A one-bar system may overflow (the scrolling case); a longer one must fit.
+        if (i - from > 1 && w > available) continue;
+        const cost = Math.max(best[j - 1][from], w);
+        if (cost < best[j][i]) {
+          best[j][i] = cost;
+          cut[j][i] = from;
+        }
+      }
     }
-    cur.bars.push(i);
-    cur.naturals.push(w);
-    sum += w;
-  });
-  if (cur.bars.length) systems.push(cur);
-  return systems;
+  }
+  const out: { bars: number[]; naturals: number[] }[] = [];
+  let end = n;
+  for (let j = k; j >= 1; j--) {
+    const from = cut[j][end];
+    out.unshift(toSystem(measures, editable, from, end));
+    end = from;
+  }
+  return out;
 }
 
 /**
- * Greedy breaking, justification and the scale-down rule for a single bar
- * that is wider than the line.
+ * Breaking, justification and the scale-down rules: a bar wider than the line
+ * scales the component down; in read mode a passage that would only just spill
+ * onto a second line is first scaled down (to the same 0.75 limit) to stay on one.
  */
 export function planSystems(
   measures: BarMeasure[],
@@ -98,11 +140,22 @@ export function planSystems(
     available = Math.floor(opts.availablePx / scale);
     if (widest() > available) scrolls = true;
   }
+  // Fit the whole passage on one line by scaling down, never below the limit and never in edit mode.
+  const oneLine = measures.length > 1 && measures.length <= MAX_BARS_PER_SYSTEM ? systemNatural(measures, editable, 0, measures.length) : 0;
+  if (oneLine > available && !editable.some(Boolean) && !scrolls) {
+    const fitted = opts.availablePx / oneLine;
+    if (fitted >= MIN_SCALE_FACTOR * opts.scale) {
+      scale = Math.min(scale, fitted);
+      available = Math.max(Math.floor(opts.availablePx / scale), Math.ceil(oneLine));
+    }
+  }
   const raw = breakBars(measures, available, editable, MAX_BARS_PER_SYSTEM);
   const systems: PlannedSystem[] = raw.map((s) => {
     const total = s.naturals.reduce((a, b) => a + b, 0);
     let widths = s.naturals.slice();
-    if (total >= JUSTIFY_THRESHOLD * available && total < available) {
+    // Several lines: every line is full width. One line: only when it is nearly full already.
+    const justify = raw.length > 1 || total >= JUSTIFY_THRESHOLD * available;
+    if (justify && total < available) {
       let target = available;
       if (measures.length === 1) target = Math.min(target, total * SINGLE_BAR_MAX_STRETCH);
       const extra = target - total;

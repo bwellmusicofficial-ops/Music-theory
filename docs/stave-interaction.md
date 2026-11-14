@@ -251,12 +251,17 @@ appendZone = editable ? 30 : 0                      (always, so width is stable 
 natural    = modifiers + notes + appendZone + 10
 ```
 
-Breaking is greedy: add bars to the current system while the sum of natural
-widths fits in `availableUnits`; at most 4 bars per system. Then justify: every
-system whose natural width is at least 60% of `availableUnits` is stretched to
-full width, the extra shared between bars in proportion to their `notes` width.
-A shorter system (usually the last) keeps natural widths and is left-aligned.
-A single-bar passage is never stretched beyond 1.5 times its natural width.
+Breaking: first, in read mode, a passage of at most 4 bars that would only just
+spill onto a second line is scaled down (never below 0.75 of the size's scale)
+so that it stays on one line. Otherwise the fewest systems that greedy breaking
+needs (at most 4 bars per system) are used, and the breaks are then moved so the
+systems are as even as possible (minimise the widest system): no short orphan
+system. Then justify: when there is more than one system, every system is
+stretched to the full `availableUnits`; a single system is stretched only when
+its natural width is at least 60% of `availableUnits`. The extra is shared
+between bars in proportion to their `notes` width. A single-bar passage is never
+stretched beyond 1.5 times its natural width. The clef and key signature repeat
+on every system; the time signature appears only on the first.
 
 Typical results at 360 px wide (328 px content): `lg` gives 218 units, which
 is one or two simple bars per system; `md` gives 262 units, two bars.
