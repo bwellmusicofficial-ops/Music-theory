@@ -1,0 +1,215 @@
+.mtn-stave {
+  /* Local variables. Defaults point at design tokens; a lesson sets
+     --strand-current to one of the --strand-* tokens. */
+  --stave-ink: var(--text);
+  --stave-line: var(--text);
+  --stave-accent: var(--strand-current, var(--accent));
+  --stave-correct: var(--success);
+  --stave-wrong: var(--danger);
+  --stave-badge-ink: var(--bg);
+  position: relative;
+  color: var(--stave-ink);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mtn-stave .sr-only,
+.mtn-stave__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mtn-stave__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.mtn-stave__canvas {
+  position: relative;
+}
+
+.mtn-stave__notation,
+.mtn-stave__overlay,
+.mtn-stave__surface {
+  position: absolute;
+  inset: 0;
+}
+.mtn-stave__notation {
+  position: relative;
+  inset: auto;
+}
+.mtn-stave__overlay {
+  pointer-events: none;
+}
+
+.mtn-stave__notation svg {
+  display: block;
+  fill: currentColor;
+  stroke: currentColor;
+}
+.mtn-stave__notation svg * {
+  pointer-events: none;
+}
+.mtn-stave__notation .vf-stave {
+  stroke: var(--stave-line);
+}
+
+.mtn-ev--correct {
+  color: var(--stave-correct);
+  fill: currentColor;
+  stroke: currentColor;
+}
+.mtn-ev--wrong {
+  color: var(--stave-wrong);
+  fill: currentColor;
+  stroke: currentColor;
+}
+.mtn-ev--playing,
+.mtn-ev--selected {
+  color: var(--stave-accent);
+  fill: currentColor;
+  stroke: currentColor;
+}
+.mtn-ev--locked {
+  opacity: 0.45;
+}
+.mtn-ev--lifted {
+  opacity: 0.35;
+}
+
+/* Surface and focus */
+.mtn-stave__surface {
+  outline: none;
+  touch-action: manipulation;
+  cursor: default;
+}
+.mtn-stave__surface:focus-visible,
+.mtn-stave__canvas:has(.mtn-stave__surface:focus-visible) {
+  outline: 2px solid var(--stave-accent);
+  outline-offset: 2px;
+}
+.mtn-stave__zone {
+  position: absolute;
+  touch-action: none;
+}
+.mtn-stave__buttons {
+  position: absolute;
+  inset: 0;
+}
+.mtn-stave__event-button {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.mtn-stave__event-button:focus-visible {
+  outline: 2px solid var(--stave-accent);
+  outline-offset: 2px;
+}
+
+/* Loupe */
+.mtn-stave__loupe {
+  position: fixed;
+  z-index: 50;
+  border: 2px solid var(--stave-accent);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--stave-ink);
+  pointer-events: none;
+  box-shadow: var(--elev-md);
+}
+
+/* Palette */
+.mtn-stave__palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: var(--space-2);
+  touch-action: manipulation;
+}
+.mtn-stave__tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+.mtn-stave__tool[aria-pressed='true'] {
+  color: var(--on-accent);
+  background: var(--stave-accent);
+  border-color: var(--stave-accent);
+}
+.mtn-stave__tool:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.mtn-stave__tool:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.mtn-stave__glyph {
+  font-family: Bravura, var(--font-family-sans);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Animations (all under 150 ms; off under reduced motion) */
+.mtn-badge {
+  animation: mtn-fade 120ms ease-out;
+}
+.mtn-ghost--shake {
+  animation: mtn-shake 120ms ease-in-out;
+}
+@keyframes mtn-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes mtn-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-3px);
+  }
+  66% {
+    transform: translateX(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mtn-badge,
+  .mtn-ghost--shake {
+    animation: none;
+  }
+}
+.mtn-stave[data-reduced-motion='true'] .mtn-badge,
+.mtn-stave[data-reduced-motion='true'] .mtn-ghost--shake {
+  animation: none;
+}
