@@ -104,8 +104,16 @@ export interface AudioEngine {
     passage: Passage,
     options: { bpm: number; countInBeats?: number; onEvent?: (bar: number, event: number) => void },
   ): { stop(): void; done: Promise<void> };
-  /** Metronome click on felt beats, with an accented first beat. */
-  startMetronome(time: TimeSignature, bpm: number, onBeat?: (beat: number) => void): { stop(): void };
+  /**
+   * Metronome click on felt beats, with an accented first beat. `startTime` is
+   * the audio-clock time (see `now()`) of the first click, so callers can line
+   * beats and expected taps up with what the learner hears.
+   */
+  startMetronome(
+    time: TimeSignature,
+    bpm: number,
+    onBeat?: (beat: number) => void,
+  ): { stop(): void; startTime: number };
   /** Short interface sounds; silent when muted. */
   playUi(sound: 'correct' | 'wrong' | 'tap' | 'complete'): void;
   setMuted(muted: boolean): void;

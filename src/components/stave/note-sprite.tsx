@@ -50,7 +50,9 @@ const SIGN_GLYPHS: Record<number, string> = {
 };
 
 const SPRITE_WIDTH = 44;
-const HEAD_X = 28;
+/** Horizontal centre of the notehead inside a sprite, in stave units. */
+export const NOTE_SPRITE_HEAD_X = 28;
+const HEAD_X = NOTE_SPRITE_HEAD_X;
 
 export interface NoteSpriteProps {
   pitch: Pitch;

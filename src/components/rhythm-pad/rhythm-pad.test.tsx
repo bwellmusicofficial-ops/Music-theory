@@ -63,7 +63,7 @@ beforeEach(() => {
   fake.stop.mockClear();
   fake.unlock.mockClear();
   fake.playUi.mockClear();
-  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop }));
+  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop, startTime: fake.clock + 0.1 }));
 });
 afterEach(() => {
   vi.useRealTimers();

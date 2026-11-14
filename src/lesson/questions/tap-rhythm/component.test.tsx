@@ -59,7 +59,7 @@ beforeEach(() => {
   fake.rejectPlay = false;
   fake.resolveDone = null;
   for (const mock of [fake.getAudioEngine, fake.unlock, fake.load, fake.stop, fake.playUi, fake.playPassage]) mock.mockClear();
-  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop }));
+  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop, startTime: fake.clock + 0.1 }));
   fake.playPassage.mockReset().mockImplementation(() => {
     const done = new Promise<void>((resolve) => {
       fake.resolveDone = resolve;

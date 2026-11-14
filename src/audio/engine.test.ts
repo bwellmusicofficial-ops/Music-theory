@@ -143,7 +143,9 @@ describe('unlock', () => {
     engine.noteOn(C4);
     engine.playUi('tap');
     const { done } = engine.playPassage(passage([{ events: [{ kind: 'note', pitches: [C4], duration: crotchet }] }]), { bpm: 60 });
-    engine.startMetronome({ beats: 4, beatUnit: 4 }, 60).stop();
+    const silent = engine.startMetronome({ beats: 4, beatUnit: 4 }, 60);
+    expect(typeof silent.startTime).toBe('number');
+    silent.stop();
     expect(h.instances).toHaveLength(0);
     return expect(done).resolves.toBeUndefined();
   });
@@ -293,6 +295,8 @@ describe('metronome', () => {
     const onBeat = vi.fn();
     // 6/8 at 120 felt beats per minute: 2 beats per bar, 0.5 s apart.
     const m = engine.startMetronome({ beats: 6, beatUnit: 8 }, 120, onBeat);
+    // The first click is scheduled at startTime on the audio clock.
+    expect(m.startTime).toBeCloseTo(10.1, 9);
     for (let i = 0; i < 10; i++) {
       h.currentTime += 0.25;
       await vi.advanceTimersByTimeAsync(25);

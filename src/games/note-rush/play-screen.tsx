@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Keyboard } from '@/components/keyboard';
-import { NoteSprite, Stave, staveMetrics, type StaveSize } from '@/components/stave';
+import { NOTE_SPRITE_HEAD_X, NoteSprite, Stave, staveMetrics, type StaveSize } from '@/components/stave';
 import { Button } from '@/components/ui';
 import type { LearnerSettings } from '@/lesson/contracts';
 import { pitch } from '@/engine/pitch';
@@ -36,8 +36,6 @@ export interface PlayScreenProps {
 // --- geometry (all in stave units, scaled by the sprite size) ------------------------------
 /** Where the target line sits, right of the clef. */
 const TARGET_UNITS = 72;
-/** Horizontal centre of the notehead inside a NoteSprite (its HEAD_X). */
-const SPRITE_HEAD_UNITS = 28;
 /** Spawn point is this far beyond the right edge, so notes slide in. */
 const OFFSCREEN_PX = 28;
 const FALLBACK_STAGE_PX = 640;
@@ -61,7 +59,7 @@ function headPx(x: number, g: Geometry): number {
   return g.targetPx + x * (g.stageW + OFFSCREEN_PX - g.targetPx);
 }
 function noteTransform(x: number, g: Geometry): string {
-  return `translate3d(${(headPx(x, g) - SPRITE_HEAD_UNITS * g.scale).toFixed(2)}px, 0, 0)`;
+  return `translate3d(${(headPx(x, g) - NOTE_SPRITE_HEAD_X * g.scale).toFixed(2)}px, 0, 0)`;
 }
 
 interface NoteView {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { loadVexFlow } from '@/components/stave/vexflow-loader';
+import { loadVexFlow } from '@/components/stave';
 import { rhythm } from '@/engine/rhythm';
 import type { NoteValue, Terminology } from '@/engine/types';
 import type { Glyph } from '@/lesson/questions/shared';

@@ -13,7 +13,7 @@ const audio = vi.hoisted(() => ({
   setMuted: vi.fn(),
   isUnlocked: vi.fn(() => true),
   now: vi.fn(() => 0),
-  startMetronome: vi.fn(() => ({ stop: vi.fn() })),
+  startMetronome: vi.fn(() => ({ stop: vi.fn(), startTime: 0.1 })),
   playPassage: vi.fn(),
 }));
 vi.mock('@/audio', () => ({ getAudioEngine: () => audio }));
