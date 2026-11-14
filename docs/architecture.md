@@ -53,7 +53,7 @@ src/
 ```
 
 Shared files (orchestrator only): `package.json`, lockfile, `tsconfig.json`,
-`tailwind.config.*`, `next.config.*`, `.github/`, `src/app/layout.tsx`,
+`tailwind.config.*`, `next.config.*`, `.github/`, `src/app/layout.tsx`, `src/app/(site)/layout.tsx` (the site header; lessons sit outside it),
 registries, and the four contract files.
 
 If a task needs a new dependency or a contract change, it says so in its report
