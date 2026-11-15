@@ -1,0 +1,854 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-pitch-04-sharps-flats-and-naturals",
+  "title": "Sharps, flats and naturals",
+  "summary": "Play the black keys, name them two ways and see how long a sign lasts.",
+  "grade": "1",
+  "unit": "pitch-1",
+  "order": 4,
+  "strand": "pitch",
+  "skills": [
+    "pitch.accidentals.read",
+    "pitch.accidentals.write",
+    "pitch.accidentals.bar-rule"
+  ],
+  "prerequisites": [
+    "g1-pitch-03-middle-c-and-ledger-lines"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "sharp",
+    "flat",
+    "natural",
+    "accidental"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "The black keys have no letters of their own. Press the three glowing keys in turn: C, the black key in the middle, then D. What would you call that black key?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4",
+          "C#4",
+          "D4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      }
+    },
+    "explore": {
+      "text": "Play A. Then play the very next key up. Now play B, and then the very next key down. Both times you land on the same key.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "A4",
+          "B4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play the black key between A and B once from each side."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "A [[sharp|sharp]] ♯ raises a note to the very next key up. A [[flat|flat]] ♭ lowers it to the very next key down. The black key between A and B is A♯ and also B♭: one key, two names. Sharp goes up, flat goes down.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "A4",
+              "A#4",
+              "B4"
+            ],
+            "low": "C4",
+            "high": "C5"
+          }
+        },
+        {
+          "text": "A [[natural|natural]] ♮ cancels a sharp or flat and puts the note back to its plain self. On the [[stave|stave]] the sign goes before the note head. Sharps, flats and naturals are all called [[accidental|accidentals]].",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 1,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": -1,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "An accidental lasts until the next [[bar-line|bar line]], for notes on the same line or space. In [[bar|bar]] 1 below, the second F has no sign but is still F♯. In [[bar|bar]] 2 the F is plain again.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 80,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 1,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 1,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Think of a lift on the keyboard. Each key is a floor. A sharp takes you up one floor. A flat takes you down one floor. A natural sends you back to the plain floor. Your lift pass runs out at the [[bar-line|bar line]].",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "G4",
+            "G#4"
+          ],
+          "low": "C4",
+          "high": "C5"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-match-the-signs",
+          "type": "match-up",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Match each sign to what it does.",
+          "hint": "Sharp goes up, flat goes down. Pair those two first, then see what is left.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "sharp",
+                "face": {
+                  "kind": "text",
+                  "text": "♯"
+                },
+                "match": "up",
+                "reason": "The ♯ is a [[sharp|sharp]]. It raises a note to the very next key up."
+              },
+              {
+                "id": "flat",
+                "face": {
+                  "kind": "text",
+                  "text": "♭"
+                },
+                "match": "down",
+                "reason": "The ♭ is a [[flat|flat]]. It lowers a note to the very next key down."
+              },
+              {
+                "id": "natural",
+                "face": {
+                  "kind": "text",
+                  "text": "♮"
+                },
+                "match": "cancel",
+                "reason": "The ♮ is a [[natural|natural]]. It cancels a sharp or flat and gives back the plain note."
+              }
+            ],
+            "right": [
+              {
+                "id": "cancel",
+                "face": {
+                  "kind": "text",
+                  "text": "Cancels a sharp or flat"
+                }
+              },
+              {
+                "id": "up",
+                "face": {
+                  "kind": "text",
+                  "text": "Raises a note to the very next key up"
+                }
+              },
+              {
+                "id": "down",
+                "face": {
+                  "kind": "text",
+                  "text": "Lowers a note to the very next key down"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p2-name-the-note",
+          "type": "note-on-stave",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Which note is this?",
+          "hint": "Name the letter from its line or space first. Then look at the sign: up for a sharp, down for a flat.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 5
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "p3-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Find the plain note first. A sharp is the very next key to the right, a flat the very next key to the left.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "treble",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 5
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "p4-put-the-note",
+          "type": "note-on-stave",
+          "skill": "pitch.accidentals.write",
+          "prompt": "Put the note on the [[stave|stave]].",
+          "hint": "Put the letter on its line or space first. Then add the sign in front of it.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "treble",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 5
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "p5-sign-lasts",
+          "type": "multiple-choice",
+          "skill": "pitch.accidentals.bar-rule",
+          "prompt": "Name the note.",
+          "hint": "An accidental lasts to the end of its [[bar|bar]]. Look for the nearest sign before the note.",
+          "source": "generated",
+          "generator": {
+            "id": "accidental-lasts",
+            "params": {}
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-name-in-treble",
+          "type": "note-on-stave",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Name this note.",
+          "hint": "Letter first, then the sign: ♯ up, ♭ down.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 5
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "c2-name-in-bass",
+          "type": "note-on-stave",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Name this note.",
+          "hint": "Check the clef, name the letter, then read the sign.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "c3-put-in-treble",
+          "type": "note-on-stave",
+          "skill": "pitch.accidentals.write",
+          "prompt": "Put the note on the [[stave|stave]].",
+          "hint": "Put the letter on its line or space, then add the sign in front.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "treble",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 5
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "c4-put-in-bass",
+          "type": "note-on-stave",
+          "skill": "pitch.accidentals.write",
+          "prompt": "Put the note on the [[stave|stave]].",
+          "hint": "Check the clef, place the letter, then add the sign in front.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "c5-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Find the plain note, then move one key right for a sharp or left for a flat.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "accidentals": true
+            }
+          }
+        },
+        {
+          "id": "c6-lasts-in-the-bar",
+          "type": "multiple-choice",
+          "skill": "pitch.accidentals.bar-rule",
+          "prompt": "Name the note.",
+          "hint": "Look back along the [[bar|bar]] for the last sign on this letter.",
+          "source": "generated",
+          "generator": {
+            "id": "accidental-lasts",
+            "params": {
+              "across": "same-bar"
+            }
+          }
+        },
+        {
+          "id": "c7-lasts-into-next-bar",
+          "type": "multiple-choice",
+          "skill": "pitch.accidentals.bar-rule",
+          "prompt": "Name the note.",
+          "hint": "Where does an accidental stop lasting?",
+          "source": "generated",
+          "generator": {
+            "id": "accidental-lasts",
+            "params": {
+              "across": "next-bar",
+              "clef": "bass"
+            }
+          }
+        },
+        {
+          "id": "c8-two-names",
+          "type": "multiple-choice",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Which note is the same key as F♯?",
+          "hint": "A sharp goes up from F. A flat goes down. Which flat lands on the same black key?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "G♯"
+                },
+                "reason": "G♯ is the black key above G. F♯ is the black key below G, so it is G♭."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "F♭"
+                },
+                "reason": "A flat goes down, so F♭ is below F. F♯ is above F. The black key above F is also called G♭."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "G♭"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c9-cancel-a-flat",
+          "type": "multiple-choice",
+          "skill": "pitch.accidentals.read",
+          "prompt": "Which sign cancels a flat?",
+          "hint": "The sign that cancels puts the note back to plain.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "♯"
+                },
+                "reason": "The ♯ is a [[sharp|sharp]]. It raises a note, so it does not cancel a flat. The sign that cancels is the ♮."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "♮"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "♭"
+                },
+                "reason": "The ♭ is a [[flat|flat]]. It lowers a note again instead of cancelling. The sign that cancels is the ♮."
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "A [[sharp|sharp]] ♯ raises a note to the very next key up. A [[flat|flat]] ♭ lowers it to the very next key down. Sharp goes up, flat goes down.",
+        "The black key between A and B is A♯ and also B♭: one key can have two names.",
+        "A [[natural|natural]] ♮ cancels a sharp or flat. Sharps, flats and naturals are [[accidental|accidentals]].",
+        "An accidental lasts until the next [[bar-line|bar line]], for notes on the same line or space as the sign."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 1,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 1,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

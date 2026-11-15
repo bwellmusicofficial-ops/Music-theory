@@ -1,0 +1,907 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-pitch-03-middle-c-and-ledger-lines",
+  "title": "Middle C and ledger lines",
+  "summary": "Find the one note that joins the two staves and read notes just outside them.",
+  "usSummary": "Find the one note that joins the two staffs and read notes just outside them.",
+  "grade": "1",
+  "unit": "pitch-1",
+  "order": 3,
+  "strand": "pitch",
+  "skills": [
+    "pitch.treble.ledger",
+    "pitch.bass.ledger",
+    "pitch.clefs.same-note"
+  ],
+  "prerequisites": [
+    "g1-pitch-02-bass-clef-notes"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "ledger-line"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Piano music is written on two [[stave|staves]], one above the other: the top one for higher notes, the bottom one for lower notes. Somewhere in the gap between them sits one special key. Press the glowing key. Where do you think it gets written?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4"
+        ],
+        "low": "C3",
+        "high": "C5"
+      }
+    },
+    "explore": {
+      "text": "Find the glowing key: middle C. Play it, then climb three white keys up from it. Now play middle C again and step three white keys down. Up is treble clef country. Down is bass clef country.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4"
+        ],
+        "low": "C3",
+        "high": "C5"
+      },
+      "goal": "Play middle C, then three white keys above it and three below it."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "Middle C is written on a short extra line called a [[ledger-line|ledger line]]. It lets the [[stave|stave]] stretch when a note is too high or too low to fit. In treble clef, middle C hangs on a ledger line below the bottom [[line|line]].",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "In bass clef, the same key sits on a ledger line too, but above the [[stave|stave]], just over the top line. Same key, same sound, written two ways.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "bass",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "Read ledger line notes by counting on from the [[stave|stave]]. Down from the treble clef bottom line the letters run backwards: E, D, C, B, A. C is on the first ledger line and A is on the second.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Look at the keyboard. The five white keys A, B, C, D, E around middle C are the notes in the gap between the two [[stave|staves]]. Treble clef writes D, C, B and A below its [[stave|stave]]. Bass clef writes B, C, D and E above its [[stave|stave]].",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "A3",
+            "B3",
+            "C4",
+            "D4",
+            "E4"
+          ],
+          "low": "C3",
+          "high": "C5"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-name-a-treble-note",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.ledger",
+          "prompt": "Which note is this?",
+          "hint": "Start from the bottom line, E, and count down: D, C, B, A. A ledger line is one more step.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "high": {
+                "letter": "D",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "p2-name-a-bass-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.ledger",
+          "prompt": "Which note is this?",
+          "hint": "Start from the top line, A, and count up: B, C, D, E.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "B",
+                "accidental": 0,
+                "octave": 3
+              },
+              "high": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "p3-same-note-other-clef",
+          "type": "multiple-choice",
+          "skill": "pitch.clefs.same-note",
+          "prompt": "Which [[stave|stave]] shows the same note?",
+          "hint": "Name the note first. Then find that name on the other clef. Middle C sits on a ledger line in both.",
+          "source": "generated",
+          "generator": {
+            "id": "same-note-other-clef",
+            "params": {
+              "options": 3
+            }
+          }
+        },
+        {
+          "id": "p4-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.bass.ledger",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Name the note by counting up from the top line, A. Then find that letter near the middle of the keyboard.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "bass",
+              "low": {
+                "letter": "B",
+                "accidental": 0,
+                "octave": 3
+              },
+              "high": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "p5-put-middle-c",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.ledger",
+          "prompt": "Put **middle C** on this treble clef [[stave|stave]].",
+          "hint": "Middle C does not fit on the five lines. Which way does it hang: above or below?",
+          "source": "authored",
+          "payload": {
+            "mode": "place",
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "target": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "octave": 4,
+            "accidentals": false
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-name-a-treble-note",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.ledger",
+          "prompt": "Name this note.",
+          "hint": "Count down from the bottom line, E: D, C, B, A.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "high": {
+                "letter": "D",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c2-name-a-bass-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.ledger",
+          "prompt": "Name this note.",
+          "hint": "Count up from the top line, A: B, C, D, E.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "B",
+                "accidental": 0,
+                "octave": 3
+              },
+              "high": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c3-same-note-from-bass",
+          "type": "multiple-choice",
+          "skill": "pitch.clefs.same-note",
+          "prompt": "Which [[stave|stave]] shows the same note?",
+          "hint": "Say the note's name, then find that name in treble clef.",
+          "source": "generated",
+          "generator": {
+            "id": "same-note-other-clef",
+            "params": {
+              "from": "bass",
+              "options": 3
+            }
+          }
+        },
+        {
+          "id": "c4-same-note-either-way",
+          "type": "multiple-choice",
+          "skill": "pitch.clefs.same-note",
+          "prompt": "Which [[stave|stave]] shows the same note?",
+          "hint": "Name the note first. The new [[stave|stave]] has a different clef, so the position will change.",
+          "source": "generated",
+          "generator": {
+            "id": "same-note-other-clef",
+            "params": {
+              "options": 4
+            }
+          }
+        },
+        {
+          "id": "c5-put-middle-c-bass",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.ledger",
+          "prompt": "Put **middle C** on this bass clef [[stave|stave]].",
+          "hint": "In bass clef, middle C hangs above the top line. Count up from A.",
+          "source": "authored",
+          "payload": {
+            "mode": "place",
+            "clef": "bass",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "target": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "octave": 4,
+            "accidentals": false
+          }
+        },
+        {
+          "id": "c6-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.treble.ledger",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Count down from the bottom line, E, to name the note. Then find that letter.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "treble",
+              "low": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "high": {
+                "letter": "D",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c7-middle-c-in-bass",
+          "type": "multiple-choice",
+          "skill": "pitch.bass.ledger",
+          "prompt": "Where is middle C written in bass clef?",
+          "hint": "Middle C is not on the five lines. Which side of the [[stave|stave]] does it hang?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "On the top line"
+                },
+                "reason": "The top line of the bass clef [[stave|stave]] is A. Middle C is higher than that, so it needs a ledger line above."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "On a ledger line below the [[stave|stave]]"
+                },
+                "reason": "That is where middle C sits in treble clef. In bass clef it is higher than the top line, so it hangs above the [[stave|stave]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "On a ledger line above the [[stave|stave]]"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c8-low-to-high",
+          "type": "ordering",
+          "skill": "pitch.treble.ledger",
+          "prompt": "Put these notes in order, lowest sound first.",
+          "hint": "Lower on the [[stave|stave]] means lower in sound. Which note hangs furthest down?",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "c",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "C",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "e",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "a",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 3
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "correctOrder": [
+              "a",
+              "c",
+              "e"
+            ],
+            "ends": {
+              "first": "lowest",
+              "last": "highest"
+            },
+            "reason": "Lowest to highest: A on the second ledger line, C on the first, E on the bottom line. Lower on the [[stave|stave]] sounds lower."
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "Middle C sits on a [[ledger-line|ledger line]]: below the treble clef [[stave|stave]], and above the bass clef [[stave|stave]]. It is the same key either way.",
+        "A [[ledger-line|ledger line]] is a short extra line for a note that does not fit on the [[stave|stave]]. Read it by counting on from the nearest line.",
+        "The white keys A, B, C, D, E around middle C are the notes in the gap between the two [[stave|staves]]."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 72,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
