@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 1,
+  "grade": "start",
+  "unit": "keyboard-1",
+  "strand": "pitch",
+  "status": "draft",
+  "id": "start-pitch-03-twos-and-threes",
+  "title": "Twos and threes",
+  "summary": "Spot the pattern of black keys that makes sense of the whole keyboard.",
+  "order": 1,
+  "skills": [
+    "pitch.keyboard.layout"
+  ],
+  "prerequisites": [
+    "start-pitch-02-up-down-or-the-same"
+  ],
+  "estimatedMinutes": 5,
+  "newTerms": [],
+  "steps": {
+    "hook": {
+      "text": "A piano has 88 keys, and nobody counts them. Pianists look at the black keys instead. Press the glowing ones, left to right. Can you see a pattern?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C#3",
+          "D#3",
+          "F#3",
+          "G#3",
+          "A#3",
+          "C#4",
+          "D#4",
+          "F#4",
+          "G#4",
+          "A#4"
+        ],
+        "low": "C3",
+        "high": "B4"
+      }
+    },
+    "explore": {
+      "text": "Play every black key, starting at the left. When you reach a gap in the black keys, stop and count how many you played in that group. Then carry on to the next group.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C3",
+        "high": "B4"
+      },
+      "goal": "Play every black key from the left and count the size of each group."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "The black keys come in groups of **2** and groups of **3**. A group of 2, then a group of 3, then 2 again: 2, 3, 2, 3, all the way along the [[keyboard|keyboard]].",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C#4",
+              "D#4",
+              "F#4",
+              "G#4",
+              "A#4"
+            ],
+            "low": "C4",
+            "high": "B4"
+          }
+        },
+        {
+          "text": "The pattern works like a map. Each white key has its own spot, beside a group or between two black keys. The glowing white keys here all sit between the two black keys of a group of 2.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "D3",
+              "D4"
+            ],
+            "low": "C3",
+            "high": "B4"
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Picture a street where the houses come in blocks: a block of 2, then a block of 3, then 2, then 3. You know where you are by the block, not by counting every door. On the keyboard, find the block first. Then find your key beside it."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-the-pattern",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Which pattern do the black keys repeat?",
+          "hint": "Look at the keyboard above the options. Count the first group, then the next one along.",
+          "source": "authored",
+          "payload": {
+            "exhibit": {
+              "kind": "keyboard",
+              "highlight": [],
+              "low": "C3",
+              "high": "B4"
+            },
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "2, 2, 3, 3"
+                },
+                "reason": "That puts two groups of 2 side by side. On the keyboard a group of 2 is always followed by a group of 3, then the pattern repeats."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "2, 3, 2, 3"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "3, 3, 3, 3"
+                },
+                "reason": "The black keys are not all in threes. Groups of 3 take turns with groups of 2."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-count-the-keys",
+          "type": "match-up",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Match each set of groups to its number of black keys.",
+          "hint": "Add up the keys in each group. A group of 2 holds 2 black keys and a group of 3 holds 3.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "two-three",
+                "face": {
+                  "kind": "text",
+                  "text": "A group of 2 and a group of 3"
+                },
+                "match": "five",
+                "reason": "A group of 2 and a group of 3 hold 2 + 3 = 5 black keys."
+              },
+              {
+                "id": "two-two",
+                "face": {
+                  "kind": "text",
+                  "text": "Two groups of 2"
+                },
+                "match": "four",
+                "reason": "Two groups of 2 hold 2 + 2 = 4 black keys."
+              },
+              {
+                "id": "three",
+                "face": {
+                  "kind": "text",
+                  "text": "One group of 3"
+                },
+                "match": "three",
+                "reason": "One group of 3 holds 3 black keys, one more than a group of 2."
+              }
+            ],
+            "right": [
+              {
+                "id": "three",
+                "face": {
+                  "kind": "text",
+                  "text": "3 black keys"
+                }
+              },
+              {
+                "id": "five",
+                "face": {
+                  "kind": "text",
+                  "text": "5 black keys"
+                }
+              },
+              {
+                "id": "four",
+                "face": {
+                  "kind": "text",
+                  "text": "4 black keys"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p3-find-the-group",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Play the group of black keys.",
+          "hint": "Look for a gap in the black keys. Count the keys between one gap and the next to see whether the group is 2 or 3.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "black-keys"
+            }
+          }
+        },
+        {
+          "id": "p4-what-comes-next",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "You are at the right-hand end of a group of 3. Going right, what comes next?",
+          "hint": "The pattern goes 2, 3, 2, 3. What follows a 3?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Another group of 3"
+                },
+                "reason": "Two groups of 3 never sit side by side. A group of 3 is followed by a group of 2."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "No more black keys"
+                },
+                "reason": "The black keys carry on all along the keyboard. The pattern starts again."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "A group of 2"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 7,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-play-the-twos",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Play the group of two black keys.",
+          "hint": "Find the gaps in the black keys. The group of 2 is the smaller one.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "black-keys",
+              "groups": [
+                "twos"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c2-after-two",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Going right, what follows a group of 2?",
+          "hint": "The pattern goes 2, 3, 2, 3. What comes after a 2?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A group of 3"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Another group of 2"
+                },
+                "reason": "Two groups of 2 never sit side by side. A group of 2 is followed by a group of 3."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "A single black key"
+                },
+                "reason": "Black keys always come in a group of 2 or a group of 3. There are no single ones."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c3-count-the-keys",
+          "type": "match-up",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Match each set of groups to its number of black keys.",
+          "hint": "Add up the groups one at a time.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "one-two",
+                "face": {
+                  "kind": "text",
+                  "text": "One group of 2"
+                },
+                "match": "two",
+                "reason": "One group of 2 holds 2 black keys."
+              },
+              {
+                "id": "two-three",
+                "face": {
+                  "kind": "text",
+                  "text": "Two groups of 3"
+                },
+                "match": "six",
+                "reason": "Two groups of 3 hold 3 + 3 = 6 black keys."
+              },
+              {
+                "id": "two-three-two",
+                "face": {
+                  "kind": "text",
+                  "text": "A group of 2, then 3, then 2"
+                },
+                "match": "seven",
+                "reason": "A group of 2, a group of 3 and another group of 2 hold 2 + 3 + 2 = 7 black keys."
+              }
+            ],
+            "right": [
+              {
+                "id": "six",
+                "face": {
+                  "kind": "text",
+                  "text": "6 black keys"
+                }
+              },
+              {
+                "id": "two",
+                "face": {
+                  "kind": "text",
+                  "text": "2 black keys"
+                }
+              },
+              {
+                "id": "seven",
+                "face": {
+                  "kind": "text",
+                  "text": "7 black keys"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c4-play-the-threes",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Play the group of three black keys.",
+          "hint": "Find the gaps in the black keys. The group of 3 is the bigger one.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "black-keys",
+              "groups": [
+                "threes"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c5-how-pianists-find-keys",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "How do pianists find their way around the keys?",
+          "hint": "Think of the glowing keys at the start of the lesson.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "They count every key from the left"
+                },
+                "reason": "Counting 88 keys would take far too long. The black keys give landmarks so nobody has to."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "They use the groups of 2 and 3 black keys"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "They look for the biggest white key"
+                },
+                "reason": "All the white keys are the same size. It is the pattern of black keys that tells them apart."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c6-play-a-group",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Play the group of black keys.",
+          "hint": "Count the black keys between one gap and the next.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "black-keys"
+            }
+          }
+        },
+        {
+          "id": "c7-three-or-two",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Which group is **bigger**?",
+          "hint": "Count the black keys in each group.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A group of 2"
+                },
+                "reason": "A group of 2 has 2 black keys. A group of 3 has 3, so it is the bigger one."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "A group of 3"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The black keys come in groups of 2 and 3, and the pattern repeats: 2, 3, 2, 3, all along the [[keyboard|keyboard]].",
+        "Each white key has its own place beside or between the groups, so you can find it without counting every key."
+      ],
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C#4",
+          "D#4",
+          "F#4",
+          "G#4",
+          "A#4"
+        ],
+        "low": "C4",
+        "high": "B4"
+      }
+    }
+  }
+}

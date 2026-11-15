@@ -1,0 +1,623 @@
+{
+  "schemaVersion": 1,
+  "grade": "start",
+  "unit": "keyboard-1",
+  "strand": "pitch",
+  "status": "draft",
+  "id": "start-pitch-04-finding-c",
+  "title": "Finding C",
+  "summary": "Use the two black keys to find every C, then meet middle C.",
+  "order": 2,
+  "skills": [
+    "pitch.keyboard.layout",
+    "pitch.keyboard.find-notes",
+    "pitch.high-low.hear"
+  ],
+  "prerequisites": [
+    "start-pitch-03-twos-and-threes"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "middle-c"
+  ],
+  "steps": {
+    "hook": {
+      "text": "Press the three glowing keys, one after another. They share a name, and each sounds higher than the one before. Now look at where each key sits beside the black keys. What do you notice?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C3",
+          "C4",
+          "C5"
+        ],
+        "low": "C3",
+        "high": "C5"
+      }
+    },
+    "explore": {
+      "text": "Find a group of 2 black keys. Press the white key on its left. Then do the same for every group of 2 you can see.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C3",
+        "high": "C5"
+      },
+      "goal": "Play the white key on the left of every group of 2 black keys."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "That key is C. C always sits to the left of a group of 2 black keys. Find the twos, step left, and you have found C.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C3",
+              "C4",
+              "C5"
+            ],
+            "low": "C3",
+            "high": "C5"
+          }
+        },
+        {
+          "text": "Every C sounds like the same note at a different height. The C nearest the middle of the [[keyboard|keyboard]] is called [[middle-c|middle C]]. Pianists use it as a landmark.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C4"
+            ],
+            "low": "C3",
+            "high": "C5"
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Picture each group of 2 black keys as a pair of gateposts. C is the white key standing outside the left-hand gatepost. Spot a pair of gateposts, look to the left, and there is C.",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "C4"
+          ],
+          "low": "C4",
+          "high": "B4"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-where-is-c",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Where do you find C?",
+          "hint": "C is a white key. Which group of black keys is it beside, and on which side?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "To the left of a group of 3 black keys"
+                },
+                "reason": "The white key on the left of a group of 3 is a different note. C is beside the group of 2."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "To the left of a group of 2 black keys"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Between the two black keys of a group of 2"
+                },
+                "reason": "The white key between the two black keys of a group of 2 is not C. C stands outside the pair, on the left."
+              },
+              {
+                "id": "d",
+                "face": {
+                  "kind": "text",
+                  "text": "To the right of a group of 3 black keys"
+                },
+                "reason": "That key sits at the other end of the pattern, beside a group of 3. C is on the left of the twos."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-find-every-c",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play every C on this keyboard.",
+          "hint": "Find each group of 2 black keys, then play the white key on its left.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "find-every",
+              "letters": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p3-play-middle-c",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play **middle C**.",
+          "hint": "Middle C is the C nearest the middle of this keyboard. There is one C to its left and one to its right.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 3
+            },
+            "high": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 5
+            },
+            "showLabels": false,
+            "targets": [
+              {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "p4-which-is-higher",
+          "type": "by-ear",
+          "skill": "pitch.high-low.hear",
+          "prompt": "Both clips play a C. Which clip plays the **higher** C?",
+          "hint": "The same note name can sound at different heights. Listen for the clip that sounds further up.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "bpm": 80
+              },
+              {
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "bpm": 80
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A is the lower C. It sounds like the C nearer the left of the keyboard. Clip B is higher."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-find-every-c",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play every C on this keyboard.",
+          "hint": "Find each group of 2 black keys, then play the white key on its left.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "find-every",
+              "letters": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c2-which-c-is-higher",
+          "type": "by-ear",
+          "skill": "pitch.high-low.hear",
+          "prompt": "Both clips play a C. Which clip plays the **higher** C?",
+          "hint": "Listen for the clip that sounds further up.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "bpm": 80
+              },
+              {
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "bpm": 80
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B is the lower C. Clip A sounds higher, like a C further to the right on the keyboard."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c3-how-to-find-c",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "How do you find C?",
+          "hint": "Which group of black keys do you look for first?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Find a group of 2 black keys and take the white key on its left"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Find a group of 3 black keys and take the white key on its left"
+                },
+                "reason": "That key is beside the group of 3, so it is a different note. C is beside the group of 2."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Count seven white keys from the left end"
+                },
+                "reason": "Keyboards can start on any key, so counting from the end does not work. The black-key pattern works on every keyboard."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c4-c-above-middle-c",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play the C **above** middle C.",
+          "hint": "Middle C is the one in the middle. Higher notes are on the right.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 3
+            },
+            "high": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 5
+            },
+            "showLabels": false,
+            "targets": [
+              {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 5
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "c5-order-the-cs",
+          "type": "ordering",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Put these Cs in order, from lowest sound to highest.",
+          "hint": "Low notes are on the left of the keyboard and high notes on the right.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "middle",
+                "face": {
+                  "kind": "text",
+                  "text": "Middle C"
+                }
+              },
+              {
+                "id": "right",
+                "face": {
+                  "kind": "text",
+                  "text": "The C to the right of middle C"
+                }
+              },
+              {
+                "id": "left",
+                "face": {
+                  "kind": "text",
+                  "text": "The C to the left of middle C"
+                }
+              }
+            ],
+            "correctOrder": [
+              "left",
+              "middle",
+              "right"
+            ],
+            "ends": {
+              "first": "lowest",
+              "last": "highest"
+            },
+            "reason": "Notes get higher as you move right. Lowest to highest: the C on the left, middle C, the C on the right."
+          }
+        },
+        {
+          "id": "c6-find-every-c-again",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play every C on this keyboard.",
+          "hint": "Look for the twos first. C stands on the left of each pair.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "find-every",
+              "letters": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c7-c-below-middle-c",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play the C **below** middle C.",
+          "hint": "Lower notes are on the left. Find the next group of 2 black keys to the left of middle C.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 3
+            },
+            "high": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 5
+            },
+            "showLabels": false,
+            "targets": [
+              {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 3
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "c8-all-the-cs",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Which sentence about the Cs is true?",
+          "hint": "Think about the three glowing keys in the hook. How did each one sound compared with the one on its left?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Every C sounds at exactly the same height"
+                },
+                "reason": "The Cs share a name, but each one sounds higher than the C to its left."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "C is always the first key on a keyboard"
+                },
+                "reason": "A keyboard can start on any key. You find C by the group of 2 black keys, wherever the keyboard begins."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Each C is higher than the C on its left"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "C is the white key to the left of every group of 2 black keys: find the twos, step left.",
+        "Every C has the same name but a different height. The C nearest the middle of the keyboard is [[middle-c|middle C]]."
+      ],
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C3",
+          "C4",
+          "C5"
+        ],
+        "low": "C3",
+        "high": "C5"
+      }
+    }
+  }
+}
