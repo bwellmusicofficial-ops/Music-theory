@@ -7,7 +7,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { generators } from '@/lesson/generators';
-import { GENERATOR_SKILLS, PROPOSED_SKILLS } from '@/lesson/generators/coverage';
+import { GENERATOR_SKILLS, START_HERE_SKILLS } from '@/lesson/generators/coverage';
 import { questionTypes } from '@/lesson/questions';
 import { glossaryEntrySchema, skillIdSchema } from '@/lesson/schema';
 import { z } from 'zod';
@@ -23,7 +23,7 @@ const guide = readFileSync(join(root, 'docs/lesson-authoring-guide.md'), 'utf8')
 const section9 = guide.split('## 9. Skill ids')[1]!.split('\n## 10.')[0]!;
 const KNOWN_SKILLS = new Set([
   ...[...section9.matchAll(/^\| `([a-z0-9-]+(?:\.[a-z0-9-]+)+)` \|/gm)].map((m) => m[1]!),
-  ...PROPOSED_SKILLS,
+  ...START_HERE_SKILLS,
 ]);
 
 const glossaryIds = new Set(
