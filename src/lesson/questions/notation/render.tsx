@@ -33,6 +33,6 @@ export function passageRenderer(terminology: Terminology): (passage: Passage) =>
  * For `ExhibitView`'s `renderers.passage`. The exhibit draws its own play
  * button, so this shows the notation only.
  */
-export const passageExhibitRenderer: NonNullable<ExhibitRenderers['passage']> = ({ passage, ariaLabel }) => (
-  <PassageView passage={passage} ariaLabel={ariaLabel} />
+export const passageExhibitRenderer: NonNullable<ExhibitRenderers['passage']> = ({ passage, ariaLabel, marks, cursor }) => (
+  <PassageView passage={passage} ariaLabel={ariaLabel} marks={marks} cursor={cursor} />
 );

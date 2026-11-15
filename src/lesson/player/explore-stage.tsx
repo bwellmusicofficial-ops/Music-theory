@@ -1,8 +1,11 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Keyboard } from '@/components/keyboard';
 import { RhythmPad } from '@/components/rhythm-pad';
+// Deep import: the hook is not part of the pad, and the player's tests replace the pad module with a stand-in.
+import { useTapAlong } from '@/components/rhythm-pad/use-tap-along';
+import type { TimeSignature } from '@/engine/types';
 import { Button } from '@/components/ui';
 import { pitch as pitchEngine } from '@/engine/pitch';
 import type { LearnerSettings } from '../contracts';
@@ -27,6 +30,8 @@ export interface ExploreStageProps {
 }
 
 const DEFAULT_TEMPO = 80;
+const NO_BARS: never[] = [];
+const FALLBACK_TIME: TimeSignature = { beats: 4, beatUnit: 4 };
 
 /** The explore step: the named instrument, the goal, and Continue once the learner has touched it. */
 export function ExploreStage({ step, settings, glossary, renderers, done, onInteract, onContinue, onBack }: ExploreStageProps) {
@@ -36,6 +41,16 @@ export function ExploreStage({ step, settings, glossary, renderers, done, onInte
 
   const passage = exhibit?.kind === 'passage' && isPassage(exhibit.passage) ? exhibit.passage : null;
   const padBroken = step.instrument === 'rhythm-pad' && !passage;
+  // Live play-along: the tapped notes light up in order and the current beat's note pulses.
+  const along = useTapAlong({ bars: passage?.bars ?? NO_BARS, time: passage?.time ?? FALLBACK_TIME, mode: 'free' });
+  const { onTap: lightTap } = along.handlers;
+  const handleTap = useCallback(
+    (count: number) => {
+      lightTap(count);
+      onInteract();
+    },
+    [lightTap, onInteract],
+  );
 
   // A broken rhythm-pad setup must not trap the learner on this screen.
   useEffect(() => {
@@ -82,10 +97,19 @@ export function ExploreStage({ step, settings, glossary, renderers, done, onInte
           bars={passage.bars}
           time={passage.time}
           bpm={exhibit.tempo ?? DEFAULT_TEMPO}
-          onTap={onInteract}
+          {...along.handlers}
+          onTap={handleTap}
+          reducedMotion={settings.reducedMotion}
           onComplete={() => {}}
         >
-          <ExhibitView exhibit={exhibit} renderers={renderers} sound={settings.soundOn} label="The rhythm to play along with" />
+          <ExhibitView
+            exhibit={exhibit}
+            renderers={renderers}
+            sound={settings.soundOn}
+            label="The rhythm to play along with"
+            marks={along.marks}
+            cursor={along.cursor}
+          />
         </RhythmPad>
       );
     } else {

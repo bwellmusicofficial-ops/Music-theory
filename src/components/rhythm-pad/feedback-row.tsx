@@ -28,19 +28,23 @@ const CONFIG: Record<Judgement, { label: string; tone: string; shape: ReactNode 
 export interface FeedbackRowProps {
   errorsMs: (number | null)[];
   perfectMs: number;
+  /** Matched taps further out than this are shown as Early or Late in the danger colour with a cross. */
+  toleranceMs?: number;
 }
 
 /** One marker per onset: a distinct shape plus a text label, so colour is never the only signal. */
-export function FeedbackRow({ errorsMs, perfectMs }: FeedbackRowProps) {
+export function FeedbackRow({ errorsMs, perfectMs, toleranceMs }: FeedbackRowProps) {
   return (
     <ol aria-label="Result for each note" data-testid="feedback-row" className="flex flex-wrap justify-center gap-3">
       {errorsMs.map((e, i) => {
         const kind = judge(e, perfectMs);
-        const c = CONFIG[kind];
+        const off = e !== null && toleranceMs !== undefined && Math.abs(e) > toleranceMs;
+        const c = off ? { ...CONFIG[kind], tone: CONFIG.missed.tone, shape: CONFIG.missed.shape } : CONFIG[kind];
         return (
           <li
             key={i}
             data-kind={kind}
+            data-off={off ? 'true' : undefined}
             className={cn('flex min-w-16 flex-col items-center gap-1 rounded-md border-2 bg-surface px-2 py-2 text-sm', c.tone)}
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6">

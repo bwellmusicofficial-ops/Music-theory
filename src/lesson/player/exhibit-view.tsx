@@ -5,6 +5,7 @@ import { getAudioEngine } from '@/audio';
 import { Keyboard } from '@/components/keyboard';
 import { Button } from '@/components/ui';
 import { pitch as pitchEngine } from '@/engine/pitch';
+import type { StaveMark } from '@/components/stave';
 import type { Passage, Pitch } from '@/engine/types';
 import type { Exhibit } from '../schema';
 import type { ExhibitRenderers } from './types';
@@ -18,6 +19,9 @@ export interface ExhibitViewProps {
   sound?: boolean;
   /** Called when the learner presses a play button or a key, for the explore step's gate. */
   onInteract?: () => void;
+  /** Passage exhibits: live marks and cursor handed to the passage renderer (the explore step's play-along). */
+  marks?: Record<string, StaveMark>;
+  cursor?: { bar: number; event: number } | null;
 }
 
 /** Structural check only; the stave validates the detail. */
@@ -60,7 +64,7 @@ function PlayButton({
   );
 }
 
-function PassageExhibit({ exhibit, renderers, label, onInteract }: ExhibitViewProps & { exhibit: Extract<Exhibit, { kind: 'passage' }> }) {
+function PassageExhibit({ exhibit, renderers, label, onInteract, marks, cursor }: ExhibitViewProps & { exhibit: Extract<Exhibit, { kind: 'passage' }> }) {
   const [playing, setPlaying] = useState(false);
   const handle = useRef<{ stop(): void } | null>(null);
   const alive = useRef(true);
@@ -111,7 +115,7 @@ function PassageExhibit({ exhibit, renderers, label, onInteract }: ExhibitViewPr
     <div className="flex flex-col gap-3" data-exhibit="passage">
       {passage ? (
         renderers?.passage ? (
-          renderers.passage({ passage, tempo: exhibit.tempo, ariaLabel })
+          renderers.passage({ passage, tempo: exhibit.tempo, ariaLabel, marks, cursor })
         ) : (
           <div
             role="img"

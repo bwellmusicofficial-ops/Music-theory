@@ -1,11 +1,11 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import type { TapResult } from '@/components/rhythm-pad';
+import { verdictOf, type TapResult } from '@/components/rhythm-pad';
 import type { MarkResult } from '@/lesson/contracts';
 import { DEFAULT_SETTINGS } from '@/lesson/contracts';
 import { LessonContextProvider } from '@/lesson/player';
 import { mark } from './mark';
-import { TapRhythm, describeRhythm, setTapRhythmNotationRenderer, toPassage } from './component';
+import { TapRhythm, describeRhythm, setTapRhythmNotationRenderer, toPassage, type TapRhythmNotationLive } from './component';
 import { bar, note, payloadOf, rest } from './test-helpers';
 import { matchWindowMs, type TapRhythmPayload } from './types';
 
@@ -301,5 +301,143 @@ describe('TapRhythm: locked and result', () => {
   it('is not inert while answering', () => {
     setup(rhythm);
     expect(screen.getByTestId('pad-wrapper')).not.toHaveAttribute('inert');
+  });
+});
+
+describe('TapRhythm: live notation feedback', () => {
+  const END = START + (4 + 4 + 1) * SPB + 0.1; // the pad completes one beat after the last bar
+  const MARK_OF = { perfect: 'correct', close: 'near', miss: 'wrong' } as const;
+
+  function withRenderer(payload: TapRhythmPayload) {
+    const calls: { live?: TapRhythmNotationLive }[] = [];
+    setTapRhythmNotationRenderer((_passage, live) => {
+      calls.push({ live });
+      return <p data-testid="stave-stub">STAVE</p>;
+    });
+    const view = setup(payload);
+    return { ...view, last: () => calls.at(-1)?.live, calls };
+  }
+
+  it('gives the renderer no live feedback until something happens', () => {
+    const { last } = withRenderer(rhythm);
+    expect(last()).toBeUndefined();
+  });
+
+  it('lights the note due now, and nothing during the count-in', async () => {
+    const { last } = withRenderer(rhythm);
+    await clickButton('Start');
+    advanceTo(START + 2 * SPB);
+    expect(last()?.cursor ?? null).toBeNull();
+    advanceTo(ONSET(0) + 0.03);
+    expect(last()?.cursor).toEqual({ bar: 0, event: 0 });
+    advanceTo(ONSET(1) + 0.03);
+    expect(last()?.cursor).toEqual({ bar: 0, event: 1 });
+  });
+
+  it('changes the marks as taps arrive and ends up agreeing with the final result', async () => {
+    const { last, onAnswer } = withRenderer(rhythm);
+    await clickButton('Start');
+    tapAt(ONSET(0)); // perfect
+    expect(last()?.marks).toEqual({ '0:0': 'correct' });
+    tapAt(ONSET(1) + 0.12); // close (late)
+    expect(last()?.marks).toEqual({ '0:0': 'correct', '0:1': 'near' });
+    // The third note is never tapped: it turns to a miss as soon as its window has passed.
+    advanceTo(ONSET(2) + 0.4);
+    expect(last()?.marks).toEqual({ '0:0': 'correct', '0:1': 'near', '0:2': 'wrong' });
+    expect(onAnswer).not.toHaveBeenCalled();
+
+    advanceTo(END);
+    const answer = onAnswer.mock.calls[0]?.[0] as TapResult;
+    answer.errorsMs.forEach((e, i) => {
+      expect(last()?.marks?.[`0:${i}`]).toBe(MARK_OF[verdictOf(e, { toleranceMs: 150 })]);
+    });
+    // After the round ends the marks stay and the cursor is gone.
+    expect(last()?.marks).toEqual({ '0:0': 'correct', '0:1': 'near', '0:2': 'wrong' });
+    expect(last()?.cursor ?? null).toBeNull();
+  });
+
+  it('skips rests and tied continuations when mapping onsets to notes', async () => {
+    const tied = payloadOf([bar(rest('crotchet'), note('crotchet', 0, true), note('crotchet'), note('crotchet'))], { bpm: 120 });
+    const { last } = withRenderer(tied);
+    await clickButton('Start');
+    tapAt(ONSET(1)); // the first onset: the note after the rest
+    tapAt(ONSET(3)); // the second onset: the last note (the one at 0:2 is the tie)
+    expect(last()?.marks).toEqual({ '0:1': 'correct', '0:3': 'correct' });
+  });
+
+  it('shows the count-in as large beats 1 2 3 4 by the notation, then Tap!', async () => {
+    withRenderer(rhythm);
+    await clickButton('Start');
+    const cue = () => screen.queryByTestId('count-in-cue')?.textContent ?? null;
+    advanceTo(START + 0.03);
+    expect(cue()).toBe('1');
+    advanceTo(START + SPB + 0.03);
+    expect(cue()).toBe('2');
+    advanceTo(START + 3 * SPB + 0.03);
+    expect(cue()).toBe('4');
+    expect(screen.getByTestId('notation')).toContainElement(screen.getByTestId('count-in-cue'));
+    advanceTo(ONSET(0) + 0.03);
+    expect(cue()).toBe('Tap!');
+    advanceTo(ONSET(1) + 0.03);
+    expect(cue()).toBeNull();
+  });
+
+  it('counts the real number of beats for the time signature', async () => {
+    withRenderer(payloadOf([bar(note('crotchet'), note('crotchet'), note('crotchet'))], { time: { beats: 3, beatUnit: 4 }, bpm: 120 }));
+    await clickButton('Start');
+    advanceTo(START + 2 * SPB + 0.03);
+    expect(screen.getByTestId('count-in-cue')).toHaveTextContent('3');
+    advanceTo(START + 3 * SPB + 0.03); // 3/4: the bar has only three beats
+    expect(screen.getByTestId('count-in-cue')).toHaveTextContent('Tap!');
+  });
+
+  it('a tap 300 ms late (tolerance 150) is a cross and "Late" live, not a hit for mark, and gives the late reason', async () => {
+    // 60 bpm: a second a beat, so the late tap is clearly nearest its own note.
+    const slow = payloadOf([bar(note('crotchet'), note('crotchet'), note('minim'))], { bpm: 60 });
+    const at = (beat: number, off = 0) => START + 4 + beat + off;
+    const { last, onAnswer } = withRenderer(slow);
+    await clickButton('Start');
+    tapAt(at(0));
+    tapAt(at(1, 0.3)); // inside the 375 ms matching window, outside the 150 ms tolerance
+    expect(last()?.marks).toEqual({ '0:0': 'correct', '0:1': 'wrong' });
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Late');
+    expect(screen.getByTestId('verdict-chip').querySelector('[data-verdict-icon="late"]')).toBeInTheDocument();
+    expect(screen.getByTestId('tally')).toHaveTextContent('1 of 3 hit');
+    tapAt(at(2));
+    advanceTo(at(0) + 4 + 1 + 0.1);
+    const answer = onAnswer.mock.calls[0]?.[0] as TapResult;
+    expect(answer.errorsMs[1]).toBeCloseTo(300, 0);
+    const row = screen.getByTestId('feedback-row').querySelectorAll('li');
+    expect(row[1]).toHaveAttribute('data-kind', 'late');
+    expect(row[1]).toHaveAttribute('data-off', 'true');
+    expect(row[1]).toHaveTextContent('Late');
+    expect(row[1].className).toContain('text-danger');
+    expect(row[1]).not.toHaveTextContent('Close');
+    const marked = mark(slow, answer);
+    expect(marked.correct).toBe(false);
+    expect(marked.reason).toContain('Tap 2 came late');
+  });
+
+  it('a tap 120 ms late (inside the tolerance) stays amber: Close live, Late amber in the row', async () => {
+    const { last, onAnswer } = withRenderer(rhythm);
+    await clickButton('Start');
+    tapAt(ONSET(0));
+    tapAt(ONSET(1) + 0.12);
+    expect(last()?.marks?.['0:1']).toBe('near');
+    tapAt(ONSET(2));
+    advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
+    const row = screen.getByTestId('feedback-row').querySelectorAll('li');
+    expect(row[1]).toHaveAttribute('data-kind', 'late');
+    expect(row[1]).not.toHaveAttribute('data-off');
+    expect(row[1].className).toContain('text-warning');
+    expect(mark(rhythm, onAnswer.mock.calls[0]?.[0] as TapResult).correct).toBe(true);
+  });
+
+  it('works with a renderer that takes only the passage', async () => {
+    setTapRhythmNotationRenderer(() => <p>PLAIN</p>);
+    setup(rhythm);
+    await clickButton('Start');
+    tapAt(ONSET(0));
+    expect(screen.getByTestId('notation')).toHaveTextContent('PLAIN');
   });
 });
