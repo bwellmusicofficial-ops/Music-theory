@@ -1,0 +1,1105 @@
+{
+  "schemaVersion": 1,
+  "id": "start-rhythm-01-find-the-pulse",
+  "title": "Find the pulse",
+  "summary": "Tap along to a click and to tunes until you can feel the steady tick under music.",
+  "grade": "start",
+  "unit": "pulse-1",
+  "order": 1,
+  "strand": "rhythm",
+  "skills": [
+    "rhythm.pulse.steady"
+  ],
+  "prerequisites": [],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "pulse",
+    "beat"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Rest a hand on your chest. Feel that thump, thump, thump? Your heart ticks along at an even speed, like a clock. Music has a tick like that too. Press one key below again and again, as evenly as you can. Can you keep it as steady as a heartbeat?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C4",
+        "high": "G4"
+      }
+    },
+    "explore": {
+      "text": "A click will tick away. Tap the pad once on every click, and try to land right on it. The marks on the screen light up as you tap. Keep going until the last click.",
+      "instrument": "rhythm-pad",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "goal": "Tap along with all 8 clicks."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "That steady tick you tapped is the [[pulse|pulse]]. It is the tick you feel under music, like a clock or a heartbeat. It is what your foot taps to when a song comes on."
+        },
+        {
+          "text": "Each tick of the pulse is one [[beat|beat]]. Tap your foot 4 times and you have tapped 4 beats. Beats are what we count music in."
+        },
+        {
+          "text": "The pulse does not stop for long sounds. If a tune holds one sound for a long time, the ticks carry on underneath it. That is why you can keep tapping your foot all the way through a song."
+        }
+      ],
+      "alternative": {
+        "text": "Bounce a ball and listen: bounce, bounce, bounce. Each bounce is one beat, and the gaps between them are all equal. If the ball bounced in an uneven way, it would feel wrong. That even gap is what makes a pulse."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-tap-the-pulse",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen to the clicks, then tap once on every click.",
+          "hint": "Do not chase the click. Listen to the count-in, feel how far apart the clicks are, then tap with them like footsteps.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 80,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        },
+        {
+          "id": "p2-steady-or-not",
+          "type": "by-ear",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen to both clips. Which one ticks along at an even speed all the way through?",
+          "hint": "Tap your foot while you listen. In one clip your foot can keep going evenly. In the other it has to keep changing.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A limps along: long, short, long, short. The gaps between the sounds are not equal, so it is not a steady tick. Clip B has equal gaps."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p3-long-sound",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "A tune holds one long sound. What does the [[pulse|pulse]] do while it lasts?",
+          "hint": "Think of your foot tapping to a song. Does it stop when the singer holds a long sound?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "It stops and waits"
+                },
+                "reason": "The pulse does not wait for the tune. The ticks carry on under the long sound, just as a clock keeps ticking while you hold your breath."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "It keeps ticking"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "It gets slower"
+                },
+                "reason": "The ticks stay the same distance apart. A long sound does not slow the pulse down; it just carries on over several ticks."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p4-tap-again",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap the [[pulse|pulse]] again. One tap on every click.",
+          "hint": "Listen to the whole clip first. Then count in your head and tap on every click, not on the gaps between.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 3,
+              "bpm": 72,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 6,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-tap-the-pulse",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap on every click.",
+          "hint": "Match the count-in. Each tap should land right on a click.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 88,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        },
+        {
+          "id": "c2-like-the-pulse",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Which is most like the [[pulse|pulse]]?",
+          "hint": "The pulse is the even tick under the music, not part of the tune itself.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A singer holding one long sound"
+                },
+                "reason": "A held sound is part of the tune. The pulse is the even tick underneath, which carries on while the sound is held."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "The loudest sound in the tune"
+                },
+                "reason": "Loud or quiet makes no difference. The pulse is the steady tick under the tune, whatever the tune is doing."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "A clock ticking"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c3-which-is-steady",
+          "type": "by-ear",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Which clip has an even tick all the way through?",
+          "hint": "Tap your foot as you listen. Which clip lets your foot keep going without changing?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 1
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B goes short, long, short, long. The gaps between the sounds are not equal, so it is not a steady tick. Clip A has equal gaps."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c4-tap-one-bar",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap on every click.",
+          "hint": "Wait for the count-in to finish, then start on the very next click.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 1,
+              "bpm": 100,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        },
+        {
+          "id": "c5-what-is-a-beat",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "What is a [[beat|beat]]?",
+          "hint": "Each time your foot taps the pulse, that is one of them.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "One tick of the pulse"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "A whole tune"
+                },
+                "reason": "A tune is made of many beats. One beat is just one tick of the pulse."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "A loud drum sound"
+                },
+                "reason": "A beat is not a sound of any kind. It is one tick of the pulse, whether or not anything plays on it."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c6-count-the-beats",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "The [[pulse|pulse]] ticks 6 times. How many [[beat|beats]] go by?",
+          "hint": "Each tick is one beat.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "3 beats"
+                },
+                "reason": "That is only half of them. Every tick is one beat, so 6 ticks make 6 beats."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "12 beats"
+                },
+                "reason": "That counts every tick twice. Every tick is one beat, so 6 ticks make 6 beats."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "6 beats"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-tap-slower",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap the [[pulse|pulse]].",
+          "hint": "Feel how far apart the count-in clicks are, then tap with them.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 76,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The [[pulse|pulse]] is the steady tick under music, like a clock or a heartbeat. It is what your foot taps to.",
+        "Each tick of the pulse is one [[beat|beat]].",
+        "The pulse never stops or waits for a long sound: the ticks carry on underneath it."
+      ]
+    }
+  }
+}

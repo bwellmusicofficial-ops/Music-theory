@@ -1,0 +1,1488 @@
+{
+  "schemaVersion": 1,
+  "id": "start-rhythm-02-fast-and-slow",
+  "title": "Fast and slow",
+  "summary": "Hear the same tune at different speeds and tap the pulse as it changes.",
+  "grade": "start",
+  "unit": "pulse-1",
+  "order": 2,
+  "strand": "rhythm",
+  "skills": [
+    "rhythm.pulse.steady"
+  ],
+  "prerequisites": [
+    "start-rhythm-01-find-the-pulse"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "tempo"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Sing *Happy Birthday* in your head like a sleepy lullaby. Now sing it as fast as you can. Same tune, same sounds. So what changed? Press one key below slowly, then quickly, to feel the difference.",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C4",
+        "high": "G4"
+      }
+    },
+    "explore": {
+      "text": "Choose one key. Tap it in a steady [[pulse|pulse]], nice and slow, like a sleepy heartbeat. Now squeeze the ticks closer together, keeping them even. Then slow down again.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C4",
+        "high": "G4"
+      },
+      "goal": "Tap one key slowly, then quickly, then slowly again."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "The speed of the pulse is the [[tempo|tempo]]. In a slow tempo the ticks are far apart. In a fast tempo they are close together. The tune stays the same; only the gaps between the ticks change."
+        },
+        {
+          "text": "You can count a tempo: how many ticks fit into one minute. 60 ticks a minute is one tick every second. 120 ticks a minute is two every second, so it is twice as fast."
+        },
+        {
+          "text": "Whatever the tempo, the pulse stays steady. In the tapping questions you hear a count-in first. Those clicks tell you the tempo, so listen to them and match the gap between them."
+        }
+      ],
+      "alternative": {
+        "text": "Think of walking, jogging and sprinting. Your feet land evenly every time, but a faster pace puts the steps closer together. A slow walk is a slow tempo and a sprint is a fast one. Same legs, same steadiness, different gaps."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-which-is-faster",
+          "type": "by-ear",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "The same tune is played twice. Which clip is faster?",
+          "hint": "Tap along with each clip. In which one do your taps come closer together?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 112,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 60,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B ticks slowly, with the ticks far apart. Clip A plays the same tune with the ticks closer together, so it is the faster one."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "p2-tap-slow",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen to the slow clicks, then tap once on every click.",
+          "hint": "Do not rush. Wait for the count-in to show you how far apart the clicks are, then match it.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 56,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        },
+        {
+          "id": "p3-what-changes",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "A tune speeds up. What changes?",
+          "hint": "Think about your foot tapping to a tune that gets faster. What happens to the gap between taps?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "The tune gets quieter"
+                },
+                "reason": "Loudness is a different thing. When a tune speeds up, the ticks come closer together."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "The ticks come closer together"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "The pulse stops being steady"
+                },
+                "reason": "A faster pulse can be perfectly steady. The ticks are just closer together, and each gap is still the same."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p4-order-the-tempos",
+          "type": "ordering",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Put these in order, from the slowest [[tempo|tempo]] to the fastest.",
+          "hint": "More ticks in one minute means faster music. Which one has the fewest?",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "medium",
+                "face": {
+                  "kind": "text",
+                  "text": "90 ticks a minute"
+                }
+              },
+              {
+                "id": "fast",
+                "face": {
+                  "kind": "text",
+                  "text": "150 ticks a minute"
+                }
+              },
+              {
+                "id": "slow",
+                "face": {
+                  "kind": "text",
+                  "text": "40 ticks a minute"
+                }
+              }
+            ],
+            "correctOrder": [
+              "slow",
+              "medium",
+              "fast"
+            ],
+            "ends": {
+              "first": "slowest",
+              "last": "fastest"
+            },
+            "reason": "More ticks in a minute means a faster tempo, so the order is 40, then 90, then 150."
+          }
+        },
+        {
+          "id": "p5-tap-fast",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen to the quick clicks, then tap once on every click.",
+          "hint": "The taps come quickly, but it is still one tap per click. Keep your hand loose and ride the count-in.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 112,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 6,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-tap-slow",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap on every click.",
+          "hint": "Let the count-in show you the speed, then match it.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 1,
+              "bpm": 64,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        },
+        {
+          "id": "c2-which-is-slower",
+          "type": "by-ear",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "The same tune is played twice. Which clip is slower?",
+          "hint": "Tap along with each clip. In which one do your taps come further apart?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 116,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B has its ticks close together, so it is the faster one. Clip A plays the same tune with the ticks further apart, which makes it slower."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c3-which-is-faster",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Which [[tempo|tempo]] is faster?",
+          "hint": "Compare how many ticks fit into one minute.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "60 ticks a minute"
+                },
+                "reason": "That is only one tick every second. 100 ticks in a minute come quicker, so that is the faster tempo."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "100 ticks a minute"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c4-tap-quick",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap on every click.",
+          "hint": "Keep the taps even. Land on each click, not between them.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 1,
+              "bpm": 108,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        },
+        {
+          "id": "c5-ticks-per-minute",
+          "type": "match-up",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Match each [[tempo|tempo]] to how often the ticks come.",
+          "hint": "There are 60 seconds in a minute. 60 ticks a minute is one tick every second.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "sixty",
+                "face": {
+                  "kind": "text",
+                  "text": "60 ticks a minute"
+                },
+                "match": "one-per-second",
+                "reason": "60 ticks in 60 seconds is one tick every second."
+              },
+              {
+                "id": "onetwenty",
+                "face": {
+                  "kind": "text",
+                  "text": "120 ticks a minute"
+                },
+                "match": "two-per-second",
+                "reason": "120 ticks in 60 seconds is two ticks every second."
+              },
+              {
+                "id": "thirty",
+                "face": {
+                  "kind": "text",
+                  "text": "30 ticks a minute"
+                },
+                "match": "one-per-two",
+                "reason": "30 ticks in 60 seconds is one tick every 2 seconds."
+              }
+            ],
+            "right": [
+              {
+                "id": "two-per-second",
+                "face": {
+                  "kind": "text",
+                  "text": "2 ticks every second"
+                }
+              },
+              {
+                "id": "one-per-two",
+                "face": {
+                  "kind": "text",
+                  "text": "1 tick every 2 seconds"
+                }
+              },
+              {
+                "id": "one-per-second",
+                "face": {
+                  "kind": "text",
+                  "text": "1 tick every second"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c6-slowest-clip",
+          "type": "by-ear",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "The same tune is played three times. Which clip is the slowest?",
+          "hint": "Tap along with each clip and find the one where your taps are furthest apart.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 100,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 124,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 64,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A is quicker than clip C. Its ticks are closer together, so it is not the slowest."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B has the ticks closest together, so it is the fastest. The slowest is clip C."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip C"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-double-the-ticks",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "The [[tempo|tempo]] goes from 60 ticks a minute to 120. How does the music feel?",
+          "hint": "Twice as many ticks fit into the same minute.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Twice as slow"
+                },
+                "reason": "More ticks in a minute means the ticks are closer together, which is faster, not slower."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "The same speed"
+                },
+                "reason": "The number of ticks in a minute has doubled, so the ticks are closer together. The music is faster."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Twice as fast"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c8-tap-medium",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then tap the [[pulse|pulse]].",
+          "hint": "Match the count-in, then keep the same gap between taps.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ],
+              "bars": 1,
+              "bpm": 84,
+              "showNotation": false,
+              "listenFirst": true
+            }
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The speed of the pulse is the [[tempo|tempo]]. In a slow tempo the ticks are far apart; in a fast tempo they are close together.",
+        "You can count tempo as ticks in one minute: 60 ticks a minute is one every second, and 120 is twice as fast.",
+        "At any tempo the pulse stays steady. Listen to the count-in first and match its gap."
+      ]
+    }
+  }
+}
