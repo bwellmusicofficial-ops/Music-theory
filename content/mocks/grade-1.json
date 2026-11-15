@@ -1,0 +1,1380 @@
+{
+  "schemaVersion": 1,
+  "id": "grade-1",
+  "grade": "1",
+  "title": "Grade 1 mock test",
+  "summary": "A practice paper in the style of a Grade 1 theory exam: rhythm, pitch, scales and keys, intervals, tonic triads, and terms and signs.",
+  "minutes": 40,
+  "passMark": 0.66,
+  "meritMark": 0.8,
+  "distinctionMark": 0.9,
+  "sections": [
+    {
+      "id": "rhythm",
+      "title": "Rhythm",
+      "strand": "rhythm",
+      "items": [
+        {
+          "kind": "generated",
+          "id": "note-values-1",
+          "generator": {
+            "id": "choose-note-value",
+            "params": {
+              "kind": "note",
+              "question": "beats",
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                },
+                {
+                  "value": "semibreve",
+                  "dots": 0
+                }
+              ],
+              "options": 3
+            }
+          },
+          "skill": "rhythm.note-values.crotchet-minim",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "note-values-2",
+          "generator": {
+            "id": "choose-note-value",
+            "params": {
+              "kind": "note",
+              "question": "beats",
+              "values": [
+                {
+                  "value": "quaver",
+                  "dots": 0
+                },
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "options": 3
+            }
+          },
+          "skill": "rhythm.note-values.quaver",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "rests-match",
+          "generator": {
+            "id": "match-note-values",
+            "params": {
+              "kind": "rest",
+              "match": "name",
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                },
+                {
+                  "value": "quaver",
+                  "dots": 0
+                }
+              ]
+            }
+          },
+          "skill": "rhythm.rests.values",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "compare-order",
+          "generator": {
+            "id": "order-note-values",
+            "params": {
+              "kind": "note",
+              "values": [
+                {
+                  "value": "semibreve",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                },
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "quaver",
+                  "dots": 0
+                }
+              ],
+              "count": 4,
+              "direction": "either"
+            }
+          },
+          "skill": "rhythm.note-values.compare",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "dots",
+          "generator": {
+            "id": "count-beats",
+            "params": {
+              "ask": "dotted",
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ]
+            }
+          },
+          "skill": "rhythm.note-values.dotted",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "ties",
+          "generator": {
+            "id": "count-beats",
+            "params": {
+              "ask": "tie",
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                },
+                {
+                  "value": "quaver",
+                  "dots": 0
+                }
+              ]
+            }
+          },
+          "skill": "rhythm.ties.read",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "time-signatures",
+          "generator": {
+            "id": "count-beats",
+            "params": {
+              "ask": "meaning"
+            }
+          },
+          "skill": "rhythm.time.read-signature",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "complete-bar",
+          "generator": {
+            "id": "complete-the-bar",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                },
+                {
+                  "value": "semibreve",
+                  "dots": 0
+                }
+              ],
+              "missing": "note",
+              "bars": 2,
+              "paletteSize": 3
+            }
+          },
+          "skill": "rhythm.time.complete-bar",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "spot-the-bar",
+          "generator": {
+            "id": "spot-the-bar",
+            "params": {
+              "time": {
+                "beats": 3,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "bars": 3,
+              "fault": "either"
+            }
+          },
+          "skill": "rhythm.time.complete-bar",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "pitch",
+      "title": "Pitch",
+      "strand": "pitch",
+      "items": [
+        {
+          "kind": "generated",
+          "id": "treble-lines",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 5
+              },
+              "positions": "lines"
+            }
+          },
+          "skill": "pitch.treble.lines",
+          "prompt": "Name the note on the treble stave.",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "treble-spaces",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 5
+              },
+              "positions": "spaces"
+            }
+          },
+          "skill": "pitch.treble.spaces",
+          "prompt": "Name the note on the treble stave.",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "bass-lines",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              },
+              "positions": "lines"
+            }
+          },
+          "skill": "pitch.bass.lines",
+          "prompt": "Name the note on the bass stave.",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "bass-spaces",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              },
+              "positions": "spaces"
+            }
+          },
+          "skill": "pitch.bass.spaces",
+          "prompt": "Name the note on the bass stave.",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "accidentals",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 5
+              },
+              "accidentals": true
+            }
+          },
+          "skill": "pitch.accidentals.read",
+          "prompt": "Name this note, including any sharp or flat.",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "same-note",
+          "generator": {
+            "id": "same-note-other-clef",
+            "params": {
+              "from": "either",
+              "options": 3
+            }
+          },
+          "skill": "pitch.clefs.same-note",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "tones-semitones",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {
+              "source": "keyboard"
+            }
+          },
+          "skill": "pitch.steps.tone",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "keys-and-scales",
+      "title": "Keys and scales",
+      "strand": "scales-keys",
+      "items": [
+        {
+          "kind": "generated",
+          "id": "key-from-signature",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "name-key",
+              "keys": [
+                "C",
+                "G",
+                "D",
+                "F"
+              ],
+              "options": 4
+            }
+          },
+          "skill": "scales-keys.signature.read",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "signature-signs",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "accidentals",
+              "keys": [
+                "C",
+                "G",
+                "D",
+                "F"
+              ],
+              "options": 4
+            }
+          },
+          "skill": "scales-keys.signature.read",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "degrees",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "degree-note",
+              "keys": [
+                "C",
+                "G",
+                "D",
+                "F"
+              ]
+            }
+          },
+          "skill": "scales-keys.degrees.number",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "wrong-note-g",
+          "generator": {
+            "id": "spot-scale-note",
+            "params": {
+              "keys": [
+                "G"
+              ]
+            }
+          },
+          "skill": "scales-keys.major.g",
+          "count": 1
+        },
+        {
+          "kind": "generated",
+          "id": "wrong-note-d-f",
+          "generator": {
+            "id": "spot-scale-note",
+            "params": {
+              "keys": [
+                "D"
+              ]
+            }
+          },
+          "skill": "scales-keys.major.d",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "intervals",
+      "title": "Intervals",
+      "strand": "intervals",
+      "items": [
+        {
+          "kind": "generated",
+          "id": "interval-numbers",
+          "generator": {
+            "id": "interval-by-number",
+            "params": {
+              "keys": [
+                "C",
+                "G",
+                "D",
+                "F"
+              ],
+              "numbers": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "options": 3
+            }
+          },
+          "skill": "intervals.number.read",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "tonic-triads",
+      "title": "Tonic triads",
+      "strand": "harmony",
+      "items": [
+        {
+          "kind": "generated",
+          "id": "triad-key",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "from-triad",
+              "keys": [
+                "C",
+                "G",
+                "D",
+                "F"
+              ],
+              "options": 4
+            }
+          },
+          "skill": "harmony.tonic-triad.identify",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "id": "terms-and-signs",
+      "title": "Terms and signs",
+      "strand": "terms",
+      "items": [
+        {
+          "kind": "authored",
+          "id": "tempo-and-expression",
+          "bank": [
+            {
+              "id": "tempo-allegro",
+              "type": "multiple-choice",
+              "skill": "terms.tempo.italian",
+              "prompt": "What does [[allegro|allegro]] mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Slow and calm"
+                    },
+                    "reason": "That is adagio. Allegro is the opposite: quick and lively."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Quick and lively"
+                    }
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "At a walking pace"
+                    },
+                    "reason": "That is andante, a medium speed. Allegro is quicker: quick and lively."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting faster"
+                    },
+                    "reason": "That describes accelerando, which is a change of speed. Allegro is a steady quick speed: quick and lively."
+                  }
+                ],
+                "correct": "b"
+              }
+            },
+            {
+              "id": "tempo-adagio",
+              "type": "multiple-choice",
+              "skill": "terms.tempo.italian",
+              "prompt": "What does [[adagio|adagio]] mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Quick and lively"
+                    },
+                    "reason": "That is allegro, the opposite of adagio. Adagio means slow and calm."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "At a moderate speed"
+                    },
+                    "reason": "That is moderato. Adagio is much slower: slow and calm."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Slow and calm"
+                    }
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Return to the original speed"
+                    },
+                    "reason": "That is a tempo, which cancels a change of speed. Adagio means slow and calm."
+                  }
+                ],
+                "correct": "c"
+              }
+            },
+            {
+              "id": "tempo-ritardando",
+              "type": "multiple-choice",
+              "skill": "terms.tempo.italian",
+              "prompt": "Which word means gradually getting slower?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "ritardando (rit.)"
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "accelerando (accel.)"
+                    },
+                    "reason": "Accelerando means gradually getting faster, the opposite of what is asked."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "allegretto"
+                    },
+                    "reason": "Allegretto is a fixed speed, quite quick. It does not describe a gradual change."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "a tempo"
+                    },
+                    "reason": "A tempo means go back to the original speed. It does not make the music slower."
+                  }
+                ],
+                "correct": "a"
+              }
+            },
+            {
+              "id": "expression-cantabile",
+              "type": "multiple-choice",
+              "skill": "terms.expression.italian",
+              "prompt": "What does [[cantabile|cantabile]] mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Short and detached"
+                    },
+                    "reason": "That is staccato, which describes how notes are separated. Cantabile means in a singing style."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Very loud"
+                    },
+                    "reason": "Loudness is shown by words such as fortissimo. Cantabile means in a singing style."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Sweet and soft"
+                    },
+                    "reason": "That is dolce. Cantabile is a different word: in a singing style."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "In a singing style"
+                    }
+                  }
+                ],
+                "correct": "d"
+              }
+            },
+            {
+              "id": "tempo-match",
+              "type": "match-up",
+              "skill": "terms.tempo.italian",
+              "prompt": "Match each tempo word to its meaning.",
+              "source": "authored",
+              "payload": {
+                "left": [
+                  {
+                    "id": "l1",
+                    "face": {
+                      "kind": "text",
+                      "text": "allegro"
+                    },
+                    "match": "r1",
+                    "reason": "Allegro is quick and lively. Pair it with \"Quick and lively\"."
+                  },
+                  {
+                    "id": "l2",
+                    "face": {
+                      "kind": "text",
+                      "text": "adagio"
+                    },
+                    "match": "r2",
+                    "reason": "Adagio is slow and calm. Pair it with \"Slow and calm\"."
+                  },
+                  {
+                    "id": "l3",
+                    "face": {
+                      "kind": "text",
+                      "text": "andante"
+                    },
+                    "match": "r3",
+                    "reason": "Andante means at a walking pace. Pair it with \"At a walking pace\"."
+                  },
+                  {
+                    "id": "l4",
+                    "face": {
+                      "kind": "text",
+                      "text": "moderato"
+                    },
+                    "match": "r4",
+                    "reason": "Moderato means at a moderate speed. Pair it with \"At a moderate speed\"."
+                  }
+                ],
+                "right": [
+                  {
+                    "id": "r3",
+                    "face": {
+                      "kind": "text",
+                      "text": "At a walking pace"
+                    }
+                  },
+                  {
+                    "id": "r1",
+                    "face": {
+                      "kind": "text",
+                      "text": "Quick and lively"
+                    }
+                  },
+                  {
+                    "id": "r4",
+                    "face": {
+                      "kind": "text",
+                      "text": "At a moderate speed"
+                    }
+                  },
+                  {
+                    "id": "r2",
+                    "face": {
+                      "kind": "text",
+                      "text": "Slow and calm"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "draw": 2
+        },
+        {
+          "kind": "authored",
+          "id": "dynamics",
+          "bank": [
+            {
+              "id": "dynamics-piano",
+              "type": "multiple-choice",
+              "skill": "terms.dynamics.signs",
+              "prompt": "What does the sign *p* mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Quiet (piano)"
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Loud (forte)"
+                    },
+                    "reason": "That is f. The letter p stands for piano, which means quiet."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Very quiet (pianissimo)"
+                    },
+                    "reason": "That is pp, with two letters. A single p means quiet."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Moderately quiet (mezzo piano)"
+                    },
+                    "reason": "That is mp. A single p on its own means quiet."
+                  }
+                ],
+                "correct": "a"
+              }
+            },
+            {
+              "id": "dynamics-mezzo-forte",
+              "type": "multiple-choice",
+              "skill": "terms.dynamics.signs",
+              "prompt": "Which sign means moderately loud?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "*mp*"
+                    },
+                    "reason": "The sign mp means moderately quiet. Moderately loud is mf."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "*mf*"
+                    }
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "*f*"
+                    },
+                    "reason": "The sign f means loud, which is louder than moderately loud. Moderately loud is mf."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "*ff*"
+                    },
+                    "reason": "The sign ff means very loud. Moderately loud is mf."
+                  }
+                ],
+                "correct": "b"
+              }
+            },
+            {
+              "id": "dynamics-crescendo",
+              "type": "multiple-choice",
+              "skill": "terms.dynamics.signs",
+              "prompt": "What does [[crescendo|crescendo]] (cresc.) mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting quieter"
+                    },
+                    "reason": "That is diminuendo (dim.) or decrescendo. Crescendo means gradually getting louder."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting faster"
+                    },
+                    "reason": "Crescendo is about loudness, not speed. Getting faster is accelerando."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting louder"
+                    }
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Suddenly very loud"
+                    },
+                    "reason": "Crescendo is a gradual change, not a sudden one. It means gradually getting louder."
+                  }
+                ],
+                "correct": "c"
+              }
+            },
+            {
+              "id": "dynamics-diminuendo",
+              "type": "multiple-choice",
+              "skill": "terms.dynamics.signs",
+              "prompt": "What does [[diminuendo|diminuendo]] (dim.) mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting louder"
+                    },
+                    "reason": "That is crescendo, the opposite. Diminuendo means gradually getting quieter."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting quieter"
+                    }
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting slower"
+                    },
+                    "reason": "Diminuendo is about loudness, not speed. Getting slower is ritardando."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Very quiet"
+                    },
+                    "reason": "Very quiet is pp (pianissimo). Diminuendo is a gradual change: gradually getting quieter."
+                  }
+                ],
+                "correct": "b"
+              }
+            },
+            {
+              "id": "dynamics-match",
+              "type": "match-up",
+              "skill": "terms.dynamics.signs",
+              "prompt": "Match each dynamic sign to its meaning.",
+              "source": "authored",
+              "payload": {
+                "left": [
+                  {
+                    "id": "l1",
+                    "face": {
+                      "kind": "text",
+                      "text": "*pp*"
+                    },
+                    "match": "r1",
+                    "reason": "The sign pp (pianissimo) means very quiet. Pair it with \"Very quiet\"."
+                  },
+                  {
+                    "id": "l2",
+                    "face": {
+                      "kind": "text",
+                      "text": "*mp*"
+                    },
+                    "match": "r2",
+                    "reason": "The sign mp (mezzo piano) means moderately quiet. Pair it with \"Moderately quiet\"."
+                  },
+                  {
+                    "id": "l3",
+                    "face": {
+                      "kind": "text",
+                      "text": "*f*"
+                    },
+                    "match": "r3",
+                    "reason": "The sign f (forte) means loud. Pair it with \"Loud\"."
+                  },
+                  {
+                    "id": "l4",
+                    "face": {
+                      "kind": "text",
+                      "text": "*ff*"
+                    },
+                    "match": "r4",
+                    "reason": "The sign ff (fortissimo) means very loud. Pair it with \"Very loud\"."
+                  }
+                ],
+                "right": [
+                  {
+                    "id": "r4",
+                    "face": {
+                      "kind": "text",
+                      "text": "Very loud"
+                    }
+                  },
+                  {
+                    "id": "r2",
+                    "face": {
+                      "kind": "text",
+                      "text": "Moderately quiet"
+                    }
+                  },
+                  {
+                    "id": "r1",
+                    "face": {
+                      "kind": "text",
+                      "text": "Very quiet"
+                    }
+                  },
+                  {
+                    "id": "r3",
+                    "face": {
+                      "kind": "text",
+                      "text": "Loud"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "draw": 2
+        },
+        {
+          "kind": "authored",
+          "id": "articulation-and-signs",
+          "bank": [
+            {
+              "id": "articulation-staccato",
+              "type": "multiple-choice",
+              "skill": "terms.articulation.signs",
+              "prompt": "What does [[staccato|staccato]] mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Short and detached"
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Smooth and connected"
+                    },
+                    "reason": "That is legato, the opposite of staccato. Staccato means short and detached."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Louder, with more weight"
+                    },
+                    "reason": "That describes an accent. Staccato means short and detached."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Held for longer"
+                    },
+                    "reason": "That describes a pause. Staccato notes are short: short and detached."
+                  }
+                ],
+                "correct": "a"
+              }
+            },
+            {
+              "id": "articulation-legato",
+              "type": "multiple-choice",
+              "skill": "terms.articulation.signs",
+              "prompt": "What does [[legato|legato]] mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Short and detached"
+                    },
+                    "reason": "That is staccato, the opposite of legato. Legato means smooth and connected."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "In a singing style"
+                    },
+                    "reason": "That is cantabile. Legato is about joining notes: smooth and connected."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Smooth and connected"
+                    }
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Gradually getting slower"
+                    },
+                    "reason": "Legato says nothing about speed. It means smooth and connected."
+                  }
+                ],
+                "correct": "c"
+              }
+            },
+            {
+              "id": "signs-slur",
+              "type": "multiple-choice",
+              "skill": "terms.articulation.signs",
+              "prompt": "A curved line is drawn over several notes. What does it tell you to do?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play the notes short and detached"
+                    },
+                    "reason": "Short and detached is shown by dots above or below the notes. A curved line (a slur) means smooth and joined."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play the notes smoothly, joined together"
+                    }
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Hold the first note for longer"
+                    },
+                    "reason": "Holding a note longer is shown by a pause sign. A curved line over several notes is a slur: play them smoothly."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Repeat the notes"
+                    },
+                    "reason": "Repeating is shown by repeat marks. A curved line is a slur: play the notes smoothly."
+                  }
+                ],
+                "correct": "b"
+              }
+            },
+            {
+              "id": "signs-pause",
+              "type": "multiple-choice",
+              "skill": "terms.signs.repeats-and-pauses",
+              "prompt": "What does a pause sign over a note tell you to do?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Hold the note for longer than its written length"
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play the note louder"
+                    },
+                    "reason": "Playing louder is shown by an accent or a dynamic sign. A pause sign means hold the note for longer."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Leave the note out"
+                    },
+                    "reason": "Silence is shown by a rest. A pause sign over a note means hold it for longer."
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play the note shorter"
+                    },
+                    "reason": "Shorter notes are shown by staccato dots. A pause sign means hold the note for longer."
+                  }
+                ],
+                "correct": "a"
+              }
+            },
+            {
+              "id": "signs-repeat",
+              "type": "multiple-choice",
+              "skill": "terms.signs.repeats-and-pauses",
+              "prompt": "A double bar line with two dots beside it is at the end of a section. What does it mean?",
+              "source": "authored",
+              "payload": {
+                "options": [
+                  {
+                    "id": "a",
+                    "face": {
+                      "kind": "text",
+                      "text": "Stop playing at this point"
+                    },
+                    "reason": "The end of a piece is shown by a final double bar line without dots. Dots mean play the section again."
+                  },
+                  {
+                    "id": "b",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play more quietly from here"
+                    },
+                    "reason": "Quieter playing is shown by a dynamic sign such as p. Dots beside a bar line mean play the section again."
+                  },
+                  {
+                    "id": "c",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play the section again"
+                    }
+                  },
+                  {
+                    "id": "d",
+                    "face": {
+                      "kind": "text",
+                      "text": "Play the next section faster"
+                    },
+                    "reason": "Speed changes are shown by words such as accelerando. Dots beside a bar line mean play the section again."
+                  }
+                ],
+                "correct": "c"
+              }
+            },
+            {
+              "id": "signs-match",
+              "type": "match-up",
+              "skill": "terms.signs.repeats-and-pauses",
+              "prompt": "Match each term to its meaning.",
+              "source": "authored",
+              "payload": {
+                "left": [
+                  {
+                    "id": "l1",
+                    "face": {
+                      "kind": "text",
+                      "text": "da capo (D.C.)"
+                    },
+                    "match": "r1",
+                    "reason": "Da capo means go back to the beginning. Pair it with \"Go back to the beginning\"."
+                  },
+                  {
+                    "id": "l2",
+                    "face": {
+                      "kind": "text",
+                      "text": "dal segno (D.S.)"
+                    },
+                    "match": "r2",
+                    "reason": "Dal segno means go back to the sign. Pair it with \"Go back to the sign\"."
+                  },
+                  {
+                    "id": "l3",
+                    "face": {
+                      "kind": "text",
+                      "text": "fine"
+                    },
+                    "match": "r3",
+                    "reason": "Fine means the end: where the piece stops. Pair it with \"The end\"."
+                  },
+                  {
+                    "id": "l4",
+                    "face": {
+                      "kind": "text",
+                      "text": "a tempo"
+                    },
+                    "match": "r4",
+                    "reason": "A tempo means return to the original speed. Pair it with \"Return to the original speed\"."
+                  }
+                ],
+                "right": [
+                  {
+                    "id": "r2",
+                    "face": {
+                      "kind": "text",
+                      "text": "Go back to the sign"
+                    }
+                  },
+                  {
+                    "id": "r4",
+                    "face": {
+                      "kind": "text",
+                      "text": "Return to the original speed"
+                    }
+                  },
+                  {
+                    "id": "r1",
+                    "face": {
+                      "kind": "text",
+                      "text": "Go back to the beginning"
+                    }
+                  },
+                  {
+                    "id": "r3",
+                    "face": {
+                      "kind": "text",
+                      "text": "The end"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "draw": 2
+        }
+      ]
+    }
+  ]
+}
