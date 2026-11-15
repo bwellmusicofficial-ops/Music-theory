@@ -1,7 +1,7 @@
 /**
  * Which skills each generator can serve. Mirrors section 1 of
  * docs/generators-grade-1.md; coverage.test.ts keeps the two in step.
- * The last four ids are proposed Start here skills, not yet in the authoring guide.
+ * The last four ids are the Start here skills of the authoring guide.
  */
 export const GENERATOR_SKILLS: Readonly<Record<string, readonly string[]>> = {
   'name-note-on-stave': [
@@ -131,7 +131,7 @@ export const GENERATOR_SKILLS: Readonly<Record<string, readonly string[]>> = {
   ],
 };
 
-export const PROPOSED_SKILLS: readonly string[] = [
+export const START_HERE_SKILLS: readonly string[] = [
   'pitch.high-low.hear',
   'pitch.direction.hear',
   'rhythm.long-short.hear',
