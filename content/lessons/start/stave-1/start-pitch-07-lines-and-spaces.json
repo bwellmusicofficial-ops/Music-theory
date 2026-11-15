@@ -1,0 +1,2334 @@
+{
+  "schemaVersion": 1,
+  "grade": "start",
+  "unit": "stave-1",
+  "strand": "pitch",
+  "status": "draft",
+  "id": "start-pitch-07-lines-and-spaces",
+  "title": "Lines and spaces",
+  "summary": "Move from line to space to line and hear the notes go up step by step.",
+  "order": 2,
+  "skills": [
+    "pitch.treble.lines",
+    "pitch.treble.spaces",
+    "pitch.direction.hear"
+  ],
+  "prerequisites": [
+    "start-pitch-06-five-lines"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "space"
+  ],
+  "steps": {
+    "hook": {
+      "text": "Last time every note sat on a line. This tune climbs one step at a time, and something changes. Press play and watch the notes. Do they all sit on lines this time?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Press Play and follow the climb. Look at each note as you hear it. Is it on a line, with the line through its middle, or does it sit in a gap between two lines?",
+      "instrument": "stave",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "goal": "Play the tune and watch each note switch between a line and a gap."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "A note can sit on a [[line|line]], with the line running through its head. Or it can sit in a [[space|space]], the gap between two lines. Here: line, space, line, space.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 80,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "Each step up the [[stave|stave]] goes from a line to the next space, then to the next line. Line, space, line, space, all the way up. The four [[space|spaces]] are counted from the bottom, like the lines.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 80,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Each white key up the keyboard is one step up the [[stave|stave]]. So the notes take turns: line, space, line, space. Play the glowing keys from left to right and picture the notes stepping up the page.",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "E4",
+            "F4",
+            "G4",
+            "A4",
+            "B4"
+          ],
+          "low": "C4",
+          "high": "B4"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-line-or-space",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Is this note on a line or in a space?",
+          "hint": "Does the line run through the middle of the note, or does the note sit in a gap?",
+          "source": "authored",
+          "payload": {
+            "exhibit": {
+              "kind": "passage",
+              "tempo": 80,
+              "passage": {
+                "clef": "treble",
+                "key": {
+                  "tonic": {
+                    "letter": "C",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                "time": {
+                  "beats": 4,
+                  "beatUnit": 4
+                },
+                "bars": [
+                  {
+                    "events": [
+                      {
+                        "kind": "note",
+                        "pitches": [
+                          {
+                            "letter": "A",
+                            "accidental": 0,
+                            "octave": 4
+                          }
+                        ],
+                        "duration": {
+                          "value": "semibreve",
+                          "dots": 0
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "On a line"
+                },
+                "reason": "A line would run through the middle of the note head. This note sits in a gap between two lines, so it is in a space."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "In a space"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-match-the-place",
+          "type": "match-up",
+          "skill": "pitch.treble.lines",
+          "prompt": "Match each note to where it sits.",
+          "hint": "Count lines and spaces from the bottom of the [[stave|stave]]. Check whether the note has a line through it.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "first",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "bottom-line",
+                "reason": "This note sits on the first line, the bottom line, with the line running through its head."
+              },
+              {
+                "id": "fifth",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "top-line",
+                "reason": "This note sits on the fifth line, the top line of the [[stave|stave]]."
+              },
+              {
+                "id": "space",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "bottom-space",
+                "reason": "This note sits in the first gap from the bottom, so it is in the bottom space."
+              }
+            ],
+            "right": [
+              {
+                "id": "top-line",
+                "face": {
+                  "kind": "text",
+                  "text": "On the top line"
+                }
+              },
+              {
+                "id": "bottom-space",
+                "face": {
+                  "kind": "text",
+                  "text": "In the bottom space"
+                }
+              },
+              {
+                "id": "bottom-line",
+                "face": {
+                  "kind": "text",
+                  "text": "On the bottom line"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p3-which-steps",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Which tune did you hear?",
+          "hint": "Listen to the size of each move. Does the tune step to the next note, or jump over notes?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "bpm": 80
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "D",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "These notes jump from line to line, skipping the space between. The tune you heard moves one step at a time."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "These notes step down the [[stave|stave]], so that tune falls. The tune you heard climbs."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p4-order-the-steps",
+          "type": "ordering",
+          "skill": "pitch.treble.lines",
+          "prompt": "Put these notes in order, from lowest sound to highest.",
+          "hint": "Find the note lowest on the [[stave|stave]] first, then step up.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "second-line",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "bottom-space",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "second-space",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "bottom-line",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "correctOrder": [
+              "bottom-line",
+              "bottom-space",
+              "second-line",
+              "second-space"
+            ],
+            "ends": {
+              "first": "lowest",
+              "last": "highest"
+            },
+            "reason": "Each step up goes line, space, line, space: bottom line, bottom space, second line, second space."
+          }
+        },
+        {
+          "id": "p5-up-down-or-same",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Is each note higher than the one before, lower, or the same?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction"
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-direction",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Is each note higher than the one before, lower, or the same?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction"
+            }
+          }
+        },
+        {
+          "id": "c2-line-or-space",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.lines",
+          "prompt": "Is this note on a line or in a space?",
+          "hint": "Look for a line running through the middle of the note.",
+          "source": "authored",
+          "payload": {
+            "exhibit": {
+              "kind": "passage",
+              "tempo": 80,
+              "passage": {
+                "clef": "treble",
+                "key": {
+                  "tonic": {
+                    "letter": "C",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                "time": {
+                  "beats": 4,
+                  "beatUnit": 4
+                },
+                "bars": [
+                  {
+                    "events": [
+                      {
+                        "kind": "note",
+                        "pitches": [
+                          {
+                            "letter": "D",
+                            "accidental": 0,
+                            "octave": 5
+                          }
+                        ],
+                        "duration": {
+                          "value": "semibreve",
+                          "dots": 0
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "In a space"
+                },
+                "reason": "A note in a space sits in a gap between two lines. This note has a line running through its head, so it is on a line."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "On a line"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c3-space-or-line",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Is this note on a line or in a space?",
+          "hint": "Does a line run through the middle of the note?",
+          "source": "authored",
+          "payload": {
+            "exhibit": {
+              "kind": "passage",
+              "tempo": 80,
+              "passage": {
+                "clef": "treble",
+                "key": {
+                  "tonic": {
+                    "letter": "C",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                "time": {
+                  "beats": 4,
+                  "beatUnit": 4
+                },
+                "bars": [
+                  {
+                    "events": [
+                      {
+                        "kind": "note",
+                        "pitches": [
+                          {
+                            "letter": "C",
+                            "accidental": 0,
+                            "octave": 5
+                          }
+                        ],
+                        "duration": {
+                          "value": "semibreve",
+                          "dots": 0
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "In a space"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "On a line"
+                },
+                "reason": "A note on a line has the line through its head. This note sits in the gap above the middle line, so it is in a space."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c4-match-the-place",
+          "type": "match-up",
+          "skill": "pitch.treble.lines",
+          "prompt": "Match each note to where it sits.",
+          "hint": "Count from the bottom of the [[stave|stave]]. Check whether a line runs through the note.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "c5",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "C",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "third-space",
+                "reason": "This note sits in the third gap from the bottom, so it is in the third space."
+              },
+              {
+                "id": "d5",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "D",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "fourth-line",
+                "reason": "This note has the fourth line running through its head. Count lines from the bottom: 1, 2, 3, 4."
+              },
+              {
+                "id": "e4",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "bottom-line",
+                "reason": "This note sits on the first line, the bottom line, with the line through its head."
+              }
+            ],
+            "right": [
+              {
+                "id": "bottom-line",
+                "face": {
+                  "kind": "text",
+                  "text": "On the bottom line"
+                }
+              },
+              {
+                "id": "third-space",
+                "face": {
+                  "kind": "text",
+                  "text": "In the third space"
+                }
+              },
+              {
+                "id": "fourth-line",
+                "face": {
+                  "kind": "text",
+                  "text": "On the fourth line"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c5-order-the-steps",
+          "type": "ordering",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Put these notes in order, from lowest sound to highest.",
+          "hint": "Higher on the [[stave|stave]] means higher in sound.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "third-space",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "C",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "third-line",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "top-line",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "top-space",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "correctOrder": [
+              "third-line",
+              "third-space",
+              "top-space",
+              "top-line"
+            ],
+            "ends": {
+              "first": "lowest",
+              "last": "highest"
+            },
+            "reason": "Each step up goes line, space, line, space: third line, third space, top space, top line."
+          }
+        },
+        {
+          "id": "c6-which-steps",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Which tune did you hear?",
+          "hint": "Do the notes step to the next one, or jump? Do they climb or fall?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "bpm": 80
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "These notes climb one step at a time, so that tune rises. The tune you heard falls."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "D",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "These notes jump from line to line. The tune you heard moves one step at a time."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-direction-again",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Compare each note with the one before it.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction"
+            }
+          }
+        },
+        {
+          "id": "c8-next-step",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.lines",
+          "prompt": "You step up from a note on a line. Where does the next note sit?",
+          "hint": "Think about line, space, line, space.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "On the next line up"
+                },
+                "reason": "Going from line to line skips a note. One step up from a line lands in the space above it."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "In the space above"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "On the same line"
+                },
+                "reason": "Staying on the same line means the same sound, not a step up. A step up moves into the space above."
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "A note sits either on a [[line|line]], with the line through its head, or in a [[space|space]], the gap between two lines.",
+        "Each step up the [[stave|stave]] switches between them: line, space, line, space.",
+        "Count lines and spaces from the bottom: the bottom line is the first line, and the bottom space is the first space."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 80,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

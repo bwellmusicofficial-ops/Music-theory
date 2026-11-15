@@ -1,0 +1,856 @@
+{
+  "schemaVersion": 1,
+  "grade": "start",
+  "unit": "stave-1",
+  "strand": "pitch",
+  "status": "draft",
+  "id": "start-pitch-08-the-treble-clef",
+  "title": "The treble clef",
+  "summary": "See how one curly sign pins the note G to a line and names all the others.",
+  "order": 3,
+  "skills": [
+    "pitch.treble.lines",
+    "pitch.treble.spaces",
+    "pitch.keyboard.find-notes"
+  ],
+  "prerequisites": [
+    "start-pitch-07-lines-and-spaces"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "clef",
+    "treble-clef"
+  ],
+  "steps": {
+    "hook": {
+      "text": "A [[stave|stave]] shows how high a note is, but not which note it is. Press play to hear this one. To name it, you need the curly sign at the start. What is that sign telling you?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 76,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Here is a short tune and a keyboard. Press Play to hear the tune. Then play it yourself. It starts on G. The next note goes one step up, then back to G, then one step down.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 76,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "goal": "Play the tune on the keyboard: G, one step up, G, one step down, then G."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "The curly sign at the start is a [[clef|clef]]. This one is the [[treble-clef|treble clef]]. Its curl wraps around the second line, and that line is G.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 76,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "Once G is fixed, the other notes follow in the [[musical-alphabet|musical alphabet]]. One step up is A, in the space above G. One step down is F, in the space below G.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 76,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "A [[clef|clef]] works like a pin on a map. Pin one place, and every other place gets a name from it. The curl of the [[treble-clef|treble clef]] pins G to the second line. Count one step up for A and one step down for F.",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "F4",
+            "G4",
+            "A4"
+          ],
+          "low": "E4",
+          "high": "B4"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-curl-line",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.lines",
+          "prompt": "Which line does the curl of the treble clef wrap around?",
+          "hint": "The curl circles the line for G. Count lines from the bottom.",
+          "source": "authored",
+          "payload": {
+            "exhibit": {
+              "kind": "passage",
+              "tempo": 76,
+              "passage": {
+                "clef": "treble",
+                "key": {
+                  "tonic": {
+                    "letter": "C",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                "time": {
+                  "beats": 4,
+                  "beatUnit": 4
+                },
+                "bars": [
+                  {
+                    "events": [
+                      {
+                        "kind": "note",
+                        "pitches": [
+                          {
+                            "letter": "F",
+                            "accidental": 0,
+                            "octave": 5
+                          }
+                        ],
+                        "duration": {
+                          "value": "semibreve",
+                          "dots": 0
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "The bottom line"
+                },
+                "reason": "The bottom line is the first. The curl wraps around the second line, which is G."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "The second line"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "The middle line"
+                },
+                "reason": "The middle line is the third. The curl circles the second line, which is G."
+              },
+              {
+                "id": "d",
+                "face": {
+                  "kind": "text",
+                  "text": "The top line"
+                },
+                "reason": "The top line is the fifth, a long way from the curl. The curl circles the second line, which is G."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-name-a",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Which note is this?",
+          "hint": "G is on the second line. This note sits one step above G. What letter follows G? Remember the alphabet starts again after G.",
+          "source": "authored",
+          "payload": {
+            "mode": "identify",
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "pitch": {
+              "letter": "A",
+              "accidental": 0,
+              "octave": 4
+            },
+            "accidentals": false
+          }
+        },
+        {
+          "id": "p3-name-the-note",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.lines",
+          "prompt": "Which note is this?",
+          "hint": "Start from G on the second line. Count one step up or down.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "p4-put-g",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.lines",
+          "prompt": "Put **G** on the [[stave|stave]].",
+          "hint": "Look at the curl of the clef. Which line does it wrap around?",
+          "source": "authored",
+          "payload": {
+            "mode": "place",
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "target": {
+              "letter": "G",
+              "accidental": 0
+            },
+            "accidentals": false
+          }
+        },
+        {
+          "id": "p5-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Name the note from G on the second line, then find that letter on the keyboard.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "treble",
+              "low": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-name-the-note",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.lines",
+          "prompt": "Which note is this?",
+          "hint": "Start from G on the second line, then count one step.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c2-put-the-note",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Put the named note on the [[stave|stave]].",
+          "hint": "G is on the second line. Count one step up for A and one step down for F.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "treble",
+              "low": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c3-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Name the note from G on the second line, then find it on the keyboard.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "treble",
+              "low": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c4-the-curl",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.lines",
+          "prompt": "The treble clef curls around one line. Which note is on that line?",
+          "hint": "Count lines from the bottom to find the second one.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                },
+                "reason": "A sits in the space above G. The curl wraps around the second line, and that line is G."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                },
+                "reason": "F sits in the space below G. The curl wraps around the second line, and that line is G."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "G"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c5-above-g",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Which note sits in the space **above** G?",
+          "hint": "One step up from G. Remember the alphabet runs A, B, C, D, E, F, G.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                },
+                "reason": "F is one step below G, in the space under it. One step above G is A."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "B"
+                },
+                "reason": "B is two steps above G. One step above G is A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c6-below-g",
+          "type": "multiple-choice",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Which note sits in the space **below** G?",
+          "hint": "One step down from G in the musical alphabet.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                },
+                "reason": "A is one step above G, not below. One step below G is F."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "E"
+                },
+                "reason": "E is two steps below G, on the bottom line. One step below G is F."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-name-again",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.lines",
+          "prompt": "Which note is this?",
+          "hint": "Find G on the second line and count one step.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "treble",
+              "low": {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 4
+              }
+            }
+          }
+        },
+        {
+          "id": "c8-name-f",
+          "type": "note-on-stave",
+          "skill": "pitch.treble.spaces",
+          "prompt": "Which note is this?",
+          "hint": "G is on the second line. This note sits one step below G.",
+          "source": "authored",
+          "payload": {
+            "mode": "identify",
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "pitch": {
+              "letter": "F",
+              "accidental": 0,
+              "octave": 4
+            },
+            "accidentals": false
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The curly sign at the start of the [[stave|stave]] is a [[clef|clef]]. The [[treble-clef|treble clef]] curls around the second line and fixes that line as G.",
+        "One step up from G is A, in the space above. One step down from G is F, in the space below."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 76,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

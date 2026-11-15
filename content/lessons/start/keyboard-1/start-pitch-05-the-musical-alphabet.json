@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 1,
+  "grade": "start",
+  "unit": "keyboard-1",
+  "strand": "pitch",
+  "status": "draft",
+  "id": "start-pitch-05-the-musical-alphabet",
+  "title": "The musical alphabet",
+  "summary": "Name the white keys from A to G and see why the letters start again.",
+  "order": 3,
+  "skills": [
+    "pitch.keyboard.find-notes",
+    "pitch.keyboard.layout"
+  ],
+  "prerequisites": [
+    "start-pitch-04-finding-c"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "note-name",
+    "musical-alphabet",
+    "octave"
+  ],
+  "steps": {
+    "hook": {
+      "text": "English needs 26 letters. Music gets by with seven. Press the glowing keys from the left and read their letters. What happens when you reach the last key?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "A3",
+          "B3",
+          "C4",
+          "D4",
+          "E4",
+          "F4",
+          "G4",
+          "A4"
+        ],
+        "low": "A3",
+        "high": "A4"
+      }
+    },
+    "explore": {
+      "text": "Play every white key from the A on the left to the A on the right, one after another. Say each letter out loud as you play it.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "A3",
+        "high": "A4"
+      },
+      "goal": "Play all the white keys from one A up to the next A."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "Music names its notes with seven letters: A, B, C, D, E, F, G. That is the [[musical-alphabet|musical alphabet]], and each letter is a [[note-name|note name]].",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "A3",
+              "B3",
+              "C4",
+              "D4",
+              "E4",
+              "F4",
+              "G4"
+            ],
+            "low": "A3",
+            "high": "G4"
+          }
+        },
+        {
+          "text": "After G the alphabet starts again at A. So a keyboard has many As and many Gs. The gap from one A to the next A is an [[octave|octave]]: the same name, but higher or lower.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "A3",
+              "A4"
+            ],
+            "low": "A3",
+            "high": "A4"
+          }
+        },
+        {
+          "text": "These seven letters name the white keys. The black keys get their names in Grade 1. To find a letter, start at C, which you can spot by the twos, and count along.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C4",
+              "D4",
+              "E4",
+              "F4",
+              "G4"
+            ],
+            "low": "C4",
+            "high": "B4"
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Think of the days of the week. After Sunday comes Monday again, so nobody runs out of days. The keyboard does the same with letters. After G, it goes back to A, and the cycle carries on up the keys."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-after-g",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Which letter comes straight after G in the musical alphabet?",
+          "hint": "Say the letters from A. What happens when you run out?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "H"
+                },
+                "reason": "Music has only seven letters, so there is no H. After G the alphabet starts again at A."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                },
+                "reason": "F comes before G. Going up, the letters run A, B, C, D, E, F, G, then A again."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-next-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play the next note in the musical alphabet.",
+          "hint": "Say the letters in order from A. Which one follows? Then play any key with that name.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "next-note"
+            }
+          }
+        },
+        {
+          "id": "p3-order-the-letters",
+          "type": "ordering",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Put these letters in musical alphabet order.",
+          "hint": "Say A, B, C, D, E, F, G. The letters here come in that order, with some left out.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "e",
+                "face": {
+                  "kind": "text",
+                  "text": "E"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "B"
+                }
+              },
+              {
+                "id": "d",
+                "face": {
+                  "kind": "text",
+                  "text": "D"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "C"
+                }
+              }
+            ],
+            "correctOrder": [
+              "b",
+              "c",
+              "d",
+              "e"
+            ],
+            "ends": {
+              "first": "earlier",
+              "last": "later"
+            },
+            "reason": "The [[musical-alphabet|musical alphabet]] runs A, B, C, D, E, F, G. So these come in the order B, C, D, E."
+          }
+        },
+        {
+          "id": "p4-find-the-letter",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Play every note with this name.",
+          "hint": "Find C by the twos, then count up the white keys: C, D, E, F, G, A, B.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "find-every",
+              "letters": [
+                "E",
+                "F",
+                "G",
+                "A",
+                "B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p5-g-a-b",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play G, then the next two letters up: A and B.",
+          "hint": "After G the alphabet starts again at A. Any G, A and B on the keyboard will do, one after another.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "G",
+              "accidental": 0,
+              "octave": 3
+            },
+            "high": {
+              "letter": "G",
+              "accidental": 0,
+              "octave": 4
+            },
+            "showLabels": true,
+            "targets": [
+              {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 3
+              },
+              {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              {
+                "letter": "B",
+                "accidental": 0,
+                "octave": 3
+              }
+            ],
+            "mode": "sequence",
+            "octave": "any"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-next-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play the next note in the musical alphabet.",
+          "hint": "Say the letters in order. Which one comes next?",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "next-note"
+            }
+          }
+        },
+        {
+          "id": "c2-previous-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play the note before this one in the musical alphabet.",
+          "hint": "Say the letters backwards from G. After A, the alphabet wraps round to G.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "previous-note"
+            }
+          }
+        },
+        {
+          "id": "c3-find-the-letter",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.layout",
+          "prompt": "Play every note with this name.",
+          "hint": "Start from C, which you find by the twos, and count along.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "find-every",
+              "letters": [
+                "D",
+                "E",
+                "F",
+                "G",
+                "A",
+                "B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c4-letter-after",
+          "type": "match-up",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Match each letter to the letter that comes after it.",
+          "hint": "Say the musical alphabet and stop at each letter. Remember that G is followed by A.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "B"
+                },
+                "match": "c",
+                "reason": "After B comes C. The letters run A, B, C, D, E, F, G."
+              },
+              {
+                "id": "e",
+                "face": {
+                  "kind": "text",
+                  "text": "E"
+                },
+                "match": "f",
+                "reason": "After E comes F. The letters run C, D, E, F, G."
+              },
+              {
+                "id": "g",
+                "face": {
+                  "kind": "text",
+                  "text": "G"
+                },
+                "match": "a",
+                "reason": "G is the last letter, so the alphabet starts again. After G comes A."
+              }
+            ],
+            "right": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "C"
+                }
+              },
+              {
+                "id": "f",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c5-how-many-letters",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "How many letters does the musical alphabet use?",
+          "hint": "Count A, B, C, D, E, F, G.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "26"
+                },
+                "reason": "English has 26 letters. Music uses only seven: A, B, C, D, E, F and G."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "12"
+                },
+                "reason": "From one A up to the next A there are 12 keys, black and white, but only 7 letters. The black keys get their names later."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "7"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c6-before-a",
+          "type": "multiple-choice",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Which letter comes straight **before** A?",
+          "hint": "Going down from A, the alphabet wraps round the other way.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "B"
+                },
+                "reason": "B comes after A when you go up. Going down from A, the alphabet wraps round to G."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "G"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "H"
+                },
+                "reason": "Music has no H. The letters stop at G, and A comes straight after it."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c7-order-f-g-a",
+          "type": "ordering",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Put these letters in order, going up the keyboard from F.",
+          "hint": "Start at F and say the letters on. Remember that the alphabet starts again after G.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              },
+              {
+                "id": "f",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                }
+              },
+              {
+                "id": "g",
+                "face": {
+                  "kind": "text",
+                  "text": "G"
+                }
+              }
+            ],
+            "correctOrder": [
+              "f",
+              "g",
+              "a"
+            ],
+            "ends": {
+              "first": "lowest",
+              "last": "highest"
+            },
+            "reason": "Going up from F the letters run F, G, and then the alphabet starts again at A."
+          }
+        },
+        {
+          "id": "c8-d-e-f",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play D, then E, then F.",
+          "hint": "Find C by the twos, then count up: C, D, E, F.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 4
+            },
+            "high": {
+              "letter": "B",
+              "accidental": 0,
+              "octave": 4
+            },
+            "showLabels": false,
+            "targets": [
+              {
+                "letter": "D",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The [[musical-alphabet|musical alphabet]] has seven [[note-name|note names]]: A, B, C, D, E, F, G. These letters name the white keys.",
+        "After G the letters start again at A. The gap from one A to the next A is an [[octave|octave]].",
+        "To find any letter, spot C by the twos and count along from there."
+      ],
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "A3",
+          "B3",
+          "C4",
+          "D4",
+          "E4",
+          "F4",
+          "G4",
+          "A4"
+        ],
+        "low": "A3",
+        "high": "A4"
+      }
+    }
+  }
+}
