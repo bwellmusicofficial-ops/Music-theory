@@ -41,8 +41,10 @@ export function getLesson(id: string): Lesson | undefined {
   return listLessons().find((lesson) => lesson.id === id);
 }
 
-/** The glossary for one grade; an empty list when there is no file for it. */
-export function loadGlossary(grade: Grade): GlossaryEntry[] {
+/** Order in which grades are taught; a lesson may link terms from its own grade or any earlier one. */
+const GRADE_ORDER: Grade[] = ['start', '1', '2', '3', '4', '5', '6', '7', '8'];
+
+function loadGlossaryFile(grade: Grade): GlossaryEntry[] {
   let raw: string;
   try {
     raw = readFileSync(join(CONTENT_DIR, 'glossary', `${grade}.json`), 'utf8');
@@ -50,4 +52,10 @@ export function loadGlossary(grade: Grade): GlossaryEntry[] {
     return [];
   }
   return z.array(glossaryEntrySchema).parse(JSON.parse(raw));
+}
+
+/** The glossary a lesson of this grade can link to: every entry up to and including the grade. */
+export function loadGlossary(grade: Grade): GlossaryEntry[] {
+  const upTo = GRADE_ORDER.indexOf(grade);
+  return GRADE_ORDER.slice(0, upTo + 1).flatMap(loadGlossaryFile);
 }

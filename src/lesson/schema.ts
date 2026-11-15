@@ -213,6 +213,11 @@ export const lessonSchema = z.object({
   estimatedMinutes: z.number().int().min(5).max(8),
   /** Glossary term ids introduced here. */
   newTerms: z.array(idSchema).default([]),
+  /**
+   * 'draft' until a music specialist has checked the lesson. Drafts can be
+   * opened by link for review but are labelled and kept off the main path.
+   */
+  status: z.enum(['draft', 'reviewed']).default('draft'),
   steps: z.object({
     hook: hookStepSchema,
     explore: exploreStepSchema,

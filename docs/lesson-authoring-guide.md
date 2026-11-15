@@ -435,6 +435,11 @@ For Italian, French and German terms set `language` and leave `us` out.
 
 ## 8. Ids and files
 
+Every new lesson file has `"status": "draft"`. Only the product owner's review
+changes it to `"reviewed"`. Generators available to lessons, with their params,
+are listed in `docs/generators-grade-1.md`.
+
+
 - **Lesson id:** `<grade>-<strand>-<nn>-<slug>`, all lower case with hyphens.
   `<grade>` is `start` or `g1` to `g8`. `<strand>` is the strand id from
   `schema.ts`. `<nn>` is a two-digit number that counts lessons in that strand
@@ -477,6 +482,19 @@ Scheme: `<strand>.<topic>.<detail>` with an optional fourth part.
 Within the rhythm strand, `note-values` is knowing a symbol and its length,
 and `perform` is tapping it in time. They are separate because learners often
 manage one and not the other.
+
+### Start here skill ids
+
+Start here lessons come before notation. They use these skills, plus
+`rhythm.pulse.steady` and the keyboard and stave skills listed under Grade 1
+where a lesson reaches them.
+
+| Skill id | The learner can |
+| --- | --- |
+| `pitch.high-low.hear` | hear which of two sounds is higher |
+| `pitch.direction.hear` | hear whether a tune goes up, goes down or stays the same |
+| `pitch.keyboard.layout` | find their way around the keyboard by the pattern of black keys |
+| `rhythm.long-short.hear` | hear which of two sounds is longer |
 
 ### Grade 1 skill ids
 

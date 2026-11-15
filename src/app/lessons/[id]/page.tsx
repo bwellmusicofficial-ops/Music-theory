@@ -19,5 +19,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function LessonPage({ params }: Props) {
   const lesson = getLesson((await params).id);
   if (!lesson) notFound();
-  return <LessonRunner lesson={lesson} glossary={loadGlossary(lesson.grade)} />;
+  return (
+    <>
+      {lesson.status === 'draft' ? (
+        <p role="note" className="bg-warning px-4 py-1 text-center text-sm font-semibold text-on-warning">
+          Draft lesson: awaiting review by a music specialist
+        </p>
+      ) : null}
+      <LessonRunner lesson={lesson} glossary={loadGlossary(lesson.grade)} />
+    </>
+  );
 }
