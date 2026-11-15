@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { GENERATOR_SKILLS, PROPOSED_SKILLS } from './coverage';
+import { GENERATOR_SKILLS, START_HERE_SKILLS } from './coverage';
 import { APPENDIX_GLOSSARY_IDS } from './shared/glossary-ids';
 import { generators } from './index';
 
@@ -53,8 +53,13 @@ describe('generator skill coverage', () => {
     expect(new Set(coveredIds).size).toBe(coveredIds.length);
   });
 
-  it('every declared skill is a guide skill or a proposed one', () => {
-    const known = new Set([...guideSkills, ...PROPOSED_SKILLS]);
+  it('the Start here skills are in the authoring guide table', () => {
+    const startHere = [...guide.split('### Start here skill ids')[1]!.split('### Grade 1 skill ids')[0]!.matchAll(/^\| `([a-z0-9.-]+)` \|/gm)].map((m) => m[1]!);
+    expect([...START_HERE_SKILLS].sort()).toEqual(startHere.sort());
+  });
+
+  it('every declared skill is a guide skill or a Start here one', () => {
+    const known = new Set([...guideSkills, ...START_HERE_SKILLS]);
     for (const [id, skills] of Object.entries(GENERATOR_SKILLS)) {
       for (const skill of skills) expect(known.has(skill), `${id}: ${skill}`).toBe(true);
     }

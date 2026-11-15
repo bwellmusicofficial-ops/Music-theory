@@ -6,7 +6,7 @@ import type { Face } from '@/lesson/questions/shared';
 import { T44, dur } from '../shared/bars';
 import { GRADE_1_TONICS } from '../shared/params';
 import { placeOptions, takeDistinct } from '../shared/options';
-import { letterAbove, majorKey } from '../shared/pitch-utils';
+import { majorKey } from '../shared/pitch-utils';
 import { ordinal, plainTerm } from '../shared/terms';
 import { paramsSchema, type IntervalByNumberParams } from './params';
 
@@ -26,7 +26,7 @@ export function generate(params: IntervalByNumberParams, rng: Rng): GeneratedQue
   const found = pitch.intervalBetween(lower, upper).number;
   if (found !== n) throw new TheoryError(`interval-by-number: expected a ${n}th, the engine found a ${found}th`);
 
-  const upperLetter = upper.letter;
+  const spelled = (m: number): string => pitch.displayPitchClass({ letter: scale[m - 1]!.letter, accidental: scale[m - 1]!.accidental });
   const wrongNumbers = takeDistinct(
     [n - 1, n + 1, n - 2, n + 2, n + 3, n - 3].filter((m) => m >= 2 && m <= 8),
     options - 1,
@@ -38,7 +38,7 @@ export function generate(params: IntervalByNumberParams, rng: Rng): GeneratedQue
     { kind: 'text', text: ordinal(n) },
     wrongNumbers.map((m) => ({
       face: { kind: 'text' as const, text: ordinal(m) },
-      reason: `Counting ${tonicLetter} as 1, the ${ordinal(m)} is ${letterAbove(tonicLetter, m)}. The second note is ${upperLetter}, which is the ${ordinal(n)}.`,
+      reason: `Counting ${tonicLetter} as 1, the ${ordinal(m)} is ${spelled(m)}. The second note is ${spelled(n)}, which is the ${ordinal(n)}.`,
     })),
   );
   const half = dur('minim');
