@@ -181,5 +181,640 @@
     "definition": "The upright line drawn across the music where one [[bar|bar]] ends and the next begins.",
     "grade": "1",
     "strand": "rhythm"
+  },
+  {
+    "id": "semibreve",
+    "term": "semibreve",
+    "us": "whole note",
+    "language": "en",
+    "definition": "A note with a hollow head and no stem. It lasts 4 [[beat|beats]], so in 4/4 time it fills a whole [[bar|bar]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "quaver",
+    "term": "quaver",
+    "us": "eighth note",
+    "language": "en",
+    "definition": "A note with a filled-in head and a stem with one hook. It lasts half as long as a [[crotchet|crotchet]]: half a [[beat|beat]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "semiquaver",
+    "term": "semiquaver",
+    "us": "sixteenth note",
+    "language": "en",
+    "definition": "A note with a filled-in head and a stem with two hooks. It lasts half as long as one [[quaver|quaver]]: a quarter of a [[beat|beat]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "rest",
+    "term": "rest",
+    "language": "en",
+    "definition": "A symbol that shows silence: a moment when you do not play. Each rest lasts as long as the matching note, such as a [[crotchet|crotchet]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "semibreve-rest",
+    "term": "semibreve rest",
+    "us": "whole rest",
+    "language": "en",
+    "definition": "A rest that lasts 4 [[beat|beats]]. In 4/4 time it hangs below the fourth [[line|line]] from the bottom and fills a whole [[bar|bar]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "minim-rest",
+    "term": "minim rest",
+    "us": "half rest",
+    "language": "en",
+    "definition": "A rest that lasts 2 [[beat|beats]]. It sits on top of the middle [[line|line]] of the [[stave|stave]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "crotchet-rest",
+    "term": "crotchet rest",
+    "us": "quarter rest",
+    "language": "en",
+    "definition": "A rest that lasts 1 [[beat|beat]]. It looks like a zigzag, sitting around the middle of the [[stave|stave]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "quaver-rest",
+    "term": "quaver rest",
+    "us": "eighth rest",
+    "language": "en",
+    "definition": "A rest that lasts half a [[beat|beat]]. It has a curly, hook-like shape with a round blob at the top.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "semiquaver-rest",
+    "term": "semiquaver rest",
+    "us": "sixteenth rest",
+    "language": "en",
+    "definition": "A rest that lasts a quarter of a [[beat|beat]]. It looks like one [[quaver-rest|quaver rest]] with an extra hook.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "dotted-note",
+    "term": "dotted note",
+    "language": "en",
+    "definition": "A note with a dot after its head. The dot adds half the note's own length: a dotted [[crotchet|crotchet]] lasts 1 and a half [[beat|beats]].",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "tie",
+    "term": "tie",
+    "language": "en",
+    "definition": "A curved line joining two notes of the same [[pitch|pitch]]. Play the first note and hold it for both lengths, without playing the second.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "time-signature",
+    "term": "time signature",
+    "language": "en",
+    "definition": "Two numbers at the start of the music, such as 3/4. The top number counts the [[beat|beats]] in each [[bar|bar]]; the bottom says which note gets one beat.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "simple-time",
+    "term": "simple time",
+    "language": "en",
+    "definition": "Time in which each [[beat|beat]] splits into two equal parts, such as 2/4, 3/4 or 4/4.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "duple-time",
+    "term": "duple time",
+    "language": "en",
+    "definition": "Time with two [[beat|beats]] in each [[bar|bar]], such as 2/4. The first beat is strong and the second is weak.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "triple-time",
+    "term": "triple time",
+    "language": "en",
+    "definition": "Time with three [[beat|beats]] in each [[bar|bar]], such as 3/4. The first beat is strong; the other two are weak.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "quadruple-time",
+    "term": "quadruple time",
+    "language": "en",
+    "definition": "Time with four [[beat|beats]] in each [[bar|bar]], such as 4/4. Beats 1 and 3 are stronger than beats 2 and 4.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "beam",
+    "term": "beam",
+    "language": "en",
+    "definition": "A thick line that joins [[quaver|quavers]] or [[semiquaver|semiquavers]] into a group, instead of separate hooks.",
+    "grade": "1",
+    "strand": "rhythm"
+  },
+  {
+    "id": "treble-clef",
+    "term": "treble clef",
+    "language": "en",
+    "definition": "A symbol at the start of the [[stave|stave]] for higher notes. Its curl wraps around the G line, so it is also called the G [[clef|clef]].",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "bass-clef",
+    "term": "bass clef",
+    "language": "en",
+    "definition": "A symbol at the start of the [[stave|stave]] for lower notes. Its two dots surround the F line, so it is also called the F [[clef|clef]].",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "clef",
+    "term": "clef",
+    "language": "en",
+    "definition": "A symbol at the start of the [[stave|stave]] that fixes the names of the [[line|lines]] and [[space|spaces]].",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "ledger-line",
+    "term": "ledger line",
+    "language": "en",
+    "definition": "A short extra line added above or below the [[stave|stave]] for notes that are too high or too low to fit on it.",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "sharp",
+    "term": "sharp",
+    "language": "en",
+    "definition": "The symbol ♯ that raises a note by one [[semitone|semitone]]: the next note up on the [[keyboard|keyboard]].",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "flat",
+    "term": "flat",
+    "language": "en",
+    "definition": "The symbol ♭ that lowers a note by one [[semitone|semitone]]: the next note down on the [[keyboard|keyboard]].",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "natural",
+    "term": "natural",
+    "language": "en",
+    "definition": "The symbol ♮ that cancels a [[sharp|sharp]] or [[flat|flat]], returning the note to its original, unaltered pitch.",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "accidental",
+    "term": "accidental",
+    "language": "en",
+    "definition": "A [[sharp|sharp]], [[flat|flat]] or [[natural|natural]] written beside a note. It applies to that note for the rest of the [[bar|bar]].",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "semitone",
+    "term": "semitone",
+    "us": "half step",
+    "language": "en",
+    "definition": "The smallest step on the [[keyboard|keyboard]], from one note to the very next, black or white.",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "tone",
+    "term": "tone",
+    "us": "whole step",
+    "language": "en",
+    "definition": "A step on the [[keyboard|keyboard]] made of two [[semitone|semitones]], such as from C to D. It skips one note in between.",
+    "grade": "1",
+    "strand": "pitch"
+  },
+  {
+    "id": "scale",
+    "term": "scale",
+    "language": "en",
+    "definition": "A row of [[note|notes]] in pitch order, from one note up to the same note an [[octave|octave]] higher. Each scale follows its own pattern of [[tone|tones]] and [[semitone|semitones]].",
+    "grade": "1",
+    "strand": "scales-keys"
+  },
+  {
+    "id": "major-scale",
+    "term": "major scale",
+    "language": "en",
+    "definition": "A [[scale|scale]] with the pattern: tone, tone, semitone, tone, tone, tone, semitone. It often sounds bright and happy.",
+    "grade": "1",
+    "strand": "scales-keys"
+  },
+  {
+    "id": "key",
+    "term": "key",
+    "language": "en",
+    "definition": "The set of notes a piece is built on, centred on one main note: its [[tonic|tonic]].",
+    "grade": "1",
+    "strand": "scales-keys"
+  },
+  {
+    "id": "key-signature",
+    "term": "key signature",
+    "language": "en",
+    "definition": "The [[sharp|sharps]] or [[flat|flats]] written at the start of each [[stave|stave]], after the [[clef|clef]]. They show the [[key|key]] of the piece.",
+    "grade": "1",
+    "strand": "scales-keys"
+  },
+  {
+    "id": "tonic",
+    "term": "tonic",
+    "language": "en",
+    "definition": "The first and most important note of a [[scale|scale]] or [[key|key]]. Music often comes to rest on it.",
+    "grade": "1",
+    "strand": "scales-keys"
+  },
+  {
+    "id": "degree",
+    "term": "degree",
+    "language": "en",
+    "definition": "A note's position in a [[scale|scale]], counted up from the [[tonic|tonic]] as 1, 2, 3 and so on.",
+    "grade": "1",
+    "strand": "scales-keys"
+  },
+  {
+    "id": "interval",
+    "term": "interval",
+    "language": "en",
+    "definition": "The distance between two [[note|notes]], counted by [[note-name|letter names]] from the lower note to the higher one, including both. C up to E is a [[3rd|third]].",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "2nd",
+    "term": "2nd",
+    "language": "en",
+    "definition": "The interval covering two [[note-name|letter names]], such as C up to D. It is usually a [[tone|tone]] or a [[semitone|semitone]].",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "3rd",
+    "term": "3rd",
+    "language": "en",
+    "definition": "The interval covering three [[note-name|letter names]], such as C up to E. Stacked thirds build many [[chord|chords]].",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "4th",
+    "term": "4th",
+    "language": "en",
+    "definition": "The interval covering four [[note-name|letter names]], such as C up to F.",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "5th",
+    "term": "5th",
+    "language": "en",
+    "definition": "The interval covering five [[note-name|letter names]], such as C up to G.",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "6th",
+    "term": "6th",
+    "language": "en",
+    "definition": "The interval covering six [[note-name|letter names]], such as C up to A.",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "7th",
+    "term": "7th",
+    "language": "en",
+    "definition": "The interval covering seven [[note-name|letter names]], such as C up to B.",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
+    "id": "triad",
+    "term": "triad",
+    "language": "en",
+    "definition": "A [[chord|chord]] of three notes stacked in thirds: the bottom note, a [[3rd|third]] above it, and another third above that.",
+    "grade": "1",
+    "strand": "harmony"
+  },
+  {
+    "id": "tonic-triad",
+    "term": "tonic triad",
+    "language": "en",
+    "definition": "The [[triad|triad]] built on the [[tonic|tonic]] of a [[key|key]], such as C, E and G in C major. It sounds settled and at home.",
+    "grade": "1",
+    "strand": "harmony"
+  },
+  {
+    "id": "chord",
+    "term": "chord",
+    "language": "en",
+    "definition": "Two or more [[note|notes]] played together. Chords give music its harmony.",
+    "grade": "1",
+    "strand": "harmony"
+  },
+  {
+    "id": "adagio",
+    "term": "adagio",
+    "language": "it",
+    "definition": "Slow and calm.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "allegro",
+    "term": "allegro",
+    "language": "it",
+    "definition": "Quick and lively.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "allegretto",
+    "term": "allegretto",
+    "language": "it",
+    "definition": "Quite quick, but slower than allegro.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "andante",
+    "term": "andante",
+    "language": "it",
+    "definition": "At a walking pace.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "moderato",
+    "term": "moderato",
+    "language": "it",
+    "definition": "At a moderate speed.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "lento",
+    "term": "lento",
+    "language": "it",
+    "definition": "Slow.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "accelerando",
+    "term": "accelerando",
+    "language": "it",
+    "definition": "Gradually getting faster (accel.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "ritardando",
+    "term": "ritardando",
+    "language": "it",
+    "definition": "Gradually getting slower (rit.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "rallentando",
+    "term": "rallentando",
+    "language": "it",
+    "definition": "Gradually getting slower, and often broader (rall.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "a-tempo",
+    "term": "a tempo",
+    "language": "it",
+    "definition": "Return to the original speed.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "crescendo",
+    "term": "crescendo",
+    "language": "it",
+    "definition": "Gradually getting louder (cresc.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "decrescendo",
+    "term": "decrescendo",
+    "language": "it",
+    "definition": "Gradually getting quieter (decresc.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "diminuendo",
+    "term": "diminuendo",
+    "language": "it",
+    "definition": "Gradually getting quieter (dim.). It means the same as decrescendo.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "forte",
+    "term": "forte",
+    "language": "it",
+    "definition": "Loud (f).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "fortissimo",
+    "term": "fortissimo",
+    "language": "it",
+    "definition": "Very loud (ff).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "mezzo-forte",
+    "term": "mezzo forte",
+    "language": "it",
+    "definition": "Moderately loud (mf).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "mezzo-piano",
+    "term": "mezzo piano",
+    "language": "it",
+    "definition": "Moderately quiet (mp).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "piano",
+    "term": "piano",
+    "language": "it",
+    "definition": "Quiet (p).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "pianissimo",
+    "term": "pianissimo",
+    "language": "it",
+    "definition": "Very quiet (pp).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "cantabile",
+    "term": "cantabile",
+    "language": "it",
+    "definition": "In a singing style.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "dolce",
+    "term": "dolce",
+    "language": "it",
+    "definition": "Sweet and soft.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "legato",
+    "term": "legato",
+    "language": "it",
+    "definition": "Smooth and connected, with no gaps between notes.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "staccato",
+    "term": "staccato",
+    "language": "it",
+    "definition": "Short and detached, with a gap after each note.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "da-capo",
+    "term": "da capo",
+    "language": "it",
+    "definition": "Go back to the beginning (D.C.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "dal-segno",
+    "term": "dal segno",
+    "language": "it",
+    "definition": "Go back to the sign (D.S.).",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "al-fine",
+    "term": "al fine",
+    "language": "it",
+    "definition": "Play on to the end, marked [[fine|Fine]].",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "fine",
+    "term": "fine",
+    "language": "it",
+    "definition": "The end: where the piece stops.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "poco",
+    "term": "poco",
+    "language": "it",
+    "definition": "A little.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "molto",
+    "term": "molto",
+    "language": "it",
+    "definition": "Very much.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "mezzo",
+    "term": "mezzo",
+    "language": "it",
+    "definition": "Half, or medium.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "slur",
+    "term": "slur",
+    "language": "en",
+    "definition": "A curved line over or under notes that tells you to play them smoothly, as [[legato|legato]]. Unlike a [[tie|tie]], it joins notes of different pitch.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "accent",
+    "term": "accent",
+    "language": "en",
+    "definition": "A mark, usually shaped like a sideways V, telling you to play that note louder or with more force.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "pause",
+    "term": "pause",
+    "us": "fermata",
+    "language": "en",
+    "definition": "A sign over a [[note|note]] or [[rest|rest]] that tells you to hold it for longer than its normal length.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "repeat-marks",
+    "term": "repeat marks",
+    "language": "en",
+    "definition": "Signs that tell you to play a section again. A double [[bar-line|bar line]] with dots marks the start or end of the section.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "metronome-mark",
+    "term": "metronome mark",
+    "language": "en",
+    "definition": "A marking such as ♩ = 80 that tells you how many [[beat|beats]] to play each minute. The note symbol shows which note counts as one beat.",
+    "grade": "1",
+    "strand": "terms"
   }
 ]
