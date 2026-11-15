@@ -1,0 +1,1558 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-pitch-02-bass-clef-notes",
+  "title": "Bass clef notes",
+  "summary": "Meet the clef for low notes and name its lines and spaces.",
+  "grade": "1",
+  "unit": "pitch-1",
+  "order": 2,
+  "strand": "pitch",
+  "skills": [
+    "pitch.bass.lines",
+    "pitch.bass.spaces",
+    "pitch.keyboard.find-notes"
+  ],
+  "prerequisites": [
+    "g1-pitch-01-treble-clef-notes"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "bass-clef"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Tubas, double basses and bass guitars all play down in the cellar of the keyboard. Press play on this slow, low tune. Then look at the sign at the start of the [[stave|stave]]. Is it the same as the one you met last lesson?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 72,
+        "passage": {
+          "clef": "bass",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Here is a keyboard for the low end. Play the five glowing keys from the lowest to the highest, then the keys in between. These five keys are the five lines of the low [[stave|stave]].",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "G2",
+          "B2",
+          "D3",
+          "F3",
+          "A3"
+        ],
+        "low": "G2",
+        "high": "A3"
+      },
+      "goal": "Play the five glowing keys from lowest to highest, then the keys between them."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "This sign is the [[bass-clef|bass clef]]. Its two dots sit either side of the fourth line, which is F. The five [[line|lines]] are G, B, D, F, A, from the bottom up. Try: Giant Bears Dunk Fish Angrily.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "bass",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "The four [[space|spaces]] are A, C, E, G, from the bottom up. To remember them, try: Ants Cross Every Gap.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "bass",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 3
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "The [[clef|clef]] decides the names. The bottom line is G in bass clef, but E in treble clef. The lines and spaces look the same, so always check the clef before you read a note.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "bass",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 2
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Start from F. The two dots of the bass clef hug the fourth line, so that line is F. Count up: G in the space above, A on the top line. Count down: E in the space below, D on the middle line. Say them as you play.",
+        "exhibit": {
+          "kind": "passage",
+          "tempo": 72,
+          "passage": {
+            "clef": "bass",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "D",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "E",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "F",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "A",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "F",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "E",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "D",
+                        "accidental": 0,
+                        "octave": 3
+                      }
+                    ],
+                    "duration": {
+                      "value": "semibreve",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-name-a-line-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.lines",
+          "prompt": "Which note is this?",
+          "hint": "Count up the lines from the bottom: G, B, D, F, A. Check the clef first.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "lines"
+            }
+          }
+        },
+        {
+          "id": "p2-name-a-space-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.spaces",
+          "prompt": "Which note is this?",
+          "hint": "The spaces from the bottom are A, C, E, G. Which space is the note in?",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "spaces"
+            }
+          }
+        },
+        {
+          "id": "p3-bottom-line",
+          "type": "multiple-choice",
+          "skill": "pitch.bass.lines",
+          "prompt": "This note is on the bottom line. What is it called in bass clef?",
+          "hint": "Look at the clef at the start. Is it the one where the bottom line is E?",
+          "source": "authored",
+          "payload": {
+            "exhibit": {
+              "kind": "passage",
+              "tempo": 72,
+              "passage": {
+                "clef": "bass",
+                "key": {
+                  "tonic": {
+                    "letter": "C",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                "time": {
+                  "beats": 4,
+                  "beatUnit": 4
+                },
+                "bars": [
+                  {
+                    "events": [
+                      {
+                        "kind": "note",
+                        "pitches": [
+                          {
+                            "letter": "G",
+                            "accidental": 0,
+                            "octave": 2
+                          }
+                        ],
+                        "duration": {
+                          "value": "semibreve",
+                          "dots": 0
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                },
+                "reason": "A is the note in the bottom space of the bass [[stave|stave]], just above this line. The bottom line is G."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "E"
+                },
+                "reason": "E is the bottom line in treble clef. The bass clef changes the names, so the bottom line here is G."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "G"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "p4-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Name the note first. Then find that letter on the keyboard, down at the low end.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "octaves": 2
+            }
+          }
+        },
+        {
+          "id": "p5-put-a-space-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.spaces",
+          "prompt": "Put the note on the [[stave|stave]].",
+          "hint": "The spaces from the bottom are A, C, E, G. Count up to find the right one.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "spaces"
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-name-a-line-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.lines",
+          "prompt": "Name this note.",
+          "hint": "Count up the lines from the bottom: G, B, D, F, A.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "lines"
+            }
+          }
+        },
+        {
+          "id": "c2-name-a-space-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.spaces",
+          "prompt": "Name this note.",
+          "hint": "The spaces from the bottom are A, C, E, G.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "spaces"
+            }
+          }
+        },
+        {
+          "id": "c3-put-a-line-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.lines",
+          "prompt": "Put the note on the [[stave|stave]].",
+          "hint": "Count the lines from the bottom: G, B, D, F, A.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "lines"
+            }
+          }
+        },
+        {
+          "id": "c4-put-a-space-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.spaces",
+          "prompt": "Put the note on the [[stave|stave]].",
+          "hint": "Count the spaces from the bottom: A, C, E, G.",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "place",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "positions": "spaces"
+            }
+          }
+        },
+        {
+          "id": "c5-play-the-note",
+          "type": "play-keyboard",
+          "skill": "pitch.keyboard.find-notes",
+          "prompt": "Play this note on the keyboard.",
+          "hint": "Name the note from its line or space, then find that letter.",
+          "source": "generated",
+          "generator": {
+            "id": "play-written-note",
+            "params": {
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              },
+              "octaves": 2
+            }
+          }
+        },
+        {
+          "id": "c6-which-spaces",
+          "type": "multiple-choice",
+          "skill": "pitch.bass.spaces",
+          "prompt": "Which letters name the four bass clef spaces, from the bottom up?",
+          "hint": "Start from the bottom space and say the letters as you go up.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "G, B, D, F"
+                },
+                "reason": "Those are the first four lines, not the spaces. The bass clef spaces are A, C, E, G."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "A, C, E, G"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "F, A, C, E"
+                },
+                "reason": "Those are the spaces in treble clef. In bass clef every name shifts, and the bottom space is A."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c7-name-any-note",
+          "type": "note-on-stave",
+          "skill": "pitch.bass.lines",
+          "prompt": "What is this note?",
+          "hint": "Is it on a line or in a space? Count up from the bottom: G, A, B, C...",
+          "source": "generated",
+          "generator": {
+            "id": "name-note-on-stave",
+            "params": {
+              "mode": "identify",
+              "clef": "bass",
+              "low": {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 2
+              },
+              "high": {
+                "letter": "A",
+                "accidental": 0,
+                "octave": 3
+              }
+            }
+          }
+        },
+        {
+          "id": "c8-match-the-lines",
+          "type": "match-up",
+          "skill": "pitch.bass.lines",
+          "prompt": "Match each note to its letter name.",
+          "hint": "Count up from the bottom line: G, B, D, F, A.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "second",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "bass",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 2
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "b",
+                "reason": "This note sits on the second line. The bass clef lines go G, B, so it is B."
+              },
+              {
+                "id": "middle",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "bass",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "D",
+                                "accidental": 0,
+                                "octave": 3
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "d",
+                "reason": "This note sits on the middle line. The bass clef lines go G, B, D, so it is D."
+              },
+              {
+                "id": "fourth",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "bass",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 3
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "f",
+                "reason": "This note sits on the fourth line, between the two dots of the clef. That line is F."
+              },
+              {
+                "id": "top",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "bass",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 4,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 3
+                              }
+                            ],
+                            "duration": {
+                              "value": "semibreve",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "match": "a",
+                "reason": "This note sits on the top line. The bass clef lines end G, B, D, F, A, so it is A."
+              }
+            ],
+            "right": [
+              {
+                "id": "d",
+                "face": {
+                  "kind": "text",
+                  "text": "D"
+                }
+              },
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "B"
+                }
+              },
+              {
+                "id": "f",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "The bass clef is for low notes. Its two dots sit either side of the F line, the fourth line up.",
+        "Bass clef lines from the bottom are G, B, D, F, A: Giant Bears Dunk Fish Angrily. The spaces are A, C, E, G: Ants Cross Every Gap.",
+        "The clef decides the names. The bottom line is E in treble clef but G in bass clef, so check the clef first."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 72,
+        "passage": {
+          "clef": "bass",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 3
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 2
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

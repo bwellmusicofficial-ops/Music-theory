@@ -1,0 +1,1176 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-pitch-05-tones-and-semitones",
+  "title": "Tones and semitones",
+  "summary": "Measure the two smallest steps in music on the keyboard and by ear.",
+  "usTitle": "Whole steps and half steps",
+  "grade": "1",
+  "unit": "pitch-1",
+  "order": 5,
+  "strand": "pitch",
+  "skills": [
+    "pitch.steps.semitone",
+    "pitch.steps.tone"
+  ],
+  "prerequisites": [
+    "g1-pitch-04-sharps-flats-and-naturals"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "semitone",
+    "tone"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Press play: the tune takes two small steps, and they are not the same size. Each step goes from one white key to the next white key. Which step is smaller?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 60,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Play C, then the very next key up, black or white. Then play C again, skip one key, and play the one after. Which step feels smaller?",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4",
+          "C#4",
+          "D4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play C to the very next key up, then C to the key after that."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "The step from one key to the very next key, black or white, is a [[semitone|semitone]]: the smallest step in music. C to C♯ is a [[semitone|semitone]]. So is E to F, because no key sits between them. The two creeping notes of the *Jaws* theme are a [[semitone|semitone]] apart.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "E4",
+              "F4"
+            ],
+            "low": "C4",
+            "high": "C5"
+          }
+        },
+        {
+          "text": "Skip one key and you have moved a [[tone|tone]], which is 2 [[semitone|semitones]]. C to D is a [[tone|tone]]: the black key C♯ sits in between. A [[semitone|semitone]] has no key in between. A [[tone|tone]] skips one.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C4",
+              "D4"
+            ],
+            "low": "C4",
+            "high": "C5"
+          }
+        },
+        {
+          "text": "Most neighbouring white keys have a black key between them, so most white-to-white steps are [[tone|tones]]. Only E to F and B to C have no black key. Those two are the white-to-white [[semitone|semitones]].",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "E4",
+              "F4",
+              "B4",
+              "C5"
+            ],
+            "low": "C4",
+            "high": "C5"
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Think of stairs. Each key, black or white, is one stair. A [[semitone|semitone]] is one stair up. A [[tone|tone]] is two stairs, skipping one. From G, one stair up is G♯ and two stairs up is A, so G to A is a [[tone|tone]]. Listen to the two steps below.",
+        "exhibit": {
+          "kind": "passage",
+          "tempo": 60,
+          "passage": {
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "E",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "F",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "A",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-smaller-step",
+          "type": "by-ear",
+          "skill": "pitch.steps.semitone",
+          "prompt": "Each clip has two notes. Which clip has the smaller step?",
+          "hint": "Play each clip twice. In one the notes sit almost touching. In the other there is a little more room.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 76,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 2,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 76,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 2,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A has a little more room between its notes: that is a [[tone|tone]]. The notes in clip B sit almost touching, which is the [[semitone|semitone]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-play-a-semitone",
+          "type": "play-keyboard",
+          "skill": "pitch.steps.semitone",
+          "prompt": "Play the note a [[semitone|semitone]] away.",
+          "hint": "A [[semitone|semitone]] is the very next key, black or white. Move one key only.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "step",
+              "steps": [
+                "semitone"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p3-tone-or-semitone",
+          "type": "multiple-choice",
+          "skill": "pitch.steps.tone",
+          "prompt": "[[tone|Tone]] or [[semitone|semitone]]?",
+          "hint": "Count the keys you move. One key is a [[semitone|semitone]]. Two keys, skipping one, is a [[tone|tone]].",
+          "source": "generated",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {}
+          }
+        },
+        {
+          "id": "p4-play-a-tone",
+          "type": "play-keyboard",
+          "skill": "pitch.steps.tone",
+          "prompt": "Play the note a [[tone|tone]] away.",
+          "hint": "A [[tone|tone]] is 2 [[semitone|semitones]]: skip one key, black or white, and land on the next.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "step",
+              "steps": [
+                "tone"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p5-which-pair",
+          "type": "multiple-choice",
+          "skill": "pitch.steps.semitone",
+          "prompt": "Which pair of notes is a [[semitone|semitone]] apart?",
+          "hint": "Think about which white keys have no black key between them.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 2,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "G",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "G to A has the black key G♯ between them, so it is a [[tone|tone]]. A [[semitone|semitone]] has no key in between."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 2,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "A",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "A to B has the black key A♯ between them, so it is a [[tone|tone]]. A [[semitone|semitone]] has no key in between."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 2,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-tone-or-semitone",
+          "type": "multiple-choice",
+          "skill": "pitch.steps.semitone",
+          "prompt": "[[tone|Tone]] or [[semitone|semitone]]?",
+          "hint": "Is there a key between the two? If not, it is a [[semitone|semitone]].",
+          "source": "generated",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {}
+          }
+        },
+        {
+          "id": "c2-tone-or-semitone-again",
+          "type": "multiple-choice",
+          "skill": "pitch.steps.tone",
+          "prompt": "[[tone|Tone]] or [[semitone|semitone]]?",
+          "hint": "A [[tone|tone]] skips one key. Look for a key between the two.",
+          "source": "generated",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {}
+          }
+        },
+        {
+          "id": "c3-play-a-semitone",
+          "type": "play-keyboard",
+          "skill": "pitch.steps.semitone",
+          "prompt": "Play the note a [[semitone|semitone]] away.",
+          "hint": "Move to the very next key, black or white.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "step",
+              "steps": [
+                "semitone"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c4-play-a-tone",
+          "type": "play-keyboard",
+          "skill": "pitch.steps.tone",
+          "prompt": "Play the note a [[tone|tone]] away.",
+          "hint": "Skip one key, then land on the next.",
+          "source": "generated",
+          "generator": {
+            "id": "keyboard-find",
+            "params": {
+              "ask": "step",
+              "steps": [
+                "tone"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c5-smaller-step",
+          "type": "by-ear",
+          "skill": "pitch.steps.semitone",
+          "prompt": "Which clip has the smaller step?",
+          "hint": "Listen for the clip where the two notes sit almost touching.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 76,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 2,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 76,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 2,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B has a little more room between its notes: that is a [[tone|tone]]. The notes in clip A sit almost touching, which is the [[semitone|semitone]]."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c6-bigger-step",
+          "type": "by-ear",
+          "skill": "pitch.steps.tone",
+          "prompt": "Which clip has the bigger step?",
+          "hint": "Listen for the clip where the notes sit a little further apart.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 76,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 2,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 76,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 2,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A has two notes almost touching: that is a [[semitone|semitone]]. The bigger step is the [[tone|tone]] in clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c7-which-pair-tone",
+          "type": "multiple-choice",
+          "skill": "pitch.steps.tone",
+          "prompt": "Which pair of notes is a [[tone|tone]] apart?",
+          "hint": "A [[tone|tone]] skips one key. Which pair has a black key between them?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 2,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "B",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "C",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "B to C has no black key between them, so it is a [[semitone|semitone]]. A [[tone|tone]] skips one key."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 2,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "C",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "D",
+                                "accidental": 0,
+                                "octave": 5
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "passage",
+                  "passage": {
+                    "clef": "treble",
+                    "key": {
+                      "tonic": {
+                        "letter": "C",
+                        "accidental": 0
+                      },
+                      "mode": "major"
+                    },
+                    "time": {
+                      "beats": 2,
+                      "beatUnit": 4
+                    },
+                    "bars": [
+                      {
+                        "events": [
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "E",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          },
+                          {
+                            "kind": "note",
+                            "pitches": [
+                              {
+                                "letter": "F",
+                                "accidental": 0,
+                                "octave": 4
+                              }
+                            ],
+                            "duration": {
+                              "value": "crotchet",
+                              "dots": 0
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "reason": "E to F has no black key between them, so it is a [[semitone|semitone]]. A [[tone|tone]] skips one key."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c8-semitones-in-a-tone",
+          "type": "multiple-choice",
+          "skill": "pitch.steps.tone",
+          "prompt": "How many [[semitone|semitones]] make one [[tone|tone]]?",
+          "hint": "A [[tone|tone]] skips one key. How many keys do you move?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "3"
+                },
+                "reason": "Three [[semitone|semitones]] would skip two keys. A [[tone|tone]] skips only one, so it is 2 [[semitone|semitones]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "1"
+                },
+                "reason": "One [[semitone|semitone]] is the very next key. A [[tone|tone]] is bigger: it skips one key, so it is 2 [[semitone|semitones]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "2"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "A [[semitone|semitone]] is the step to the very next key, black or white. It is the smallest step in music.",
+        "A [[tone|tone]] is 2 [[semitone|semitones]]: it skips one key.",
+        "Only E to F and B to C have no black key between them, so they are the white-to-white [[semitone|semitones]]. All other neighbouring white keys are a [[tone|tone]] apart."
+      ],
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "E4",
+          "F4",
+          "B4",
+          "C5"
+        ],
+        "low": "C4",
+        "high": "C5"
+      }
+    }
+  }
+}
