@@ -367,6 +367,6 @@ describe('LessonPlayer with the real registries and the real exemplar lesson', (
       expect(questionTypes[type], type).toBeDefined();
       expect(questionTypes[type]?.type).toBe(type);
     }
-    expect(Object.keys(generators).sort()).toEqual(['name-note-on-stave', 'tap-note-values']);
+    expect(Object.keys(generators)).toEqual(expect.arrayContaining(['name-note-on-stave', 'tap-note-values']));
   });
 });

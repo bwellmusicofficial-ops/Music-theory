@@ -1,0 +1,931 @@
+# Generators for Start here and Grade 1
+
+Status: P1-04. Extends section 3 of `docs/question-payloads.md`. As there, the
+**order of `rng` calls is part of the specification**: the same seed and
+params must always give the same question, so do not add, remove or reorder
+calls. Where the engine offers a function for a musical fact (spelling, key
+signature, scale, triad, interval, length, beat count, note name), the
+generator calls it and never hard-codes the answer.
+
+Code: `src/lesson/generators/<id>/` (`index.ts`, `params.ts`, `generate.ts`,
+`generate.test.ts`). Shared helpers: `src/lesson/generators/shared/`.
+Registry: `src/lesson/generators/index.ts`. Skill coverage map:
+`src/lesson/generators/coverage.ts`.
+
+## 0. Conventions that apply to every generator
+
+**Output.** Every generator returns `{ type, payload, prompt }`. The prompt is
+always returned, because it names the draw ("Which of these is the minim?").
+A lesson's authored `prompt` is only a fallback. Prompts are 20 words or fewer.
+
+**Terminology and links.** The text is built from the `terminology` argument.
+Note values and rests come from `rhythm.noteValueName` and `rhythm.restName`.
+Every term with a US equivalent is a glossary link whose id is the UK id and
+whose shown text is the name for the current terminology:
+
+| Term | id | Shown (uk / us) |
+| --- | --- | --- |
+| crotchet | `crotchet` | crotchet / quarter note |
+| dotted minim | `minim` | dotted minim / dotted half note (the word "dotted" sits outside the link) |
+| crotchet rest | `crotchet-rest` | crotchet rest / quarter rest |
+| bar | `bar` | bar / measure |
+| stave | `stave` | stave / staff |
+| tone | `tone` | tone / whole step |
+| semitone | `semitone` | semitone / half step |
+
+Plurals add `s` inside the shown text. Never write "a" straight before a
+linked quaver: use "one", "the" or the plural. Terms with no US equivalent
+(`time-signature`, `key-signature`, `tie`, `interval`, `triad`, `beat`) are
+linked sometimes, never required.
+
+**Beats.** Lengths are written with the engine-backed `beats(len, time)` helper
+of `docs/question-payloads.md` 1.4 ("1½ beats"). Generators that quote lengths
+in beats use a 4/4-style beat (a crotchet is 1 beat) unless they take a `time`.
+
+**Options.** Wrong options are plausible mistakes, listed in priority order in
+each spec; the first `options - 1` that are valid and distinct from everything
+already chosen are used (no `rng` call). The final display order is one
+`rng.shuffle([correct, ...wrongs])` call, which is always the **last** call.
+Option ids are `a`, `b`, `c`, `d` in display order. The correct option never
+has a reason; every wrong option has its own.
+
+**Reasons.** One or two sentences, 40 words or fewer, saying what the learner's
+choice actually is and why it is wrong, with the right answer. No "Incorrect",
+no blame, no `!`.
+
+**Passages.** Every bar is full. Rhythm-only material uses B4 in treble clef,
+C major. Bars are built with the same three rules as `tap-note-values` (3.2 of
+`question-payloads.md`): it fits, it does not hide a beat when off the beat,
+and in 4/4 a note after beat 1 does not cross the middle. They are then
+checked with `rhythm.groupingProblems`.
+
+**Skills.** Each question gives evidence for one skill, chosen by the lesson.
+The skills a generator can serve are in its "Serves" line and in
+`coverage.ts`.
+
+## 1. Skill coverage
+
+Authoring-guide skill ids, and what serves each. "Existing" means
+`name-note-on-stave` or `tap-note-values` (section 3 of `question-payloads.md`).
+
+**Covered by generators** (the cross-generator test reads this table):
+
+| Skill id | Generator(s) |
+| --- | --- |
+| `rhythm.pulse.steady` | `tap-note-values` (crotchets only; existing) |
+| `rhythm.note-values.crotchet-minim` | `choose-note-value`, `match-note-values` |
+| `rhythm.note-values.semibreve` | `choose-note-value`, `match-note-values`, `order-note-values` |
+| `rhythm.note-values.quaver` | `choose-note-value`, `match-note-values` |
+| `rhythm.note-values.semiquaver` | `choose-note-value`, `match-note-values` |
+| `rhythm.note-values.dotted` | `count-beats`, `match-note-values`, `order-note-values`, `complete-the-bar` |
+| `rhythm.note-values.compare` | `order-note-values`, `count-beats`, `choose-note-value` |
+| `rhythm.rests.values` | `choose-note-value`, `match-note-values`, `order-note-values`, `complete-the-bar` |
+| `rhythm.rests.whole-bar` | `choose-note-value` (question `whole-bar`) |
+| `rhythm.ties.read` | `count-beats` |
+| `rhythm.time.read-signature` | `count-beats`, `spot-the-bar` |
+| `rhythm.time.complete-bar` | `complete-the-bar`, `spot-the-bar` |
+| `rhythm.time.identify` | `count-beats` (question `fits`, as arithmetic in words) |
+| `rhythm.perform.crotchet-minim` | `tap-note-values` |
+| `rhythm.perform.semibreve` | `tap-note-values` |
+| `rhythm.perform.quaver` | `tap-note-values` |
+| `rhythm.perform.semiquaver` | `tap-note-values` |
+| `rhythm.perform.dotted` | `tap-note-values` |
+| `rhythm.perform.rests` | `tap-rests-and-ties` |
+| `rhythm.perform.ties` | `tap-rests-and-ties` |
+| `rhythm.perform.triple-time` | `tap-note-values` (time 3/4) |
+| `pitch.treble.lines` | `name-note-on-stave`, `play-written-note` |
+| `pitch.treble.spaces` | `name-note-on-stave`, `play-written-note` |
+| `pitch.treble.ledger` | `name-note-on-stave`, `play-written-note` |
+| `pitch.bass.lines` | `name-note-on-stave`, `play-written-note` |
+| `pitch.bass.spaces` | `name-note-on-stave`, `play-written-note` |
+| `pitch.bass.ledger` | `name-note-on-stave`, `play-written-note` |
+| `pitch.clefs.same-note` | `same-note-other-clef` |
+| `pitch.keyboard.find-notes` | `play-written-note`, `keyboard-find` |
+| `pitch.accidentals.read` | `name-note-on-stave` (accidentals), `play-written-note` |
+| `pitch.accidentals.write` | `name-note-on-stave` (`place`, accidentals) |
+| `pitch.accidentals.bar-rule` | `accidental-lasts` |
+| `pitch.steps.semitone` | `tone-or-semitone`, `keyboard-find` |
+| `pitch.steps.tone` | `tone-or-semitone`, `keyboard-find` |
+| `scales-keys.major.pattern` | `tone-or-semitone` (source `major-scale`) |
+| `scales-keys.major.c` | `play-scale-or-triad`, `spot-scale-note`, `key-facts` |
+| `scales-keys.major.g` | `play-scale-or-triad`, `spot-scale-note`, `key-facts` |
+| `scales-keys.major.d` | `play-scale-or-triad`, `spot-scale-note`, `key-facts` |
+| `scales-keys.major.f` | `play-scale-or-triad`, `spot-scale-note`, `key-facts` |
+| `scales-keys.signature.read` | `key-facts`, `spot-scale-note` |
+| `scales-keys.degrees.number` | `key-facts`, `play-scale-or-triad` |
+| `intervals.number.read` | `interval-by-number` |
+| `intervals.number.write` | `interval-place` |
+| `intervals.number.hear` | `contrast-by-ear` |
+| `harmony.tonic-triad.build` | `play-scale-or-triad` (question `triad`) |
+| `harmony.tonic-triad.identify` | `key-facts` (question `from-triad`) |
+
+**Left to authored questions** (no generator; reasons in section 1.2):
+
+| Skill id | Why |
+| --- | --- |
+| `rhythm.time.add-bar-lines` | No question type lets the learner place bar lines. |
+| `rhythm.grouping.beams` | The stave beams automatically (`rhythm.beamGroups`); a payload cannot show a badly beamed bar for the learner to correct. |
+| `scales-keys.signature.write` | A key signature is derived from `Passage.key`; no type lets the learner write one. |
+| `terms.dynamics.signs`, `terms.tempo.italian`, `terms.expression.italian`, `terms.articulation.signs`, `terms.signs.repeats-and-pauses` | Vocabulary, not generated facts; author `match-up` and `multiple-choice` by hand. |
+| `score-reading.passage.find-features` | `spot-mistake` reasons say "that note is fine", which is wrong for "find the minim"; author these. |
+
+### 1.1 Start here
+
+The authoring guide has no skill table for Start here. These lessons reuse
+`rhythm.pulse.steady` (lessons 1 to 3, `tap-note-values` with crotchets only),
+`pitch.keyboard.find-notes`, `pitch.treble.lines`, `pitch.treble.spaces` and
+`intervals.number.hear`. Four ideas have no skill. The orchestrator is asked to
+add these ids (the generators already declare them in `coverage.ts`):
+
+| Proposed skill id | The learner can | Generator |
+| --- | --- | --- |
+| `pitch.high-low.hear` | tell a higher sound from a lower one | `contrast-by-ear` (`higher`, `lower`) |
+| `pitch.direction.hear` | tell whether a tune goes up, down or stays | `contrast-by-ear` (`direction`) |
+| `rhythm.long-short.hear` | tell a long note from a short one | `contrast-by-ear` (`longer`, `shorter`) |
+| `pitch.keyboard.layout` | use the black-key groups and the letters to find notes | `keyboard-find` (`find-every`, `black-keys`, `next-note`, `previous-note`) |
+
+### 1.2 Gaps found
+
+1. **No hidden time signature.** The exhibit stave always draws the time
+   signature, so "which time signature fits this bar?" cannot be asked from
+   notation. `count-beats` with question `fits` lists the notes in words
+   instead. A `show: { timeSignature: false }` field on the passage exhibit
+   would allow the notated version.
+2. **No glyph in an exhibit.** Exhibits show a passage, a keyboard or a clip,
+   not one glyph, so "name this symbol" is asked as `match-up` (glyph on the
+   left, name on the right) or as a choice among glyphs, never with a glyph in
+   the stem.
+3. **No empty complete-bar.** A bar needs at least one event, so a
+   whole-bar-rest question cannot be a `complete-bar`. It is a choice among
+   rest glyphs.
+4. **`interval-place` cannot check the octave.** The empty stave shows no
+   reference note, so the target is accepted in any octave and the 8th is
+   excluded (D to D in the same octave would be accepted as "an 8th above D").
+5. **Same-note across clefs is a narrow range.** Both clefs must draw the note
+   within two ledger lines (positions -4 to 12), which leaves A3 to E4. That
+   is five notes, so repeats across seeds are unavoidable for
+   `same-note-other-clef`.
+6. **`play-scale-or-triad` takes natural tonics only.** The keyboard range must
+   start and end on white keys.
+
+## 2. Shared pieces
+
+`src/lesson/generators/shared/`:
+
+- `terms.ts`: the link builders of section 0.
+- `bars.ts`: `buildBars`, the three bar-building rules, note and rest events.
+- `options.ts`: option ids and the final shuffle.
+- `glossary-ids.ts`: the ids of the appendix.
+- `test-kit.ts`: the test battery every generator runs (section 4).
+
+## 3. The generators
+
+In each spec, `B4` is `{ letter: 'B', accidental: 0, octave: 4 }`. `T44` is
+4/4. "Plain duration" means dots 0 to 2, no tuplet. All params objects are
+`strictObject`s with the stated defaults.
+
+### 3.1 `choose-note-value`
+
+Serves: `rhythm.note-values.crotchet-minim`, `.semibreve`, `.quaver`,
+`.semiquaver`, `.compare`, `rhythm.rests.values`, `rhythm.rests.whole-bar`.
+Type: `multiple-choice`, every option a **glyph** face.
+
+```ts
+interface ChooseNoteValueParams {
+  /** Default 'note'. */
+  kind?: 'note' | 'rest';
+  /** Pool of values. 2 to 6, all different lengths. Default crotchet and minim. */
+  values?: Duration[];
+  /** Default 'name'. */
+  question?: 'name' | 'beats' | 'longer' | 'shorter' | 'whole-bar';
+  /** 2 to 4, at most `values.length`. Default 3 (2 for `values.length` 2). */
+  options?: number;
+  /** Only for 'whole-bar': 2/4, 3/4 or 4/4. Default 4/4. */
+  time?: TimeSignature;
+}
+```
+
+Validation: lengths of `values` all different and a multiple of a quarter
+beat (no dotted semiquaver); rests have `dots` 0; `options <= values.length`
+(not for `whole-bar`); `whole-bar` needs `kind: 'rest'`.
+
+Rng calls:
+
+- `name`, `beats`: (1) `target = rng.pick(values)`; (2) `rng.shuffle(others)`,
+  the first `options - 1` are the wrong options; (3) the final shuffle.
+- `longer`, `shorter`: (1) `rng.shuffle(values)`, the first `options` are
+  shown; the correct one is the longest or shortest; (2) the final shuffle.
+- `whole-bar`: (1) `rng.shuffle(distractors)`; (2) the final shuffle.
+
+Correctness: `beats` and the comparisons use `rhythm.durationLength`. Lengths
+in the pool are all different, so there is exactly one longest, one shortest
+and one note per length. `whole-bar`: the correct option is always the
+semibreve rest, because `rhythm.groupingProblems` accepts a lone semibreve rest
+for a silent bar in every simple time signature. Wrong options for
+`whole-bar`, in priority order: the rest with the bar's own length if a symbol
+exists for it (dotted minim rest in 3/4, minim rest in 2/4); minim rest;
+crotchet rest; quaver rest.
+
+Prompts (`{N}` is the name link, `beats()` text):
+
+| question | note | rest |
+| --- | --- | --- |
+| name | `Which of these is the {N}?` | same, with the rest name |
+| beats | `Which note lasts {b}?` | `Which rest lasts {b}?` |
+| longer | `Which note lasts longer?` (2 options) or `Which note lasts longest?` | rest for note |
+| shorter | `Which note lasts shorter?` is avoided: `Which note is shorter?` or `Which note is shortest?` | rest for note |
+| whole-bar | `A whole {bar} of silence in {t}. Which rest do you write?` | |
+
+Wrong-option reasons (`O` the chosen symbol, `C` the correct one, `bO`, `bC`
+their lengths):
+
+| question | Reason |
+| --- | --- |
+| name | `That symbol lasts {bO}, so it is the {O}. The {C} lasts {bC}.` |
+| beats | `That {note} lasts {bO}, not {bC}. It is the {O}.` |
+| longer | `That {O} lasts {bO}. The {C} lasts {bC}, which is longer.` |
+| shorter | `That {O} lasts {bO}. The {C} lasts only {bC}, which is shorter.` |
+| whole-bar, bar-length rest | `A {O} does last {bO}, the length of this {bar}, but a whole {bar} of silence is always the {semibreve rest}, in every time signature.` |
+| whole-bar, other | `A {O} lasts only {bO}, but this {bar} has {bB}. Silence for a whole {bar} is the {semibreve rest}.` |
+
+Example (`question: 'name'`, rests, 3 options):
+
+```json
+{
+  "type": "multiple-choice",
+  "prompt": "Which of these is the [[minim-rest|minim rest]]?",
+  "payload": {
+    "options": [
+      { "id": "a", "face": { "kind": "glyph", "glyph": { "kind": "rest", "duration": { "value": "crotchet", "dots": 0 } } },
+        "reason": "That symbol lasts 1 beat, so it is the [[crotchet-rest|crotchet rest]]. The [[minim-rest|minim rest]] lasts 2 beats." },
+      { "id": "b", "face": { "kind": "glyph", "glyph": { "kind": "rest", "duration": { "value": "minim", "dots": 0 } } } },
+      { "id": "c", "face": { "kind": "glyph", "glyph": { "kind": "rest", "duration": { "value": "semibreve", "dots": 0 } } },
+        "reason": "That symbol lasts 4 beats, so it is the [[semibreve-rest|semibreve rest]]. The [[minim-rest|minim rest]] lasts 2 beats." }
+    ],
+    "correct": "b"
+  }
+}
+```
+
+### 3.2 `match-note-values`
+
+Serves: `rhythm.note-values.crotchet-minim`, `.semibreve`, `.quaver`,
+`.semiquaver`, `.dotted`, `rhythm.rests.values`. Type: `match-up`.
+
+```ts
+interface MatchNoteValuesParams {
+  /** Default 'note'. */
+  kind?: 'note' | 'rest';
+  /** 3 to 5 plain durations of different lengths. Default crotchet, minim, semibreve. */
+  values?: Duration[];
+  /** What the glyphs are matched with. Default 'beats'. */
+  match?: 'beats' | 'name';
+}
+```
+
+Validation: as `choose-note-value` for the pool. Rests have `dots` 0.
+
+Rng calls: (1) `rng.shuffle(values)` gives the left order. (2) The right
+order: `rng.shuffle(rights)`, repeated up to 10 times until at least two right
+items differ from the matching order; if none does, rotate the last shuffle by
+one place (deterministic, no call).
+
+Faces: left glyph. Right text: `beats`: `beats()` text ("2 beats");
+`name`: the name link ("[[minim|minim]]"). Ids: left `minim`, `minim-dotted`,
+`minim-rest`; right `r-` plus the left id.
+
+Left reason (shown for that item when paired wrongly):
+
+- `beats`: `The {N} lasts {b}, so it belongs with {b}.`
+- `name`: `This symbol lasts {b}, so it is the {N}.`
+
+Prompt: `Match each symbol with how long it lasts.` or
+`Match each symbol with its name.`
+
+Example (3 notes, `beats`): as the JSON in 2.2 of `question-payloads.md`, with
+the prompt above.
+
+### 3.3 `order-note-values`
+
+Serves: `rhythm.note-values.compare`, `.semibreve`, `.dotted`,
+`rhythm.rests.values`. Type: `ordering`.
+
+```ts
+interface OrderNoteValuesParams {
+  kind?: 'note' | 'rest';                       // default 'note'
+  /** 3 to 6 plain durations of different lengths. Default crotchet, minim, semibreve. */
+  values?: Duration[];
+  /** How many are shown, 3 to 6, at most `values.length`. Default `min(values.length, 4)`. */
+  count?: number;
+  direction?: 'shortest-first' | 'longest-first' | 'either';  // default 'shortest-first'
+}
+```
+
+Rng calls: (1) only for `either`: `rng.pick(['shortest-first', 'longest-first'])`;
+(2) `rng.shuffle(values)`, the first `count` are shown; (3) `rng.shuffle(shown)`
+gives the starting order; if it equals the correct order it is rotated by one
+place (deterministic).
+
+Correctness: `correctOrder` sorts by `rhythm.durationLength`; all lengths are
+different, so there are no ties. `ends` is `shortest`/`longest` or reversed.
+Reason (30 words at most): `Shortest to longest: {N} {b}, {N} {b}, ...` (or
+`Longest to shortest`). Prompt: `Put these in order, {shortest|longest} first.`
+
+Example: the JSON in 2.3 of `question-payloads.md`.
+
+### 3.4 `count-beats`
+
+Serves: `rhythm.note-values.dotted`, `.compare`, `rhythm.ties.read`,
+`rhythm.time.identify`, `rhythm.time.read-signature`. Type: `multiple-choice`,
+text faces.
+
+```ts
+interface CountBeatsParams {
+  /** Default 'dotted'. */
+  ask?: 'dotted' | 'tie' | 'exchange' | 'fits' | 'meaning';
+  /**
+   * Pool. dotted: 1 to 4 plain durations; the question uses each with one dot.
+   * tie, fits: 2 to 5 plain durations, no dots. exchange: 2 to 5, no dots.
+   * Default crotchet, minim, quaver.
+   */
+  values?: Duration[];
+  /** fits, meaning: simple time signatures with a crotchet beat, 2 to 4 beats, all different beat counts. Default 2/4, 3/4, 4/4. */
+  times?: TimeSignature[];
+  /** 2 to 4, default 3 (fits uses `times.length`, at most 4 and at least 2). */
+  options?: number;
+}
+```
+
+Validation: `dotted` forbids a dotted semiquaver (3/8 beat is not a quarter
+beat); `exchange` needs a pair of values whose ratio is 2 to 8.
+
+All lengths are in crotchet beats (`T44`). Option text is `beats()` text
+("3 beats"), except `exchange` (a number) and `fits` / `meaning` (below).
+
+**`dotted`.** (1) `d = rng.pick(values)`; the note is `d` with one dot,
+`b` = the plain length in beats, correct = `1.5 b`. Wrong options in order:
+`b` (ignored the dot), `2 b` (thought the dot doubles it), `b + 1` (thought the
+dot adds a whole beat), `3 b`. Duplicates and the correct value are skipped.
+(2) the final shuffle. Prompt: `How many beats does a dotted {N} last?` where
+the link is the plain name. Reasons:
+
+| Option | Reason |
+| --- | --- |
+| `b` | `That is the plain {N} without its dot. The dot adds half as much again: {b} plus {b/2} is {correct}.` |
+| `2 b` | `A dot adds half the note's length, not all of it. The dotted {N} is {b} plus {b/2}, which is {correct}.` |
+| `b + 1` | `The dot adds half the note's own length ({b/2}), not a whole beat. The dotted {N} lasts {correct}.` |
+| other | `Half of the plain {N}'s {b} is {b/2}. Added on, that makes {correct}, not {x}.` |
+
+**`tie`.** (1) `first = rng.pick(values)`; (2) `second = rng.pick(values
+without first)`; (3) the final shuffle. Correct = `a + b`. Wrong: `a` (only
+the first note counted), `b` (only the second), `a + b + 1` (counted the tie as
+a beat). Prompt: `Two notes are joined by a {tie}: one {N1}, then one {N2}. How
+many beats do they last in all?` Reasons: `a`: `A tie joins the notes into one
+sound, so the second note counts too: {a} plus {b} is {a+b}.`; `b`: the same
+with the first; `a + b + 1`: `The tie itself adds no time. It joins the notes,
+so the total is {a} plus {b}, which is {a+b}.`
+
+**`exchange`.** (1) `big = rng.pick(values with a shorter value of ratio 2 to
+8)`; (2) `small = rng.pick(values shorter than big with that ratio)`; (3) the
+final shuffle. `n` = big ÷ small. Options are the numbers. Wrong, in order:
+`2n`, `n / 2` (when a whole number of at least 1), `n + 2`, `n - 1` (when at
+least 2). Prompt: `How many {small plural} last as long as one {big}?` Reason:
+`{x} {small plural} last {x * small} in all, but the {big} lasts {big}. You
+need {n}.` (lengths as `beats()` text).
+
+**`fits`.** (1) `time = rng.pick(times)`; (2) the bar is built by `buildBars`
+(1 bar, `values`) until its length is `time`'s (it always is: that is how the
+bar is built); (3) the final shuffle (the options are the `times`, in the
+shuffled order, `options = times.length`). Prompt: `A {bar} holds these notes,
+in order: {N1}, {N2}, .... Which time signature fits?` Option text: `3/4`.
+Reason for time `t`: `{t} means {n} beats in each {bar}, but these notes add
+up to {total}: {sum like 2 + 1 + 1}.` Since beat counts of `times` are all
+different, exactly one option fits.
+
+**`meaning`.** (1) `time = rng.pick(times)`; (2) `part = rng.pick(['top',
+'bottom'])`; (3) the final shuffle. `top`: prompt `In {t} time, how many beats
+are in each {bar}?` Options: the top number; wrong, in order: the bottom number
+(4), top + 1, top - 1 (skipping values below 1 and duplicates). Reasons: for
+the bottom number `The bottom 4 does not count the beats. The top number
+does: {t} has {top} beats in each {bar}.`; others `{x} beats would be {x}/4.
+The top number of {t} is {top}, so each {bar} has {top} beats.` `bottom`:
+prompt `In {t}, what does the bottom number 4 tell you?` Options `Each beat
+is the {N}` for crotchet (correct); wrong, in order: minim, quaver, semibreve.
+Reason: `A bottom number of {n} stands for the {O}. The 4 stands for the
+{crotchet}, so each beat in {t} is a {crotchet}.` (the code writes "the
+{crotchet}", never "a quaver") where `n` is the number for `O` (minim 2,
+quaver 8, semibreve 1), computed as `1 / rhythm.durationLength(O)`.
+
+Example (`tie`, 3 options, minim then crotchet):
+
+```json
+{
+  "type": "multiple-choice",
+  "prompt": "Two notes are joined by a [[tie|tie]]: one [[minim|minim]], then one [[crotchet|crotchet]]. How many beats do they last in all?",
+  "payload": {
+    "options": [
+      { "id": "a", "face": { "kind": "text", "text": "2 beats" },
+        "reason": "A tie joins the notes into one sound, so the second note counts too: 2 beats plus 1 beat is 3 beats." },
+      { "id": "b", "face": { "kind": "text", "text": "3 beats" } },
+      { "id": "c", "face": { "kind": "text", "text": "4 beats" },
+        "reason": "The tie itself adds no time. It joins the notes, so the total is 2 beats plus 1 beat, which is 3 beats." }
+    ],
+    "correct": "b"
+  }
+}
+```
+
+### 3.5 `complete-the-bar`
+
+Serves: `rhythm.time.complete-bar`, `rhythm.rests.values`,
+`rhythm.note-values.dotted`. Type: `complete-bar`.
+
+```ts
+interface CompleteTheBarParams {
+  /** Simple time signature, 2 to 4 beats. Default 4/4. */
+  time?: TimeSignature;
+  /** Pool for the music and the palette. 3 to 6 plain durations of different lengths. Default crotchet, minim, semibreve. */
+  values?: Duration[];
+  /** The symbol to add. Default 'note'. */
+  missing?: 'note' | 'rest';
+  /** Passage length, 1 to 3 bars. Default 2. */
+  bars?: number;
+  /** Palette size, 2 to 4, at most `values.length`. Default 3. */
+  paletteSize?: number;
+}
+```
+
+Rng calls: loop up to 50 attempts:
+(a) build `bars` full bars (`buildBars`: one `pick` per note);
+(b) `barIndex = rng.int(0, bars - 1)`; the chosen bar needs at least two events
+(else next attempt);
+(c) the chosen bar's last event is the answer. With `missing: 'rest'` it
+becomes a rest of the same value in the *finished* bar; if
+`rhythm.groupingProblems` of the finished bar is not empty, next attempt.
+After a good attempt: (d) `rng.shuffle(values without the answer's length)`,
+the first `paletteSize - 1` are the other palette symbols; (e) the final
+shuffle of the palette. If 50 attempts fail, `TheoryError`.
+
+Correctness: the payload has `count: 1` and `checkGrouping: true`. The palette
+has all notes or all rests, all of different lengths, so exactly one symbol has
+the missing length: a single, unambiguous answer. The finished bar passes the
+grouping rules by construction (rule c). `fillPitch` is B4. The passage is
+treble, C major, `time`.
+
+Prompt: `Add the missing {note|rest} to complete the {bar}.` The reasons come
+from the type (section 2.8 of `question-payloads.md`).
+
+Example (4/4, two bars, `note`): bar 1 is crotchet, crotchet, minim; bar 2 is
+crotchet, crotchet, crotchet (short); palette crotchet, minim, semibreve; answer
+one crotchet.
+
+### 3.6 `spot-the-bar`
+
+Serves: `rhythm.time.complete-bar`, `rhythm.time.read-signature`. Type:
+`spot-mistake`, `select: 'bar'`.
+
+```ts
+interface SpotTheBarParams {
+  time?: TimeSignature;      // simple, 2 to 4 beats; default 4/4
+  values?: Duration[];       // 2 to 6 plain durations, default crotchet, minim
+  bars?: number;             // 3 or 4, default 3
+  fault?: 'short' | 'long' | 'either';   // default 'either'
+}
+```
+
+Rng calls: (1) `buildBars` for all bars (one `pick` per note); (2)
+`mistakeBar = rng.int(0, bars - 1)`; (3) only for `either`: `rng.pick(['short',
+'long'])`; (4) only for a long bar: `extra = rng.pick(values)`.
+
+Construction: a short bar drops the bar's last event (a bar with one event
+becomes a long bar instead, with no extra call: `extra` is then drawn); a long
+bar appends a note of `extra`. The bar is therefore short or long by that
+note's length, never full, and every other bar is full and well grouped.
+
+Prompt: `One {bar} has the wrong number of beats. Tap it.` Explanation (40 words
+at most): `{Bar} {k} has {total}: {note (b), note (b), ...}. That is {diff} too
+{many|few}.` where `many` is for long and `few` for short.
+
+Example (4/4, bar 2 long): the JSON in 2.9 of `question-payloads.md`.
+
+### 3.7 `tap-rests-and-ties`
+
+Serves: `rhythm.perform.rests`, `rhythm.perform.ties`. Type: `tap-rhythm`. (The
+existing `tap-note-values` never writes rests or ties.)
+
+```ts
+interface TapRestsAndTiesParams {
+  time: TimeSignature;               // simple, 2 to 4 beats
+  values: Duration[];                // note values, 1 to 4, plain
+  rests?: Duration[];                // rest values, 0 to 3, dots 0. Default [].
+  ties?: boolean;                    // default false: one tie across a bar line
+  bars: number;                      // 1 to 4 (2 to 4 when ties)
+  bpm: number;                       // 50 to 120
+  showNotation?: boolean;            // default true
+  listenFirst?: boolean;             // default false
+}
+```
+
+Validation: `rests.length > 0 || ties`, else use `tap-note-values`.
+
+Rng calls: loop up to 50 attempts: (a) for each bar, for each position, `pick`
+from the allowed list (notes in `values` order, then rests in `rests` order)
+under the three bar rules, until the bar is full; (b) with `ties`: `rng.pick`
+from the bar lines where the last event of the bar and the first of the next
+are both notes (none: next attempt); the earlier note gets `tieToNext`.
+An attempt is kept when: every bar has a note; if `rests` is given a rest
+appears; and `rhythm.groupingProblems` is empty for every bar. Else
+`TheoryError` after 50.
+
+Correctness: the tied pair has the same pitch (B4). `rhythm.onsetTimes`
+excludes rests and tied continuations, so the learner taps once for a tied
+pair, and once for each note. Prompts: `Tap this rhythm. Rests are silent:
+do not tap.`, `Tap this rhythm. A tie joins two notes into one tap.`, or both
+sentences.
+
+### 3.8 `same-note-other-clef`
+
+Serves: `pitch.clefs.same-note`. Type: `multiple-choice`, every option a
+**passage** face; the exhibit is the shown note.
+
+```ts
+interface SameNoteOtherClefParams {
+  from?: 'treble' | 'bass' | 'either';  // default 'either'
+  options?: number;                      // 2 to 4, default 3
+}
+```
+
+Rng calls: (1) only for `either`: `rng.pick(['treble', 'bass'])`; (2)
+`note = rng.pick([A3, B3, C4, D4, E4])` (the notes within two ledger lines of
+both clefs, 1.2 gap 5); (3) the final shuffle.
+
+Construction: each passage is one 4/4 bar with a semibreve, C major. Correct
+option: the same pitch in the other clef. Wrong options, in order: (a) the note
+at the **same stave position** in the other clef (reading the pattern of
+lines as if the clef did not change); (b) the same letter an octave away, when
+within positions -4 to 12; (c) the note a step above the correct one; (d) a
+step below. Those out of range or duplicated are skipped. The passage options
+are distinct and the stave positions are -4 to 12.
+
+Prompt: `This note is in {from} clef. Which stave shows the same note in {to}
+clef?` (`stave` linked.) Reasons (`pos` from `reason-helpers` `where`):
+
+| Option | Reason |
+| --- | --- |
+| (a) | `That note is {where(pos)} of the {to} {stave}, the same place as the shown note, but the clef changes its name. It is {N}, not {N0}.` |
+| (b) | `That is a {letter}, but in a different octave. The shown note is {where(p0)} of the {from} {stave}; the same sound in {to} clef is {where(p1)}.` |
+| (c), (d) | `That is {N}, a step {higher\|lower} than the shown note, {N0}. The same sound in {to} clef is {where(p1)}.` |
+
+### 3.9 `play-written-note`
+
+Serves: `pitch.keyboard.find-notes`, `pitch.accidentals.read`,
+`pitch.treble.*`, `pitch.bass.*` (play). Type: `play-keyboard`.
+
+```ts
+interface PlayWrittenNoteParams {
+  clef: 'treble' | 'bass';
+  low: Pitch; high: Pitch;               // naturals, as name-note-on-stave
+  positions?: 'all' | 'lines' | 'spaces';// default 'all'
+  key?: Key;                             // default C major
+  accidentals?: boolean;                 // default false
+  octaves?: 1 | 2;                       // keyboard size, default 1
+  showLabels?: boolean;                  // default false
+}
+```
+
+Validation: as `name-note-on-stave` (reused: `candidatePositions`).
+
+Rng calls: (1) `pos = rng.pick(candidates)`; (2) `a`: with `accidentals`,
+`rng.pick([-1, 0, 1])` (E sharp, B sharp, C flat, F flat become natural), else
+the key signature's accidental for the letter; (3) only for `octaves: 2`:
+`shift = rng.int(0, 1)`.
+
+Output: `targets: [note]`, `mode: 'sequence'`, `octave: 'exact'`, the
+`passage` is one 4/4 semibreve bar in `clef` and `key`. The keyboard runs from
+C of the note's octave (minus `shift` octaves) for `octaves` octaves, so it
+contains the note whatever its sign. Prompt: `Play this note on the keyboard.`
+Reasons come from the type.
+
+### 3.10 `keyboard-find`
+
+Serves: `pitch.keyboard.find-notes`, `pitch.steps.tone`, `pitch.steps.semitone`
+and the proposed `pitch.keyboard.layout`. Type: `play-keyboard`.
+
+```ts
+interface KeyboardFindParams {
+  ask: 'find-every' | 'black-keys' | 'next-note' | 'previous-note' | 'step';
+  /** find-every, next-note, previous-note. Default all seven letters. */
+  letters?: Letter[];
+  /** black-keys. Default both. */
+  groups?: ('twos' | 'threes')[];
+  /** step. Default both. */
+  steps?: ('tone' | 'semitone')[];
+  directions?: ('up' | 'down')[];        // step. Default both.
+  showLabels?: boolean;                  // default false
+}
+```
+
+Rng calls and output:
+
+| ask | Calls | Payload |
+| --- | --- | --- |
+| `find-every` | (1) `letter = rng.pick(letters)`; (2) `a = rng.int(3, 4)` | Keyboard C`a` to C`a+2`; targets: every key with that letter, `together`, `exact`. Prompt `Play every {letter} on this keyboard.` |
+| `black-keys` | (1) `g = rng.pick(groups)` | Keyboard C4 to B4; targets C♯4, D♯4 (`twos`) or F♯4, G♯4, A♯4 (`threes`), `together`, `exact`. Prompt `Play the group of {two\|three} black keys.` |
+| `next-note`, `previous-note` | (1) `letter = rng.pick(letters)` | Keyboard C4 to B4; one target, the next or previous letter in the musical alphabet (G then A, A before G wraps to G), `sequence`, `any`. Prompt `Play the note after {letter} in the musical alphabet.` / `before` |
+| `step` | (1) `start = rng.pick(C4..B4)`; (2) `step = rng.pick(steps)`; (3) `dir = rng.pick(directions)` | Keyboard A3 to D5; one target, `pitch.transpose(start, major or minor 2nd, dir)`, `sequence`, `exact`. Prompt `Play the note a {tone\|semitone} {above\|below} {start}.` |
+
+The musical-alphabet step wraps (`G` then `A`), and `any` octave marks a letter
+on any key. `step` uses the engine's correct spelling (for example F♯ for a
+tone above E).
+
+### 3.11 `play-scale-or-triad`
+
+Serves: `scales-keys.major.c|g|d|f`, `scales-keys.degrees.number`,
+`harmony.tonic-triad.build`. Type: `play-keyboard`.
+
+```ts
+interface PlayScaleOrTriadParams {
+  ask: 'scale' | 'degree' | 'triad';
+  /** Natural tonics. Default C, G, D, F. */
+  keys?: Letter[];
+  /** degree. 2 to 8. Default 2 to 8. */
+  degrees?: number[];
+  showLabels?: boolean;                  // default false
+}
+```
+
+Rng calls: (1) `tonic = rng.pick(keys)`; (2) only for `degree`: `n = rng.pick(degrees)`.
+
+Output: keyboard from the tonic in octave 4 to the tonic in octave 5.
+`scale`: targets `pitch.scale(tonic, 'major', 4)` (8 notes), `sequence`,
+`exact`. `degree`: one target, the n-th note of that scale. `triad`:
+`pitch.triadPitches({ root, quality: 'major', inversion: 0 }, 4)`, `together`,
+`exact`. Prompts: `Play the scale of {key}, going up.`, `Play note {n} of the
+scale of {key}.`, `Play the tonic {triad} of {key}.`
+
+### 3.12 `tone-or-semitone`
+
+Serves: `pitch.steps.tone`, `pitch.steps.semitone`, `scales-keys.major.pattern`.
+Type: `multiple-choice`, text faces; the exhibit is a keyboard with the two
+notes highlighted.
+
+```ts
+interface ToneOrSemitoneParams {
+  source?: 'keyboard' | 'major-scale';   // default 'keyboard'
+  /** major-scale: natural tonics. Default C, G, D, F. */
+  keys?: Letter[];
+}
+```
+
+Rng calls: `keyboard`: (1) `start = rng.pick(C4..B4)`; (2) `size = rng.pick([1, 2])`
+semitones; (3) the final shuffle. `major-scale`: (1) `tonic = rng.pick(keys)`;
+(2) `d = rng.int(1, 7)`; (3) the final shuffle.
+
+Correctness: the second note is `pitch.transpose` (keyboard) or the scale's
+(d+1)th note (scale). The answer is a semitone when `pitch.toMidi` differs by 1,
+a tone when it differs by 2. In a major scale only the steps from 3 to 4 and
+7 to 8 are semitones. The keyboard is C4 to E5.
+
+Prompts: `What is the step from {a} up to {b}?` (keyboard);
+`In {key}, what is the step from note {d} ({a}) to note {d+1} ({b})?` Options
+`A {tone}` and `A {semitone}`. Reasons (`mid` is the key between, from the
+midi number, a sharp unless the key uses flats):
+
+| Chosen | Reason |
+| --- | --- |
+| semitone, answer tone | `{a} and {b} have one key between them, {mid}. Two keys apart is a {tone}, not a {semitone}.` |
+| tone, answer semitone | `{a} and {b} are neighbouring keys with nothing between them. Neighbours are a {semitone}, not a {tone}.` |
+
+In the scale source each reason adds: `Only notes 3 to 4 and 7 to 8 of a
+major scale are a {semitone} apart.` when it fits within 40 words.
+
+### 3.13 `accidental-lasts`
+
+Serves: `pitch.accidentals.bar-rule`. Type: `multiple-choice`, text faces; the
+exhibit is a passage.
+
+```ts
+interface AccidentalLastsParams {
+  clef?: 'treble' | 'bass';                 // default 'treble'
+  across?: 'same-bar' | 'next-bar' | 'either';  // default 'either'
+  low?: Pitch; high?: Pitch;                // naturals; default E4 to F5 (treble), G2 to A3 (bass)
+}
+```
+
+Rng calls: (1) `pos = rng.pick(candidates)`; (2) `a = rng.pick(signs)` with
+`signs` = `[-1, 1]` minus the awkward ones for the letter (no E♯, B♯, C♭, F♭);
+(3) only for `either`: `across = rng.pick(['same-bar', 'next-bar'])`; (4)-(6)
+one `rng.pick([-2, -1, 1, 2])` per filler note, each a natural note that many
+steps away within positions -4 to 12 (the offsets that leave the range are
+removed from the list).
+
+Passage (4/4, crotchets, C major). `same-bar`: `[N+a (sign shown), filler, N+a
+(`showAccidental: false`), filler]`; the question is the third note.
+`next-bar`: bar 1 `[filler, N+a, filler, filler]`, bar 2 `[N natural
+(`showAccidental: false`), filler, filler, filler]`; the question is the first
+note of bar 2. Options (3 by default): `N+a`, `N` natural, `N` with the
+opposite sign.
+
+An option whose spelling would be awkward (E♯, B♯, C♭, F♭) is dropped, so
+some letters give two options rather than three.
+
+Prompts: `Name the third note.` / `Name the first note of bar 2.`
+(`{bar}` linked.) Reasons, for `same-bar`:
+
+| Chosen | Reason |
+| --- | --- |
+| natural | `The {sharp\|flat} earlier in the {bar} lasts to the bar line, so this {L} is still {N}, even with no sign.` |
+| opposite | `There is no {flat\|sharp} anywhere here. The {sharp\|flat} in the first {bar} still applies, so this note is {N}.` |
+
+`next-bar`:
+
+| Chosen | Reason |
+| --- | --- |
+| the sharp or flat | `An accidental lasts only to the end of its {bar}. The {L} in {bar} 2 has no sign, so it is plain {L}.` |
+| the other sign | `There is no {flat\|sharp} in this music. The {L} in {bar} 2 has no sign, so it is plain {L}.` |
+
+### 3.14 `key-facts`
+
+Serves: `scales-keys.signature.read`, `harmony.tonic-triad.identify`,
+`scales-keys.degrees.number`, `scales-keys.major.c|g|d|f`. Type:
+`multiple-choice`, text faces.
+
+```ts
+interface KeyFactsParams {
+  ask: 'name-key' | 'accidentals' | 'from-triad' | 'degree-note' | 'note-degree';
+  /** Natural tonics, 2 to 4. Default C, G, D, F. */
+  keys?: Letter[];
+  clef?: 'treble' | 'bass';              // default 'treble'
+  options?: number;                      // 2 to 4, at most keys.length (degree questions: 3). Default `min(4, keys.length)`.
+}
+```
+
+Rng calls: (1) `key = rng.pick(keys)`; (2) `degree-note`, `note-degree`: `n =
+rng.pick([2, 3, 4, 5, 6, 7])`; (3) for `name-key`, `accidentals`, `from-triad`
+the wrong keys are `rng.shuffle(otherKeys)`, first `options - 1`; (4) the final
+shuffle. (Degree questions take wrong options in the fixed order below.)
+
+All facts come from `pitch.keySignature`, `pitch.signatureAccidentals`,
+`pitch.keyName`, `pitch.triadPitches`, `pitch.degree`.
+
+| ask | Exhibit and prompt | Options | Reasons |
+| --- | --- | --- | --- |
+| `name-key` | Passage: one bar with a semibreve rest in the key. `Which key has this {key-signature}?` | `keyName` of each key | `{K} has {desc K}. This signature has {desc}, so the key is {key}.` |
+| `accidentals` | none. `Which notes are sharp or flat in {key}?` | `desc` of each key: `no sharps or flats`, `F♯`, `F♯ and C♯`, `B♭` | `That is what {K} has. {key} has {desc}.` |
+| `from-triad` | Passage: a semibreve chord, the tonic triad, no key signature. `This is the tonic {triad} of a key. Which key?` | `keyName` of each key | `The tonic triad of {K} is {notes K}. These notes are {notes}, so the key is {key}.` |
+| `degree-note` | none. `In {key}, which note is note {n} of the scale?` | note names: degree n-1, n+1, the correct note with its sign dropped (when it has one), n+2 | `{X} is note {k} of {key}, not note {n}.` or, for a note not in the key: `{X} is not in {key}: the key signature makes it {Y}.` |
+| `note-degree` | none. `In {key}, which number is the note {X}?` | ordinals: n-1, n+1, n+2 (n-2 when n+2 is above 8) | `{X} is note {n} of {key}. Note {m} is {Y}.` |
+
+`desc` is `no sharps or flats`, `one sharp, F♯`, `two sharps, F♯ and C♯`, or
+`one flat, B♭`, built from the engine's signature.
+
+### 3.15 `spot-scale-note`
+
+Implementation note: when the picked key has no sign (C major) and only
+`missing-sign` is allowed, the fault falls back to `wrong-letter`; the list
+passed to the fault pick is never empty.
+
+Serves: `scales-keys.major.c|g|d|f`, `scales-keys.signature.read`. Type:
+`spot-mistake`, `select: 'event'`.
+
+```ts
+interface SpotScaleNoteParams {
+  keys?: Letter[];                       // natural tonics, default C, G, D, F
+  faults?: ('wrong-letter' | 'missing-sign')[];  // default both
+  clef?: 'treble' | 'bass';              // default 'treble'
+}
+```
+
+Passage: two 4/4 bars of crotchets holding `pitch.scale(tonic, 'major',
+octave)` (octave 4 treble, 3 bass), in the key (signature drawn). Exactly one
+note differs from the true scale.
+
+Rng calls: (1) `key = rng.pick(keys)`; (2) `fault = rng.pick(allowed)`, where
+`missing-sign` is allowed only for a key with a signature; (3) the position:
+`missing-sign`: `rng.pick(positions of the notes with a sign)`; `wrong-letter`:
+`rng.pick([1, 2, 3, 4, 5, 6])` (never the tonics); (4) `wrong-letter` only:
+`dir = rng.pick([-1, 1])`.
+
+Fault: `missing-sign` replaces the note with the natural letter (the stave
+draws the natural sign). `wrong-letter` moves the note one letter up or down
+(`pitch.pitchAtStavePosition`, with the key signature's accidental for that
+letter). The faulty pitch always differs from the right one.
+
+Prompt: `This should be the scale of {key}, going up. Tap the one wrong note.`
+Explanation: `Note {n} of {key} should be {X}. This note is {Y}.` followed, for
+`missing-sign`, by `The key signature makes every {L} {sharp|flat}.`
+
+### 3.16 `interval-by-number`
+
+Serves: `intervals.number.read`. Type: `multiple-choice`, text faces; the
+exhibit is a passage.
+
+```ts
+interface IntervalByNumberParams {
+  keys?: Letter[];                       // natural tonics, default C, G, D, F
+  numbers?: number[];                    // 2 to 8, default 2 to 8
+  clef?: 'treble' | 'bass';              // default 'treble'
+  options?: number;                      // 2 to 4, default 3
+}
+```
+
+Rng calls: (1) `key = rng.pick(keys)`; (2) `n = rng.pick(numbers)`; (3) the final
+shuffle. Passage: key signature drawn; one 4/4 bar of two minims: the key note
+and the n-th note of its scale (so the interval is `n` by
+`pitch.intervalBetween`, checked). Wrong numbers in order: `n - 1`, `n + 1`,
+`n - 2`, `n + 2`, `n + 3`, `n - 3`, within 2 to 8, not `n`. Option text is the
+ordinal (`2nd`, `3rd`, ..., `8th`). Prompt: `What is the {interval} from the
+first note (the key note) up to the second?` Reason for a chosen number `m`:
+`Counting {tonic letter} as 1, the {m}th is {letter at m}. The second note is
+{upper letter}, which is the {n}th.`
+
+### 3.17 `interval-place`
+
+Serves: `intervals.number.write`. Type: `note-on-stave` (`place`).
+
+```ts
+interface IntervalPlaceParams {
+  keys?: Letter[];                       // natural tonics, default C, G, D, F
+  numbers?: number[];                    // 2 to 7, default 2 to 7
+  clef?: 'treble' | 'bass';              // default 'treble'
+}
+```
+
+Rng calls: (1) `key = rng.pick(keys)`; (2) `n = rng.pick(numbers)`. Payload:
+`mode: 'place'`, the clef, the key (signature drawn), `target` =
+`pitch.degree(key, n)`, `accidentals` true when the key has a signature, no
+`octave` (1.2 gap 4). Prompt: `In {key}, put the note that is a {n}th above
+the key note, {tonic}, on the stave.` (ordinal `2nd`, `3rd`, ...).
+
+### 3.18 `contrast-by-ear`
+
+Serves: the proposed `pitch.high-low.hear`, `pitch.direction.hear`,
+`rhythm.long-short.hear`, and `intervals.number.hear`. Type: `by-ear`.
+
+```ts
+interface ContrastByEarParams {
+  ask: 'higher' | 'lower' | 'direction' | 'step-or-jump' | 'bigger-jump' | 'longer' | 'shorter';
+  bpm?: number;                          // 40 to 160, default 80
+  /** longer, shorter. 2 to 3 plain durations of different lengths. Default semibreve, minim, crotchet. */
+  values?: Duration[];
+}
+```
+
+All clips are one bar in C major, treble, using only C4 to D5 naturals. Pitches
+come from stave positions with `pitch.pitchAtStavePosition`.
+
+| ask | Rng calls | Clips and options |
+| --- | --- | --- |
+| `higher`, `lower` | (1) `p1 = rng.pick(positions)`; (2) `p2 = rng.pick(positions at least 3 steps from p1)` | Two clips, a minim each in 2/4. Options `Clip A`, `Clip B`. Correct: the higher or the lower. |
+| `direction` | (1) `dir = rng.pick(['up', 'down', 'same'])`; (2) `start = rng.pick(positions)` fitting; (3) `step = rng.pick([1, 2])`; (4) the final shuffle | One clip, three crotchets in 3/4 on positions `start`, `start ± step`, `start ± 2 step` (or all `start`). Options `Going up`, `Going down`, `Staying the same`. |
+| `step-or-jump` | (1) `kind = rng.pick(['step', 'jump'])`; (2) `n = rng.pick([2])` or `rng.pick([4, 5, 6])`; (3) `start`; (4) the final shuffle | One clip, two crotchets in 2/4, the second note `n` letters above the first. Options `A step`, `A jump`. |
+| `bigger-jump` | (1) `n1 = rng.pick([3, 4, 5, 6])`; (2) `n2 = rng.pick(numbers at least 2 away from n1)`; (3) `s1`, `s2` starts | Two clips of two crotchets in 2/4. Options `Clip A`, `Clip B`. Correct: the bigger number. |
+| `longer`, `shorter` | (1) `v1 = rng.pick(values)`; (2) `v2 = rng.pick(values without v1)` | Two clips in 4/4 of one note on G4 then `rhythm.restsToFill` rests. Options `Clip A`, `Clip B`. |
+
+Reasons describe the sound, not the notation, for example `Clip A sounds lower
+than clip B. Listen for the clip that starts higher.`, `The notes get higher one
+by one, so the tune goes up.`, `The two notes sit close together, so that is a
+step, not a jump.`, `Clip A holds its note longer than clip B. Listen for the
+note that lasts more beats before it stops.`
+
+## 4. Tests (every generator)
+
+Each folder has `generate.test.ts` using `shared/test-kit.ts`, which checks, for
+500 seeds in each of several param sets: determinism (same seed and params);
+the payload validates against the target type's `payloadSchema`; the generator
+returned a prompt of at most 60 words; the correct answer built from the payload
+is marked correct by that type's `mark` and each wrong choice is marked wrong with
+a non-empty reason within the word limit (and no exclamation mark, no
+"Incorrect"); options have distinct faces and ids; every glossary link id is in
+`content/glossary/1.json` or in the appendix; both terminologies give valid
+output, with no US term in `uk` text and no UK term outside the right place in
+`us` text; each passage's bars are full (where the type requires it) and fill
+the grouping rules. Specific tests check the rng call order and one example.
+
+`coverage.test.ts` checks that every skill this document lists as covered is
+declared by a registered generator in `coverage.ts`, and that every registered
+generator is in the map.
+
+## 5. Appendix: Glossary ids these generators need
+
+Another task adds these to `content/glossary/1.json`. `content/glossary/1.json`
+already has `pulse`, `beat`, `crotchet`, `minim`, `bar`, `bar-line`.
+
+| Id | `term` | `us` |
+| --- | --- | --- |
+| `semibreve` | semibreve | whole note |
+| `quaver` | quaver | eighth note |
+| `semiquaver` | semiquaver | sixteenth note |
+| `crotchet-rest` | crotchet rest | quarter rest |
+| `minim-rest` | minim rest | half rest |
+| `semibreve-rest` | semibreve rest | whole rest |
+| `quaver-rest` | quaver rest | eighth rest |
+| `semiquaver-rest` | semiquaver rest | sixteenth rest |
+| `stave` | stave | staff |
+| `tone` | tone | whole step |
+| `semitone` | semitone | half step |
+| `key-signature` | key signature | (none) |
+| `time-signature` | time signature | (none) |
+| `tie` | tie | (none) |
+| `interval` | interval | (none) |
+| `triad` | triad | (none) |
