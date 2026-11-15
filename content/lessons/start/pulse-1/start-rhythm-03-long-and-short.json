@@ -1,0 +1,717 @@
+{
+  "schemaVersion": 1,
+  "id": "start-rhythm-03-long-and-short",
+  "title": "Long and short",
+  "summary": "Play long and short sounds over a pulse and copy patterns by ear.",
+  "grade": "start",
+  "unit": "pulse-1",
+  "order": 3,
+  "strand": "rhythm",
+  "skills": [
+    "rhythm.long-short.hear",
+    "rhythm.pulse.steady"
+  ],
+  "prerequisites": [
+    "start-rhythm-02-fast-and-slow"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "rhythm"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "In Morse code, every letter is a pattern of long and short beeps. SOS is three short, three long, then three short. Tap it on your desk: short, short, short, long, long, long, short, short, short. What makes a long one feel long?"
+    },
+    "explore": {
+      "text": "Pick any key. Tap it quickly for a short sound. Now press it and hold it down for a long sound. Then make a pattern of your own: short, short, long.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C4",
+        "high": "G4"
+      },
+      "goal": "Play a short sound, then a long one, then a short one."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "A pattern of long and short sounds is a [[rhythm|rhythm]]. Morse code is a rhythm. So is the pattern you clap along to in a song."
+        },
+        {
+          "text": "Rhythm sits on top of the [[pulse|pulse]]. The pulse ticks steadily underneath, and the rhythm decides how long each sound lasts. In this lesson a short sound lasts 1 [[beat|beat]] and a long sound lasts 2."
+        },
+        {
+          "text": "To copy a rhythm by ear, keep your foot on the pulse. Tap once for every sound, long ones too. After a long sound, wait for its second beat before you tap again."
+        }
+      ],
+      "alternative": {
+        "text": "Your foot is the pulse. Your voice is the rhythm. Tap your foot steadily and say \"ta\" on each tap: ta, ta, ta. Those are short sounds. Now stretch one over two taps: \"taa-aa\". That is long. Try ta, ta, taa-aa. The foot never changes."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-which-is-longer",
+          "type": "by-ear",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Which clip has the longer sound?",
+          "hint": "Listen for when each sound stops. Which one carries on for longer?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "longer",
+              "bpm": 80,
+              "values": [
+                {
+                  "value": "minim",
+                  "dots": 0
+                },
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "p2-say-the-pattern",
+          "type": "by-ear",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Listen to the pattern. Which words match it?",
+          "hint": "Tap your foot along. A long sound stretches over two taps. Does it come first, in the middle or last?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Long, short, short"
+                },
+                "reason": "That pattern starts with the long sound. You heard two short sounds first, and the long one came last."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Short, short, long"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Short, long, short"
+                },
+                "reason": "That pattern puts the long sound in the middle. You heard it at the end, after two short ones."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p3-how-many-beats",
+          "type": "match-up",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Match each pattern to its number of [[beat|beats]]. Short is 1 [[beat|beat]] and long is 2.",
+          "hint": "Short is 1 and long is 2. Add them up for each pattern.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "ss",
+                "face": {
+                  "kind": "text",
+                  "text": "Short, short"
+                },
+                "match": "two",
+                "reason": "Short, short is 1 + 1 = 2 beats."
+              },
+              {
+                "id": "ls",
+                "face": {
+                  "kind": "text",
+                  "text": "Long, short"
+                },
+                "match": "three",
+                "reason": "Long, short is 2 + 1 = 3 beats."
+              },
+              {
+                "id": "ll",
+                "face": {
+                  "kind": "text",
+                  "text": "Long, long"
+                },
+                "match": "four",
+                "reason": "Long, long is 2 + 2 = 4 beats."
+              }
+            ],
+            "right": [
+              {
+                "id": "four",
+                "face": {
+                  "kind": "text",
+                  "text": "4 beats"
+                }
+              },
+              {
+                "id": "two",
+                "face": {
+                  "kind": "text",
+                  "text": "2 beats"
+                }
+              },
+              {
+                "id": "three",
+                "face": {
+                  "kind": "text",
+                  "text": "3 beats"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p4-tap-the-pattern",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then copy the pattern. One tap for each sound.",
+          "hint": "Tap once for every sound, long ones too. After a long one, wait for the second tick before you tap again.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 72,
+              "showNotation": false,
+              "listenFirst": true,
+              "require": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "p5-long-first",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then copy it. The long sound comes first.",
+          "hint": "Tap the long one, then wait through its second tick. Say \"taa-aa, ta, ta\" as you go.",
+          "source": "authored",
+          "payload": {
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "crotchet",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "bpm": 72,
+            "countInBars": 1,
+            "showNotation": false,
+            "listenFirst": true
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 6,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-longer",
+          "type": "by-ear",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Which clip has the longer sound?",
+          "hint": "Listen for the sound that carries on for more of the clip.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "longer",
+              "bpm": 80
+            }
+          }
+        },
+        {
+          "id": "c2-tap-pattern",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then copy the pattern.",
+          "hint": "One tap for each sound. After a long sound, wait for its second tick.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "bars": 1,
+              "bpm": 80,
+              "showNotation": false,
+              "listenFirst": true,
+              "require": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "c3-shorter",
+          "type": "by-ear",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Which clip has the shorter sound?",
+          "hint": "Listen for the sound that stops sooner.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "shorter",
+              "bpm": 80
+            }
+          }
+        },
+        {
+          "id": "c4-which-words",
+          "type": "by-ear",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Listen to the pattern. Which words match it?",
+          "hint": "Tap your foot along. Which tick does the long sound start on?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 80,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Short, long, short"
+                },
+                "reason": "That pattern puts the long sound in the middle. You heard it come first, before the two short ones."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Short, short, long"
+                },
+                "reason": "That pattern saves the long sound for last. You heard it first, then two short ones."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Long, short, short"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c5-tap-again",
+          "type": "tap-rhythm",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "Listen, then copy the pattern.",
+          "hint": "Tap, wait, tap: a long sound gets one tap and a wait.",
+          "source": "generated",
+          "generator": {
+            "id": "tap-note-values",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "values": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ],
+              "bars": 2,
+              "bpm": 88,
+              "showNotation": false,
+              "listenFirst": true,
+              "require": [
+                {
+                  "value": "crotchet",
+                  "dots": 0
+                },
+                {
+                  "value": "minim",
+                  "dots": 0
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "c6-pulse-under-long",
+          "type": "multiple-choice",
+          "skill": "rhythm.pulse.steady",
+          "prompt": "A long sound lasts 2 [[beat|beats]]. What does the [[pulse|pulse]] do while it plays?",
+          "hint": "Think of your foot. Does it stop while a long sound is held?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "It ticks twice as slowly"
+                },
+                "reason": "The ticks stay the same distance apart. A long sound simply lasts for two of them."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "It stops until the sound ends"
+                },
+                "reason": "The pulse never waits for the tune. It carries on ticking under the long sound."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "It keeps ticking steadily"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-longer-again",
+          "type": "by-ear",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Which clip has the longer sound?",
+          "hint": "Listen for the sound that carries on for longer before it stops.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "longer",
+              "bpm": 80
+            }
+          }
+        },
+        {
+          "id": "c8-add-it-up",
+          "type": "multiple-choice",
+          "skill": "rhythm.long-short.hear",
+          "prompt": "Short, long, short. How many [[beat|beats]] is that in all?",
+          "hint": "Short is 1 beat and long is 2. Add them up.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "3 beats"
+                },
+                "reason": "That is only a short and a long: 1 + 2 = 3. There is another short sound, so 1 + 2 + 1 = 4."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "4 beats"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "5 beats"
+                },
+                "reason": "That adds one beat too many. Short is 1 and long is 2, so 1 + 2 + 1 = 4."
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "A pattern of long and short sounds is a [[rhythm|rhythm]]. It sits on top of the steady [[pulse|pulse]].",
+        "In this lesson a short sound lasts 1 [[beat|beat]] and a long sound lasts 2 beats. The pulse keeps ticking the whole time.",
+        "To copy a rhythm by ear, keep your foot on the pulse and tap once for every sound. After a long one, wait for its second beat."
+      ]
+    }
+  }
+}

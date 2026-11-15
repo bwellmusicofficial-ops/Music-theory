@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 1,
+  "id": "start-pitch-02-up-down-or-the-same",
+  "title": "Up, down or the same",
+  "summary": "Follow a tune as it climbs, falls or stays put, and copy its shape.",
+  "grade": "start",
+  "unit": "high-low-1",
+  "order": 2,
+  "strand": "pitch",
+  "skills": [
+    "pitch.direction.hear"
+  ],
+  "prerequisites": [
+    "start-pitch-01-high-and-low"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Every tune has a shape. Some climb like stairs. Some slide down like a slide. Some stay on one level. Press the keys from left to right and you have drawn a staircase. Can you draw a slide?",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C4",
+        "high": "C5"
+      }
+    },
+    "explore": {
+      "text": "Make three little tunes with three keys each. First one that climbs, each key higher than the last. Then one that falls. Then one that stays on the same key.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play a tune that goes up, one that goes down and one that stays the same."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "A tune can go up: each sound is [[high|higher]] than the one before. It can go down: each sound is [[low|lower]]. Or it can stay the same: the same [[pitch|pitch]] again and again."
+        },
+        {
+          "text": "On the [[keyboard|keyboard]], going up means moving to the right. Going down means moving to the left. Staying the same means pressing the same key again.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C4",
+              "D4",
+              "E4"
+            ],
+            "low": "C4",
+            "high": "G4"
+          }
+        },
+        {
+          "text": "Most tunes mix all three. *Twinkle, Twinkle, Little Star* repeats a sound, climbs up, then falls back down. Hum it and feel your voice rise and fall."
+        }
+      ],
+      "alternative": {
+        "text": "Use your hand. Hum a sound and slide it higher: your hand rises, so the tune goes up. Slide it lower: your hand falls, so it goes down. Hold one sound steady: your hand stays flat, so it stays the same."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-which-way",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Hum along with the three sounds. Does your voice rise, fall or stay put?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction",
+              "bpm": 80
+            }
+          }
+        },
+        {
+          "id": "p2-match-the-shapes",
+          "type": "match-up",
+          "skill": "pitch.direction.hear",
+          "prompt": "Match each shape to what it means.",
+          "hint": "Compare each sound with the one before it. Is it higher, lower or the same?",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "up",
+                "face": {
+                  "kind": "text",
+                  "text": "Going up"
+                },
+                "match": "higher",
+                "reason": "Going up means each sound is higher than the one before."
+              },
+              {
+                "id": "down",
+                "face": {
+                  "kind": "text",
+                  "text": "Going down"
+                },
+                "match": "lower",
+                "reason": "Going down means each sound is lower than the one before."
+              },
+              {
+                "id": "same",
+                "face": {
+                  "kind": "text",
+                  "text": "Staying the same"
+                },
+                "match": "equal",
+                "reason": "Staying the same means every sound is exactly the same."
+              }
+            ],
+            "right": [
+              {
+                "id": "equal",
+                "face": {
+                  "kind": "text",
+                  "text": "Every sound is the same"
+                }
+              },
+              {
+                "id": "higher",
+                "face": {
+                  "kind": "text",
+                  "text": "Each sound is higher than the one before"
+                }
+              },
+              {
+                "id": "lower",
+                "face": {
+                  "kind": "text",
+                  "text": "Each sound is lower than the one before"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p3-play-up",
+          "type": "play-keyboard",
+          "skill": "pitch.direction.hear",
+          "prompt": "Make the tune go **up**. Play the three white keys at the left end, moving to the right.",
+          "hint": "Going up means moving right. Start at the far-left key and move one white key at a time.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 4
+            },
+            "high": {
+              "letter": "G",
+              "accidental": 0,
+              "octave": 4
+            },
+            "showLabels": true,
+            "targets": [
+              {
+                "letter": "C",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "D",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "p4-play-down",
+          "type": "play-keyboard",
+          "skill": "pitch.direction.hear",
+          "prompt": "Make the tune go **down**. Play the three white keys at the right end, moving to the left.",
+          "hint": "Going down means moving left. Start at the far-right key and move one white key at a time.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 4
+            },
+            "high": {
+              "letter": "G",
+              "accidental": 0,
+              "octave": 4
+            },
+            "showLabels": true,
+            "targets": [
+              {
+                "letter": "G",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "p5-right-to-left",
+          "type": "multiple-choice",
+          "skill": "pitch.direction.hear",
+          "prompt": "You press keys one after another, moving from right to left. What shape is the tune?",
+          "hint": "Moving left makes the sound lower.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Going up"
+                },
+                "reason": "Moving left makes the sound lower, not higher. Moving from right to left makes the tune go down."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Going down"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Staying the same"
+                },
+                "reason": "Each new key makes a different sound. Staying the same needs the same key pressed again."
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 6,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-which-way",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Hum along. Does your voice rise, fall or stay put?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction",
+              "bpm": 80
+            }
+          }
+        },
+        {
+          "id": "c2-which-way-again",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Compare each sound with the one before it.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction",
+              "bpm": 90
+            }
+          }
+        },
+        {
+          "id": "c3-stay-the-same",
+          "type": "play-keyboard",
+          "skill": "pitch.direction.hear",
+          "prompt": "Make the tune stay **the same**. Press the middle white key three times.",
+          "hint": "Staying the same means pressing the same key again and again. The middle white key is the one with two white keys on each side.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 4
+            },
+            "high": {
+              "letter": "G",
+              "accidental": 0,
+              "octave": 4
+            },
+            "showLabels": true,
+            "targets": [
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "c4-direction-three",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Is each sound higher, lower or the same as the one before?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction",
+              "bpm": 76
+            }
+          }
+        },
+        {
+          "id": "c5-play-down-from-f",
+          "type": "play-keyboard",
+          "skill": "pitch.direction.hear",
+          "prompt": "Make the tune go **down**. Start on the key marked F and move left, playing three white keys.",
+          "hint": "Going down means moving left. Play F, then the white key to its left, then the next one to the left.",
+          "source": "authored",
+          "payload": {
+            "low": {
+              "letter": "C",
+              "accidental": 0,
+              "octave": 4
+            },
+            "high": {
+              "letter": "G",
+              "accidental": 0,
+              "octave": 4
+            },
+            "showLabels": true,
+            "targets": [
+              {
+                "letter": "F",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "E",
+                "accidental": 0,
+                "octave": 4
+              },
+              {
+                "letter": "D",
+                "accidental": 0,
+                "octave": 4
+              }
+            ],
+            "mode": "sequence",
+            "octave": "exact"
+          }
+        },
+        {
+          "id": "c6-same-key",
+          "type": "multiple-choice",
+          "skill": "pitch.direction.hear",
+          "prompt": "A tune plays the same key four times. What shape is it?",
+          "hint": "Is any sound higher or lower than the one before?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Going up"
+                },
+                "reason": "Going up needs each sound to be higher than the one before. The same key makes the same sound every time."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Going down"
+                },
+                "reason": "Going down needs each sound to be lower than the one before. The same key makes the same sound every time."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Staying the same"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c7-direction-four",
+          "type": "by-ear",
+          "skill": "pitch.direction.hear",
+          "prompt": "Does the tune go up, go down or stay the same?",
+          "hint": "Hum along and feel which way your voice moves.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "direction",
+              "bpm": 84
+            }
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "A tune can go up, go down or stay the same. Up means each sound is higher than the one before, and down means each is lower.",
+        "On the [[keyboard|keyboard]], up means moving right, down means moving left, and the same means pressing the same key again.",
+        "Most tunes mix all three, so listen to how each sound compares with the one before."
+      ]
+    }
+  }
+}
