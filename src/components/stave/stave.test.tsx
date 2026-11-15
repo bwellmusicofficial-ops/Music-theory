@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { useState } from 'react';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -137,6 +139,50 @@ describe('read mode', () => {
     expect(container.querySelector('.vf-stavenote')).not.toHaveClass('mtn-ev--wrong');
   });
 
+  it('3c: near is amber with its own diamond-and-tilde badge, distinct from correct and wrong', async () => {
+    const p = passage([bar(note('C4'), note('D4'), note('E4'))]);
+    const { container, rerender } = render(
+      <Stave mode="read" passage={p} ariaLabel="x" marks={{ '0:0': 'correct', '0:1': 'near', '0:2': 'wrong' }} />,
+    );
+    await drawn(container);
+    const notes = container.querySelectorAll('.vf-stavenote');
+    expect(notes[1]).toHaveClass('mtn-ev--near');
+    expect(notes[1]).not.toHaveClass('mtn-ev--correct');
+    const near = screen.getByTestId('badge-near');
+    // Colour is never the only signal: each badge has its own shape.
+    expect(near.querySelector('rect[transform^="rotate(45"]')).not.toBeNull();
+    expect(near.querySelector('path')).not.toBeNull();
+    expect(near.querySelector('rect')?.getAttribute('fill')).toBe('var(--stave-near)');
+    expect(screen.getByTestId('badge-correct').querySelector('circle')).not.toBeNull();
+    expect(screen.getByTestId('badge-wrong').querySelector('rect[transform]')).toBeNull();
+    // A bar-level near mark brackets the bar with a dotted line in the same colour.
+    rerender(<Stave mode="read" passage={p} ariaLabel="x" marks={{ '0': 'near' }} />);
+    expect(screen.getByTestId('bracket-near').getAttribute('stroke')).toBe('var(--stave-near)');
+  });
+
+  it('3d: lit draws an accent-filled box and colours the note in the accent colour', async () => {
+    const p = passage([bar(note('C4'), note('D4'))]);
+    const { container } = render(<Stave mode="read" passage={p} ariaLabel="x" marks={{ '0:1': 'lit' }} />);
+    await drawn(container);
+    expect(container.querySelectorAll('.vf-stavenote')[1]).toHaveClass('mtn-ev--lit');
+    expect(screen.getByTestId('mark-lit').getAttribute('fill')).toBe('var(--stave-accent)');
+    expect(screen.queryByTestId('badge-near')).toBeNull();
+  });
+
+  it('3e: a result mark and the cursor can share a note; the stylesheet lets the result colour win', async () => {
+    const p = passage([bar(note('C4'), note('D4'))]);
+    const { container } = render(
+      <Stave mode="read" passage={p} ariaLabel="x" marks={{ '0:0': 'correct' }} cursor={{ bar: 0, event: 0 }} />,
+    );
+    await drawn(container);
+    const first = container.querySelectorAll('.vf-stavenote')[0];
+    expect(first).toHaveClass('mtn-ev--correct', 'mtn-ev--playing');
+    const css = readFileSync(resolve(__dirname, 'stave.css'), 'utf8');
+    expect(css.indexOf('.mtn-ev--playing')).toBeLessThan(css.indexOf('.mtn-ev--correct'));
+    expect(css.indexOf('.mtn-ev--playing')).toBeLessThan(css.indexOf('.mtn-ev--near'));
+    expect(css).toContain('--stave-near: var(--warning)');
+  });
+
   it('4: cursor adds and moves mtn-ev--playing without a redraw', async () => {
     const p = passage([bar(note('C4'), note('D4'), note('E4'))]);
     const { container, rerender } = render(<Stave mode="read" passage={p} ariaLabel="x" cursor={{ bar: 0, event: 0 }} />);
@@ -148,10 +194,12 @@ describe('read mode', () => {
     expect(g()[0]).not.toHaveClass('mtn-ev--playing');
     expect(g()[2]).toHaveClass('mtn-ev--playing');
     expect(screen.getByTestId('cursor-column')).toBeInTheDocument();
+    expect(screen.getByTestId('cursor-pointer')).toBeInTheDocument();
     expect(container.querySelector('.mtn-stave__notation svg')).toBe(svg);
     rerender(<Stave mode="read" passage={p} ariaLabel="x" cursor={null} />);
     expect(g()[2]).not.toHaveClass('mtn-ev--playing');
     expect(screen.queryByTestId('cursor-column')).toBeNull();
+    expect(screen.queryByTestId('cursor-pointer')).toBeNull();
   });
 
   it('5: read + tap gives one button per event, labelled, one tab stop, arrows move focus', async () => {

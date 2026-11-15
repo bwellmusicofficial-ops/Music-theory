@@ -4,12 +4,17 @@ import {
   accuracy,
   applyLatency,
   calibrationOffset,
+  createTapMatcher,
   expectedOnsets,
   judge,
   matchTaps,
   median,
   scoreTaps,
+  verdictOf,
+  resultOf,
+  type MatcherOptions,
 } from './scoring';
+import type { OnsetJudgement } from './types';
 
 const close = (a: number | null, b: number) => expect(a).toBeCloseTo(b, 6);
 
@@ -62,9 +67,10 @@ describe('matchTaps', () => {
     expect(r.extraTaps).toBe(0);
   });
 
-  it('chooses the nearest of several taps within tolerance', () => {
+  it('pairs a tap with the onset at once: the first tap within tolerance wins, later ones are extra', () => {
+    // The live pad judges each tap as it happens, and the final result is the same matcher's state.
     const r = matchTaps([1], [0.9, 1.02, 1.1], 180);
-    close(r.errorsMs[0], 20);
+    close(r.errorsMs[0], -100);
     expect(r.extraTaps).toBe(2);
   });
 
@@ -148,5 +154,161 @@ describe('calibration', () => {
 
   it('returns null when too few clicks were hit', () => {
     expect(calibrationOffset([100, 100, 100, 100, null, null, null, null])).toBeNull();
+  });
+});
+
+describe('verdictOf', () => {
+  const table: [number | null, string][] = [
+    [null, 'miss'],
+    [0, 'perfect'],
+    [-60, 'perfect'],
+    [60, 'perfect'],
+    [60.5, 'close'],
+    [-100, 'close'],
+    [180, 'close'],
+    [180.5, 'miss'],
+    [-250, 'miss'],
+  ];
+  it.each(table)('%s ms is %s', (e, want) => {
+    expect(verdictOf(e, { perfectMs: 60, toleranceMs: 180 })).toBe(want);
+  });
+  it('uses 60 and 180 by default', () => {
+    expect(verdictOf(60)).toBe('perfect');
+    expect(verdictOf(61)).toBe('close');
+    expect(verdictOf(181)).toBe('miss');
+  });
+});
+
+describe('createTapMatcher', () => {
+  const expected = [1, 2, 3, 4];
+
+  it('judges a tap at once with the nearest unjudged onset, signed', () => {
+    const m = createTapMatcher(expected);
+    const out = m.tap(2.1);
+    expect(out.kind).toBe('matched');
+    if (out.kind === 'matched') {
+      expect(out.judgement.index).toBe(1);
+      expect(out.judgement.verdict).toBe('close');
+      close(out.judgement.errorMs, 100);
+    }
+  });
+
+  it('an onset is judged once: a second tap near it goes to the next onset or is extra', () => {
+    const m = createTapMatcher(expected);
+    m.tap(1);
+    expect(m.tap(1.05)).toEqual({ kind: 'extra' });
+    expect(m.snapshot().extraTaps).toBe(1);
+  });
+
+  it('an exact tie goes to the earlier onset', () => {
+    const m = createTapMatcher([1, 1.2]);
+    const out = m.tap(1.1);
+    expect(out.kind === 'matched' && out.judgement.index).toBe(0);
+  });
+
+  it('advance() misses an onset only once its whole window has passed', () => {
+    const m = createTapMatcher(expected, { toleranceMs: 180 });
+    expect(m.advance(1.18)).toEqual([]);
+    expect(m.advance(1.19)).toEqual([{ index: 0, verdict: 'miss', errorMs: null }]);
+    // Already judged: not reported again.
+    expect(m.advance(1.5)).toEqual([]);
+  });
+
+  it('advance() reports several passed onsets in time order', () => {
+    const m = createTapMatcher(expected);
+    expect(m.advance(3.5).map((j) => j.index)).toEqual([0, 1, 2]);
+  });
+
+  it('a tap for an onset already declared missed cannot revive it', () => {
+    const m = createTapMatcher([1, 5]);
+    m.advance(1.5);
+    expect(m.tap(1.1)).toEqual({ kind: 'extra' });
+  });
+
+  it('finish() misses everything left, and the snapshot is the final result', () => {
+    const m = createTapMatcher(expected);
+    m.tap(1.02);
+    m.tap(3.15);
+    const rest = m.finish();
+    expect(rest.map((j) => j.index)).toEqual([1, 3]);
+    const snap = m.snapshot();
+    close(snap.errorsMs[0], 20);
+    expect(snap.errorsMs[1]).toBeNull();
+    expect(snap.errorsMs[2]).toBeCloseTo(150, 6);
+    expect(snap.verdicts).toEqual(['perfect', 'miss', 'close', 'miss']);
+  });
+
+  it('a tap matched beyond toleranceMs (wider window) is a miss that still has its error', () => {
+    const m = createTapMatcher([1], { perfectMs: 60, toleranceMs: 150, windowMs: 375 });
+    const out = m.tap(1.25);
+    expect(out.kind === 'matched' && out.judgement.verdict).toBe('miss');
+    expect(out.kind === 'matched' && out.judgement.errorMs).toBeCloseTo(250, 6);
+    expect(m.snapshot().errorsMs[0]).toBeCloseTo(250, 6);
+  });
+
+  it('no onsets: every tap is extra', () => {
+    const m = createTapMatcher([]);
+    m.tap(1);
+    expect(m.snapshot()).toEqual({ errorsMs: [], extraTaps: 1, verdicts: [] });
+  });
+
+  it('resultOf adds the accuracy of the final errors', () => {
+    const m = createTapMatcher([1, 2]);
+    m.tap(1);
+    m.finish();
+    expect(resultOf(m)).toEqual({ errorsMs: [0, null], extraTaps: 0, accuracy: 0.5 });
+  });
+});
+
+describe('live verdicts equal the final per-onset verdicts', () => {
+  // Beat-spaced onsets at 1..6 s plus a quaver pair, so windows overlap in the last two.
+  const expectedAll = [1, 2, 3, 4, 5, 5.25];
+  const options: MatcherOptions = { perfectMs: 60, toleranceMs: 180 };
+  const tables: { name: string; taps: number[] }[] = [
+    { name: 'all perfect', taps: [1, 2, 3, 4, 5, 5.25] },
+    { name: 'early and late', taps: [0.9, 2.12, 3, 4.17, 5.01, 5.3] },
+    { name: 'no taps', taps: [] },
+    { name: 'double taps', taps: [1, 1.04, 2, 2.1, 3, 4, 5, 5.25] },
+    { name: 'far extras', taps: [0.2, 1, 1.5, 2, 2.6, 3, 4, 5.9, 6.5] },
+    { name: 'one tap between the quavers', taps: [1, 2, 3, 4, 5.12] },
+    { name: 'a tap late for both quavers', taps: [1, 2, 3, 4, 5.4] },
+    { name: 'only the last', taps: [5.25] },
+    { name: 'exactly on the tolerance edges', taps: [0.82, 2.18, 3.06, 3.94] },
+  ];
+
+  it.each(tables)('$name', ({ taps }) => {
+    const m = createTapMatcher(expectedAll, options);
+    const live = new Map<number, OnsetJudgement>();
+    const note = (j: OnsetJudgement) => {
+      expect(live.has(j.index), `onset ${j.index} judged twice`).toBe(false);
+      live.set(j.index, j);
+    };
+    // Interleave ticks and taps in time order, like the pad does.
+    const events = [
+      ...taps.map((t) => ({ at: t, tap: true })),
+      ...Array.from({ length: 80 }, (_, k) => ({ at: k * 0.1, tap: false })),
+    ].sort((a, b) => a.at - b.at || (a.tap ? -1 : 1));
+    for (const e of events) {
+      if (e.tap) {
+        const out = m.tap(e.at);
+        if (out.kind === 'matched') note(out.judgement);
+      } else {
+        m.advance(e.at).forEach(note);
+      }
+    }
+    m.finish().forEach(note);
+
+    const result = resultOf(m, options);
+    expect(live.size).toBe(expectedAll.length);
+    expectedAll.forEach((_, i) => {
+      const j = live.get(i)!;
+      expect(j.verdict).toBe(verdictOf(result.errorsMs[i], options));
+      if (j.errorMs === null) expect(result.errorsMs[i]).toBeNull();
+      else close(result.errorsMs[i], j.errorMs);
+    });
+    // The final result is also exactly what matchTaps / scoreTaps return for the same taps.
+    const batch = scoreTaps(expectedAll, taps, options);
+    expect(batch.extraTaps).toBe(result.extraTaps);
+    batch.errorsMs.forEach((e, i) => (e === null ? expect(result.errorsMs[i]).toBeNull() : close(result.errorsMs[i], e)));
   });
 });

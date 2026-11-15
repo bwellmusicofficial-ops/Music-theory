@@ -2,7 +2,7 @@
 
 import { Stave } from '@/components/stave';
 import type { Passage, Terminology } from '@/engine/types';
-import type { StaveSize } from '@/components/stave';
+import type { StaveMark, StaveSize } from '@/components/stave';
 import { PlayButton } from './play-button';
 import { usePassagePlayback } from './use-passage-playback';
 
@@ -16,6 +16,10 @@ export interface PassageViewProps {
   /** Felt beats per minute for playback. Default 80. */
   bpm?: number;
   size?: StaveSize;
+  /** Per-event marks keyed "bar:event", for live feedback (see Stave `marks`). */
+  marks?: Record<string, StaveMark>;
+  /** A cursor driven by the parent; it wins over the play button's own cursor. */
+  cursor?: { bar: number; event: number } | null;
 }
 
 /** Default accessible name for a passage. */
@@ -34,12 +38,14 @@ export function PassageView({
   playable = false,
   bpm = 80,
   size,
+  marks,
+  cursor: cursorOverride,
 }: PassageViewProps) {
   const { playing, cursor, play, stop } = usePassagePlayback();
   const label = ariaLabel ?? passageLabel(passage, terminology);
   return (
     <div className="flex flex-col gap-3" data-passage-view>
-      <Stave mode="read" passage={passage} ariaLabel={label} terminology={terminology} cursor={cursor} size={size} />
+      <Stave mode="read" passage={passage} ariaLabel={label} terminology={terminology} cursor={cursorOverride !== undefined ? cursorOverride : cursor} size={size} marks={marks} />
       {playable ? (
         <div>
           <PlayButton label="the music" playing={playing} onToggle={() => (playing ? stop() : void play(passage, bpm))} />

@@ -171,15 +171,19 @@ VexFlow output is coloured by CSS only. `stave.css` (plain CSS, imported by
   --stave-accent: var(--strand-current, var(--text-primary));
   --stave-correct: var(--success);
   --stave-wrong: var(--danger);
+  --stave-near: var(--warning);                          /* amber: close, not quite */
   color: var(--stave-ink);
 }
 .mtn-stave__notation svg { fill: currentColor; stroke: currentColor; }
 .mtn-stave__notation svg * { pointer-events: none; }   /* beats VexFlow's pointer rects */
 .mtn-stave__notation .vf-stave { stroke: var(--stave-line); }
+/* Cursor, selection and lit come first so that a result mark wins when both apply. */
+.mtn-ev--playing,
+.mtn-ev--selected,
+.mtn-ev--lit       { color: var(--stave-accent);  fill: currentColor; stroke: currentColor; }
 .mtn-ev--correct   { color: var(--stave-correct); fill: currentColor; stroke: currentColor; }
 .mtn-ev--wrong     { color: var(--stave-wrong);   fill: currentColor; stroke: currentColor; }
-.mtn-ev--playing,
-.mtn-ev--selected  { color: var(--stave-accent);  fill: currentColor; stroke: currentColor; }
+.mtn-ev--near      { color: var(--stave-near);    fill: currentColor; stroke: currentColor; }
 .mtn-ev--locked    { opacity: 0.45; }
 .mtn-ev--lifted    { opacity: 0.35; }                   /* note being dragged */
 ```
@@ -832,7 +836,20 @@ and a shape; the shape alone is sufficient.
 | --- | --- | --- |
 | `correct` | `mtn-ev--correct`; badge: filled circle, 12 units, with a tick | Solid bracket above the bar, circle-tick badge at its centre |
 | `wrong` | `mtn-ev--wrong`; badge: filled rounded square, 12 units, with a cross | Dashed bracket above the bar, square-cross badge |
+| `near` | `mtn-ev--near` (`--stave-near`, amber, from `--warning`); badge: filled diamond (a square turned 45 degrees, same extent as the other badges) with a tilde | Dotted bracket above the bar, diamond-tilde badge |
 | `highlight` | Rounded rectangle outline, 2 units, `--stave-accent`, around the event box; note colour unchanged; no badge | Same outline around the whole bar |
+| `lit` | `mtn-ev--lit` (note in `--stave-accent`); rounded rectangle round the event box, 2 unit `--stave-accent` outline with an 18% accent fill; no badge. For "this note was played" in a play-along | Same as `highlight` |
+
+`near` is for a result that is close but not exact (a tap a little off the beat).
+The three result badges differ in shape as well as colour: circle with tick
+(`correct`), diamond with tilde (`near`), rounded square with cross (`wrong`).
+`--warning` passes the contrast test in both themes on every layer, and
+`--bg` (the badge glyph colour) on `--warning` passes 4.5:1 too.
+
+When a note has both a result mark and the cursor, the result colour wins
+(`.mtn-ev--playing` is declared before the result classes), while the cursor
+column is still drawn. The tap-along activities use this: the cursor marks the
+note due now, and each note takes its result colour once it is judged.
 
 Badge position: centred on `centreX`, 4 units above the event box; if that
 would leave the system box, 4 units below the box instead. Badge glyphs are
@@ -840,8 +857,9 @@ drawn in the page background colour on the state colour. Marks are also
 appended to the description ("marked wrong").
 
 The playback `cursor` adds `mtn-ev--playing` to the event and a 20% opacity
-accent rectangle over its column, full stave height. It jumps; it does not
-slide.
+accent rectangle over its column, full stave height, and a small accent
+triangle just under the stave pointing at the column (`cursor-pointer`), so the
+"now" position is a shape as well as a tint. It jumps; it does not slide.
 
 Marks and cursor work identically in edit mode (feedback after "Check").
 
@@ -914,7 +932,7 @@ description.
 
 `describeEvent(passage, bar, event, opts)` gives, for read + tap button labels
 and selection announcements: "Bar 2, note 1 of 3: F sharp 4, crotchet", with
-", tied" and ", marked wrong" / ", marked correct" / ", highlighted" when they
+", tied" and ", marked wrong" / ", marked correct" / ", marked close" / ", highlighted" / ", played" (`lit`) when they
 apply. Chords: "chord D4, F sharp 4, A4, minim". Tuplet members add
 ", in a triplet" (or "in a tuplet of 5").
 
@@ -1368,7 +1386,7 @@ optional.
 import type { Clef, Duration, Passage, Pitch, Terminology } from '@/engine/types';
 
 export type StaveSize = 'sm' | 'md' | 'lg';
-export type StaveMark = 'correct' | 'wrong' | 'highlight';
+export type StaveMark = 'correct' | 'wrong' | 'near' | 'highlight' | 'lit';
 
 export interface StavePalette {
   /** Note values offered; the first is armed initially. `dots` on entries is ignored (see `dots`). */

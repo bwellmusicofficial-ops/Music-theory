@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { getAudioEngine } from '@/audio';
-import { RhythmPad } from '@/components/rhythm-pad';
+import { CountInOverlay, RhythmPad, useTapAlong } from '@/components/rhythm-pad';
+import type { StaveMark } from '@/components/stave';
 import { Button } from '@/components/ui';
 import { rhythm } from '@/engine/rhythm';
 import type { Passage, Terminology } from '@/engine/types';
@@ -11,7 +12,14 @@ import { ResultMark } from '@/lesson/questions/face-view';
 import { useLearnerSettings } from '@/lesson/player';
 import { DEFAULT_TOLERANCE_MS, matchWindowMs, type TapRhythmAnswer, type TapRhythmPayload } from './types';
 
-type NotationRenderer = (passage: Passage) => ReactNode;
+/** Live feedback for the notation: marks keyed "bar:event" and the note due now. */
+export interface TapRhythmNotationLive {
+  marks?: Record<string, StaveMark>;
+  cursor?: { bar: number; event: number } | null;
+}
+
+/** `live` is omitted when nothing is happening, so a renderer that takes only the passage still works. */
+type NotationRenderer = (passage: Passage, live?: TapRhythmNotationLive) => ReactNode;
 
 let notationRenderer: NotationRenderer | null = null;
 
@@ -63,7 +71,7 @@ export function TapRhythm({
   const handle = useRef<{ stop(): void } | null>(null);
   const alive = useRef(true);
   const answered = useRef(false);
-  const { latencyOffsetMs } = useLearnerSettings();
+  const { latencyOffsetMs, reducedMotion } = useLearnerSettings();
 
   useEffect(() => {
     alive.current = true;
@@ -79,6 +87,12 @@ export function TapRhythm({
 
   const passage = useMemo(() => toPassage(payload), [payload]);
   const lines = useMemo(() => describeRhythm(payload, terminology), [payload, terminology]);
+  // Live game feedback: the pad reports each tap and beat; the notation shows them.
+  const along = useTapAlong({ bars: payload.bars, time: payload.time, mode: 'perform' });
+  const live = useMemo<TapRhythmNotationLive | undefined>(
+    () => (along.cursor || Object.keys(along.marks).length > 0 ? { marks: along.marks, cursor: along.cursor } : undefined),
+    [along.marks, along.cursor],
+  );
 
   async function listen() {
     if (listening === 'playing' || locked) return;
@@ -116,9 +130,9 @@ export function TapRhythm({
   return (
     <div className="flex flex-col gap-4">
       {payload.showNotation ? (
-        <div data-testid="notation" className="rounded-lg border-2 border-border bg-surface p-3">
+        <div data-testid="notation" className="relative rounded-lg border-2 border-border bg-surface p-3">
           {notationRenderer ? (
-            notationRenderer(passage)
+            live ? notationRenderer(passage, live) : notationRenderer(passage)
           ) : (
             <ol aria-label="The rhythm in words" className="flex flex-col gap-1 text-fg">
               {lines.map((line, index) => (
@@ -129,6 +143,7 @@ export function TapRhythm({
               ))}
             </ol>
           )}
+          <CountInOverlay cue={along.countIn} />
         </div>
       ) : null}
 
@@ -167,6 +182,8 @@ export function TapRhythm({
             latencyOffsetMs={latencyOffsetMs}
             // Retrying belongs to the lesson player (hint, then "Try again" remounts this question).
             showRetry={false}
+            reducedMotion={reducedMotion}
+            {...along.handlers}
             onComplete={handleComplete}
           />
         </div>

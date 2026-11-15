@@ -9,7 +9,7 @@ export interface DecorateState {
   locked?: ReadonlySet<string>;
 }
 
-const CLASSES = ['mtn-ev--correct', 'mtn-ev--wrong', 'mtn-ev--playing', 'mtn-ev--selected', 'mtn-ev--locked'] as const;
+const CLASSES = ['mtn-ev--correct', 'mtn-ev--wrong', 'mtn-ev--near', 'mtn-ev--lit', 'mtn-ev--playing', 'mtn-ev--selected', 'mtn-ev--locked'] as const;
 
 function toggle(el: Element | null, cls: string, on: boolean) {
   if (!el) return;
@@ -25,6 +25,8 @@ export function decorate(elements: Map<string, EventElements>, state: DecorateSt
     const on: Record<(typeof CLASSES)[number], boolean> = {
       'mtn-ev--correct': mark === 'correct',
       'mtn-ev--wrong': mark === 'wrong',
+      'mtn-ev--near': mark === 'near',
+      'mtn-ev--lit': mark === 'lit',
       'mtn-ev--playing': cur === key,
       'mtn-ev--selected': sel === key,
       'mtn-ev--locked': state.locked?.has(key) ?? false,

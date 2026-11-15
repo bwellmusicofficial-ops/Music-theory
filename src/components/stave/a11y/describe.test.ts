@@ -113,6 +113,8 @@ describe('describeEvent', () => {
     expect(describeEvent(engines, fixture, 0, 0, { ...uk, marks: { '0:0': 'wrong' } })).toMatch(/, marked wrong$/);
     expect(describeEvent(engines, fixture, 0, 0, { ...uk, marks: { '0:0': 'correct' } })).toMatch(/, marked correct$/);
     expect(describeEvent(engines, fixture, 0, 0, { ...uk, marks: { '0:0': 'highlight' } })).toMatch(/, highlighted$/);
+    expect(describeEvent(engines, fixture, 0, 0, { ...uk, marks: { '0:0': 'near' } })).toMatch(/, marked close$/);
+    expect(describeEvent(engines, fixture, 0, 0, { ...uk, marks: { '0:0': 'lit' } })).toMatch(/, played$/);
     const tup = (n: number) => ({ kind: 'note' as const, pitches: [engines.pitch.parsePitch('C5')], duration: { value: 'quaver' as const, dots: 0 as const, tuplet: { actual: n, normal: 4 } } });
     expect(describeEvent(engines, passage([bar(tup(3), tup(3), tup(3))]), 0, 0, uk)).toMatch(/, in a triplet$/);
     expect(describeEvent(engines, passage([bar(tup(5))]), 0, 0, uk)).toMatch(/, in a tuplet of 5$/);

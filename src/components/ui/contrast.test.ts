@@ -68,6 +68,8 @@ function pairs(): [string, string, number][] {
   out.push(['--on-accent', '--accent', 4.5], ['--on-accent', '--accent-hover', 4.5]);
   for (const s of STATUS) out.push([`--on-${s}`, `--${s}`, 4.5]);
   // Piano keys: the white-key labels must read on a resting and on a pressed key.
+  // Stave badges draw their glyph in --bg (--stave-badge-ink) on the state colour; near uses --warning.
+  for (const s of STATUS) out.push(['--bg', `--${s}`, 4.5]);
   out.push(['--piano-label', '--piano-white', 4.5], ['--piano-label', '--piano-white-pressed', 4.5]);
   return out;
 }

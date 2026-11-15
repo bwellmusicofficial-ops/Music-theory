@@ -1,8 +1,9 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Bar, NoteValue, ScoreEvent } from '@/engine/types';
 import { RhythmPad } from './rhythm-pad';
-import type { TapResult } from './types';
+import { verdictOf } from './scoring';
+import type { OnsetJudgement, PadPhase, TapResult } from './types';
 
 const fake = vi.hoisted(() => ({
   clock: 0,
@@ -299,5 +300,238 @@ describe('RhythmPad free mode', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Stop' }));
     expect(fake.stop).toHaveBeenCalled();
     expect(onComplete).not.toHaveBeenCalled();
+  });
+});
+
+describe('RhythmPad live events (perform)', () => {
+  function live() {
+    const judged: OnsetJudgement[] = [];
+    const extra = vi.fn();
+    const due: number[] = [];
+    const beats: [number, number][] = [];
+    const phases: PadPhase[] = [];
+    const onComplete = vi.fn<(r: TapResult) => void>();
+    const props = {
+      onOnsetJudged: (j: OnsetJudgement) => judged.push(j),
+      onExtraTap: extra,
+      onOnsetDue: (i: number) => due.push(i),
+      onBeat: (b: number, bar: number) => beats.push([b, bar]),
+      onPhase: (p: PadPhase) => phases.push(p),
+    };
+    render(<RhythmPad bars={bars} time={TIME} bpm={120} onComplete={onComplete} {...props} />);
+    return { judged, extra, due, beats, phases, onComplete };
+  }
+
+  it('emits one verdict per onset as taps arrive, with signed errors', async () => {
+    const { judged } = live();
+    await clickStart();
+    tapAt(ONSET(0)); // perfect
+    expect(judged).toEqual([{ index: 0, verdict: 'perfect', errorMs: expect.closeTo(0, 3) }]);
+    tapAt(ONSET(1) + 0.1); // close, late
+    expect(judged[1]).toMatchObject({ index: 1, verdict: 'close' });
+    expect(judged[1].errorMs).toBeCloseTo(100, 3);
+    tapAt(ONSET(2) - 0.05); // perfect (within 60 ms), early
+    expect(judged[2]).toMatchObject({ index: 2, verdict: 'perfect' });
+    expect(judged[2].errorMs).toBeCloseTo(-50, 3);
+  });
+
+  it('emits a miss as soon as an untouched onset window has passed, not at the end', async () => {
+    const { judged, onComplete } = live();
+    await clickStart();
+    tapAt(ONSET(0));
+    advanceTo(ONSET(1) + 0.17);
+    expect(judged.map((j) => j.index)).toEqual([0]);
+    advanceTo(ONSET(1) + 0.2); // default window 180 ms has passed
+    expect(judged.map((j) => [j.index, j.verdict, j.errorMs])).toEqual([
+      [0, 'perfect', expect.closeTo(0, 3)],
+      [1, 'miss', null],
+    ]);
+    expect(onComplete).not.toHaveBeenCalled();
+  });
+
+  it('reports a tap that matches nothing as extra, and not as a verdict', async () => {
+    const { judged, extra } = live();
+    await clickStart();
+    tapAt(ONSET(0));
+    tapAt(ONSET(0) + 0.3);
+    expect(extra).toHaveBeenCalledTimes(1);
+    expect(judged).toHaveLength(1);
+  });
+
+  it('judges the latency-corrected tap, like the final result', async () => {
+    const judged: OnsetJudgement[] = [];
+    render(
+      <RhythmPad bars={bars} time={TIME} bpm={120} latencyOffsetMs={100} onComplete={() => {}} onOnsetJudged={(j) => judged.push(j)} />,
+    );
+    await clickStart();
+    tapAt(ONSET(0) + 0.1); // reported 100 ms late by the device
+    expect(judged[0].verdict).toBe('perfect');
+    // The window of onset 1 is extended by the offset: not yet a miss at +190 ms.
+    advanceTo(ONSET(1) + 0.2);
+    expect(judged).toHaveLength(1);
+    advanceTo(ONSET(1) + 0.3);
+    expect(judged[1]).toMatchObject({ index: 1, verdict: 'miss' });
+  });
+
+  it('live verdicts always equal the final per-onset verdicts', async () => {
+    const tables: { name: string; taps: number[] }[] = [
+      { name: 'perfect', taps: [0, 1, 2, 3] },
+      { name: 'late and early', taps: [0.1, 1 - 0.15, 2 + 0.17, 3] },
+      { name: 'misses and extras', taps: [0, 0.04, 2.3, 3.4] },
+      { name: 'nothing', taps: [] },
+    ];
+    for (const { taps } of tables) {
+      fake.clock = 0;
+      const { judged, onComplete } = live();
+      await clickStart();
+      for (const t of taps) tapAt(ONSET(0) + t * SPB);
+      advanceTo(ONSET(0) + 4 * SPB + SPB + 0.1);
+      const r = onComplete.mock.calls[0][0];
+      expect(judged).toHaveLength(4);
+      for (const j of judged) {
+        expect(j.verdict).toBe(verdictOf(r.errorsMs[j.index]));
+        expect(j.errorMs).toBe(r.errorsMs[j.index]);
+      }
+      document.body.innerHTML = '';
+      cleanup();
+    }
+  });
+
+  it('reports the phases: idle, count-in, playing, done', async () => {
+    const { phases } = live();
+    await clickStart();
+    advanceTo(ONSET(0) + 4 * SPB + SPB + 0.1);
+    expect(phases).toEqual(['idle', 'count-in', 'playing', 'done']);
+  });
+
+  it('reports each felt beat, negative bars during the count-in', async () => {
+    const { beats } = live();
+    await clickStart();
+    advanceTo(START + 4 * SPB + 4 * SPB + 0.05);
+    expect(beats.slice(0, 4)).toEqual([[0, -1], [1, -1], [2, -1], [3, -1]]);
+    expect(beats.slice(4, 8)).toEqual([[0, 0], [1, 0], [2, 0], [3, 0]]);
+  });
+
+  it('reports each onset when it comes due, never in the count-in', async () => {
+    const { due } = live();
+    await clickStart();
+    advanceTo(ONSET(0) - 0.05);
+    expect(due).toEqual([]);
+    advanceTo(ONSET(0) + 0.03);
+    expect(due).toEqual([0]);
+    advanceTo(ONSET(2) + 0.03);
+    expect(due).toEqual([0, 1, 2]);
+  });
+});
+
+describe('RhythmPad game feedback (perform)', () => {
+  it('shows a running tally and a verdict word with a shape, and flashes the pad', async () => {
+    setup();
+    await clickStart();
+    expect(screen.getByTestId('tally')).toHaveTextContent('0 of 4 hit');
+    tapAt(ONSET(0));
+    expect(screen.getByTestId('tally')).toHaveTextContent('1 of 4 hit');
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Perfect');
+    expect(screen.getByTestId('verdict-chip').querySelector('[data-verdict-icon="perfect"]')).toBeInTheDocument();
+    expect(screen.getByTestId('tap-target')).toHaveAttribute('data-flash', 'perfect');
+    tapAt(ONSET(1) + 0.1);
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Close');
+    expect(screen.getByTestId('tap-target')).toHaveAttribute('data-flash', 'close');
+    expect(screen.getByTestId('tally')).toHaveTextContent('2 of 4 hit');
+    tapAt(ONSET(1) + 0.25);
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Extra tap');
+    advanceTo(ONSET(1) + 0.25 + 0.5);
+    expect(screen.getByTestId('tap-target')).not.toHaveAttribute('data-flash');
+    // Once the round is over the tally and word go; the results row takes over.
+    advanceTo(ONSET(0) + 4 * SPB + SPB + 0.1);
+    expect(screen.queryByTestId('verdict-chip')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('tally')).not.toBeInTheDocument();
+  });
+
+  it('says Missed when a window passes with no tap, without flashing the pad', async () => {
+    setup();
+    await clickStart();
+    advanceTo(ONSET(0) + 0.25);
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Missed');
+    expect(screen.getByTestId('tap-target')).not.toHaveAttribute('data-flash');
+    expect(screen.getByTestId('tally')).toHaveTextContent('0 of 4 hit');
+  });
+
+  it('does not announce every tap: at most one running verdict every few seconds, then the summary', async () => {
+    setup();
+    await clickStart();
+    const region = screen.getByTestId('live-region');
+    tapAt(ONSET(0));
+    expect(region).toHaveTextContent('Perfect. 1 of 4 hit.');
+    tapAt(ONSET(1));
+    tapAt(ONSET(2) + 0.1);
+    // Within three seconds of the first announcement: still the first.
+    expect(region).toHaveTextContent('Perfect. 1 of 4 hit.');
+    advanceTo(ONSET(0) + 4 * SPB + SPB + 0.1);
+    expect(region).toHaveTextContent('Finished. Accuracy');
+    expect(region).toHaveTextContent('3 of 4 hit, 1 missed');
+  });
+
+  it('respects reduced motion: no pulse or beat ring, but the verdict colour and icon show and stay', async () => {
+    setup({ reducedMotion: true });
+    await clickStart();
+    advanceTo(ONSET(0) - 0.01);
+    expect(screen.getByTestId('tap-target')).toHaveAttribute('data-beat', 'false');
+    tapAt(ONSET(0));
+    const pad = screen.getByTestId('tap-target');
+    expect(pad).toHaveAttribute('data-pulsing', 'false');
+    expect(pad).toHaveAttribute('data-flash', 'perfect');
+    expect(pad.querySelector('[data-verdict-icon="perfect"]')).toBeInTheDocument();
+    advanceTo(ONSET(0) + 0.3);
+    expect(pad).toHaveAttribute('data-flash', 'perfect');
+  });
+
+  it('pulses the pad on each click', async () => {
+    setup();
+    await clickStart();
+    advanceTo(START + 0.03);
+    expect(screen.getByTestId('tap-target')).toHaveAttribute('data-beat', 'true');
+    advanceTo(START + 0.3);
+    expect(screen.getByTestId('tap-target')).toHaveAttribute('data-beat', 'false');
+  });
+
+  it('resets the tally and verdict on Try again', async () => {
+    setup();
+    await clickStart();
+    tapAt(ONSET(0));
+    advanceTo(ONSET(0) + 4 * SPB + SPB + 0.1);
+    await clickStart('Try again');
+    expect(screen.getByTestId('tally')).toHaveTextContent('0 of 4 hit');
+  });
+});
+
+describe('RhythmPad live events (free)', () => {
+  it('reports phases and beats that wrap with the passage, and no verdicts', async () => {
+    const phases: PadPhase[] = [];
+    const beats: [number, number][] = [];
+    const onOnsetJudged = vi.fn();
+    render(
+      <RhythmPad
+        bars={[...bars, ...bars]}
+        time={TIME}
+        bpm={120}
+        mode="free"
+        onComplete={() => {}}
+        onOnsetJudged={onOnsetJudged}
+        onPhase={(p) => phases.push(p)}
+        onBeat={(b, bar) => beats.push([b, bar])}
+      />,
+    );
+    await clickStart();
+    advanceTo(START + 17 * SPB + 0.03);
+    expect(phases).toEqual(['idle', 'playing']);
+    expect(beats.slice(0, 5)).toEqual([[0, 0], [1, 0], [2, 0], [3, 0], [0, 1]]);
+    // Two bars, then back to bar 0.
+    expect(beats[8]).toEqual([0, 0]);
+    tapAt(START + 18 * SPB);
+    fireEvent.click(screen.getByRole('button', { name: 'Stop' }));
+    expect(phases).toEqual(['idle', 'playing', 'idle']);
+    expect(onOnsetJudged).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('tally')).not.toBeInTheDocument();
   });
 });

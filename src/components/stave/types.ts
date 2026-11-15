@@ -10,7 +10,11 @@ import type {
 import type { PitchEngine, RhythmEngine } from '@/engine/api';
 
 export type StaveSize = 'sm' | 'md' | 'lg';
-export type StaveMark = 'correct' | 'wrong' | 'highlight';
+/**
+ * correct, wrong: right and wrong answers. near: right idea, not quite (amber; a close tap).
+ * highlight: outline only. lit: the note is lit in the accent colour (played, tapped).
+ */
+export type StaveMark = 'correct' | 'wrong' | 'near' | 'highlight' | 'lit';
 
 export interface StavePalette {
   /** Note values offered; the first is armed initially. `dots` on entries is ignored (see `dots`). */

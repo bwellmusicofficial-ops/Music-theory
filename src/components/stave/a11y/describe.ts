@@ -74,7 +74,9 @@ function tieInFor(passage: Passage, bar: number): NoteEvent | undefined {
 function markSuffix(o: DescribeOptions, key: string): string {
   const m = o.marks?.[key];
   if (!m) return '';
-  return m === 'highlight' ? ', highlighted' : `, marked ${m}`;
+  if (m === 'highlight') return ', highlighted';
+  if (m === 'lit') return ', played';
+  return m === 'near' ? ', marked close' : `, marked ${m}`;
 }
 
 /** "Bar 2, note 1 of 3: F sharp 4, crotchet, tied, marked wrong". */

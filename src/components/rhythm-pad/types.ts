@@ -9,6 +9,19 @@ export interface TapResult {
   accuracy: number;
 }
 
+/** Live verdict for one expected onset. */
+export type OnsetVerdict = 'perfect' | 'close' | 'miss';
+
+export interface OnsetJudgement {
+  /** Index into the expected onsets (see `onsetEvents` for the bar and event). */
+  index: number;
+  verdict: OnsetVerdict;
+  /** Signed error in ms (negative = early), or null when no tap was matched. */
+  errorMs: number | null;
+}
+
+export type PadPhase = 'idle' | 'count-in' | 'playing' | 'done';
+
 export interface RhythmPadProps {
   bars: Bar[];
   time: TimeSignature;
@@ -27,6 +40,29 @@ export interface RhythmPadProps {
   /** Perform mode scoring windows. Defaults 60 and 180 ms. */
   perfectMs?: number;
   toleranceMs?: number;
+  /**
+   * Perform mode, live: once per expected onset, as soon as it is decided (a tap
+   * is matched, or its window passes with no tap). Same thresholds, latency offset
+   * and matching rules as the final TapResult, so the verdicts equal it.
+   */
+  onOnsetJudged?: (judgement: OnsetJudgement) => void;
+  /** Perform mode, live: a tap that matched no onset. */
+  onExtraTap?: () => void;
+  /**
+   * Perform mode, live: an expected onset has just come due (its time on the clock).
+   * Drives a "now" marker on the notation. Not called in the count-in.
+   */
+  onOnsetDue?: (index: number) => void;
+  /**
+   * Each felt beat as it clicks. `beatIndex` is 0-based within the bar. `barIndex`
+   * is 0-based within the passage; negative during the count-in (-1 is the last
+   * count-in bar). In free mode it wraps with the passage.
+   */
+  onBeat?: (beatIndex: number, barIndex: number) => void;
+  /** Reports idle, count-in, playing and done (free mode: idle and playing). */
+  onPhase?: (phase: PadPhase) => void;
+  /** From LearnerSettings.reducedMotion; the OS setting is honoured as well. No pulsing or flashing. */
+  reducedMotion?: boolean;
   /** Show the pad's own "Try again" after a performance. Default true; a parent that owns retrying (the lesson player) passes false. */
   showRetry?: boolean;
   /** Rendered above the tap target (the parent shows the notation here). */

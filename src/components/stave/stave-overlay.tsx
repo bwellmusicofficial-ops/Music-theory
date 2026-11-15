@@ -145,6 +145,8 @@ export function StaveOverlay(p: StaveOverlayProps) {
       const sys = sysOfBar(p.cursor.bar);
       out.push(
         <rect key="cursor" data-testid="cursor-column" x={ev.colLeft} y={sys.bottomLineY - 40} width={ev.colRight - ev.colLeft} height={40} fill="var(--stave-accent)" opacity={0.2} />,
+        // A pointer under the column, so "now" is a shape as well as a tint.
+        <path key="cursor-pointer" data-testid="cursor-pointer" d={`M${ev.centreX - 5} ${sys.bottomLineY + 9}L${ev.centreX} ${sys.bottomLineY + 2}L${ev.centreX + 5} ${sys.bottomLineY + 9}Z`} fill="var(--stave-accent)" />,
       );
     }
   }
@@ -162,6 +164,13 @@ export function StaveOverlay(p: StaveOverlayProps) {
         );
         continue;
       }
+      if (mark === 'lit') {
+        // Lit: a filled, outlined box in the accent colour round the note (shape as well as colour).
+        out.push(
+          <rect key={`m-${key}`} data-testid="mark-lit" x={ev.box.x - 3} y={ev.box.y - 3} width={ev.box.w + 6} height={ev.box.h + 6} rx={4} fill="var(--stave-accent)" fillOpacity={0.18} stroke="var(--stave-accent)" strokeWidth={2} />,
+        );
+        continue;
+      }
       let cy = ev.box.y - BADGE_GAP - BADGE_SIZE / 2;
       if (cy - BADGE_SIZE / 2 < sys.top) cy = ev.box.y + ev.box.h + BADGE_GAP + BADGE_SIZE / 2;
       out.push(<Badge key={`m-${key}`} mark={mark} cx={ev.centreX} cy={cy} />);
@@ -173,15 +182,15 @@ export function StaveOverlay(p: StaveOverlayProps) {
       const x1 = b.noteStartX;
       const x2 = b.x + b.width - 4;
       const y = sys.bottomLineY - 40 - 10;
-      if (mark === 'highlight') {
+      if (mark === 'highlight' || mark === 'lit') {
         out.push(
           <rect key={`m-${key}`} data-testid="mark-highlight" x={x1 - 2} y={sys.bottomLineY - 40 - 6} width={x2 - x1 + 4} height={52} rx={4} fill="none" stroke="var(--stave-accent)" strokeWidth={2} />,
         );
         continue;
       }
-      const color = mark === 'correct' ? 'var(--stave-correct)' : 'var(--stave-wrong)';
+      const color = markColor(mark);
       out.push(
-        <path key={`mb-${key}`} data-testid={`bracket-${mark}`} d={`M${x1} ${y + 4}V${y}H${x2}V${y + 4}`} fill="none" stroke={color} strokeWidth={1.5} strokeDasharray={mark === 'wrong' ? '4 3' : undefined} />,
+        <path key={`mb-${key}`} data-testid={`bracket-${mark}`} d={`M${x1} ${y + 4}V${y}H${x2}V${y + 4}`} fill="none" stroke={color} strokeWidth={1.5} strokeDasharray={mark === 'wrong' ? '4 3' : mark === 'near' ? '1.5 3' : undefined} />,
         <Badge key={`m-${key}`} mark={mark} cx={(x1 + x2) / 2} cy={y - BADGE_SIZE / 2 - 1} />,
       );
     }
@@ -247,20 +256,30 @@ export function StaveOverlay(p: StaveOverlayProps) {
   );
 }
 
+function markColor(mark: StaveMark): string {
+  return mark === 'correct' ? 'var(--stave-correct)' : mark === 'near' ? 'var(--stave-near)' : 'var(--stave-wrong)';
+}
+
+/** Three shapes, so colour is never the only signal: circle + tick, diamond + tilde, rounded square + cross. */
 function Badge({ mark, cx, cy }: { mark: StaveMark; cx: number; cy: number }) {
   const r = BADGE_SIZE / 2;
-  const color = mark === 'correct' ? 'var(--stave-correct)' : 'var(--stave-wrong)';
+  const color = markColor(mark);
+  const ink = { fill: 'none', stroke: 'var(--stave-badge-ink)', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' } as const;
   return (
     <g className="mtn-badge" data-testid={`badge-${mark}`}>
       {mark === 'correct' ? (
         <circle cx={cx} cy={cy} r={r} fill={color} />
+      ) : mark === 'near' ? (
+        <rect x={cx - r * 0.72} y={cy - r * 0.72} width={BADGE_SIZE * 0.72} height={BADGE_SIZE * 0.72} rx={1.5} fill={color} transform={`rotate(45 ${cx} ${cy})`} />
       ) : (
         <rect x={cx - r} y={cy - r} width={BADGE_SIZE} height={BADGE_SIZE} rx={2.5} fill={color} />
       )}
       {mark === 'correct' ? (
-        <path d={`M${cx - 3} ${cy}L${cx - 0.8} ${cy + 2.4}L${cx + 3.2} ${cy - 2.6}`} fill="none" stroke="var(--stave-badge-ink)" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+        <path d={`M${cx - 3} ${cy}L${cx - 0.8} ${cy + 2.4}L${cx + 3.2} ${cy - 2.6}`} {...ink} />
+      ) : mark === 'near' ? (
+        <path d={`M${cx - 3.4} ${cy + 0.6}C${cx - 2} ${cy - 2.2} ${cx - 0.8} ${cy - 2.2} ${cx} ${cy + 0.1}S${cx + 2} ${cy + 2.4} ${cx + 3.4} ${cy - 0.6}`} {...ink} />
       ) : (
-        <path d={`M${cx - 2.8} ${cy - 2.8}L${cx + 2.8} ${cy + 2.8}M${cx + 2.8} ${cy - 2.8}L${cx - 2.8} ${cy + 2.8}`} fill="none" stroke="var(--stave-badge-ink)" strokeWidth={1.6} strokeLinecap="round" />
+        <path d={`M${cx - 2.8} ${cy - 2.8}L${cx + 2.8} ${cy + 2.8}M${cx + 2.8} ${cy - 2.8}L${cx - 2.8} ${cy + 2.8}`} {...ink} />
       )}
     </g>
   );
