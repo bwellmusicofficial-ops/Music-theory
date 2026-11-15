@@ -37,9 +37,15 @@ export interface RhythmPadProps {
   metronome?: boolean;
   /** Free mode: called with the running tap count after each tap. */
   onTap?: (count: number) => void;
-  /** Perform mode scoring windows. Defaults 60 and 180 ms. */
+  /** Perform mode scoring thresholds. Defaults 60 and 180 ms: 'perfect' within perfectMs, 'close' within toleranceMs. */
   perfectMs?: number;
   toleranceMs?: number;
+  /**
+   * How far from an onset a tap is still matched to it. Default `toleranceMs`.
+   * A tap matched beyond `toleranceMs` is a 'miss' that still carries its signed
+   * error, so the UI can say "Early" or "Late".
+   */
+  matchWindowMs?: number;
   /**
    * Perform mode, live: once per expected onset, as soon as it is decided (a tap
    * is matched, or its window passes with no tap). Same thresholds, latency offset

@@ -177,6 +177,29 @@ export interface RhythmPadProps {
   countInBars?: number;
   /** Called when the performance ends. */
   onComplete: (result: TapResult) => void;
+  /** 'perform' (default) is scored; 'free' is an unscored play-along. */
+  mode?: 'perform' | 'free';
+  latencyOffsetMs?: number;          // subtracted from tap times before matching
+  metronome?: boolean;               // click continues after the count-in (default true)
+  onTap?: (count: number) => void;   // free mode: running tap count
+  /** Perform mode thresholds: 'perfect' within perfectMs (60), 'close' within toleranceMs (180). */
+  perfectMs?: number;
+  toleranceMs?: number;
+  /** How far from an onset a tap is matched to it. Default toleranceMs. */
+  matchWindowMs?: number;
+  showRetry?: boolean;
+  reducedMotion?: boolean;           // no pulsing or flashing; colour and icons still change
+  // Live events (perform mode unless noted). The final TapResult is read from the
+  // same incremental matcher, so these verdicts always equal it.
+  /** Once per expected onset, as soon as it is decided: a tap is matched at once to the nearest
+   *  unjudged onset within matchWindowMs, or the window passes with no tap (miss, errorMs null).
+   *  A tap matched beyond toleranceMs is 'miss' with its signed errorMs ("Early" / "Late"). */
+  onOnsetJudged?: (e: { index: number; verdict: 'perfect' | 'close' | 'miss'; errorMs: number | null }) => void;
+  onExtraTap?: () => void;           // a tap that matched no onset
+  onOnsetDue?: (index: number) => void; // an onset's time has arrived (drives a "now" marker)
+  /** Each felt beat as it clicks; barIndex is negative in the count-in (-1 = last count-in bar); free mode wraps. */
+  onBeat?: (beatIndex: number, barIndex: number) => void;
+  onPhase?: (phase: 'idle' | 'count-in' | 'playing' | 'done') => void;
 }
 export interface TapResult {
   /** One entry per expected onset: signed error in ms, or null if missed. */
@@ -194,5 +217,10 @@ learner made it), so the pad subtracts the offset from every tap time. The
 lesson player provides the settings to question components through a React
 context (`useLearnerSettings()` in `src/lesson/player`); `tap-rhythm` passes
 `latencyOffsetMs` to the pad. Tap matching uses a wider window than the
-marking tolerance (2.5 times `toleranceMs`, at most 450 ms) so that `mark` can
-report "early" and "late" rather than "missed".
+marking tolerance (`matchWindowMs`: 2.5 times the payload `toleranceMs`, at most
+450 ms) so that `mark` can report "early" and "late" rather than "missed"; the
+pad's `toleranceMs` is the payload tolerance, so live colours (green perfect,
+amber close, red cross for a miss or a tap beyond tolerance), the results row
+and `mark` agree. The count-in is shown counting up through the felt beats of one
+bar (1 2 3 4, then "Tap!"). The helper `useTapAlong` turns the live events into
+stave `marks` and `cursor` (see docs/stave-interaction.md section 5.4).

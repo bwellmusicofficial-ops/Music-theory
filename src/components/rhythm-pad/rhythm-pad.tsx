@@ -18,7 +18,7 @@ import {
 import { TapTarget } from './tap-target';
 import { ANNOUNCE_EVERY_S, BEAT_PULSE_MS, FLASH_MS, METRONOME_STOP_MARGIN_S, PULSE_MS, TICK_MS, VERDICT_MS } from './timing';
 import type { OnsetJudgement, PadPhase, RhythmPadProps, TapResult } from './types';
-import { VerdictChip, verdictWord, type LiveVerdict } from './verdict-chip';
+import { VerdictChip, liveVerdictOf, verdictWord, type LiveVerdict } from './verdict-chip';
 
 const REDUCE_QUERY = '(prefers-reduced-motion: reduce)';
 function subscribeReduced(onChange: () => void): () => void {
@@ -43,6 +43,7 @@ interface Run {
   matcher: TapMatcher | null;
   perfectMs: number;
   toleranceMs: number;
+  windowMs: number;
   lastBeat: number;
   nextDue: number;
   lastAnnounce: number;
@@ -63,6 +64,7 @@ export function RhythmPad({
   onTap,
   perfectMs = DEFAULT_PERFECT_MS,
   toleranceMs = DEFAULT_TOLERANCE_MS,
+  matchWindowMs,
   showRetry = true,
   onOnsetJudged,
   onExtraTap,
@@ -156,14 +158,14 @@ export function RhythmPad({
         hitsRef.current += 1;
         setHits(hitsRef.current);
       }
-      showVerdict(j.verdict, fromTap);
+      showVerdict(liveVerdictOf(j), fromTap);
       latest.current.onOnsetJudged?.(j);
       // The live region gets the running verdict at most every few seconds; the summary comes at the end.
       const r = run.current;
       const at = getAudioEngine().now();
       if (r && at - r.lastAnnounce >= ANNOUNCE_EVERY_S) {
         r.lastAnnounce = at;
-        setAnnounce(`${verdictWord(j.verdict)}. ${hitsRef.current} of ${r.matcher?.size ?? 0} hit.`);
+        setAnnounce(`${verdictWord(liveVerdictOf(j))}. ${hitsRef.current} of ${r.matcher?.size ?? 0} hit.`);
       }
     },
     [showVerdict],
@@ -288,6 +290,7 @@ export function RhythmPad({
     const playStart = metronomeStart + countInBeats * spb;
     const scoreBeats = bars.length * perBar;
     const stopOffset = Math.min(METRONOME_STOP_MARGIN_S, spb - 0.01);
+    const windowMs = Math.max(matchWindowMs ?? toleranceMs, toleranceMs);
     const expected = free ? [] : expectedOnsets(bars, time, bpm, countInBeats * spb, metronomeStart);
     setTotal(expected.length);
     run.current = {
@@ -300,9 +303,10 @@ export function RhythmPad({
       endTime: metronomeStart + (countInBeats + scoreBeats + 1) * spb,
       metroStopAt: !free && !metronome ? playStart - stopOffset : null,
       expected,
-      matcher: free ? null : createTapMatcher(expected, { perfectMs, toleranceMs }),
+      matcher: free ? null : createTapMatcher(expected, { perfectMs, toleranceMs, windowMs }),
       perfectMs,
       toleranceMs,
+      windowMs,
       lastBeat: -1,
       nextDue: 0,
       lastAnnounce: -Infinity,
@@ -313,12 +317,12 @@ export function RhythmPad({
       setAnnounce('Playing along. Tap freely.');
     } else if (countInBeats > 0) {
       changePhase('count-in');
-      setAnnounce(`Count-in, ${countInBeats} beats`);
+      setAnnounce(`Count-in, ${Array.from({ length: perBar }, (_, i) => i + 1).join(', ')}`);
     } else {
       changePhase('playing');
       setAnnounce('Go');
     }
-  }, [bars, bpm, countInBars, free, metronome, perBar, time, tick, changePhase, perfectMs, toleranceMs]);
+  }, [bars, bpm, countInBars, free, metronome, perBar, time, tick, changePhase, perfectMs, toleranceMs, matchWindowMs]);
 
   const stopFree = useCallback(() => {
     clearRun();
@@ -352,7 +356,7 @@ export function RhythmPad({
     }
     const corrected = applyLatency([at], latest.current.latencyOffsetMs)[0];
     // Taps during the count-in only count if they are within reach of the first onset.
-    if (!r.matcher || corrected < r.playStart - r.toleranceMs / 1000) return;
+    if (!r.matcher || corrected < r.playStart - r.windowMs / 1000) return;
     const outcome = r.matcher.tap(corrected);
     if (outcome.kind === 'matched') {
       judged(outcome.judgement, true);
@@ -426,7 +430,7 @@ export function RhythmPad({
       {result ? (
         <div className="flex flex-col items-center gap-3" data-testid="result">
           <p className="text-lg font-semibold">{`Accuracy ${Math.round(result.accuracy * 100)}%`}</p>
-          <FeedbackRow errorsMs={result.errorsMs} perfectMs={perfectMs} />
+          <FeedbackRow errorsMs={result.errorsMs} perfectMs={perfectMs} toleranceMs={toleranceMs} />
           {result.extraTaps > 0 ? (
             <p className="text-sm text-fg-secondary">{`Extra taps: ${result.extraTaps}`}</p>
           ) : null}

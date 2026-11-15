@@ -1,6 +1,6 @@
 import { cn } from '@/components/ui/cn';
 
-export type LiveVerdict = 'perfect' | 'close' | 'miss' | 'extra';
+export type LiveVerdict = 'perfect' | 'close' | 'miss' | 'early' | 'late' | 'extra';
 
 const CONFIG: Record<LiveVerdict, { word: string; tone: string; shape: React.ReactNode }> = {
   perfect: {
@@ -18,12 +18,28 @@ const CONFIG: Record<LiveVerdict, { word: string; tone: string; shape: React.Rea
     tone: 'text-danger',
     shape: <path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />,
   },
+  early: {
+    word: 'Early',
+    tone: 'text-danger',
+    shape: <path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />,
+  },
+  late: {
+    word: 'Late',
+    tone: 'text-danger',
+    shape: <path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />,
+  },
   extra: {
     word: 'Extra tap',
     tone: 'text-danger',
     shape: <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />,
   },
 };
+
+/** A miss that was matched to a tap (beyond the close threshold) is "Early" or "Late"; no tap is "Missed". */
+export function liveVerdictOf(j: { verdict: 'perfect' | 'close' | 'miss'; errorMs: number | null }): LiveVerdict {
+  if (j.verdict === 'miss' && j.errorMs !== null) return j.errorMs < 0 ? 'early' : 'late';
+  return j.verdict;
+}
 
 export const verdictWord = (v: LiveVerdict): string => CONFIG[v].word;
 

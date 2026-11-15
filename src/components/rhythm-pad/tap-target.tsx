@@ -52,6 +52,8 @@ export function TapTarget({ onTap, active, pulsing, label, flash = null, beatPul
         'data-[flash=perfect]:border-success data-[flash=perfect]:bg-success data-[flash=perfect]:text-on-success',
         'data-[flash=close]:border-warning data-[flash=close]:bg-warning data-[flash=close]:text-on-warning',
         'data-[flash=miss]:border-danger data-[flash=miss]:bg-danger data-[flash=miss]:text-on-danger',
+        'data-[flash=early]:border-danger data-[flash=early]:bg-danger data-[flash=early]:text-on-danger',
+        'data-[flash=late]:border-danger data-[flash=late]:bg-danger data-[flash=late]:text-on-danger',
         'data-[flash=extra]:border-danger data-[flash=extra]:bg-danger data-[flash=extra]:text-on-danger',
         active ? 'border-accent bg-surface-raised text-fg' : 'border-border-subtle bg-surface text-muted',
       )}

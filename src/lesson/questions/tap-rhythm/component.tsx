@@ -177,8 +177,10 @@ export function TapRhythm({
             time={payload.time}
             bpm={payload.bpm}
             countInBars={payload.countInBars ?? 1}
-            // A wider window than the payload tolerance, so a mistimed tap is reported as early or late (mark judges it).
-            toleranceMs={matchWindowMs(payload.toleranceMs ?? DEFAULT_TOLERANCE_MS)}
+            // Verdicts use the payload tolerance, as mark() does; taps are matched within a wider window,
+            // so a mistimed tap is reported as early or late (a cross) rather than as missed.
+            toleranceMs={payload.toleranceMs ?? DEFAULT_TOLERANCE_MS}
+            matchWindowMs={matchWindowMs(payload.toleranceMs ?? DEFAULT_TOLERANCE_MS)}
             latencyOffsetMs={latencyOffsetMs}
             // Retrying belongs to the lesson player (hint, then "Try again" remounts this question).
             showRetry={false}

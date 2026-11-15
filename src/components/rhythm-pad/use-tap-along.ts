@@ -5,7 +5,7 @@ import { rhythm } from '@/engine/rhythm';
 import { onsetAtBeat, onsetKey, onsetRefs } from './onset-map';
 import type { OnsetJudgement, OnsetVerdict, PadPhase, RhythmPadProps } from './types';
 
-/** What to show large near the notation: the beats still to count, or "Tap!". */
+/** What to show large near the notation: the beat being counted (1, 2, 3, 4), or "Tap!". */
 export type CountInCue = { kind: 'count'; value: number } | { kind: 'go' };
 
 export interface TapAlong {
@@ -58,8 +58,8 @@ function reduce(state: State, a: Action): State {
       return { ...state, due: a.index };
     case 'beat': {
       if (state.phase === 'count-in' && a.barIndex < 0) {
-        const value = (-a.barIndex - 1) * a.perBar + (a.perBar - a.beatIndex);
-        return { ...state, countIn: { kind: 'count', value } };
+        // Counts up through the felt beats of one bar, as a musician counts in: 1, 2, 3, 4.
+        return { ...state, countIn: { kind: 'count', value: a.beatIndex + 1 } };
       }
       let countIn = state.countIn;
       let goBeats = state.goBeats;

@@ -535,3 +535,56 @@ describe('RhythmPad live events (free)', () => {
     expect(screen.queryByTestId('tally')).not.toBeInTheDocument();
   });
 });
+
+describe('RhythmPad matchWindowMs', () => {
+  // 60 bpm: one second a beat, so a tap 300 ms off one onset is still far from the next.
+  const SLOW = (i: number) => START + 4 + i;
+  const tapSlow = (i: number, offset: number) => tapAt(SLOW(i) + offset);
+  const endSlow = () => advanceTo(SLOW(0) + 4 + 1 + 0.1);
+
+  it('defaults to toleranceMs: a tap beyond it is extra, not a late miss', async () => {
+    const judged: OnsetJudgement[] = [];
+    const extra = vi.fn();
+    render(<RhythmPad bars={bars} time={TIME} bpm={60} onComplete={() => {}} onOnsetJudged={(j) => judged.push(j)} onExtraTap={extra} />);
+    await clickStart();
+    tapSlow(0, 0.25); // outside the default 180 ms window
+    expect(extra).toHaveBeenCalledTimes(1);
+    expect(judged.every((j) => j.errorMs === null)).toBe(true);
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Extra tap');
+  });
+
+  it('matches taps in the wider window; beyond toleranceMs they are a miss with their signed error, Early or Late', async () => {
+    const judged: OnsetJudgement[] = [];
+    const onComplete = vi.fn<(r: TapResult) => void>();
+    render(
+      <RhythmPad
+        bars={bars}
+        time={TIME}
+        bpm={60}
+        toleranceMs={150}
+        matchWindowMs={375}
+        onComplete={onComplete}
+        onOnsetJudged={(j) => judged.push(j)}
+      />,
+    );
+    await clickStart();
+    tapSlow(0, 0.3); // late, outside tolerance
+    expect(judged[0]).toMatchObject({ index: 0, verdict: 'miss' });
+    expect(judged[0].errorMs).toBeCloseTo(300, 3);
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Late');
+    expect(screen.getByTestId('tap-target')).toHaveAttribute('data-flash', 'late');
+    expect(screen.getByTestId('tally')).toHaveTextContent('0 of 4 hit');
+    tapSlow(1, -0.2);
+    expect(screen.getByTestId('verdict-chip')).toHaveTextContent('Early');
+    tapSlow(2, 0.1); // inside tolerance: close
+    expect(judged[2]).toMatchObject({ verdict: 'close' });
+    endSlow();
+    const r = onComplete.mock.calls[0][0];
+    for (const j of judged) expect(j.errorMs).toBe(r.errorsMs[j.index]);
+    const row = screen.getByTestId('feedback-row').querySelectorAll('li');
+    expect([...row].map((li) => li.getAttribute('data-off'))).toEqual(['true', 'true', null, null]);
+    expect(row[0]).toHaveTextContent('Late');
+    expect(row[1]).toHaveTextContent('Early');
+    expect(row[3]).toHaveTextContent('Missed');
+  });
+});

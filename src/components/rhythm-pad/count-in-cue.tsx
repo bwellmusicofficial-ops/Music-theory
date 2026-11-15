@@ -3,7 +3,7 @@ import type { CountInCue } from './use-tap-along';
 
 /**
  * The count-in, large, straddling the top edge of the notation's box so it never
- * covers a note: the beats still to count, then "Tap!". Place inside a `relative`
+ * covers a note: the beat being counted (1, 2, 3, 4), then "Tap!". Place inside a `relative`
  * box around the notation. Decorative: the pad announces the count-in.
  */
 export function CountInOverlay({ cue }: { cue: CountInCue | null }) {

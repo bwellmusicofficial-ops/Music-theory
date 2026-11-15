@@ -61,7 +61,7 @@ describe('useTapAlong (perform)', () => {
     expect(result.current.marks).toEqual({});
   });
 
-  it('counts the real beats down in 4/4, then Tap!, then clears after the first beat', () => {
+  it('counts up through the beats of a bar in 4/4, then Tap!, then clears after the first beat', () => {
     const { result } = perform();
     const beat = (b: number, bar: number) => act(() => result.current.handlers.onBeat(b, bar));
     act(() => result.current.handlers.onPhase('count-in'));
@@ -70,7 +70,7 @@ describe('useTapAlong (perform)', () => {
       beat(b, -1);
       seen.push(result.current.countIn);
     }
-    expect(seen).toEqual([4, 3, 2, 1].map((value) => ({ kind: 'count', value })));
+    expect(seen).toEqual([1, 2, 3, 4].map((value) => ({ kind: 'count', value })));
     act(() => result.current.handlers.onPhase('playing'));
     beat(0, 0);
     expect(result.current.countIn).toEqual({ kind: 'go' });
@@ -78,16 +78,18 @@ describe('useTapAlong (perform)', () => {
     expect(result.current.countIn).toBeNull();
   });
 
-  it('counts three in 3/4 and eight over a two-bar count-in', () => {
-    const { result } = perform({ beats: 3, beatUnit: 4 });
-    act(() => result.current.handlers.onPhase('count-in'));
-    const values: number[] = [];
-    for (const [b, bar] of [[0, -2], [1, -2], [2, -2], [0, -1], [1, -1], [2, -1]] as const) {
-      act(() => result.current.handlers.onBeat(b, bar));
-      const c = result.current.countIn;
-      values.push(c?.kind === 'count' ? c.value : -1);
-    }
-    expect(values).toEqual([6, 5, 4, 3, 2, 1]);
+  it('counts the felt beats of one bar: 1 2 3 in 3/4, 1 2 in 6/8, and again over a two-bar count-in', () => {
+    const run = (time: TimeSignature, beats: [number, number][]) => {
+      const { result } = perform(time);
+      act(() => result.current.handlers.onPhase('count-in'));
+      return beats.map(([b, bar]) => {
+        act(() => result.current.handlers.onBeat(b, bar));
+        const c = result.current.countIn;
+        return c?.kind === 'count' ? c.value : -1;
+      });
+    };
+    expect(run({ beats: 3, beatUnit: 4 }, [[0, -2], [1, -2], [2, -2], [0, -1], [1, -1], [2, -1]])).toEqual([1, 2, 3, 1, 2, 3]);
+    expect(run({ beats: 6, beatUnit: 8 }, [[0, -1], [1, -1]])).toEqual([1, 2]);
   });
 });
 
