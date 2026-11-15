@@ -222,7 +222,7 @@
     "term": "semibreve rest",
     "us": "whole rest",
     "language": "en",
-    "definition": "A rest that lasts 4 [[beat|beats]]. In 4/4 time it hangs below the fourth [[line|line]] from the bottom and fills a whole [[bar|bar]].",
+    "definition": "A rest that lasts 4 [[beat|beats]], or a whole silent [[bar|bar]] in any time. It hangs below the fourth [[line|line]] from the bottom.",
     "grade": "1",
     "strand": "rhythm"
   },
