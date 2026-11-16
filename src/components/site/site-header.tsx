@@ -94,7 +94,7 @@ export function BottomTabBar() {
                 {current ? <span aria-hidden="true" className="absolute inset-x-4 top-0 h-1 rounded-b-full bg-accent" /> : null}
                 <span
                   className={cn(
-                    'flex h-8 w-14 items-center justify-center rounded-full',
+                    'flex h-8 w-full max-w-14 items-center justify-center rounded-full',
                     current ? 'bg-accent text-on-accent' : '',
                   )}
                 >

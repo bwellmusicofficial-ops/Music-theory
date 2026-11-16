@@ -73,7 +73,8 @@ export function RichTextView({ text, terminology, glossary, onTermClick, classNa
         case 'term': {
           const entry = lookup(n.id);
           const shown = displayTerm(n.shown, entry, terminology);
-          if (!entry || linksAsText) return <Fragment key={key}>{shown}</Fragment>;
+          if (!entry) return <Fragment key={key}>{shown}</Fragment>;
+          if (linksAsText) return entry.language !== 'en' ? <span key={key} lang={entry.language}>{shown}</span> : <Fragment key={key}>{shown}</Fragment>;
           const isOpen = openKey === key;
           return (
             <span key={key} className="relative">
@@ -89,7 +90,7 @@ export function RichTextView({ text, terminology, glossary, onTermClick, classNa
                 }}
                 className="cursor-pointer rounded-sm font-semibold text-accent underline decoration-dotted decoration-2 underline-offset-4 hover:text-accent-hover"
               >
-                {shown}
+                {entry.language !== 'en' ? <span lang={entry.language}>{shown}</span> : shown}
               </button>
               {isOpen && !onTermClick ? (
                 <span
@@ -98,7 +99,7 @@ export function RichTextView({ text, terminology, glossary, onTermClick, classNa
                   aria-label={`Meaning of ${displayTerm(entry.term, entry, terminology)}`}
                   className="fixed inset-x-3 bottom-3 z-40 mx-auto block max-w-md rounded-lg border border-border bg-surface-raised p-4 text-base font-normal text-fg shadow-lg"
                 >
-                  <span className="block text-lg font-bold">
+                  <span className="block text-lg font-bold" lang={entry.language !== 'en' ? entry.language : undefined}>
                     {capitalise(terminology === 'us' && entry.us ? entry.us : entry.term)}
                   </span>
                   <span className="mt-1 block text-fg-secondary">

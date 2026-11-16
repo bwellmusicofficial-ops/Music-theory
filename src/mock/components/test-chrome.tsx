@@ -31,15 +31,15 @@ export function TestHeader({ paper, state, onGoTo, onFinish }: Omit<TestChromePr
     <div className="sticky top-0 z-10 -mx-4 border-b border-border-subtle bg-bg px-4 pt-3 pb-3" data-testid="test-header">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-lg font-extrabold leading-tight" data-testid="position">
+          <h1 className="text-lg font-extrabold leading-tight" data-testid="position">
             Question {state.current + 1} of {n}
-          </p>
+          </h1>
           <p className="truncate text-sm text-fg-secondary">{section?.title}</p>
         </div>
         <Countdown secondsLeft={state.secondsLeft} />
       </div>
 
-      <div className="mt-3 flex gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         <Button
           variant="secondary"
           size="md"
@@ -111,10 +111,10 @@ export function TestFooter({ paper, state, onGoTo, onFlag }: Omit<TestChromeProp
   const flagged = state.flagged[i] === true;
   return (
     <div
-      className="sticky bottom-0 z-10 -mx-4 mt-6 flex gap-2 border-t border-border-subtle bg-bg px-4 pt-3 pb-4"
+      className="sticky bottom-0 z-10 -mx-4 mt-6 flex flex-wrap gap-2 border-t border-border-subtle bg-bg px-4 pt-3 pb-4"
       data-testid="test-footer"
     >
-      <Button variant="secondary" size="lg" className="min-w-0 flex-1 px-3!" disabled={i === 0} onClick={() => onGoTo(i - 1)}>
+      <Button variant="secondary" size="lg" className="flex-1 px-3!" disabled={i === 0} onClick={() => onGoTo(i - 1)}>
         Previous
       </Button>
       <Button
@@ -128,7 +128,7 @@ export function TestFooter({ paper, state, onGoTo, onFlag }: Omit<TestChromeProp
         <span aria-hidden="true">{'⚑'}</span>
         {flagged ? 'Flagged' : 'Flag'}
       </Button>
-      <Button variant="secondary" size="lg" className="min-w-0 flex-1 px-3!" disabled={i === n - 1} onClick={() => onGoTo(i + 1)}>
+      <Button variant="secondary" size="lg" className="flex-1 px-3!" disabled={i === n - 1} onClick={() => onGoTo(i + 1)}>
         Next
       </Button>
     </div>

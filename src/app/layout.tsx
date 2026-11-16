@@ -23,6 +23,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH_SCRIPT }} />
       </head>
       <body className="flex min-h-dvh flex-col">
+        {/* First focusable element on every page: lets keyboard and screen-reader users jump past the header and tab bar. */}
+        <a
+          href="#main-content"
+          className="fixed left-3 top-3 z-50 -translate-y-24 rounded-md bg-accent px-4 py-3 font-bold text-on-accent shadow-lg focus:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
+        >
+          Skip to content
+        </a>
         <SettingsProvider>
           {children}
         </SettingsProvider>

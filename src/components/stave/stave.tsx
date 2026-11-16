@@ -344,6 +344,20 @@ function StaveImpl(props: InnerProps) {
     }
   }, [layout, selection, cursor, isEdit, reduced]);
 
+  // A read-only stave that is wider than its box scrolls sideways: make it reachable by keyboard
+  // (WCAG 2.1.1) so the arrow keys can scroll it. Staves with a tap or edit surface already have focusable parts.
+  const [scrolls, setScrolls] = useState(false);
+  useEffect(() => {
+    const sc = scrollRef.current;
+    if (!sc || !layout) return;
+    const measure = () => setScrolls(sc.scrollWidth > sc.clientWidth + 1);
+    measure();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(sc);
+    return () => ro.disconnect();
+  }, [layout]);
+
   // Position the loupe once it mounts.
   useLayoutEffect(() => {
     if (loupe) gestures.placeLoupe();
@@ -437,7 +451,7 @@ function StaveImpl(props: InnerProps) {
           {keys}
         </p>
       ) : null}
-      <div ref={scrollRef} className="mtn-stave__scroll">
+      <div ref={scrollRef} className="mtn-stave__scroll" tabIndex={readImg && scrolls ? 0 : undefined}>
         <div
           ref={canvasRef}
           className="mtn-stave__canvas"

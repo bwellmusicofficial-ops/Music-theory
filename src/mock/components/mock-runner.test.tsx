@@ -250,7 +250,7 @@ describe('mock test flow', () => {
     expect((sink as MemorySink).rows[0]).toMatchObject({ configId: 'grade-1', total: N, band: 'not-yet', seed: SEED });
 
     // Review Q1: the learner's answer, the correct one, and the reason.
-    await user.click(screen.getByRole('button', { name: 'Question 1, Not correct. Open to review.' }));
+    await user.click(screen.getByRole('button', { name: /^Question\s*1.*Not correct.*Review/ }));
     expect(screen.getByTestId('review-status')).toHaveTextContent('Not correct');
     expect(optionButtons().every((b) => (b as HTMLButtonElement).disabled)).toBe(true);
     expect(optionButtons()[wrongIdx]).toHaveAttribute('data-state', 'wrong');
@@ -265,13 +265,13 @@ describe('mock test flow', () => {
     expect(screen.getByTestId('review-status')).toHaveTextContent('Correct');
     await user.click(screen.getByRole('button', { name: 'Back to results' }));
     expect(screen.getByTestId('mock-results')).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Question 7, Not answered. Open to review.' }));
+    await user.click(screen.getByRole('button', { name: /^Question\s*7.*Not answered.*Review/ }));
     expect(screen.getByTestId('review-status')).toHaveTextContent('Not answered');
     expect(screen.getByTestId('review-explanation')).toHaveTextContent('You did not answer this question');
 
     // The match-up kept the learner's pairs in the review, all right.
     await user.click(screen.getByRole('button', { name: 'Back to results' }));
-    await user.click(screen.getByRole('button', { name: new RegExp(`^Question ${mu.index + 1}, Correct`) }));
+    await user.click(screen.getByRole('button', { name: new RegExp(`^Question\\s*${mu.index + 1}(?!\\d).*Correct`) }));
     expect(within(panel()).getAllByText('Right pair')).toHaveLength(mup.left.length);
 
     // Try again returns to the intro showing the best result.

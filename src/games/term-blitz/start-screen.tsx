@@ -45,7 +45,7 @@ export function StartScreen({
   return (
     <div className="flex flex-col gap-5 p-4 sm:p-8">
       <div>
-        <h2 className="tb-title m-0">Term Blitz</h2>
+        <h1 className="tb-title m-0">Term Blitz</h1>
         <p className="mt-3 max-w-prose text-lg font-medium text-fg-secondary">
           {untimed
             ? `Words and signs, ${untimedCards} cards. Take your time: there is no clock.`

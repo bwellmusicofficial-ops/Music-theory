@@ -29,7 +29,7 @@ export function StartScreen({ untimed, untimedQuestions, initialMode, initialGra
   return (
     <div className="flex flex-col gap-5 p-5 sm:p-8">
       <div>
-        <h2 className="kh-title m-0">Key Hunt</h2>
+        <h1 className="kh-title m-0">Key Hunt</h1>
         <p className="mt-3 max-w-prose text-lg font-medium text-fg-secondary">
           {untimed
             ? `Name the key from its signature, or the signature from its key. Take your time: no clock, ${untimedQuestions} questions.`

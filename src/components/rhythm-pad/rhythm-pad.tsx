@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Button } from '@/components/ui';
+import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import { rhythm } from '@/engine/rhythm';
 import { BeatIndicator } from './beat-indicator';
 import { FeedbackRow } from './feedback-row';
@@ -312,6 +313,11 @@ export function RhythmPad({
       lastAnnounce: -Infinity,
       timer: setInterval(tick, TICK_MS),
     };
+    // Test hook (dev routes only): the audio-clock times the taps are judged against, so a browser test can tap on time.
+    if (DEV_ROUTES_ENABLED) {
+      const w = window as unknown as { __rhythmRun?: { id: number; expected: number[]; now: () => number } };
+      w.__rhythmRun = { id: (w.__rhythmRun?.id ?? 0) + 1, expected: [...expected], now: () => engine.now() };
+    }
     if (free) {
       changePhase('playing');
       setAnnounce('Playing along. Tap freely.');

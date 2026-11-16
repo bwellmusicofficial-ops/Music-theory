@@ -126,7 +126,9 @@ export function GlossaryPanel({ entries, terminology }: { entries: readonly Glos
                   )}
                 >
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 className="text-xl font-extrabold leading-tight">{term}</h3>
+                    <h2 className="text-xl font-extrabold leading-tight" lang={entry.language !== 'en' ? entry.language : undefined}>
+                      {term}
+                    </h2>
                     {lang ? <Badge tone="accent">{lang}</Badge> : null}
                   </div>
                   {alsoCalled ? (

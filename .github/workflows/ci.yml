@@ -3,6 +3,7 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:
@@ -20,3 +21,66 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+
+  # Real-browser tests: every route, lesson and question is drawn, the games and the mock test
+  # are played, and the accessibility checks run. The build enables the dev-only question
+  # harness (/dev/question); the production build in `check` does not.
+  e2e:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_ENABLE_DEV_ROUTES: '1'
+      E2E_SKIP_BUILD: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run e2e
+
+      - name: Upload the Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  # The exhaustive per-question sweep (every practice and challenge question of every lesson,
+  # several seeds for generated ones). Slow, so it only runs when started by hand:
+  # Actions > CI > Run workflow.
+  e2e-sweep:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_ENABLE_DEV_ROUTES: '1'
+      E2E_SKIP_BUILD: '1'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run e2e:sweep
+
+      - name: Upload the Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-sweep
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

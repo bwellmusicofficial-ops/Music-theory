@@ -152,7 +152,8 @@ export function Ordering({
               >
                 {index + 1}
               </span>
-              <span className="min-w-0 flex-1 text-lg font-semibold">
+              {/* Notation does not shrink: below its width the buttons wrap under it instead of clipping the notes. */}
+              <span className={cn('flex-1 text-lg font-semibold', item.face.kind === 'passage' ? 'min-w-[9rem]' : 'min-w-0')}>
                 <FaceView face={item.face} />
               </span>
               {result !== null ? (

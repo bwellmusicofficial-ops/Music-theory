@@ -140,7 +140,7 @@ describe('glossary tab', () => {
     const adagio = document.getElementById('adagio')!;
     expect(within(adagio).getByText('Italian')).toBeInTheDocument();
     const crotchet = document.getElementById('crotchet')!;
-    expect(within(crotchet).getByRole('heading', { level: 3 })).toHaveTextContent('crotchet');
+    expect(within(crotchet).getByRole('heading', { level: 2 })).toHaveTextContent('crotchet');
     expect(crotchet).toHaveTextContent('also called quarter note in the US');
   });
 
@@ -148,7 +148,7 @@ describe('glossary tab', () => {
     resetBrowserState('us');
     renderPage(<LibraryPage />);
     const crotchet = document.getElementById('crotchet')!;
-    expect(within(crotchet).getByRole('heading', { level: 3 })).toHaveTextContent('quarter note');
+    expect(within(crotchet).getByRole('heading', { level: 2 })).toHaveTextContent('quarter note');
     expect(crotchet).toHaveTextContent('also called crotchet in the UK');
     expect(crotchet.closest('section')).toHaveAttribute('aria-label', 'Terms starting with Q');
   });
@@ -177,7 +177,7 @@ describe('glossary tab', () => {
     // Search for something that hides the target, then click a link from a visible entry.
     const box = screen.getByRole('searchbox', { name: 'Search the glossary' });
     const owner = source.closest('li')!;
-    await user.type(box, owner.querySelector('h3')!.textContent!);
+    await user.type(box, owner.querySelector('h2')!.textContent!);
     const link = document.getElementById(owner.id)!.querySelector(`button[data-term-id="${targetId}"]`) as HTMLButtonElement;
     expect(link).not.toBeNull();
     await user.click(link);

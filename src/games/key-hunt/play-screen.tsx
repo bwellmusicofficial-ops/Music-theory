@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Button } from '@/components/ui';
+import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import { pitch } from '@/engine/pitch';
 import { createRng } from '@/engine/rng';
 import type { LearnerSettings } from '@/lesson/contracts';
@@ -294,6 +295,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
 
   return (
     <div className="flex flex-col gap-2.5 p-3 sm:p-5">
+      <h1 className="sr-only">Key Hunt</h1>
       <p role="status" aria-live="polite" aria-atomic="true" className="sr-only" data-testid="kh-announce">
         <span key={announcement.key}>{announcement.text}</span>
       </p>
@@ -399,12 +401,12 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
                   className={`kh-opt${staveOptions ? ' kh-opt--stave' : ''}`}
                   disabled={frozen || revealing}
                   data-state={state}
+                  {...(DEV_ROUTES_ENABLED ? { 'data-test-correct': i === q.correct } : {})}
                   aria-label={o.label}
                   onClick={() => pick(i)}
                 >
-                  <span className="kh-num" aria-hidden="true">
-                    {i + 1}
-                  </span>
+                  {/* The shortcut number is drawn by CSS (generated content), so it is not part of the button's visible text: the visible text is then exactly the aria-label (WCAG 2.5.3). */}
+                  <span className="kh-num" aria-hidden="true" data-n={i + 1} />
                   {o.passage ? (
                     <span aria-hidden="true" className="flex w-full justify-center">
                       <SignatureView passage={o.passage} ariaLabel={o.label} reducedMotion={reduced} />

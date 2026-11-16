@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import { TapIt, type GameResult } from '@/games/tap-it';
 import { useSettings } from '@/settings';
 
@@ -63,9 +64,17 @@ export function TapItRunner() {
       </div>
     );
   }
+  // Test hook (dev routes only): ?e2eSeconds=8 shortens the round so a browser test can reach the results.
+  const e2eSeconds = DEV_ROUTES_ENABLED ? Number(new URLSearchParams(window.location.search).get('e2eSeconds')) : 0;
   return (
     <div className="mx-auto w-full max-w-3xl flex-1 px-3 py-3">
-      <TapIt settings={settings} bests={bests} onFinish={onFinish} onExit={() => router.push('/')} />
+      <TapIt
+        settings={settings}
+        bests={bests}
+        config={e2eSeconds > 0 ? { roundSeconds: e2eSeconds } : undefined}
+        onFinish={onFinish}
+        onExit={() => router.push('/')}
+      />
     </div>
   );
 }

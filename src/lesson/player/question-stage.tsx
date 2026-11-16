@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState, type ReactNode } from 'react';
 import { Button, FeedbackBanner } from '@/components/ui';
+import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import type { LearnerSettings, MarkResult, QuestionTypeRegistry } from '../contracts';
 import { ActionBar } from './action-bar';
 import { DevErrorCard } from './dev-error-card';
@@ -111,9 +112,18 @@ export function QuestionStage({
   const Comp = mod?.Component;
   const retry = run.outcome === 'retry';
 
+  // Test hook (dev routes only): lets the browser tests read what was drawn, including generated payloads.
+  const testHook = DEV_ROUTES_ENABLED
+    ? {
+        'data-testid': 'question-stage',
+        'data-question-id': item.questionId,
+        'data-question-json': JSON.stringify({ type: item.type, payload: item.payload ?? null, prompt: item.prompt }),
+      }
+    : {};
+
   return (
     <>
-      <div className="flex flex-1 flex-col gap-6">
+      <div className="flex flex-1 flex-col gap-6" {...testHook}>
         <ScreenHeading eyebrow={eyebrow} size="lg">
           {prompt}
         </ScreenHeading>

@@ -20,12 +20,19 @@ export interface LessonNodeProps {
   terminology: Terminology;
 }
 
-/** The accessible name: "Quavers, Grade 1 rhythm, complete". */
-export function nodeName(lesson: LessonMeta, gradeTitle: string, terminology: Terminology, state: LessonState | undefined, current: boolean): string {
-  const parts = [lessonTitle(lesson, terminology), `${gradeTitle} ${STRAND_NAMES[lesson.strand].toLowerCase()}`];
+/**
+ * The accessible name: "3, Quavers, complete, 6 min, Grade 1 rhythm". It starts with everything the link
+ * shows, in the order it shows it, so voice control ("click Quavers") and the name always agree
+ * (WCAG 2.5.3); the grade and strand are extra context at the end.
+ */
+export function nodeName(lesson: LessonMeta, gradeTitle: string, terminology: Terminology, state: LessonState | undefined, current: boolean, number: number): string {
+  const parts: string[] = [String(number)];
+  if (current) parts.push('You are here');
+  parts.push(lessonTitle(lesson, terminology));
   if (state) parts.push(STATE_LABELS[state].toLowerCase());
+  parts.push(`${lesson.estimatedMinutes} min`);
   if (lesson.status === 'draft') parts.push('draft');
-  if (current) parts.push('you are here');
+  parts.push(`${gradeTitle} ${STRAND_NAMES[lesson.strand].toLowerCase()}`);
   return parts.join(', ');
 }
 
@@ -36,7 +43,7 @@ export function LessonNode({ lesson, gradeTitle, position, number, state, curren
     <li className="absolute" style={{ left: `calc(${position.x}% - ${half}px)`, top: position.y - half - 2, maxWidth: `calc(${100 - position.x}% + ${half}px)` }}>
       <Link
         href={lessonHref(lesson)}
-        aria-label={nodeName(lesson, gradeTitle, terminology, state, current)}
+        aria-label={nodeName(lesson, gradeTitle, terminology, state, current, number)}
         aria-current={current ? 'step' : undefined}
         data-current={current || undefined}
         id={current ? 'current-lesson' : undefined}
@@ -47,16 +54,20 @@ export function LessonNode({ lesson, gradeTitle, position, number, state, curren
             <span aria-hidden="true" className="absolute -inset-2 rounded-full border-2 border-accent shadow-glow motion-safe:animate-pulse" />
           ) : null}
           <StateMark state={state} strand={lesson.strand} number={number} size="lg" />
-        </span>
+        </span>{' '}
+        {/* The spaces between the parts keep the link's visible text readable as words, so it matches its aria-label (WCAG 2.5.3). */}
         <span className="flex min-w-0 flex-col items-start gap-0.5">
           {current ? (
-            <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-extrabold text-on-accent">You are here</span>
+            <>
+              <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-extrabold text-on-accent">You are here</span>{' '}
+            </>
           ) : null}
-          <span className="text-[0.9375rem] font-bold leading-snug text-fg">{lessonTitle(lesson, terminology)}</span>
+          <span className="text-[0.9375rem] font-bold leading-snug text-fg">{lessonTitle(lesson, terminology)}</span>{' '}
           <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-fg-secondary">
-            {state ? <span className="font-semibold">{STATE_LABELS[state]}</span> : null}
-            {state ? <span aria-hidden="true">·</span> : null}
-            <span>{lesson.estimatedMinutes} min</span>
+            {state ? <span className="font-semibold">{STATE_LABELS[state]}</span> : null}{' '}
+            {/* Drawn by CSS so the dot is not part of the link's visible text (it would not be in its name). */}
+            {state ? <span aria-hidden="true" className="before:content-['\00b7']" /> : null}
+            <span>{lesson.estimatedMinutes} min</span>{' '}
             {lesson.status === 'draft' ? <Badge tone="warning" className="px-2 py-0 text-[0.6875rem]">Draft</Badge> : null}
           </span>
         </span>

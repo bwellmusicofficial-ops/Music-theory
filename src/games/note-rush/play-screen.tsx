@@ -386,6 +386,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
 
   return (
     <div className="flex flex-col gap-3 p-3 sm:p-5">
+      <h1 className="sr-only">Note Rush</h1>
       <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         <span key={announcement.key}>{announcement.text}</span>
       </p>

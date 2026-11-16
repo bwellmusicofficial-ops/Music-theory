@@ -58,7 +58,7 @@ export function RecapCard({ row, glossary, terminology }: { row: OrderedRecap; g
             <IconLock width={16} height={16} />
             Finish the lesson to add this card
           </span>
-          <Link href={lessonHref(lesson)} className="text-accent underline underline-offset-4">
+          <Link href={lessonHref(lesson)} className="inline-flex min-h-11 items-center text-accent underline underline-offset-4">
             Open lesson
           </Link>
         </p>

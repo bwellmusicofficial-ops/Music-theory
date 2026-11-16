@@ -60,7 +60,7 @@ export function StartScreen({ terminology, untimed, initialClef, initialMode, be
   return (
     <div className="flex flex-col gap-6 p-5 sm:p-8">
       <div>
-        <h2 className="nr-title m-0">Note Rush</h2>
+        <h1 className="nr-title m-0">Note Rush</h1>
         <p className="mt-3 max-w-prose text-lg font-medium text-fg-secondary">
           {untimed
             ? `Name each note on the ${staveWord(terminology)}. Take your time: nothing moves until you answer.`
