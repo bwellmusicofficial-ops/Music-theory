@@ -10,9 +10,8 @@
   "strand": "rhythm",
   "skills": [
     "rhythm.grouping.beams",
-    "rhythm.rests.values",
-    "rhythm.ties.read",
-    "rhythm.perform.quaver"
+    "rhythm.perform.quaver",
+    "rhythm.grouping.bar-conventions"
   ],
   "prerequisites": [
     "g1-rhythm-09-semiquavers"
@@ -1750,7 +1749,7 @@
         {
           "id": "p2-keep-the-middle-in-view",
           "type": "multiple-choice",
-          "skill": "rhythm.ties.read",
+          "skill": "rhythm.grouping.bar-conventions",
           "prompt": "Only one of these [[bar|bars]] keeps the middle of the [[bar|bar]] in view. Which one?",
           "hint": "Find where beat 3 begins, halfway through the [[bar|bar]]. Does any note run across that point without a tie?",
           "source": "authored",
@@ -2012,7 +2011,7 @@
         {
           "id": "p3-silent-second-half",
           "type": "multiple-choice",
-          "skill": "rhythm.rests.values",
+          "skill": "rhythm.grouping.bar-conventions",
           "prompt": "Beats 3 and 4 are silent. Which [[bar|bar]] writes the rest the standard way?",
           "hint": "A silent half of a [[bar|bar]] is one rest. Which [[bar|bar]] plays on beats 1 and 2 and then falls silent?",
           "source": "authored",
@@ -2572,7 +2571,7 @@
         {
           "id": "c4-start-on-beat-two",
           "type": "multiple-choice",
-          "skill": "rhythm.ties.read",
+          "skill": "rhythm.grouping.bar-conventions",
           "prompt": "One sound starts on beat 2 and lasts 1½ beats. Which [[bar|bar]] writes it the standard way?",
           "hint": "Check which [[bar|bars]] make the sound last 1½ beats. Then check which of those keeps the middle of the [[bar|bar]] in view.",
           "source": "authored",
@@ -3358,7 +3357,7 @@
         {
           "id": "c6-add-the-rest",
           "type": "complete-bar",
-          "skill": "rhythm.rests.values",
+          "skill": "rhythm.grouping.bar-conventions",
           "prompt": "Add the missing rest to complete the [[bar|bar]].",
           "hint": "Add up the beats already there, then find the rest that lasts the beats still missing.",
           "source": "generated",
@@ -3841,7 +3840,7 @@
         {
           "id": "c8-hidden-middle",
           "type": "spot-mistake",
-          "skill": "rhythm.ties.read",
+          "skill": "rhythm.grouping.bar-conventions",
           "prompt": "Every [[bar|bar]] here has 4 beats, but one hides the middle of the [[bar|bar]]. Tap it.",
           "hint": "Find where beat 3 starts in each [[bar|bar]]. Which one has a note running across it with no tie?",
           "source": "authored",

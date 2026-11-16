@@ -179,7 +179,9 @@
               ]
             }
           ]
-        }
+        },
+        "hideClef": true,
+        "hideTime": true
       }
     },
     "explore": {
@@ -341,7 +343,9 @@
               ]
             }
           ]
-        }
+        },
+        "hideClef": true,
+        "hideTime": true
       },
       "goal": "Play the tune and watch each note switch between a line and a gap."
     },
@@ -445,7 +449,9 @@
                   ]
                 }
               ]
-            }
+            },
+            "hideClef": true,
+            "hideTime": true
           }
         },
         {
@@ -546,7 +552,9 @@
                   ]
                 }
               ]
-            }
+            },
+            "hideClef": true,
+            "hideTime": true
           }
         }
       ],
@@ -612,7 +620,9 @@
                     ]
                   }
                 ]
-              }
+              },
+              "hideClef": true,
+              "hideTime": true
             },
             "options": [
               {
@@ -680,7 +690,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "match": "bottom-line",
                 "reason": "This note sits on the first line, the bottom line, with the line running through its head."
@@ -722,7 +734,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "match": "top-line",
                 "reason": "This note sits on the fifth line, the top line of the [[stave|stave]]."
@@ -764,7 +778,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "match": "bottom-space",
                 "reason": "This note sits in the first gap from the bottom, so it is in the bottom space."
@@ -964,7 +980,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes jump from line to line, skipping the space between. The tune you heard moves one step at a time."
               },
@@ -1047,7 +1065,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1129,7 +1149,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes step down the [[stave|stave]], so that tune falls. The tune you heard climbs."
               }
@@ -1183,7 +1205,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1223,7 +1247,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1263,7 +1289,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1303,7 +1331,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -1399,7 +1429,9 @@
                     ]
                   }
                 ]
-              }
+              },
+              "hideClef": true,
+              "hideTime": true
             },
             "options": [
               {
@@ -1465,7 +1497,9 @@
                     ]
                   }
                 ]
-              }
+              },
+              "hideClef": true,
+              "hideTime": true
             },
             "options": [
               {
@@ -1533,7 +1567,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "match": "third-space",
                 "reason": "This note sits in the third gap from the bottom, so it is in the third space."
@@ -1575,7 +1611,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "match": "fourth-line",
                 "reason": "This note has the fourth line running through its head. Count lines from the bottom: 1, 2, 3, 4."
@@ -1617,7 +1655,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "match": "bottom-line",
                 "reason": "This note sits on the first line, the bottom line, with the line through its head."
@@ -1694,7 +1734,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1734,7 +1776,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1774,7 +1818,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1814,7 +1860,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -2000,7 +2048,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes climb one step at a time, so that tune rises. The tune you heard falls."
               },
@@ -2083,7 +2133,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes jump from line to line. The tune you heard moves one step at a time."
               },
@@ -2166,7 +2218,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -2327,7 +2381,9 @@
               ]
             }
           ]
-        }
+        },
+        "hideClef": true,
+        "hideTime": true
       }
     }
   }

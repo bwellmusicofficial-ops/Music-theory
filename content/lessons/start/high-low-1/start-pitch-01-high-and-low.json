@@ -27,7 +27,8 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C3",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       }
     },
     "explore": {
@@ -37,9 +38,11 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C3",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       },
-      "goal": "Play a key at the far left, then a key at the far right."
+      "goal": "Play a key at the far left, then a key at the far right.",
+      "showLabels": false
     },
     "name": {
       "cards": [
@@ -55,7 +58,8 @@
               "C5"
             ],
             "low": "C3",
-            "high": "C5"
+            "high": "C5",
+            "showLabels": false
           }
         },
         {
@@ -97,7 +101,8 @@
                 "C3"
               ],
               "low": "C3",
-              "high": "C5"
+              "high": "C5",
+              "showLabels": false
             },
             "options": [
               {
@@ -152,7 +157,7 @@
               "accidental": 0,
               "octave": 5
             },
-            "showLabels": true,
+            "showLabels": false,
             "targets": [
               {
                 "letter": "C",
@@ -161,7 +166,8 @@
               }
             ],
             "mode": "sequence",
-            "octave": "exact"
+            "octave": "exact",
+            "nameNotes": false
           }
         },
         {
@@ -258,7 +264,8 @@
                 "C5"
               ],
               "low": "C3",
-              "high": "C5"
+              "high": "C5",
+              "showLabels": false
             },
             "options": [
               {
@@ -298,7 +305,7 @@
               "accidental": 0,
               "octave": 5
             },
-            "showLabels": true,
+            "showLabels": false,
             "targets": [
               {
                 "letter": "C",
@@ -312,7 +319,8 @@
               }
             ],
             "mode": "sequence",
-            "octave": "exact"
+            "octave": "exact",
+            "nameNotes": false
           }
         },
         {
@@ -432,7 +440,8 @@
           "C5"
         ],
         "low": "C3",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       }
     }
   }

@@ -23,7 +23,8 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C4",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       }
     },
     "explore": {
@@ -33,9 +34,11 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C4",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       },
-      "goal": "Play a tune that goes up, one that goes down and one that stays the same."
+      "goal": "Play a tune that goes up, one that goes down and one that stays the same.",
+      "showLabels": false
     },
     "name": {
       "cards": [
@@ -52,7 +55,8 @@
               "E4"
             ],
             "low": "C4",
-            "high": "G4"
+            "high": "G4",
+            "showLabels": false
           }
         },
         {
@@ -160,7 +164,7 @@
               "accidental": 0,
               "octave": 4
             },
-            "showLabels": true,
+            "showLabels": false,
             "targets": [
               {
                 "letter": "C",
@@ -179,7 +183,8 @@
               }
             ],
             "mode": "sequence",
-            "octave": "exact"
+            "octave": "exact",
+            "nameNotes": false
           }
         },
         {
@@ -200,7 +205,7 @@
               "accidental": 0,
               "octave": 4
             },
-            "showLabels": true,
+            "showLabels": false,
             "targets": [
               {
                 "letter": "G",
@@ -219,7 +224,8 @@
               }
             ],
             "mode": "sequence",
-            "octave": "exact"
+            "octave": "exact",
+            "nameNotes": false
           }
         },
         {
@@ -313,7 +319,7 @@
               "accidental": 0,
               "octave": 4
             },
-            "showLabels": true,
+            "showLabels": false,
             "targets": [
               {
                 "letter": "E",
@@ -332,7 +338,8 @@
               }
             ],
             "mode": "sequence",
-            "octave": "exact"
+            "octave": "exact",
+            "nameNotes": false
           }
         },
         {
@@ -368,7 +375,7 @@
               "accidental": 0,
               "octave": 4
             },
-            "showLabels": true,
+            "showLabels": false,
             "targets": [
               {
                 "letter": "F",
@@ -387,7 +394,8 @@
               }
             ],
             "mode": "sequence",
-            "octave": "exact"
+            "octave": "exact",
+            "nameNotes": false
           }
         },
         {
