@@ -10,6 +10,8 @@ export interface CountBeatsParams {
   values?: Duration[];
   times?: TimeSignature[];
   options?: number;
+  /** `fits` only: show the bar as notation with its time signature hidden, not as a list in words. Default false. */
+  showBar?: boolean;
 }
 
 export const DEFAULT_TIMES: TimeSignature[] = [
@@ -36,6 +38,7 @@ export const paramsSchema: z.ZodType<CountBeatsParams> = z
     values: durationListSchema(1, 5).default([D('crotchet'), D('minim'), D('quaver')]),
     times: z.array(timeSchema).min(2).max(3).default(DEFAULT_TIMES),
     options: z.number().int().min(2).max(4).optional(),
+    showBar: z.boolean().default(false),
   })
   .superRefine((p, ctx) => {
     const issue = (path: string, message: string) => ctx.addIssue({ code: 'custom', path: [path], message });

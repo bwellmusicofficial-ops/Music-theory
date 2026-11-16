@@ -9,6 +9,7 @@ export const payloadSchema: z.ZodType<PlayKeyboardPayload> = z
     low: pitchSchema,
     high: pitchSchema,
     showLabels: z.boolean().default(false),
+    nameNotes: z.boolean().default(true),
     targets: z.array(pitchSchema).min(1).max(8),
     mode: z.enum(['sequence', 'together']),
     octave: z.enum(['exact', 'any']),

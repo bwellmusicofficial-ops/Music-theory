@@ -16,3 +16,4 @@ export {
   type MachineState,
   type ResolvedQuestion,
 } from './machine';
+export { QuestionBoundary } from './question-boundary';

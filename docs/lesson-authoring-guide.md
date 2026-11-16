@@ -93,6 +93,21 @@ With `instrument: 'rhythm-pad'`, give an `exhibit` of kind `passage` with a
 `keyboard`, give a `keyboard` exhibit that sets the range and any highlighted
 keys.
 
+**Hiding things before they are taught.** Four optional switches keep the
+screen to what the learner has met. All default to showing everything, so a
+lesson that does not set them is unchanged.
+
+| Where | Option | Effect |
+| --- | --- | --- |
+| Explore step, `rhythm-pad` | `showNotation: false` | The passage still sets the rhythm and tempo, but no stave is drawn. A row of pulse dots (one per tap to make) lights up as the learner taps. Do not mention "notes" or "marks" in the text; say "dots". |
+| Explore step (`keyboard`) or a `keyboard` exhibit | `showLabels: false` | No letter names on the white keys. On the explore step it overrides the exhibit. For lessons before the letters are taught. |
+| `passage` exhibit, or a `passage` face in an option or card | `hideClef: true` | The stave is drawn without its clef. Notes stay where a treble clef puts them, so "higher on the stave is higher in sound" can be shown before clefs are taught. |
+| `passage` exhibit or face | `hideTime: true` | No time signature, for "which time signature fits this bar?". |
+
+Question payloads have matching switches: `showLabels` and `nameNotes` on
+`play-keyboard` (see docs/question-payloads.md), and `showBar` and `nameNotes` on
+the `count-beats` and `keyboard-find` generators (docs/generators-grade-1.md).
+
 ### 2.3 Name
 
 **Purpose:** now give the idea its name, show how it is written, and say in
@@ -144,8 +159,13 @@ seconds drawn from a pool of questions. Passing (default 80%) completes the
 lesson.
 
 - Write a pool of **at least 6** questions (the schema's minimum of 3 is too
-  few for a replay to feel different). Generated questions repeat with new
-  seeds, so include at least one.
+  few for a replay to feel different). Each round **samples** `count` questions
+  from the pool with a seeded shuffle, so a retry asks a different selection;
+  it is not the first `count` questions in order. No pool entry is asked twice
+  until the whole pool has been asked, and the round always has at least two
+  question types when the pool has them. A bigger, varied pool therefore gives
+  more different rounds. Generated questions get a fresh seed every time they are
+  drawn, so include at least one.
 - The challenge is the same difficulty as the last practice question, not
   harder. It checks; it does not teach or trick.
 - Questions must be answerable in about 10 seconds each. Keep tapping
@@ -495,6 +515,8 @@ where a lesson reaches them.
 | `pitch.direction.hear` | hear whether a tune goes up, goes down or stays the same |
 | `pitch.keyboard.layout` | find their way around the keyboard by the pattern of black keys |
 | `rhythm.long-short.hear` | hear which of two sounds is longer |
+| `rhythm.perform.patterns` | copy a short pattern of long and short sounds by tapping |
+| `pitch.keyboard.note-names` | name the white keys A to G |
 
 ### Grade 1 skill ids
 
@@ -517,6 +539,7 @@ where a lesson reaches them.
 | `rhythm.time.add-bar-lines` | find where the bar lines go |
 | `rhythm.time.identify` | work out the time signature of a passage |
 | `rhythm.grouping.beams` | beam quavers and semiquavers in beats |
+| `rhythm.grouping.bar-conventions` | write notes, rests and ties so the beats and the middle of the bar can be seen |
 | `rhythm.perform.crotchet-minim` | tap rhythms of crotchets and minims |
 | `rhythm.perform.semibreve` | tap rhythms that include semibreves |
 | `rhythm.perform.quaver` | tap rhythms that include quavers |

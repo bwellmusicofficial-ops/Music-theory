@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { Keyboard } from '@/components/keyboard';
 import { RhythmPad } from '@/components/rhythm-pad';
+import { onsetRefs } from '@/components/rhythm-pad/onset-map';
 // Deep import: the hook is not part of the pad, and the player's tests replace the pad module with a stand-in.
 import { useTapAlong } from '@/components/rhythm-pad/use-tap-along';
 import type { TimeSignature } from '@/engine/types';
@@ -11,6 +12,7 @@ import { pitch as pitchEngine } from '@/engine/pitch';
 import type { LearnerSettings } from '../contracts';
 import type { Exhibit, Lesson } from '../schema';
 import { ActionBar } from './action-bar';
+import { PulseDots } from './pulse-dots';
 import { DevErrorCard } from './dev-error-card';
 import { ExhibitView, isPassage, keyboardRange } from './exhibit-view';
 import { makeGlossaryLookup, type GlossarySource } from './rich-text';
@@ -57,6 +59,7 @@ export function ExploreStage({ step, settings, glossary, renderers, done, onInte
     if (padBroken) onInteract();
   }, [padBroken, onInteract]);
 
+  const onsets = useMemo(() => onsetRefs(passage?.bars ?? NO_BARS, passage?.time ?? FALLBACK_TIME), [passage]);
   const keyboardExhibit = exhibit?.kind === 'keyboard' ? exhibit : undefined;
   const range = useMemo(() => keyboardRange(keyboardExhibit), [keyboardExhibit]);
   const highlight = useMemo(
@@ -81,7 +84,7 @@ export function ExploreStage({ step, settings, glossary, renderers, done, onInte
           <Keyboard
             low={range.low}
             high={range.high}
-            showLabels
+            showLabels={step.showLabels ?? keyboardExhibit?.showLabels ?? true}
             highlight={highlight}
             sound={settings.soundOn}
             onNote={onInteract}
@@ -102,14 +105,18 @@ export function ExploreStage({ step, settings, glossary, renderers, done, onInte
           reducedMotion={settings.reducedMotion}
           onComplete={() => {}}
         >
-          <ExhibitView
-            exhibit={exhibit}
-            renderers={renderers}
-            sound={settings.soundOn}
-            label="The rhythm to play along with"
-            marks={along.marks}
-            cursor={along.cursor}
-          />
+          {step.showNotation === false ? (
+            <PulseDots onsets={onsets} marks={along.marks} cursor={along.cursor} label="One dot for each tap to make" />
+          ) : (
+            <ExhibitView
+              exhibit={exhibit}
+              renderers={renderers}
+              sound={settings.soundOn}
+              label="The rhythm to play along with"
+              marks={along.marks}
+              cursor={along.cursor}
+            />
+          )}
         </RhythmPad>
       );
     } else {

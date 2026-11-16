@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { cn } from '@/components/ui/cn';
 import type { QuestionProps } from '@/lesson/contracts';
-import { FaceView, ResultMark } from '@/lesson/questions/face-view';
+import { FaceView, ResultMark, SelectedMark } from '@/lesson/questions/face-view';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import type { MultipleChoiceAnswer, MultipleChoicePayload } from './types';
 
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
@@ -14,8 +15,13 @@ export function MultipleChoice({
   locked,
   result,
   onAnswer,
+  initialAnswer,
+  onAnswerChange,
 }: QuestionProps<MultipleChoicePayload, MultipleChoiceAnswer>) {
-  const [chosen, setChosen] = useState<string | null>(null);
+  const [chosen, setChosen] = useState<string | null>(() =>
+    payload.options.some((o) => o.id === initialAnswer?.optionId) ? (initialAnswer?.optionId ?? null) : null,
+  );
+  useAnswerReporting<MultipleChoiceAnswer>(chosen === null ? null : { optionId: chosen }, onAnswerChange);
 
   function choose(optionId: string) {
     if (locked) return;
@@ -28,12 +34,14 @@ export function MultipleChoice({
       {payload.options.map((option, index) => {
         const isCorrect = option.id === payload.correct;
         const isChosen = chosen === option.id;
-        const state = result === null ? 'idle' : isCorrect ? 'right' : isChosen ? 'wrong' : 'other';
+        const state =
+          result === null ? (isChosen ? 'selected' : 'idle') : isCorrect ? 'right' : isChosen ? 'wrong' : 'other';
         return (
           <li key={option.id}>
             <button
               type="button"
               disabled={locked}
+              aria-pressed={result === null ? isChosen : undefined}
               data-state={state}
               onClick={() => choose(option.id)}
               className={cn(
@@ -42,6 +50,7 @@ export function MultipleChoice({
                 'enabled:cursor-pointer enabled:hover:border-accent',
                 'disabled:cursor-default',
                 state === 'idle' && 'border-border',
+                state === 'selected' && 'border-accent',
                 state === 'right' && 'border-success',
                 state === 'wrong' && 'border-danger',
                 state === 'other' && 'border-border-subtle opacity-60',
@@ -56,6 +65,7 @@ export function MultipleChoice({
               <span className="flex min-w-0 flex-1 items-center text-lg font-semibold">
                 <FaceView face={option.face} />
               </span>
+              {state === 'selected' ? <SelectedMark /> : null}
               {state === 'right' ? <ResultMark tone="right">Correct answer</ResultMark> : null}
               {state === 'wrong' ? <ResultMark tone="wrong">Your answer</ResultMark> : null}
             </button>

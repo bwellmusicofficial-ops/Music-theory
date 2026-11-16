@@ -12,10 +12,30 @@ export function NoteOnStave({
   locked,
   result,
   onAnswer,
+  initialAnswer,
+  onAnswerChange,
+  hideCheck,
 }: QuestionProps<NoteOnStavePayload, NoteOnStaveAnswer>) {
   return payload.mode === 'identify' ? (
-    <IdentifyView payload={payload} terminology={terminology} locked={locked} result={result} onAnswer={onAnswer} />
+    <IdentifyView
+      payload={payload}
+      terminology={terminology}
+      locked={locked}
+      result={result}
+      onAnswer={onAnswer}
+      initialAnswer={initialAnswer?.mode === 'identify' ? initialAnswer : undefined}
+      onAnswerChange={onAnswerChange}
+    />
   ) : (
-    <PlaceView payload={payload} terminology={terminology} locked={locked} result={result} onAnswer={onAnswer} />
+    <PlaceView
+      payload={payload}
+      terminology={terminology}
+      locked={locked}
+      result={result}
+      onAnswer={onAnswer}
+      initialAnswer={initialAnswer?.mode === 'place' ? initialAnswer : undefined}
+      onAnswerChange={onAnswerChange}
+      hideCheck={hideCheck}
+    />
   );
 }

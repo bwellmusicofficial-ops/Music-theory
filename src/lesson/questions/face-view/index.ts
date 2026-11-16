@@ -16,3 +16,4 @@ export {
 } from './face-schema';
 export { plainText } from './plain-text';
 export { ResultMark, type ResultMarkProps } from './result-mark';
+export { SelectedMark, type SelectedMarkProps } from './selected-mark';

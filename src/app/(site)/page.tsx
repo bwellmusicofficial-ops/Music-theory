@@ -20,7 +20,8 @@ function HomeCard({ href, title, text, eyebrow }: { href: string; title: string;
 }
 
 export default function HomePage() {
-  const first = listLessons()[0];
+  // The main path starts at the first lesson a music specialist has checked; drafts are listed on /lessons.
+  const first = listLessons().find((lesson) => lesson.status === 'reviewed');
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:py-12">
       <div>
@@ -40,12 +41,23 @@ export default function HomePage() {
           />
         ) : null}
         <HomeCard
+          href="/mock"
+          eyebrow="Practice"
+          title="Mock tests"
+          text="Timed practice papers with no feedback until the end, in the style of a theory exam."
+        />
+        <HomeCard
           href="/games/note-rush"
           eyebrow="Game"
           title="Play Note Rush"
           text="Name the notes as they fly across the stave before they get away."
         />
       </div>
+      <p>
+        <Link href="/lessons" className="font-semibold text-accent underline underline-offset-4">
+          All lessons (including drafts awaiting review)
+        </Link>
+      </p>
     </div>
   );
 }

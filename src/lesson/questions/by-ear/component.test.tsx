@@ -54,10 +54,21 @@ afterEach(() => setByEarNotationRenderer(null));
 
 beforeAll(() => installStaveStubs());
 
-function setup(payload: ByEarPayload, options: { locked?: boolean; result?: MarkResult | null } = {}) {
+function setup(
+  payload: ByEarPayload,
+  options: { locked?: boolean; result?: MarkResult | null; initialAnswer?: ByEarAnswer; onAnswerChange?: (a: ByEarAnswer | null) => void } = {},
+) {
   const onAnswer = vi.fn<(a: ByEarAnswer) => void>();
   const ui = (locked: boolean, result: MarkResult | null) => (
-    <ByEar payload={payload} terminology="uk" locked={locked} result={result} onAnswer={onAnswer} />
+    <ByEar
+      payload={payload}
+      terminology="uk"
+      locked={locked}
+      result={result}
+      onAnswer={onAnswer}
+      initialAnswer={options.initialAnswer}
+      onAnswerChange={options.onAnswerChange}
+    />
   );
   const view = render(ui(options.locked ?? false, options.result ?? null));
   return { onAnswer, unmount: view.unmount, rerenderWith: (l: boolean, r: MarkResult | null) => view.rerender(ui(l, r)) };
@@ -258,5 +269,27 @@ describe('ByEar: notation faces', () => {
     setByEarNotationRenderer((passage) => <span>{`bars:${passage.bars.length}`}</span>);
     setup(passageOptions);
     expect(screen.getAllByText('bars:1')).toHaveLength(2);
+  });
+});
+
+describe('ByEar: restoring and reporting an answer', () => {
+  it('shows a restored choice as selected, unmarked, with the options open', () => {
+    setup(oneClip, { initialAnswer: { optionId: 'short' } });
+    expect(option(/Short notes/)).toHaveAttribute('data-state', 'selected');
+    expect(option(/Short notes/)).toHaveAttribute('aria-pressed', 'true');
+    expect(option(/Long notes/)).toHaveAttribute('data-state', 'idle');
+    expect(option(/Long notes/)).toBeEnabled();
+  });
+
+  it('reports each change of choice, and nothing on mount', async () => {
+    const user = userEvent.setup();
+    const onAnswerChange = vi.fn();
+    setup(oneClip, { initialAnswer: { optionId: 'short' }, onAnswerChange });
+    expect(onAnswerChange).not.toHaveBeenCalled();
+    await user.click(option(/Long notes/));
+    expect(onAnswerChange).toHaveBeenLastCalledWith({ optionId: 'long' });
+    await user.click(option(/Short notes/));
+    expect(onAnswerChange).toHaveBeenLastCalledWith({ optionId: 'short' });
+    expect(onAnswerChange).toHaveBeenCalledTimes(2);
   });
 });

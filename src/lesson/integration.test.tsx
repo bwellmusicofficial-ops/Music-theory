@@ -60,6 +60,8 @@ const glossary = z.array(glossaryEntrySchema).parse(JSON.parse(readFileSync(join
 // --- recording the payloads the player hands to each component --------------------------
 
 const seen: Record<string, unknown[]> = {};
+/** The type of each question shown, in order: challenge rounds are sampled, so the pool order is not the order asked. */
+const shown: QuestionTypeId[] = [];
 function recording(registry: QuestionTypeRegistry): QuestionTypeRegistry {
   const out: QuestionTypeRegistry = {};
   for (const type of QUESTION_TYPES) {
@@ -69,6 +71,7 @@ function recording(registry: QuestionTypeRegistry): QuestionTypeRegistry {
     const Recorder = (props: QuestionProps<unknown, unknown>) => {
       useEffect(() => {
         (seen[type] ??= []).push(props.payload);
+        shown.push(type);
       }, [props.payload]);
       return <Inner {...props} />;
     };
@@ -90,6 +93,7 @@ beforeEach(() => {
   localStorage.clear();
   audio.clock = 0;
   for (const key of Object.keys(seen)) delete seen[key];
+  shown.length = 0;
   vi.clearAllMocks();
 });
 afterEach(cleanup);
@@ -272,8 +276,7 @@ describe('LessonPlayer with the real registries and the real exemplar lesson', (
     click('Start');
     for (let i = 0; i < spec.count; i++) {
       expect(screen.getByTestId('eyebrow')).toHaveTextContent(`Challenge ${i + 1} of ${spec.count}`);
-      const question = spec.questions[i % spec.questions.length]!;
-      await answerCurrentQuestion(question.type);
+      await answerCurrentQuestion(shown.at(-1)!);
       click(i + 1 === spec.count ? 'See result' : 'Next');
     }
     expect(screen.getByTestId('score')).toHaveTextContent(`${spec.count} / ${spec.count}`);

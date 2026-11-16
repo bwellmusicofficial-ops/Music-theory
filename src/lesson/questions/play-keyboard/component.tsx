@@ -7,6 +7,7 @@ import { pitch } from '@/engine/pitch';
 import type { Passage, Pitch } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
 import { ResultMark } from '@/lesson/questions/face-view';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import { name } from './reason';
 import type { PlayKeyboardAnswer, PlayKeyboardPayload } from './types';
 
@@ -58,18 +59,34 @@ export function resultHighlights(payload: PlayKeyboardPayload, played: Pitch[]):
   return [...byMidi.values()];
 }
 
+/** A restored answer's keys, if they fit the payload (right count for a sequence, no repeats for a chord). */
+function restorePlayed(payload: PlayKeyboardPayload, answer: PlayKeyboardAnswer | undefined): Pitch[] {
+  const played = answer?.played ?? [];
+  if (payload.mode === 'sequence') return played.length <= payload.targets.length ? [...played] : [];
+  const midis = played.map((p) => pitch.toMidi(p));
+  return new Set(midis).size === midis.length ? [...played] : [];
+}
+
 export function PlayKeyboard({
   payload,
   locked,
   result,
   onAnswer,
+  initialAnswer,
+  onAnswerChange,
+  hideCheck = false,
 }: QuestionProps<PlayKeyboardPayload, PlayKeyboardAnswer>) {
-  const [played, setPlayed] = useState<Pitch[]>([]);
-  const playedRef = useRef<Pitch[]>([]);
+  const [restored] = useState<Pitch[]>(() => restorePlayed(payload, initialAnswer));
+  const [played, setPlayed] = useState<Pitch[]>(restored);
+  const playedRef = useRef<Pitch[]>(restored);
   const committed = useRef(false);
   const [announce, setAnnounce] = useState('');
   const sequence = payload.mode === 'sequence';
   const off = locked || result !== null;
+  // A host that reads answers through onAnswerChange lets the learner keep changing them.
+  const hosted = onAnswerChange !== undefined;
+  const complete = sequence ? played.length === payload.targets.length : played.length > 0;
+  useAnswerReporting<PlayKeyboardAnswer>(complete ? { played } : null, onAnswerChange);
 
   function update(next: Pitch[]) {
     playedRef.current = next;
@@ -77,11 +94,15 @@ export function PlayKeyboard({
   }
 
   function handleNote(p: Pitch) {
-    if (off || committed.current) return;
+    if (off || (committed.current && !hosted)) return;
     if (sequence) {
-      const next = [...playedRef.current, p];
+      // A finished sequence that is still open to change starts again on the next key.
+      const base = playedRef.current.length >= payload.targets.length ? [] : playedRef.current;
+      const next = [...base, p];
       update(next);
-      setAnnounce(`Played ${keyName(p)}. ${next.length} of ${payload.targets.length}.`);
+      setAnnounce(
+        `${payload.nameNotes === false ? 'Played a key' : `Played ${keyName(p)}`}. ${next.length} of ${payload.targets.length}.`,
+      );
       if (next.length === payload.targets.length) {
         committed.current = true;
         onAnswer({ played: next });
@@ -95,17 +116,18 @@ export function PlayKeyboard({
       ? current.filter((q) => pitch.toMidi(q) !== midi)
       : [...current, p].sort((a, b) => pitch.toMidi(a) - pitch.toMidi(b));
     update(next);
-    setAnnounce(`${keyName(p)} ${isOn ? 'off' : 'on'}. ${next.length} ${next.length === 1 ? 'key' : 'keys'} chosen.`);
+    setAnnounce(`${payload.nameNotes === false ? 'Key' : keyName(p)} ${isOn ? 'off' : 'on'}. ${next.length} ${next.length === 1 ? 'key' : 'keys'} chosen.`);
   }
 
   function clear() {
-    if (off || committed.current) return;
+    if (off || (committed.current && !hosted)) return;
+    committed.current = false;
     update([]);
     setAnnounce('Cleared.');
   }
 
   function check() {
-    if (off || committed.current || playedRef.current.length === 0) return;
+    if (off || (committed.current && !hosted) || playedRef.current.length === 0) return;
     committed.current = true;
     onAnswer({ played: [...playedRef.current] });
   }
@@ -116,10 +138,17 @@ export function PlayKeyboard({
     return sequence ? [] : played.map((p) => ({ pitch: p, state: 'target' as const }));
   }, [result, payload, played, sequence]);
 
-  const summary = played.length === 0 ? 'No notes yet' : played.map(keyName).join(', ');
+  const summary =
+    played.length === 0
+      ? 'No notes yet'
+      : payload.nameNotes === false
+        ? `${played.length} ${played.length === 1 ? 'key' : 'keys'}`
+        : played.map(keyName).join(', ');
   const instruction = sequence
     ? `Play ${payload.targets.length === 1 ? 'the note' : `the ${payload.targets.length} notes`} one after another.`
-    : 'Press each key of the chord to turn it on or off, then press Check.';
+    : hideCheck
+      ? 'Press each key of the chord to turn it on or off.'
+      : 'Press each key of the chord to turn it on or off, then press Check.';
 
   return (
     <div className="flex flex-col gap-4">
@@ -159,7 +188,7 @@ export function PlayKeyboard({
         )
       ) : null}
       <div className="flex flex-wrap gap-3">
-        {sequence ? null : (
+        {sequence || hideCheck ? null : (
           <Button size="lg" disabled={off || played.length === 0} onClick={check}>
             Check
           </Button>

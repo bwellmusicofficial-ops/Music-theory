@@ -1,6 +1,6 @@
 import { TheoryError } from '@/engine/api';
 import { rhythm } from '@/engine/rhythm';
-import type { Bar, Duration, Rng, Terminology, TimeSignature } from '@/engine/types';
+import type { Bar, Duration, Passage, Rng, Terminology, TimeSignature } from '@/engine/types';
 import type { GeneratedQuestion, QuestionGenerator } from '@/lesson/contracts';
 import type { Face } from '@/lesson/questions/shared';
 import { buildBars, crotchetBeats, dur, sameDuration } from '../shared/bars';
@@ -122,6 +122,20 @@ function fits(params: CountBeatsParams, rng: Rng, t: Terminology): GeneratedQues
         reason: `${timeText(x)} means ${beatWord(x.beats)} in each ${barLink}, but these notes add up to ${crotchetsText(total)}: ${sum}.`,
       })),
   );
+  if (params.showBar) {
+    // The bar is shown as notation with the time signature hidden. No extra rng draw: the same seed gives the same bar.
+    const passage: Passage = {
+      clef: 'treble',
+      key: { tonic: { letter: 'C', accidental: 0 }, mode: 'major' },
+      time,
+      bars: [bar],
+    };
+    return {
+      type: 'multiple-choice',
+      payload: { ...placed, exhibit: { kind: 'passage', passage, hideTime: true } },
+      prompt: `This ${barLink} has no time signature. Which ${plainTerm('time-signature', 'time signature')} fits it?`,
+    };
+  }
   const notes = bar.events.map((e) => noteLink(e.duration, t)).join(', ');
   return {
     type: 'multiple-choice',

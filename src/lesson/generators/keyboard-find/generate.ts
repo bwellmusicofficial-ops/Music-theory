@@ -25,18 +25,21 @@ export function blackKeyGroups(): { twos: Pitch[]; threes: Pitch[] } {
   return { twos: groups.find((g) => g.length === 2)!, threes: groups.find((g) => g.length === 3)! };
 }
 
-const base = (low: Pitch, high: Pitch, targets: Pitch[], mode: 'sequence' | 'together', octave: 'exact' | 'any', showLabels: boolean): PlayKeyboardPayload => ({
+const base = (low: Pitch, high: Pitch, targets: Pitch[], mode: 'sequence' | 'together', octave: 'exact' | 'any', showLabels: boolean, nameNotes: boolean): PlayKeyboardPayload => ({
   low,
   high,
   showLabels,
   targets,
   mode,
   octave,
+  // Only written when false, so a payload without it means the default (true).
+  ...(nameNotes ? {} : { nameNotes: false }),
 });
 
 /** docs/generators-grade-1.md 3.10: the rng calls per `ask` are in the table there. */
 export function generate(params: KeyboardFindParams, rng: Rng, t: Terminology): GeneratedQuestion {
   const labels = params.showLabels ?? false;
+  const names = params.nameNotes ?? true;
   const letters = params.letters ?? [...LETTERS];
   const range = { low: nat('C', 4), high: nat('B', 4) };
 
@@ -49,7 +52,7 @@ export function generate(params: KeyboardFindParams, rng: Rng, t: Terminology): 
       const targets = [a, a + 1, a + 2]
         .map((o) => nat(letter, o))
         .filter((p) => pitch.toMidi(p) >= pitch.toMidi(low) && pitch.toMidi(p) <= pitch.toMidi(high));
-      return { type: 'play-keyboard', prompt: `Play every ${letter} on this keyboard.`, payload: base(low, high, targets, 'together', 'exact', labels) };
+      return { type: 'play-keyboard', prompt: `Play every ${letter} on this keyboard.`, payload: base(low, high, targets, 'together', 'exact', labels, names) };
     }
     case 'black-keys': {
       const groups = params.groups ?? ['twos', 'threes'];
@@ -58,7 +61,7 @@ export function generate(params: KeyboardFindParams, rng: Rng, t: Terminology): 
       return {
         type: 'play-keyboard',
         prompt: `Play the group of ${g === 'twos' ? 'two' : 'three'} black keys.`,
-        payload: base(range.low, range.high, targets, 'together', 'exact', labels),
+        payload: base(range.low, range.high, targets, 'together', 'exact', labels, names),
       };
     }
     case 'next-note':
@@ -69,7 +72,7 @@ export function generate(params: KeyboardFindParams, rng: Rng, t: Terminology): 
       return {
         type: 'play-keyboard',
         prompt: `Play the note ${params.ask === 'next-note' ? 'after' : 'before'} ${letter} in the musical alphabet.`,
-        payload: base(range.low, range.high, [nat(answer, 4)], 'sequence', 'any', labels),
+        payload: base(range.low, range.high, [nat(answer, 4)], 'sequence', 'any', labels, names),
       };
     }
     case 'step': {
@@ -82,7 +85,7 @@ export function generate(params: KeyboardFindParams, rng: Rng, t: Terminology): 
       return {
         type: 'play-keyboard',
         prompt: `Play the note a ${term(step, t)} ${direction === 'up' ? 'above' : 'below'} ${pitch.displayPitchClass(start)}.`,
-        payload: base(nat('A', 3), nat('D', 5), [target], 'sequence', 'exact', labels),
+        payload: base(nat('A', 3), nat('D', 5), [target], 'sequence', 'exact', labels, names),
       };
     }
   }

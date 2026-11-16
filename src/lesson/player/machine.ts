@@ -6,8 +6,8 @@
  * - Practice: one question at a time. A first wrong answer shows the hint and
  *   gives a second attempt; the second result stands. A question without a
  *   hint gets no second attempt. Practice never blocks progress.
- * - Challenge: `count` questions drawn from the pool in order, cycling. A
- *   `seconds` timer runs from Start unless the round is untimed. When time runs
+ * - Challenge: `count` questions sampled from the pool by a seeded shuffle
+ *   (see `drawChallengeQuestions`). A `seconds` timer runs from Start unless the round is untimed. When time runs
  *   out, unanswered questions count as wrong. No hints, one attempt each. Pass
  *   when correct/total >= passMark. The result screen offers retry or continue.
  * - Replay: bestScore never goes down, and a completed lesson stays complete.
@@ -177,6 +177,35 @@ function resolveAll(
     return item;
   });
   return { items, counter: c };
+}
+
+/**
+ * The questions for one challenge round: `count` entries sampled from `pool`.
+ * The pool is shuffled with a seed from the lesson id and the attempt counter
+ * and dealt out; no entry repeats until the whole pool has been dealt, then it
+ * is shuffled again (with the next seed) and dealt on. When the pool has two or
+ * more question types, the round always contains at least two of them.
+ * Deterministic for the same arguments.
+ */
+export function drawChallengeQuestions(
+  pool: readonly Question[],
+  count: number,
+  lessonId: string,
+  attemptCounter: number,
+): Question[] {
+  const drawn: Question[] = [];
+  for (let pass = 0; drawn.length < count; pass += 1) {
+    const rng = createRng(deriveSeed(lessonId, 'challenge-draw', attemptCounter + pass));
+    drawn.push(...rng.shuffle(pool));
+  }
+  drawn.length = count;
+  const types = new Set(drawn.map((q) => q.type));
+  if (types.size < 2) {
+    // Only possible when count is below the pool size, so every entry of another type is still undrawn.
+    const other = pool.find((q) => !types.has(q.type));
+    if (other && drawn.length > 0) drawn[drawn.length - 1] = other;
+  }
+  return drawn;
 }
 
 // --- construction --------------------------------------------------------------------
@@ -395,12 +424,12 @@ export function reduce(state: MachineState, action: Action, ctx: MachineContext)
       const c = state.challenge;
       if (state.step !== 'challenge' || c.phase !== 'intro') return state;
       const spec = ctx.lesson.steps.challenge;
-      const pool = spec.questions;
-      const drawn = Array.from({ length: spec.count }, (_, k) => pool[k % pool.length]);
+      const drawn = drawChallengeQuestions(spec.questions, spec.count, ctx.lesson.id, state.attemptCounter);
       const { items, counter } = resolveAll(ctx, drawn, state.attemptCounter);
       return {
         ...state,
-        attemptCounter: counter,
+        // At least one more per round, so a retry reshuffles even when the pool has no generated question.
+        attemptCounter: counter + 1,
         challenge: {
           phase: 'running',
           timed: action.timed,

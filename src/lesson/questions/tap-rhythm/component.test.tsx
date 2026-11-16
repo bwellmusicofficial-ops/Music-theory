@@ -75,10 +75,21 @@ afterEach(() => {
   setTapRhythmNotationRenderer(null);
 });
 
-function setup(payload: TapRhythmPayload, options: { locked?: boolean; result?: MarkResult | null } = {}) {
+function setup(
+  payload: TapRhythmPayload,
+  options: { locked?: boolean; result?: MarkResult | null; initialAnswer?: TapResult; onAnswerChange?: (a: TapResult | null) => void } = {},
+) {
   const onAnswer = vi.fn<(r: TapResult) => void>();
   const ui = (locked: boolean, result: MarkResult | null) => (
-    <TapRhythm payload={payload} terminology="uk" locked={locked} result={result} onAnswer={onAnswer} />
+    <TapRhythm
+      payload={payload}
+      terminology="uk"
+      locked={locked}
+      result={result}
+      onAnswer={onAnswer}
+      initialAnswer={options.initialAnswer}
+      onAnswerChange={options.onAnswerChange}
+    />
   );
   const view = render(ui(options.locked ?? false, options.result ?? null));
   return { onAnswer, unmount: view.unmount, rerenderWith: (l: boolean, r: MarkResult | null) => view.rerender(ui(l, r)) };
@@ -439,5 +450,45 @@ describe('TapRhythm: live notation feedback', () => {
     await clickButton('Start');
     tapAt(ONSET(0));
     expect(screen.getByTestId('notation')).toHaveTextContent('PLAIN');
+  });
+});
+
+describe('TapRhythm: restoring and reporting an answer', () => {
+  const recorded: TapResult = { errorsMs: [0, 10, -5], extraTaps: 0, accuracy: 1 };
+
+  it('shows "Answer recorded" with a Tap again control when mounted with an initial answer', () => {
+    setup(rhythm, { initialAnswer: recorded });
+    expect(screen.getByText('Answer recorded')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tap again' })).toBeInTheDocument();
+    expect(screen.queryByTestId('pad-wrapper')).toBeNull();
+  });
+
+  it('Tap again clears the answer (reported as null) and brings the pad back', async () => {
+    const onAnswerChange = vi.fn();
+    setup(rhythm, { initialAnswer: recorded, onAnswerChange });
+    expect(onAnswerChange).not.toHaveBeenCalled();
+    await clickButton('Tap again');
+    expect(onAnswerChange).toHaveBeenCalledWith(null);
+    expect(screen.getByTestId('pad-wrapper')).toBeInTheDocument();
+    expect(screen.queryByText('Answer recorded')).toBeNull();
+  });
+
+  it('has no Tap again control when locked', () => {
+    setup(rhythm, { initialAnswer: recorded, locked: true });
+    expect(screen.getByText('Answer recorded')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Tap again' })).toBeNull();
+  });
+
+  it('reports the finished tapping through onAnswerChange as well as onAnswer', async () => {
+    const onAnswerChange = vi.fn();
+    const { onAnswer } = setup(rhythm, { onAnswerChange });
+    await clickButton('Start');
+    tapAt(ONSET(0));
+    tapAt(ONSET(1));
+    tapAt(ONSET(2));
+    advanceTo(START + (4 + 4 + 1) * SPB + 0.1);
+    expect(onAnswer).toHaveBeenCalledTimes(1);
+    expect(onAnswerChange).toHaveBeenCalledTimes(1);
+    expect(onAnswerChange).toHaveBeenCalledWith(onAnswer.mock.calls[0]![0]);
   });
 });

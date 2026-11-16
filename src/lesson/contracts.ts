@@ -52,6 +52,25 @@ export interface QuestionProps<Payload, Answer> {
    * "Check" button.
    */
   onAnswer: (answer: Answer) => void;
+  /**
+   * Restores an earlier answer when the component is mounted: the component
+   * shows it as the current selection or state (no right/wrong marking, which
+   * only `result` produces) and the learner can change it. Ignored if it does
+   * not fit the payload.
+   */
+  initialAnswer?: Answer;
+  /**
+   * Called whenever the current answer changes, with the complete answer or
+   * null when it is incomplete (or cleared). Independent of `onAnswer`, which
+   * is the commit action: a host that saves answers as they change (the mock
+   * test) listens here. Not called on mount, and not for a restored answer.
+   */
+  onAnswerChange?: (answer: Answer | null) => void;
+  /**
+   * True when the host saves answers through `onAnswerChange`: components that
+   * render their own "Check" button leave it out. Default false.
+   */
+  hideCheck?: boolean;
 }
 
 export interface QuestionTypeModule<Payload = unknown, Answer = unknown> {

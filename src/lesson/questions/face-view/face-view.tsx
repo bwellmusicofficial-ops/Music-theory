@@ -11,7 +11,7 @@ export interface FaceViewProps {
   /** Overrides how a glyph is drawn. Default: the notation `GlyphView`. */
   renderGlyph?: (glyph: Glyph) => ReactNode;
   /** Overrides how a passage is drawn. Default: the notation `PassageView` (a read-only stave). */
-  renderPassage?: (passage: Passage) => ReactNode;
+  renderPassage?: (passage: Passage, display?: { hideClef?: boolean; hideTime?: boolean }) => ReactNode;
 }
 
 /**
@@ -44,7 +44,11 @@ export function FaceView({ face, renderGlyph, renderPassage }: FaceViewProps) {
     case 'passage':
       return (
         <span data-face="passage">
-          {renderPassage ? renderPassage(face.passage) : <PassageView passage={face.passage} terminology={terminology} />}
+          {renderPassage ? (
+            renderPassage(face.passage, { hideClef: face.hideClef, hideTime: face.hideTime })
+          ) : (
+            <PassageView passage={face.passage} terminology={terminology} hideClef={face.hideClef} hideTime={face.hideTime} />
+          )}
         </span>
       );
   }

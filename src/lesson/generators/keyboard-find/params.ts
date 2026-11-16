@@ -11,6 +11,8 @@ export interface KeyboardFindParams {
   steps?: ('tone' | 'semitone')[];
   directions?: ('up' | 'down')[];
   showLabels?: boolean;
+  /** Default true. false: the marking reasons describe keys by position and colour, never by letter. */
+  nameNotes?: boolean;
 }
 
 const unique = <T,>(list: T[]) => new Set(list).size === list.length;
@@ -23,6 +25,7 @@ export const paramsSchema: z.ZodType<KeyboardFindParams> = z
     steps: z.array(z.enum(['tone', 'semitone'])).min(1).max(2).default(['tone', 'semitone']),
     directions: z.array(z.enum(['up', 'down'])).min(1).max(2).default(['up', 'down']),
     showLabels: z.boolean().default(false),
+    nameNotes: z.boolean().default(true),
   })
   .superRefine((p, ctx) => {
     for (const k of ['letters', 'groups', 'steps', 'directions'] as const) {

@@ -21,7 +21,7 @@ export interface Glyph {
 export type Face =
   | { kind: 'text'; text: RichText }
   | { kind: 'glyph'; glyph: Glyph }
-  | { kind: 'passage'; passage: Passage };
+  | { kind: 'passage'; passage: Passage; hideClef?: boolean; hideTime?: boolean };
 
 /** A passage to be heard, not seen. */
 export interface Clip {

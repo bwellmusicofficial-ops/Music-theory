@@ -77,13 +77,23 @@ export type RichText = z.infer<typeof richTextSchema>;
  * /public/audio for the few cases a synthesised passage will not do.
  */
 export const exhibitSchema = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('passage'), passage: z.unknown(), tempo: z.number().optional() }),
+  z.object({
+    kind: z.literal('passage'),
+    passage: z.unknown(),
+    tempo: z.number().optional(),
+    /** true: draw the stave without its clef (notes stay where a treble clef would put them). Default false. */
+    hideClef: z.boolean().optional(),
+    /** true: draw the bars without the time signature. Default false. */
+    hideTime: z.boolean().optional(),
+  }),
   z.object({
     kind: z.literal('keyboard'),
     /** Pitches to highlight, ASCII form ("C4"). */
     highlight: z.array(z.string()).default([]),
     low: z.string().default('C3'),
     high: z.string().default('C5'),
+    /** Letter names on the keys. Default true. */
+    showLabels: z.boolean().optional(),
   }),
   z.object({ kind: z.literal('audioClip'), src: z.string(), caption: z.string() }),
 ]);
@@ -145,6 +155,14 @@ export const exploreStepSchema = z.object({
    */
   instrument: z.enum(['keyboard', 'stave', 'rhythm-pad']),
   exhibit: exhibitSchema.optional(),
+  /**
+   * 'rhythm-pad' only. false: the passage still supplies the rhythm and tempo,
+   * but the stave is not drawn; a row of pulse dots (one per onset) lights up as
+   * the learner taps. For lessons before notation is taught. Default true.
+   */
+  showNotation: z.boolean().optional(),
+  /** 'keyboard' only: letter names on the keys. Overrides the keyboard exhibit's `showLabels`. Default true. */
+  showLabels: z.boolean().optional(),
   /** What the learner must do to continue, in words; the player shows it as a goal. */
   goal: richTextSchema,
 });
@@ -172,9 +190,12 @@ export const challengeStepSchema = z.object({
   /** Pool the round draws from; generated questions repeat with new seeds. */
   questions: z.array(questionSchema).min(3),
   /**
-   * How many questions the round asks, drawn from the pool in order and
-   * cycling if the pool is smaller. Unanswered questions when time runs out
-   * count as wrong. Hints are not shown during the round.
+   * How many questions the round asks. Each round samples them from the pool
+   * with a seeded shuffle (seed from the lesson id and an attempt counter), so a
+   * retry asks a different selection. No pool entry repeats until the pool is
+   * exhausted, and the round has at least two question types when the pool has
+   * them. Generated entries get a fresh seed each time they are drawn.
+   * Unanswered questions when time runs out count as wrong. Hints are not shown during the round.
    */
   count: z.number().int().min(5).max(12).default(8),
   /** Fraction correct needed to complete the lesson. */

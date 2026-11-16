@@ -15,12 +15,22 @@ import { setPlayKeyboardNotationRenderer } from '@/lesson/questions/play-keyboar
 import { setTapRhythmNotationRenderer, type TapRhythmNotationLive } from '@/lesson/questions/tap-rhythm';
 
 /** A read-only stave that follows the lesson's terminology setting. */
-function LessonPassage({ passage, live }: { passage: Passage; live?: TapRhythmNotationLive }) {
+function LessonPassage({
+  passage,
+  live,
+  display,
+}: {
+  passage: Passage;
+  live?: TapRhythmNotationLive;
+  display?: { hideClef?: boolean; hideTime?: boolean };
+}) {
   const terminology = useLessonText()?.terminology ?? 'uk';
-  return <PassageView passage={passage} terminology={terminology} marks={live?.marks} cursor={live?.cursor} />;
+  return <PassageView passage={passage} terminology={terminology} marks={live?.marks} cursor={live?.cursor} hideClef={display?.hideClef} hideTime={display?.hideTime} />;
 }
 
-const renderPassage = (passage: Passage): ReactNode => <LessonPassage passage={passage} />;
+const renderPassage = (passage: Passage, display?: { hideClef?: boolean; hideTime?: boolean }): ReactNode => (
+  <LessonPassage passage={passage} display={display} />
+);
 /** The tap-rhythm renderer also draws the live tap feedback: judged notes and the note due now. */
 const renderLivePassage = (passage: Passage, live?: TapRhythmNotationLive): ReactNode => (
   <LessonPassage passage={passage} live={live} />

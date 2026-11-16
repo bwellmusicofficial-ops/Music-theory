@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Bar, Passage } from '@/engine/types';
 import { DEFAULT_SETTINGS } from '../contracts';
@@ -163,5 +163,71 @@ describe('ExploreStage play-along (free mode)', () => {
     expect(screen.queryByTestId('count-in-cue')).toBeNull();
     expect(screen.queryByTestId('tally')).toBeNull();
     expect(screen.queryByTestId('verdict-chip')).toBeNull();
+  });
+});
+
+describe('ExploreStage without notation (showNotation: false)', () => {
+  function setupDots(showNotation: boolean | undefined) {
+    const calls: Live[] = [];
+    render(
+      <ExploreStage
+        step={{ ...step, showNotation } as unknown as Lesson['steps']['explore']}
+        settings={DEFAULT_SETTINGS}
+        glossary={[]}
+        renderers={{ passage: (props) => (calls.push(props), (<p>STAVE</p>)) }}
+        done={false}
+        onInteract={() => {}}
+        onContinue={() => {}}
+        onBack={() => {}}
+      />,
+    );
+    return calls;
+  }
+  const dots = () => within(screen.getByTestId('pulse-dots')).getAllByRole('listitem');
+
+  it('draws no stave, one dot per onset, and lights them as they are tapped', async () => {
+    const calls = setupDots(false);
+    expect(calls).toHaveLength(0);
+    expect(screen.queryByText('STAVE')).toBeNull();
+    expect(dots()).toHaveLength(6);
+    expect(dots().every((d) => d.getAttribute('data-lit') === 'false')).toBe(true);
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Start' }));
+    });
+    advanceTo(START + 0.2);
+    tap();
+    tap();
+    expect(dots().map((d) => d.getAttribute('data-lit'))).toEqual(['true', 'true', 'false', 'false', 'false', 'false']);
+    expect(dots()[1]).toHaveAccessibleName('Pulse 2, tapped');
+    for (let i = 0; i < 4; i++) tap();
+    expect(dots().every((d) => d.getAttribute('data-lit') === 'true')).toBe(true);
+  });
+
+  it('draws the stave and no dots by default and when showNotation is true', () => {
+    for (const value of [undefined, true]) {
+      cleanup();
+      setupDots(value);
+      expect(screen.getByText('STAVE')).toBeInTheDocument();
+      expect(screen.queryByTestId('pulse-dots')).toBeNull();
+    }
+  });
+});
+
+describe('ExploreStage keyboard labels', () => {
+  const keyboardStep = (extra: object) =>
+    ({ text: 'Explore.', goal: 'Press a key.', instrument: 'keyboard', exhibit: { kind: 'keyboard', highlight: [], low: 'C4', high: 'G4', ...extra } }) as unknown as Lesson['steps']['explore'];
+  const labelled = (s: Lesson['steps']['explore']) => {
+    cleanup();
+    render(
+      <ExploreStage step={s} settings={DEFAULT_SETTINGS} glossary={[]} done={false} onInteract={() => {}} onContinue={() => {}} onBack={() => {}} />,
+    );
+    return document.querySelectorAll('button span[aria-hidden="true"].text-xs').length;
+  };
+  it('shows labels by default and hides them with showLabels false on the step or the exhibit', () => {
+    const base = labelled(keyboardStep({}));
+    expect(base).toBeGreaterThan(0);
+    expect(labelled({ ...keyboardStep({}), showLabels: false } as Lesson['steps']['explore'])).toBe(0);
+    expect(labelled(keyboardStep({ showLabels: false }))).toBe(0);
+    expect(labelled({ ...keyboardStep({ showLabels: false }), showLabels: true } as Lesson['steps']['explore'])).toBe(base);
   });
 });

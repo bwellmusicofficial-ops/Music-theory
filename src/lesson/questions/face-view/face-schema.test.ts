@@ -121,3 +121,17 @@ describe('faceSchema: passage', () => {
     expect(faceSchema.safeParse({ kind: 'passage', passage: passage([{ events: [note()] }]) }).success).toBe(false);
   });
 });
+
+describe('faceSchema: passage display options', () => {
+  const p = passage([fourCrotchets]);
+  it('accepts hideClef and hideTime, and keeps today\'s faces valid without them', () => {
+    expect(faceSchema.safeParse({ kind: 'passage', passage: p }).success).toBe(true);
+    const both = faceSchema.safeParse({ kind: 'passage', passage: p, hideClef: true, hideTime: true });
+    expect(both.success).toBe(true);
+    expect(both.success && both.data).toMatchObject({ hideClef: true, hideTime: true });
+  });
+  it('rejects non-boolean values and unknown keys', () => {
+    expect(faceSchema.safeParse({ kind: 'passage', passage: p, hideClef: 'yes' }).success).toBe(false);
+    expect(faceSchema.safeParse({ kind: 'passage', passage: p, hideKey: true }).success).toBe(false);
+  });
+});

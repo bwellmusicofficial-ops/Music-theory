@@ -14,7 +14,7 @@
 import { createRng } from '@/engine/rng';
 import type { Rng, Terminology } from '@/engine/types';
 import type { GeneratorRegistry, MarkResult, QuestionTypeRegistry } from '@/lesson/contracts';
-import { deriveSeed } from '@/lesson/player/machine';
+import { deriveSeed } from '@/lesson/player';
 import type { QuestionTypeId, Strand } from '@/lesson/schema';
 import { itemQuestionCount, type MockConfig } from './schema';
 

@@ -13,6 +13,9 @@ export type ExhibitRenderers = {
     marks?: Record<string, StaveMark>;
     /** The note on the current beat; absent elsewhere. */
     cursor?: { bar: number; event: number } | null;
+    /** Draw without the clef / the time signature. */
+    hideClef?: boolean;
+    hideTime?: boolean;
   }) => ReactNode;
 };
 

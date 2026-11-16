@@ -122,8 +122,11 @@ describe('mock test flow', () => {
     await user.click(optionButtons()[wrongIdx]!);
     expect(within(panel()).getByTestId('answer-status')).toHaveTextContent('Answer saved');
     expect(optionButtons()[wrongIdx]).toHaveAttribute('aria-pressed', 'true');
-    // No right/wrong marks and no feedback text anywhere.
-    expect(optionButtons().every((b) => b.getAttribute('data-state') === 'idle')).toBe(true);
+    // The choice is shown as selected, with no right/wrong marks and no feedback text anywhere.
+    expect(optionButtons()[wrongIdx]).toHaveAttribute('data-state', 'selected');
+    expect(optionButtons().filter((_, i) => i !== wrongIdx).every((b) => b.getAttribute('data-state') === 'idle')).toBe(true);
+    expect(within(panel()).queryByRole('button', { name: 'Check' })).toBeNull();
+    expect(document.body).not.toHaveTextContent('Press Check');
     expect(within(panel()).queryByText(/Correct answer|Your answer$/)).toBeNull();
     expect(screen.queryByText(/That's right|Not quite/)).toBeNull();
     expect(optionButtons().every((b) => !(b as HTMLButtonElement).disabled)).toBe(true);
@@ -131,7 +134,7 @@ describe('mock test flow', () => {
     // Change the answer: the choice moves, still editable.
     await user.click(optionButtons()[rightIdx]!);
     expect(optionButtons()[rightIdx]).toHaveAttribute('aria-pressed', 'true');
-    expect(optionButtons()[wrongIdx]).not.toHaveAttribute('aria-pressed');
+    expect(optionButtons()[wrongIdx]).toHaveAttribute('aria-pressed', 'false');
     // ...and back to the wrong one, which is what we will be marked on.
     await user.click(optionButtons()[wrongIdx]!);
 
@@ -146,7 +149,7 @@ describe('mock test flow', () => {
     const q2 = paper.questions[1]!.payload as { correct: string; options: { id: string }[] };
     await user.click(optionButtons()[q2.options.findIndex((o) => o.id === q2.correct)]!);
 
-    // Match-up: pair every left item with the right item that has its id, then Check.
+    // Match-up: pair every left item with the right item that has its id, saved as they are made.
     const mu = paper.questions[indexOf('match-up')]!;
     await goTo(user, mu.index);
     const mup = mu.payload as { left: { id: string; match: string }[]; right: { id: string }[] };
@@ -156,15 +159,17 @@ describe('mock test flow', () => {
       const rights = within(within(panel()).getByRole('list', { name: 'Right items' })).getAllByRole('button');
       await user.click(rights[mup.right.findIndex((r) => r.id === l.match)]!);
     }
-    await user.click(within(panel()).getByRole('button', { name: 'Check' }));
+    // No Check step: the pairs are saved as soon as the last one is made.
+    expect(within(panel()).queryByRole('button', { name: 'Check' })).toBeNull();
     expect(position()).toBe(`Question ${mu.index + 1} of ${N}`);
     expect(within(panel()).queryByText(/Right pair|Wrong pair/)).toBeNull();
     expect(within(panel()).getByTestId('answer-status')).toHaveTextContent('Answer saved');
 
-    // Ordering: Check as it stands.
+    // Ordering: moving an item saves an order.
     const ord = indexOf('ordering');
     await goTo(user, ord);
-    await user.click(within(panel()).getByRole('button', { name: 'Check' }));
+    expect(within(panel()).getByTestId('answer-status')).toHaveTextContent('Not answered yet');
+    await user.click(within(panel()).getAllByRole('button', { name: /^Move .* down$/ })[0]!);
     expect(within(panel()).getByTestId('answer-status')).toHaveTextContent('Answer saved');
 
     // Identify a note on the stave.
@@ -175,7 +180,7 @@ describe('mock test flow', () => {
     const letterBtn = within(group).getByRole('button', { name: letter });
     await user.click(letterBtn);
     expect(letterBtn).toHaveAttribute('aria-pressed', 'true');
-    expect(letterBtn).toHaveAttribute('data-state', 'idle');
+    expect(letterBtn).toHaveAttribute('data-state', 'selected');
 
     // Navigator: statuses by text.
     await user.click(screen.getByRole('button', { name: /Question list/ }));
@@ -189,6 +194,30 @@ describe('mock test flow', () => {
     expect(position()).toBe(`Question 1 of ${N}`);
     expect(optionButtons()[wrongIdx]).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'Previous' })).toBeDisabled();
+
+    // Leave the match-up and the stave question and come back: the answers are still shown.
+    await goTo(user, mu.index);
+    for (const [i, l] of mup.left.entries()) {
+      const lefts = within(within(panel()).getByRole('list', { name: 'Left items' })).getAllByRole('button');
+      const letter = String.fromCharCode(65 + mup.right.findIndex((r) => r.id === l.match));
+      expect(lefts[i]).toHaveTextContent(`Paired with ${letter}`);
+    }
+    // Change one pairing (unpair the first item); the change is saved too.
+    await user.click(within(within(panel()).getByRole('list', { name: 'Left items' })).getAllByRole('button')[0]!);
+    await goTo(user, note.index);
+    await user.click(screen.getByRole('button', { name: /Question list/ }));
+    expect(screen.getByRole('button', { name: new RegExp(`^Question ${mu.index + 1}, not answered`) })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: new RegExp(`^Question ${note.index + 1},`) }));
+    expect(within(within(panel()).getByRole('group', { name: 'Note name' })).getByRole('button', { name: letter })).toHaveAttribute('aria-pressed', 'true');
+    // An incomplete pairing is not an answer, so it was not kept: pair everything again, then finish.
+    await goTo(user, mu.index);
+    for (const [i, l] of mup.left.entries()) {
+      const lefts = within(within(panel()).getByRole('list', { name: 'Left items' })).getAllByRole('button');
+      await user.click(lefts[i]!);
+      const rights = within(within(panel()).getByRole('list', { name: 'Right items' })).getAllByRole('button');
+      await user.click(rights[mup.right.findIndex((r) => r.id === l.match)]!);
+    }
+    await goTo(user, 0);
 
     // Finish: the confirmation says how many are unanswered; Keep working returns.
     await user.click(screen.getByRole('button', { name: 'Finish test' }));

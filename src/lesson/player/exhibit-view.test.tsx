@@ -160,3 +160,23 @@ describe('ExhibitView: audioClip', () => {
     expect(screen.getByRole('button', { name: /^Play/ })).toBeInTheDocument();
   });
 });
+
+describe('ExhibitView keyboard labels and passage display options', () => {
+  const labels = (c: HTMLElement) => c.querySelectorAll('button span[aria-hidden="true"].text-xs').length;
+  const keyboard = (extra: object): Exhibit => ({ kind: 'keyboard', highlight: [], low: 'C4', high: 'G4', ...extra }) as Exhibit;
+
+  it('labels the keys by default and not when showLabels is false', () => {
+    const on = render(<ExhibitView exhibit={keyboard({})} />);
+    expect(labels(on.container)).toBeGreaterThan(0);
+    on.unmount();
+    const off = render(<ExhibitView exhibit={keyboard({ showLabels: false })} />);
+    expect(labels(off.container)).toBe(0);
+  });
+
+  it('hands hideClef and hideTime to the passage renderer', () => {
+    const calls: { hideClef?: boolean; hideTime?: boolean }[] = [];
+    const renderers = { passage: (props: { hideClef?: boolean; hideTime?: boolean }) => (calls.push(props), (<p>S</p>)) };
+    render(<ExhibitView exhibit={{ ...passageExhibit, hideClef: true, hideTime: true }} renderers={renderers} />);
+    expect(calls.at(-1)).toMatchObject({ hideClef: true, hideTime: true });
+  });
+});

@@ -38,6 +38,23 @@ Each type lives in `src/lesson/questions/<type>/` and exports a
   Authors and generators choose the order. This keeps questions replayable from
   a seed.
 
+### 1.1a Restoring and reporting answers
+
+`QuestionProps` has three optional props (see `src/lesson/contracts.ts`) that every
+component honours:
+
+- `initialAnswer`: shows an earlier answer as the current selection or state
+  (chosen option "selected", pairs, order, placed notes, played keys restored; for
+  `tap-rhythm`, "Answer recorded" with a "Tap again" control). It never shows right
+  or wrong marking, which only `result` does. An answer that does not fit the payload
+  is ignored.
+- `onAnswerChange(answer | null)`: called whenever the current answer changes, with
+  null when it is incomplete or cleared. It is not called on mount. It is independent
+  of `onAnswer`, the commit action. In `note-on-stave` identify mode the answer is
+  always the current letter and sign together, whichever was picked last.
+- `hideCheck`: components with their own "Check" button leave it out, for hosts (the
+  mock test) that save answers as they change.
+
 ### 1.2 Shared types
 
 Import engine types from `src/engine/types.ts`. These extra types are shared by
@@ -59,7 +76,7 @@ export interface Glyph {
 export type Face =
   | { kind: 'text'; text: RichText }
   | { kind: 'glyph'; glyph: Glyph }
-  | { kind: 'passage'; passage: Passage };
+  | { kind: 'passage'; passage: Passage; hideClef?: boolean; hideTime?: boolean };
 
 /** A passage to be heard, not seen. */
 export interface Clip {
@@ -68,6 +85,10 @@ export interface Clip {
   bpm: number;
 }
 ```
+
+`hideClef` and `hideTime` (default false) on a passage face draw it without its
+clef or its time signature; notes stay where the clef would put them. A passage
+*exhibit* (`schema.ts`) takes the same two fields.
 
 Validation that applies wherever these appear:
 
@@ -464,6 +485,12 @@ export interface PlayKeyboardPayload {
   high: Pitch;
   /** Letter names printed on the keys. Default false. */
   showLabels?: boolean;
+  /**
+   * Default true. false: reasons describe keys by position and colour, with no letter
+   * names or accidentals (see "Reasons without names" below), and the played-keys
+   * summary says "2 keys" instead of listing names. For lessons before names are taught.
+   */
+  nameNotes?: boolean;
   /** 1 to 8 notes to play. */
   targets: Pitch[];
   /** 'sequence': one after another in this order. 'together': as a chord, any order. */
@@ -526,6 +553,24 @@ Reasons, `together` (first that applies):
 | A wrong key | `{played} does not belong. The notes are {list of targets}.` (first wrong key, low to high) | "F does not belong. The notes are C, E and G." |
 
 Lists are joined with commas and a final "and".
+
+**Reasons without names** (`nameNotes: false`). No reason names a note by letter
+or accidental. Keys are described by colour and by how many keys of the same
+colour away they are (white keys between two white keys, black keys between two
+black keys):
+
+| Wrong answer | Template | Example |
+| --- | --- | --- |
+| `sequence`, same colour as the target | `{That key\|Note {i+1}} is {n} {black }key(s) too far to the {right\|left}.` | "That key is two keys too far to the right." / "Note 2 is one black key too far to the left." |
+| `sequence`, other colour | `{That key\|Note {i+1}} is a {white\|black} key, but this one needs a {black\|white} key.` | "That key is a white key, but this one needs a black key." |
+| `together`, too few keys | `You chose {n} key(s), but this needs {total} keys.` | "You chose 2 keys, but this needs 3 keys." |
+| `together`, a key of a colour no target has | `One of those is a {white\|black} key: {the group you want is the {n} black keys\|the keys you want are all white keys\|the keys you want are a mix of black and white keys}.` | "One of those is a white key: the group you want is the three black keys." |
+| `together`, a wrong key of a colour some target has | `One of those keys is {n} {black }key(s) too far to the {right\|left} of the nearest key you need.` | "One of those keys is two black keys too far to the left of the nearest key you need." |
+| `together`, `octave: 'any'`, two keys with one name | `Two of your keys sound like the same note in different places, so one of the notes you need is missing.` | |
+
+With `octave: 'any'` the distance is measured to the nearest key that has the
+target's name, as above. The prompt still says what to play: the author must not
+name notes in it when the lesson has not taught them.
 
 ```json
 {
