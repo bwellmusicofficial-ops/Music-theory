@@ -1,30 +1,111 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import type { ComponentType, SVGProps } from 'react';
+import { cn } from '@/components/ui/cn';
+import { IconGames, IconLearn, IconLibrary, IconMock, IconSettings } from './icons';
+import { isCurrent, isImmersive, NAV_ITEMS, type NavItem } from './nav-items';
 
-const LINKS = [
-  { href: '/mock', label: 'Mock tests' },
-  { href: '/settings', label: 'Settings' },
-] as const;
+const ICONS: Record<NavItem['icon'], ComponentType<SVGProps<SVGSVGElement>>> = {
+  learn: IconLearn,
+  library: IconLibrary,
+  games: IconGames,
+  mock: IconMock,
+  settings: IconSettings,
+};
 
-/** The header shared by every page: the product name, the mock tests and the settings. */
+/**
+ * The top bar: the product name everywhere, and the five links from the
+ * `md` breakpoint up. Below that the links live in the bottom tab bar, so the
+ * top bar never has to wrap.
+ */
 export function SiteHeader() {
+  const pathname = usePathname();
   return (
-    <header className="border-b border-border-subtle bg-bg">
-      <div className="mx-auto flex min-h-14 w-full max-w-3xl items-center justify-between gap-2 px-4">
-        <Link href="/" className="rounded-sm text-base font-extrabold sm:text-lg tracking-tight text-fg">
+    <header className="sticky top-0 z-30 border-b border-border-subtle bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4">
+        <Link
+          href="/"
+          aria-current={pathname === '/' ? 'page' : undefined}
+          className="flex items-center gap-2 rounded-md text-lg font-extrabold tracking-tight text-fg"
+        >
+          <span aria-hidden="true" className="flex items-end gap-0.5">
+            <span className="h-2.5 w-1 rounded-full bg-strand-rhythm" />
+            <span className="h-4 w-1 rounded-full bg-strand-pitch" />
+            <span className="h-3 w-1 rounded-full bg-strand-terms" />
+            <span className="h-5 w-1 rounded-full bg-accent" />
+          </span>
           Music Theory Now
         </Link>
-        <nav aria-label="Site" className="flex items-center gap-1">
-          {LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="inline-flex min-h-11 items-center whitespace-nowrap rounded-md px-2.5 font-semibold sm:px-3 text-fg-secondary hover:bg-surface-raised hover:text-fg"
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav aria-label="Site" className="hidden items-center gap-1 md:flex">
+          {NAV_ITEMS.map((item) => {
+            const current = isCurrent(pathname, item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={current ? 'page' : undefined}
+                className={cn(
+                  'inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-4 font-semibold',
+                  current
+                    ? 'bg-accent text-on-accent'
+                    : 'text-fg-secondary hover:bg-surface-raised hover:text-fg',
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </header>
+  );
+}
+
+/**
+ * Five tabs with icon and label at the bottom of the screen on phones. The
+ * current tab is marked three ways: `aria-current`, a bar above it with a filled
+ * pill behind the icon, and a bolder label. Hidden from `md` up, and on
+ * full-screen pages (a game round, a mock test paper).
+ */
+export function BottomTabBar() {
+  const pathname = usePathname();
+  if (isImmersive(pathname)) return null;
+  return (
+    <nav
+      aria-label="Main tabs"
+      className="sticky bottom-0 z-30 border-t border-border-subtle bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+    >
+      <ul className="mx-auto grid max-w-xl grid-cols-5">
+        {NAV_ITEMS.map((item) => {
+          const current = isCurrent(pathname, item.href);
+          const Icon = ICONS[item.icon];
+          return (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                aria-current={current ? 'page' : undefined}
+                className={cn(
+                  'relative flex min-h-16 flex-col items-center justify-center gap-0.5 px-1 pt-1 text-[0.6875rem] leading-tight',
+                  current ? 'font-extrabold text-fg' : 'font-medium text-fg-secondary',
+                )}
+              >
+                {current ? <span aria-hidden="true" className="absolute inset-x-4 top-0 h-1 rounded-b-full bg-accent" /> : null}
+                <span
+                  className={cn(
+                    'flex h-8 w-14 items-center justify-center rounded-full',
+                    current ? 'bg-accent text-on-accent' : '',
+                  )}
+                >
+                  <Icon width={22} height={22} strokeWidth={current ? 2.5 : 2} />
+                </span>
+                <span className="max-w-full truncate">{item.label}</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
