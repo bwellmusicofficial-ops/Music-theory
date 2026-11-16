@@ -144,8 +144,13 @@ seconds drawn from a pool of questions. Passing (default 80%) completes the
 lesson.
 
 - Write a pool of **at least 6** questions (the schema's minimum of 3 is too
-  few for a replay to feel different). Generated questions repeat with new
-  seeds, so include at least one.
+  few for a replay to feel different). Each round **samples** `count` questions
+  from the pool with a seeded shuffle, so a retry asks a different selection;
+  it is not the first `count` questions in order. No pool entry is asked twice
+  until the whole pool has been asked, and the round always has at least two
+  question types when the pool has them. A bigger, varied pool therefore gives
+  more different rounds. Generated questions get a fresh seed every time they are
+  drawn, so include at least one.
 - The challenge is the same difficulty as the last practice question, not
   harder. It checks; it does not teach or trick.
 - Questions must be answerable in about 10 seconds each. Keep tapping

@@ -450,8 +450,16 @@ describe('LessonPlayer: developer error cards', () => {
     toPractice();
     practiceAllRight(4);
     next('Start');
-    fireEvent.click(btn('Skip this question'));
-    answerChallenge([true, true, true, true]);
+    // The round is sampled from the pool, so the crashing by-ear question can come at any position.
+    for (let i = 0; i < 5; i++) {
+      const skip = screen.queryByRole('button', { name: 'Skip this question' });
+      if (skip) {
+        fireEvent.click(skip);
+      } else {
+        right();
+        next(i === 4 ? 'See result' : 'Next');
+      }
+    }
     expect(screen.getByTestId('score')).toHaveTextContent('4 / 5');
     expect(screen.getByTestId('verdict')).toHaveTextContent('Passed');
   });
@@ -517,13 +525,16 @@ describe('LessonPlayer: challenge', () => {
     expect(sink.lastSave).toMatchObject({ state: 'in-progress', step: 'recap', bestScore: 0 });
   });
 
-  it('draws count questions cycling the pool', async () => {
+  it('draws count questions by dealing the shuffled pool, then dealing it again', async () => {
     const lesson = buildLesson({ count: 7, challenge: [authored('c1'), authored('c2'), authored('c3')] });
     const { sink } = await toChallenge({ lesson });
     next('Start');
     answerChallenge(Array(7).fill(true));
     await act(async () => {});
-    expect(sink.attempts.filter((a) => a.step === 'challenge').map((a) => a.questionId)).toEqual(['c1', 'c2', 'c3', 'c1', 'c2', 'c3', 'c1']);
+    const asked = sink.attempts.filter((a) => a.step === 'challenge').map((a) => a.questionId);
+    expect(asked).toHaveLength(7);
+    expect([...asked.slice(0, 3)].sort()).toEqual(['c1', 'c2', 'c3']);
+    expect([...asked.slice(3, 6)].sort()).toEqual(['c1', 'c2', 'c3']);
   });
 
   it('counts down, turns urgent and ends the round when time runs out; unanswered count as wrong', async () => {

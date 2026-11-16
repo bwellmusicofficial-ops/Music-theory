@@ -400,15 +400,48 @@ describe('generator failures', () => {
 });
 
 describe('challenge: drawing questions', () => {
-  it('draws `count` questions from the pool in order, cycling', () => {
-    const r = new Run(ctxOf({ count: 7 })).throughPractice().start();
-    expect(r.c.items.map((i) => i.questionId)).toEqual(['c1', 'c2', 'c3', 'c4', 'c5', 'c1', 'c2']);
-    expect(r.c.items.map((i) => i.slot)).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  const ids = (r: Run) => r.c.items.map((i) => i.questionId);
+
+  it('samples `count` questions from the pool with a seeded shuffle, not the first N', () => {
+    const pool = Array.from({ length: 12 }, (_, k) => authored(`q${k + 1}`));
+    const r = new Run(ctxOf({ count: 5, challenge: pool })).throughPractice().start();
+    expect(ids(r)).toHaveLength(5);
+    expect(new Set(ids(r)).size).toBe(5);
+    expect(ids(r)).not.toEqual(['q1', 'q2', 'q3', 'q4', 'q5']);
+    expect(r.c.items.map((i) => i.slot)).toEqual([0, 1, 2, 3, 4]);
+    // Same lesson and attempt counter: same draw.
+    const again = new Run(ctxOf({ count: 5, challenge: pool })).throughPractice().start();
+    expect(ids(again)).toEqual(ids(r));
   });
 
-  it('gives a count smaller than the pool a prefix of it', () => {
-    const r = new Run(ctxOf({ count: 5, challenge: [authored('a'), authored('b'), authored('c'), authored('d'), authored('e'), authored('f')] })).throughPractice().start();
-    expect(r.c.items.map((i) => i.questionId)).toEqual(['a', 'b', 'c', 'd', 'e']);
+  it('does not repeat a pool entry until the pool is exhausted, then deals the pool again', () => {
+    const r = new Run(ctxOf({ count: 7 })).throughPractice().start();
+    const pool = ['c1', 'c2', 'c3', 'c4', 'c5'];
+    expect([...ids(r).slice(0, 5)].sort()).toEqual(pool);
+    expect(ids(r).slice(5).every((id) => pool.includes(id))).toBe(true);
+    expect(new Set(ids(r).slice(5)).size).toBe(2);
+  });
+
+  it('draws a different selection on a retry, even when no question is generated', () => {
+    const pool = Array.from({ length: 12 }, (_, k) => authored(`q${k + 1}`));
+    const r = new Run(ctxOf({ count: 5, challenge: pool })).throughPractice().start();
+    const seen = new Set([ids(r).join()]);
+    for (let n = 0; n < 4; n++) {
+      while (r.c.phase === 'running') r.answer(WRONG).cont();
+      r.do({ type: 'RETRY_CHALLENGE', now: r.t }).start();
+      seen.add(ids(r).join());
+    }
+    expect(seen.size).toBeGreaterThan(1);
+  });
+
+  it('always includes at least two question types when the pool has them', () => {
+    // One odd type among many: a plain sample of 5 from 30 usually misses it, so try many lessons.
+    const pool = [...Array.from({ length: 29 }, (_, k) => authored(`m${k}`)), authored('odd', 'match-up')];
+    for (let n = 0; n < 40; n++) {
+      const ctx = ctxOf({ count: 5, challenge: pool });
+      const r = new Run(ctx, { attemptBase: n }).throughPractice().start();
+      expect(new Set(r.c.items.map((i) => i.type)).size).toBeGreaterThanOrEqual(2);
+    }
   });
 
   it('draws a fresh seed for every generated slot, even for the same question', () => {
@@ -416,9 +449,9 @@ describe('challenge: drawing questions', () => {
     const r = new Run(ctxOf({ count: 6, challenge: pool }), { attemptBase: 0 }).throughPractice().start();
     const seeds = r.c.items.map((i) => i.seed);
     expect(new Set(seeds).size).toBe(6);
-    expect(r.c.items[0].questionId).toBe('g1');
-    expect(r.c.items[3].questionId).toBe('g1');
-    expect(r.c.items[0].payload).not.toEqual(r.c.items[3].payload);
+    const repeated = ids(r).find((id, i) => ids(r).indexOf(id) !== i)!;
+    const [x, y] = r.c.items.filter((i) => i.questionId === repeated);
+    expect(x!.payload).not.toEqual(y!.payload);
   });
 
   it('draws new seeds on a retry', () => {
@@ -459,7 +492,7 @@ describe('challenge: rules', () => {
   it('records events with step "challenge" and the right msTaken', () => {
     const r = new Run(ctxOf()).throughPractice().start();
     r.answer(RIGHT, 1234);
-    expect(r.state.events.at(-1)).toMatchObject({ step: 'challenge', questionId: 'c1', msTaken: 1234, correct: true });
+    expect(r.state.events.at(-1)).toMatchObject({ step: 'challenge', questionId: r.c.items[0]!.questionId, msTaken: 1234, correct: true });
   });
 
   it('passes at exactly the pass mark (4 of 5 = 0.8)', () => {
