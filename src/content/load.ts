@@ -7,6 +7,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { z } from 'zod';
+import { sortInTeachingOrder } from './order';
 import { glossaryEntrySchema, lessonSchema, type GlossaryEntry, type Grade, type Lesson } from '@/lesson/schema';
 
 const CONTENT_DIR = join(process.cwd(), 'content');
@@ -25,16 +26,14 @@ function jsonFilesUnder(dir: string): string[] {
   });
 }
 
-/** Every lesson, in suggested order: by grade, then unit, then position in the unit. */
+/** Every lesson in teaching order (see `sortInTeachingOrder`): by grade, then unit, then position in the unit. */
 export function listLessons(): Lesson[] {
   const lessons = jsonFilesUnder(join(CONTENT_DIR, 'lessons')).map((file) => {
     const parsed = lessonSchema.safeParse(JSON.parse(readFileSync(file, 'utf8')));
     if (!parsed.success) throw new Error(`Invalid lesson file ${file}: ${parsed.error.message}`);
     return parsed.data;
   });
-  return lessons.sort(
-    (a, b) => a.grade.localeCompare(b.grade, undefined, { numeric: true }) || a.unit.localeCompare(b.unit) || a.order - b.order,
-  );
+  return sortInTeachingOrder(lessons);
 }
 
 export function getLesson(id: string): Lesson | undefined {
