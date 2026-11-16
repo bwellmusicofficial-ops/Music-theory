@@ -76,7 +76,7 @@ export interface Glyph {
 export type Face =
   | { kind: 'text'; text: RichText }
   | { kind: 'glyph'; glyph: Glyph }
-  | { kind: 'passage'; passage: Passage };
+  | { kind: 'passage'; passage: Passage; hideClef?: boolean; hideTime?: boolean };
 
 /** A passage to be heard, not seen. */
 export interface Clip {
@@ -85,6 +85,10 @@ export interface Clip {
   bpm: number;
 }
 ```
+
+`hideClef` and `hideTime` (default false) on a passage face draw it without its
+clef or its time signature; notes stay where the clef would put them. A passage
+*exhibit* (`schema.ts`) takes the same two fields.
 
 Validation that applies wherever these appear:
 

@@ -2,7 +2,7 @@
 
 import { Stave } from '@/components/stave';
 import type { Passage, Terminology } from '@/engine/types';
-import type { StaveMark, StaveSize } from '@/components/stave';
+import type { StaveMark, StaveShow, StaveSize } from '@/components/stave';
 import { PlayButton } from './play-button';
 import { usePassagePlayback } from './use-passage-playback';
 
@@ -20,7 +20,18 @@ export interface PassageViewProps {
   marks?: Record<string, StaveMark>;
   /** A cursor driven by the parent; it wins over the play button's own cursor. */
   cursor?: { bar: number; event: number } | null;
+  /** Draw the stave without its clef. Notes stay where the clef would put them. Default false. */
+  hideClef?: boolean;
+  /** Draw without the time signature. Default false. */
+  hideTime?: boolean;
 }
+
+const SHOW_FURNITURE: Record<string, StaveShow | undefined> = {
+  'false:false': undefined,
+  'true:false': { clef: false },
+  'false:true': { timeSignature: false },
+  'true:true': { clef: false, timeSignature: false },
+};
 
 /** Default accessible name for a passage. */
 export function passageLabel(passage: Passage, terminology: Terminology = 'uk'): string {
@@ -40,12 +51,14 @@ export function PassageView({
   size,
   marks,
   cursor: cursorOverride,
+  hideClef = false,
+  hideTime = false,
 }: PassageViewProps) {
   const { playing, cursor, play, stop } = usePassagePlayback();
   const label = ariaLabel ?? passageLabel(passage, terminology);
   return (
     <div className="flex flex-col gap-3" data-passage-view>
-      <Stave mode="read" passage={passage} ariaLabel={label} terminology={terminology} cursor={cursorOverride !== undefined ? cursorOverride : cursor} size={size} marks={marks} />
+      <Stave mode="read" passage={passage} ariaLabel={label} terminology={terminology} cursor={cursorOverride !== undefined ? cursorOverride : cursor} size={size} marks={marks} show={SHOW_FURNITURE[`${hideClef}:${hideTime}`]} />
       {playable ? (
         <div>
           <PlayButton label="the music" playing={playing} onToggle={() => (playing ? stop() : void play(passage, bpm))} />

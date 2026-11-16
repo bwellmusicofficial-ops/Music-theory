@@ -18,6 +18,8 @@ runBattery({
     { name: 'fits, defaults', params: { ask: 'fits' } },
     { name: 'fits, two times', params: { ask: 'fits', times: [{ beats: 3, beatUnit: 4 }, { beats: 4, beatUnit: 4 }], values: [D('minim'), D('crotchet')] } },
     { name: 'fits, quavers', params: { ask: 'fits', values: [D('crotchet'), D('quaver')] } },
+    { name: 'fits, showing the bar', params: { ask: 'fits', showBar: true } },
+    { name: 'fits, showing the bar, quavers', params: { ask: 'fits', showBar: true, values: [D('crotchet'), D('quaver')] } },
     { name: 'meaning, defaults', params: { ask: 'meaning' } },
     { name: 'meaning, four options', params: { ask: 'meaning', options: 4 } },
   ],
@@ -86,6 +88,32 @@ describe('count-beats spec', () => {
     expect(calls[calls.length - 1]).toBe('shuffle');
     const payload = out.payload as { options: { face: { text: string } }[]; correct: string };
     expect(payload.options.map((o) => o.face.text)).toEqual(['3/4', '2/4', '4/4']);
+  });
+
+  it('fits with showBar: the same bar and options as without it, shown as a passage with the time signature hidden', () => {
+    const base = parse({ ask: 'fits', values: [D('minim'), D('crotchet')] });
+    const plain = countBeats.generate(base, recordingRng([1]).rng, 'uk');
+    const shown = countBeats.generate(parse({ ask: 'fits', values: [D('minim'), D('crotchet')], showBar: true }), recordingRng([1]).rng, 'uk');
+    const sp = shown.payload as { options: unknown; correct: string; exhibit: { kind: string; hideTime: boolean; passage: { time: { beats: number }; bars: { events: unknown[] }[] } } };
+    const pp = plain.payload as { options: unknown; correct: string; exhibit?: unknown };
+    expect(pp.exhibit).toBeUndefined();
+    expect(sp.options).toEqual(pp.options);
+    expect(sp.correct).toBe(pp.correct);
+    expect(sp.exhibit).toMatchObject({ kind: 'passage', hideTime: true });
+    expect(sp.exhibit.passage.bars).toHaveLength(1);
+    // The right option is the time signature the passage really has.
+    const right = (shown.payload as { options: { id: string; face: { text: string } }[] }).options.find((o) => o.id === sp.correct)!;
+    expect(right.face.text).toBe(`${sp.exhibit.passage.time.beats}/4`);
+    // The notes are not listed in words any more.
+    expect(shown.prompt).toBe('This [[bar|bar]] has no time signature. Which [[time-signature|time signature]] fits it?');
+    expect(plain.prompt).toContain('These notes fill one');
+  });
+
+  it('showBar defaults to false and changes nothing for the other asks', () => {
+    expect(parse({ ask: 'fits' }).showBar).toBe(false);
+    const a = countBeats.generate(parse({ ask: 'tie' }), recordingRng([0, 0]).rng, 'uk');
+    const b = countBeats.generate(parse({ ask: 'tie', showBar: true }), recordingRng([0, 0]).rng, 'uk');
+    expect(b).toEqual(a);
   });
 
   it('meaning: pick time, pick part, final shuffle', () => {

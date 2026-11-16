@@ -185,3 +185,63 @@ describe('renderers', () => {
     expect(screen.queryByRole('button')).toBeNull();
   });
 });
+
+describe('PassageView: hideClef and hideTime', () => {
+  const high = pitch.parsePitch('G5');
+  const low = pitch.parsePitch('C4');
+  const spread: Passage = {
+    clef: 'treble',
+    key: { tonic: { letter: 'C', accidental: 0 }, mode: 'major' },
+    time: { beats: 4, beatUnit: 4 },
+    bars: [
+      {
+        events: [
+          { kind: 'note', pitches: [high], duration: { value: 'minim', dots: 0 } },
+          { kind: 'note', pitches: [low], duration: { value: 'minim', dots: 0 } },
+        ],
+      },
+    ],
+  };
+  const headYs = (c: HTMLElement) => Array.from(c.querySelectorAll('.vf-notehead text')).map((e) => e.getAttribute('y'));
+
+  it('draws the clef and time signature by default', async () => {
+    const { container } = render(<PassageView passage={spread} />);
+    await drawn(container);
+    expect(container.querySelectorAll('.vf-clef')).toHaveLength(1);
+    expect(container.querySelectorAll('.vf-timesignature')).toHaveLength(1);
+  });
+
+  it('hides the clef and keeps every note exactly where a treble clef puts it', async () => {
+    const shown = render(<PassageView passage={spread} />);
+    await drawn(shown.container);
+    const before = headYs(shown.container);
+    cleanup();
+    const { container } = render(<PassageView passage={spread} hideClef />);
+    await drawn(container);
+    expect(container.querySelectorAll('.vf-clef')).toHaveLength(0);
+    expect(container.querySelectorAll('.vf-timesignature')).toHaveLength(1);
+    expect(headYs(container)).toEqual(before);
+    expect(before[0]).not.toEqual(before[1]);
+  });
+
+  it('hides the time signature on its own, and both together', async () => {
+    const a = render(<PassageView passage={spread} hideTime />);
+    await drawn(a.container);
+    expect(a.container.querySelectorAll('.vf-clef')).toHaveLength(1);
+    expect(a.container.querySelectorAll('.vf-timesignature')).toHaveLength(0);
+    cleanup();
+    const b = render(<PassageView passage={spread} hideClef hideTime />);
+    await drawn(b.container);
+    expect(b.container.querySelectorAll('.vf-clef, .vf-timesignature')).toHaveLength(0);
+  });
+
+  it('passes the flags through a passage face and the exhibit renderer', async () => {
+    const face = render(<FaceView face={{ kind: 'passage', passage: spread, hideClef: true, hideTime: true }} />);
+    await drawn(face.container);
+    expect(face.container.querySelectorAll('.vf-clef, .vf-timesignature')).toHaveLength(0);
+    cleanup();
+    const ex = render(<>{passageExhibitRenderer({ passage: spread, ariaLabel: 'x', hideClef: true })}</>);
+    await drawn(ex.container);
+    expect(ex.container.querySelectorAll('.vf-clef')).toHaveLength(0);
+  });
+});

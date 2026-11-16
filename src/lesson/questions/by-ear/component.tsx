@@ -13,7 +13,7 @@ import type { ByEarAnswer, ByEarPayload } from './types';
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
 const CLIP_LABELS = ['A', 'B', 'C'] as const;
 
-type NotationRenderer = (passage: Passage) => ReactNode;
+type NotationRenderer = (passage: Passage, display?: { hideClef?: boolean; hideTime?: boolean }) => ReactNode;
 let notationRenderer: NotationRenderer | null = null;
 
 /**

@@ -93,6 +93,21 @@ With `instrument: 'rhythm-pad'`, give an `exhibit` of kind `passage` with a
 `keyboard`, give a `keyboard` exhibit that sets the range and any highlighted
 keys.
 
+**Hiding things before they are taught.** Four optional switches keep the
+screen to what the learner has met. All default to showing everything, so a
+lesson that does not set them is unchanged.
+
+| Where | Option | Effect |
+| --- | --- | --- |
+| Explore step, `rhythm-pad` | `showNotation: false` | The passage still sets the rhythm and tempo, but no stave is drawn. A row of pulse dots (one per tap to make) lights up as the learner taps. Do not mention "notes" or "marks" in the text; say "dots". |
+| Explore step (`keyboard`) or a `keyboard` exhibit | `showLabels: false` | No letter names on the white keys. On the explore step it overrides the exhibit. For lessons before the letters are taught. |
+| `passage` exhibit, or a `passage` face in an option or card | `hideClef: true` | The stave is drawn without its clef. Notes stay where a treble clef puts them, so "higher on the stave is higher in sound" can be shown before clefs are taught. |
+| `passage` exhibit or face | `hideTime: true` | No time signature, for "which time signature fits this bar?". |
+
+Question payloads have matching switches: `showLabels` and `nameNotes` on
+`play-keyboard` (see docs/question-payloads.md), and `showBar` and `nameNotes` on
+the `count-beats` and `keyboard-find` generators (docs/generators-grade-1.md).
+
 ### 2.3 Name
 
 **Purpose:** now give the idea its name, show how it is written, and say in

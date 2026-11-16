@@ -144,5 +144,12 @@ export const glyphSchema: z.ZodType<Glyph> = z.strictObject({
 export const faceSchema: z.ZodType<Face> = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('text'), text: richTextSchema }),
   z.strictObject({ kind: z.literal('glyph'), glyph: glyphSchema }),
-  z.strictObject({ kind: z.literal('passage'), passage: passageSchema }),
+  z.strictObject({
+    kind: z.literal('passage'),
+    passage: passageSchema,
+    /** Draw the stave without its clef. Default false. */
+    hideClef: z.boolean().optional(),
+    /** Draw the bars without the time signature. Default false. */
+    hideTime: z.boolean().optional(),
+  }),
 ]);

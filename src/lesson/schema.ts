@@ -77,13 +77,23 @@ export type RichText = z.infer<typeof richTextSchema>;
  * /public/audio for the few cases a synthesised passage will not do.
  */
 export const exhibitSchema = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('passage'), passage: z.unknown(), tempo: z.number().optional() }),
+  z.object({
+    kind: z.literal('passage'),
+    passage: z.unknown(),
+    tempo: z.number().optional(),
+    /** true: draw the stave without its clef (notes stay where a treble clef would put them). Default false. */
+    hideClef: z.boolean().optional(),
+    /** true: draw the bars without the time signature. Default false. */
+    hideTime: z.boolean().optional(),
+  }),
   z.object({
     kind: z.literal('keyboard'),
     /** Pitches to highlight, ASCII form ("C4"). */
     highlight: z.array(z.string()).default([]),
     low: z.string().default('C3'),
     high: z.string().default('C5'),
+    /** Letter names on the keys. Default true. */
+    showLabels: z.boolean().optional(),
   }),
   z.object({ kind: z.literal('audioClip'), src: z.string(), caption: z.string() }),
 ]);
@@ -145,6 +155,14 @@ export const exploreStepSchema = z.object({
    */
   instrument: z.enum(['keyboard', 'stave', 'rhythm-pad']),
   exhibit: exhibitSchema.optional(),
+  /**
+   * 'rhythm-pad' only. false: the passage still supplies the rhythm and tempo,
+   * but the stave is not drawn; a row of pulse dots (one per onset) lights up as
+   * the learner taps. For lessons before notation is taught. Default true.
+   */
+  showNotation: z.boolean().optional(),
+  /** 'keyboard' only: letter names on the keys. Overrides the keyboard exhibit's `showLabels`. Default true. */
+  showLabels: z.boolean().optional(),
   /** What the learner must do to continue, in words; the player shows it as a goal. */
   goal: richTextSchema,
 });

@@ -115,7 +115,15 @@ function PassageExhibit({ exhibit, renderers, label, onInteract, marks, cursor }
     <div className="flex flex-col gap-3" data-exhibit="passage">
       {passage ? (
         renderers?.passage ? (
-          renderers.passage({ passage, tempo: exhibit.tempo, ariaLabel, marks, cursor })
+          renderers.passage({
+            passage,
+            tempo: exhibit.tempo,
+            ariaLabel,
+            marks,
+            cursor,
+            hideClef: exhibit.hideClef,
+            hideTime: exhibit.hideTime,
+          })
         ) : (
           <div
             role="img"
@@ -196,7 +204,7 @@ export function ExhibitView(props: ExhibitViewProps) {
           <Keyboard
             low={range.low}
             high={range.high}
-            showLabels
+            showLabels={exhibit.showLabels ?? true}
             highlight={highlight}
             sound={sound}
             onNote={() => onInteract?.()}

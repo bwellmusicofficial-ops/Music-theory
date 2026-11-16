@@ -28,8 +28,9 @@
       }
     },
     "explore": {
-      "text": "A click will tick away. Tap the pad once on every click, and try to land right on it. The marks on the screen light up as you tap. Keep going until the last click.",
+      "text": "A click will tick away. Tap the pad once on every click, and try to land right on it. The dots on the screen light up as you tap. Keep going until the last click.",
       "instrument": "rhythm-pad",
+      "showNotation": false,
       "exhibit": {
         "kind": "passage",
         "tempo": 80,
