@@ -1,11 +1,6 @@
 /** Small formatting helpers for the mock test screens. */
 
-/** "rhythm.note-values.dotted" -> "Rhythm: note values: dotted". */
-export function skillLabel(skill: string): string {
-  const words = skill.split('.').map((part) => part.replace(/-/g, ' '));
-  const text = words.join(': ');
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
+export { skillLabel } from '@/lesson/skills';
 
 /** 0.6667 -> "67%". */
 export function percent(fraction: number): string {
