@@ -1,0 +1,368 @@
+/* Term Blitz. Colours come from tokens only; --strand-terms is the game's accent. Same arcade look as Note Rush. */
+
+.tb-root {
+  --tb-accent: var(--strand-terms);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text);
+  background:
+    radial-gradient(120% 80% at 85% -10%, color-mix(in srgb, var(--tb-accent) 22%, transparent), transparent 60%),
+    radial-gradient(90% 70% at 0% 110%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
+    var(--bg-raised);
+  box-shadow: var(--elev-lg);
+}
+
+.tb-title {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(2.75rem, 11vw, 5rem);
+  text-transform: uppercase;
+  font-style: italic;
+  background: linear-gradient(100deg, var(--text) 10%, var(--tb-accent) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tb-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.25rem, 9vw, 3.5rem);
+  text-shadow: 0 0 28px color-mix(in srgb, var(--tb-accent) 55%, transparent);
+}
+
+.tb-stat {
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  padding: 0.25rem 0.75rem;
+}
+
+/* --- start screen: deck choices -------------------------------------------------------- */
+.tb-deck {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--r-md);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+}
+input:checked + .tb-deck {
+  border-color: var(--tb-accent);
+  background: color-mix(in srgb, var(--tb-accent) 22%, var(--surface));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--tb-accent) 40%, transparent);
+}
+input:focus-visible + .tb-deck {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* --- time bar --------------------------------------------------------------------------- */
+.tb-bar {
+  position: relative;
+  flex: 1;
+  height: 0.875rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.tb-bar-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: var(--tb-accent);
+}
+.tb-bar[data-urgency='mid'] .tb-bar-fill {
+  background: var(--warning);
+}
+.tb-bar[data-urgency='low'] .tb-bar-fill {
+  background: var(--danger);
+}
+/* Quarter marks, so the bar does not rely on colour alone (the seconds are also written beside it). */
+.tb-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 2px), var(--bg) calc(25% - 2px) 25%);
+  pointer-events: none;
+}
+
+/* --- the card ------------------------------------------------------------------------------ */
+.tb-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tb-prompt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+  min-height: 9.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-md);
+  border: 2px solid color-mix(in srgb, var(--tb-accent) 60%, var(--border-subtle));
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--tb-accent) 14%, transparent), transparent 60%),
+    var(--bg);
+  text-align: center;
+}
+.tb-prompt[data-state='wrong'],
+.tb-prompt[data-state='timeout'] {
+  border-style: dashed;
+  border-color: var(--danger);
+}
+.tb-kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.tb-prompt-term {
+  margin: 0;
+  font-size: clamp(2rem, 9.5vw, 2.75rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.tb-prompt-meaning {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.tb-prompt-abbr {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 12vw, 3.5rem);
+  line-height: 1.05;
+}
+.tb-tag {
+  display: inline-block;
+  align-self: center;
+  border-radius: 9999px;
+  border: 1px solid var(--tb-accent);
+  padding: 0 0.625rem;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tb-accent);
+}
+.tb-reveal-meaning {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.tb-reveal-abbr {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.tb-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tb-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.375rem 0.75rem 0.375rem 0.5rem;
+  border-radius: var(--r-md);
+  border: 2px solid color-mix(in srgb, var(--tb-accent) 60%, var(--border-subtle));
+  background: linear-gradient(180deg, var(--surface-raised), var(--surface));
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--motion-duration-fast) var(--motion-ease-standard),
+    background-color var(--motion-duration-fast) var(--motion-ease-standard),
+    box-shadow var(--motion-duration-fast) var(--motion-ease-standard);
+}
+.tb-opt:hover:not(:disabled) {
+  background: var(--surface-raised);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--tb-accent) 45%, transparent);
+}
+.tb-opt:active:not(:disabled) {
+  transform: translateY(2px) scale(0.985);
+  background: color-mix(in srgb, var(--tb-accent) 30%, var(--surface));
+}
+.tb-opt:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.tb-opt:disabled:not([data-mark]) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.tb-opt:disabled {
+  cursor: default;
+}
+.tb-opt-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* The key chip shows 1 to 4, and becomes a tick or a cross in the reveal: never colour alone. */
+.tb-chip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 0.875rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+.tb-opt[data-mark='correct'] {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 22%, var(--surface));
+  box-shadow: 0 0 0 2px var(--success);
+}
+.tb-opt[data-mark='correct'] .tb-chip {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--on-success);
+  font-size: 1.125rem;
+}
+.tb-opt[data-mark='wrong'] {
+  border-style: dashed;
+  border-color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 16%, var(--surface));
+}
+.tb-opt[data-mark='wrong'] .tb-opt-text {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+.tb-opt[data-mark='wrong'] .tb-chip {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--on-danger);
+  font-size: 1.125rem;
+}
+
+.tb-pip {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: var(--border-subtle);
+}
+.tb-pip--on {
+  background: var(--tb-accent);
+  box-shadow: 0 0 8px var(--tb-accent);
+}
+
+.tb-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+  text-align: center;
+}
+.tb-count {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--tb-accent);
+  text-shadow: 0 0 30px var(--tb-accent);
+}
+
+.tb-feedback {
+  min-height: 1.5rem;
+  font-weight: 900;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  text-align: center;
+}
+.tb-feedback[data-kind='correct'] {
+  color: var(--success);
+}
+.tb-feedback[data-kind='wrong'],
+.tb-feedback[data-kind='timeout'] {
+  color: var(--danger);
+}
+
+/* Decorative motion: all of it switches off with reduced motion. */
+.tb-root:not([data-reduced='true']) .tb-feedback > span {
+  display: inline-block;
+  animation: tb-pop var(--motion-duration-slow) var(--motion-ease-spring);
+}
+.tb-root:not([data-reduced='true']) .tb-prompt[data-state='wrong'],
+.tb-root:not([data-reduced='true']) .tb-prompt[data-state='timeout'] {
+  animation: tb-shake 0.35s linear;
+}
+.tb-root:not([data-reduced='true']) .tb-count {
+  animation: tb-pop 0.6s var(--motion-ease-spring);
+}
+.tb-root:not([data-reduced='true']) .tb-bar-fill {
+  transition: background-color var(--motion-duration-fast) linear;
+}
+
+@keyframes tb-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes tb-shake {
+  20% {
+    translate: -5px 0;
+  }
+  40% {
+    translate: 5px 0;
+  }
+  60% {
+    translate: -3px 0;
+  }
+  80% {
+    translate: 3px 0;
+  }
+}
