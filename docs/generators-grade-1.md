@@ -196,6 +196,7 @@ Authoring-guide skill ids, and what serves each. "Existing" means
 | --- | --- |
 | `rhythm.time.add-bar-lines` | No question type lets the learner place bar lines. |
 | `rhythm.grouping.beams` | The stave beams automatically (`rhythm.beamGroups`); a payload cannot show a badly beamed bar for the learner to correct. |
+| `rhythm.grouping.bar-conventions` | Which notes, rests and ties to write so the beats and the middle of the bar can be seen is a judgement about a particular bar; author these (`multiple-choice`, `spot-mistake`, `complete-bar`). |
 | `scales-keys.signature.write` | A key signature is derived from `Passage.key`; no type lets the learner write one. |
 | `terms.dynamics.signs`, `terms.tempo.italian`, `terms.expression.italian`, `terms.articulation.signs`, `terms.signs.repeats-and-pauses` | Vocabulary, not generated facts; author `match-up` and `multiple-choice` by hand. |
 | `score-reading.passage.find-features` | `spot-mistake` reasons say "that note is fine", which is wrong for "find the minim"; author these. |

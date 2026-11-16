@@ -136,4 +136,7 @@ export const START_HERE_SKILLS: readonly string[] = [
   'pitch.direction.hear',
   'rhythm.long-short.hear',
   'pitch.keyboard.layout',
+  // Authored only: no generator yet.
+  'rhythm.perform.patterns',
+  'pitch.keyboard.note-names',
 ];
