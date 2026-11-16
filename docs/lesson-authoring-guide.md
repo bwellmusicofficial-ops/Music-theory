@@ -515,6 +515,8 @@ where a lesson reaches them.
 | `pitch.direction.hear` | hear whether a tune goes up, goes down or stays the same |
 | `pitch.keyboard.layout` | find their way around the keyboard by the pattern of black keys |
 | `rhythm.long-short.hear` | hear which of two sounds is longer |
+| `rhythm.perform.patterns` | copy a short pattern of long and short sounds by tapping |
+| `pitch.keyboard.note-names` | name the white keys A to G |
 
 ### Grade 1 skill ids
 
@@ -537,6 +539,7 @@ where a lesson reaches them.
 | `rhythm.time.add-bar-lines` | find where the bar lines go |
 | `rhythm.time.identify` | work out the time signature of a passage |
 | `rhythm.grouping.beams` | beam quavers and semiquavers in beats |
+| `rhythm.grouping.bar-conventions` | write notes, rests and ties so the beats and the middle of the bar can be seen |
 | `rhythm.perform.crotchet-minim` | tap rhythms of crotchets and minims |
 | `rhythm.perform.semibreve` | tap rhythms that include semibreves |
 | `rhythm.perform.quaver` | tap rhythms that include quavers |
