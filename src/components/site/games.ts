@@ -33,10 +33,28 @@ export const GAMES: readonly GameInfo[] = [
   {
     id: 'term-blitz',
     name: 'Term Blitz',
-    description: 'Rapid-fire musical terms and signs',
+    description: 'Rapid-fire musical terms and signs. How many can you get in a minute?',
     strand: 'terms',
     href: '/games/term-blitz',
     // Same key as BEST_SCORES_KEY in src/games/term-blitz/best-scores.ts.
     best: { key: 'mtn:v1:term-blitz-best', shape: 'by-deck' },
+  },
+  {
+    id: 'tap-it',
+    name: 'Tap It',
+    description: 'Read the rhythm and tap it in time. Notes light up as you hit them.',
+    strand: 'rhythm',
+    href: '/games/tap-it',
+    // Same key as BEST_SCORE_KEY in src/app/(site)/games/tap-it/runner.tsx (a JSON map of mode to score).
+    best: { key: 'mtn:v1:tap-it-best', shape: 'by-deck' },
+  },
+  {
+    id: 'key-hunt',
+    name: 'Key Hunt',
+    description: 'Spot the key from its key signature before the timer runs out.',
+    strand: 'scales-keys',
+    href: '/games/key-hunt',
+    // Same key as BEST_SCORE_KEY in src/app/(site)/games/key-hunt/runner.tsx (a JSON map of mode to score).
+    best: { key: 'mtn:v1:key-hunt-best', shape: 'by-deck' },
   },
 ];
