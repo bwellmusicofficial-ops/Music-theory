@@ -1,0 +1,789 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-intervals-01-intervals-by-number",
+  "title": "Intervals by number",
+  "summary": "Measure the distance between two notes by counting letter names, from a 2nd to an octave.",
+  "grade": "1",
+  "unit": "harmony-1",
+  "order": 1,
+  "strand": "intervals",
+  "skills": [
+    "intervals.number.read",
+    "intervals.number.write",
+    "intervals.number.hear"
+  ],
+  "prerequisites": [
+    "g1-scales-keys-04-degrees-of-the-scale"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "interval",
+    "2nd",
+    "3rd",
+    "4th",
+    "5th",
+    "6th",
+    "7th"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "The first leap in *Somewhere Over the Rainbow* is enormous, and musicians put a number on every leap. Press play: three leaps up from the same low C, each wider than the last. How would you measure them?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 66,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Put a finger on C and call it 1. Say the letters up from it, one for each white key: C is 1, D is 2, E is 3. Play the note at 3. Then count on and play the note at 5.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play the note at 3, then the note at 5, counting C as 1."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "The distance between two notes, found by counting letter names from the lower one to the higher one, including both, is an [[interval|interval]]. C up to E is C, D, E: three letters, so it is a [[3rd|3rd]]. C up to G is a [[5th|5th]].",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 66,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "At Grade 1 you measure up from the key note, the [[tonic|tonic]]. The notes of the scale give every interval: a [[2nd|2nd]], [[3rd|3rd]], [[4th|4th]], [[5th|5th]], [[6th|6th]] and [[7th|7th]]. The 8th is the [[octave|octave]]. A 2nd is a step. Bigger intervals are jumps.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "Count letters, whatever the key. D up to F♯ is D, E, F: a [[3rd|3rd]]. You never count black keys. The [[key-signature|key signature]] looks after the sharps and flats, so all you do is count.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 66,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "D",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 1,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "You can also read an interval straight off the [[stave|stave]]. A 3rd, 5th or 7th goes from line to line, or from space to space. A 2nd, 4th, 6th or 8th goes from a line to a space. The two notes below are both on lines, so they make a [[3rd|3rd]].",
+        "exhibit": {
+          "kind": "passage",
+          "tempo": 66,
+          "passage": {
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  },
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "minim",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-bigger-jump",
+          "type": "by-ear",
+          "skill": "intervals.number.hear",
+          "prompt": "Which clip has the bigger jump?",
+          "hint": "Listen to how far apart the two notes in each clip sit. The bigger jump has more room between them.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "bigger-jump"
+            }
+          }
+        },
+        {
+          "id": "p2-name-the-interval",
+          "type": "multiple-choice",
+          "skill": "intervals.number.read",
+          "prompt": "What is the interval from the first note up to the second?",
+          "hint": "Count letter names from the first note, calling it 1, until you reach the second note.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-by-number",
+            "params": {
+              "keys": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p3-put-the-note",
+          "type": "note-on-stave",
+          "skill": "intervals.number.write",
+          "prompt": "Put the note above the key note on the [[stave|stave]].",
+          "hint": "Call the key note 1 and count up through the lines and spaces.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-place",
+            "params": {
+              "keys": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p4-name-it-in-g-or-d",
+          "type": "multiple-choice",
+          "skill": "intervals.number.read",
+          "prompt": "What is the interval from the first note up to the second?",
+          "hint": "Count letters, not black keys. The [[key-signature|key signature]] looks after any sharps.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-by-number",
+            "params": {
+              "keys": [
+                "G",
+                "D"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p5-put-the-note-in-a-key",
+          "type": "note-on-stave",
+          "skill": "intervals.number.write",
+          "prompt": "Put the note above the key note on the [[stave|stave]].",
+          "hint": "Count letters up from the key note. The [[key-signature|key signature]] adds any sharp or flat for you.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-place",
+            "params": {
+              "keys": [
+                "G",
+                "D",
+                "F"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-step-or-jump",
+          "type": "by-ear",
+          "skill": "intervals.number.hear",
+          "prompt": "Is this a step or a jump?",
+          "hint": "A step moves to the very next note along. A jump skips over notes.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "step-or-jump"
+            }
+          }
+        },
+        {
+          "id": "c2-name-the-interval",
+          "type": "multiple-choice",
+          "skill": "intervals.number.read",
+          "prompt": "What is the interval from the first note up to the second?",
+          "hint": "Count letter names from the first note, calling it 1.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-by-number",
+            "params": {}
+          }
+        },
+        {
+          "id": "c3-put-the-note",
+          "type": "note-on-stave",
+          "skill": "intervals.number.write",
+          "prompt": "Put the note above the key note on the [[stave|stave]].",
+          "hint": "Call the key note 1 and count up.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-place",
+            "params": {}
+          }
+        },
+        {
+          "id": "c4-bigger-jump",
+          "type": "by-ear",
+          "skill": "intervals.number.hear",
+          "prompt": "Which clip has the bigger jump?",
+          "hint": "The bigger jump has more room between its two notes.",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "bigger-jump"
+            }
+          }
+        },
+        {
+          "id": "c5-name-it-in-bass",
+          "type": "multiple-choice",
+          "skill": "intervals.number.read",
+          "prompt": "What is the interval from the first note up to the second?",
+          "hint": "Check the clef, then count letter names from the first note.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-by-number",
+            "params": {
+              "clef": "bass"
+            }
+          }
+        },
+        {
+          "id": "c6-put-the-note-in-bass",
+          "type": "note-on-stave",
+          "skill": "intervals.number.write",
+          "prompt": "Put the note above the key note on the [[stave|stave]].",
+          "hint": "Check the clef, then count up from the key note.",
+          "source": "generated",
+          "generator": {
+            "id": "interval-place",
+            "params": {
+              "clef": "bass"
+            }
+          }
+        },
+        {
+          "id": "c7-g-up-to-d",
+          "type": "multiple-choice",
+          "skill": "intervals.number.read",
+          "prompt": "In G major, what is the interval from G up to D?",
+          "hint": "Count G as 1 and say the letters: G, A, B, and on until D.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "4th"
+                },
+                "reason": "G, A, B, C is a [[4th|4th]], and it stops at C. D is one letter further, so G up to D is a [[5th|5th]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "6th"
+                },
+                "reason": "G, A, B, C, D, E is a [[6th|6th]], and it goes one letter past D. G up to D is a [[5th|5th]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "5th"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c8-step-or-jump-again",
+          "type": "by-ear",
+          "skill": "intervals.number.hear",
+          "prompt": "Is this a step or a jump?",
+          "hint": "Does the second note sit right next door to the first, or well away from it?",
+          "source": "generated",
+          "generator": {
+            "id": "contrast-by-ear",
+            "params": {
+              "ask": "step-or-jump"
+            }
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "An [[interval|interval]] is the distance between two notes, found by counting letter names from the lower note to the higher one, including both.",
+        "At Grade 1 you measure up from the key note: a [[2nd|2nd]], [[3rd|3rd]], [[4th|4th]], [[5th|5th]], [[6th|6th]], [[7th|7th]] and the 8th, or [[octave|octave]].",
+        "Count letters, not black keys. The [[key-signature|key signature]] looks after the sharps and flats: D up to F♯ is a [[3rd|3rd]].",
+        "A 2nd is a step. Every bigger interval is a jump."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 66,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "D",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 1,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1473 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-harmony-01-tonic-triads",
+  "title": "Tonic triads",
+  "summary": "Stack the 1st, 3rd and 5th notes of a scale to build the chord a key calls home.",
+  "grade": "1",
+  "unit": "harmony-1",
+  "order": 2,
+  "strand": "harmony",
+  "skills": [
+    "harmony.tonic-triad.build",
+    "harmony.tonic-triad.identify"
+  ],
+  "prerequisites": [
+    "g1-intervals-01-intervals-by-number"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "chord",
+    "triad",
+    "tonic-triad"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Press play. Three notes come one at a time, then the same three sound all at once. That last sound is the sound of home: countless songs finish on it. Which three notes make it?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 72,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    },
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    },
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Play C. Skip one white key and play the next. Skip one more and play the next. Then try pressing all three keys together.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play C and the next two keys that skip a white key each time, then all three together."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "Notes played together make a [[chord|chord]]. A chord of three notes stacked in 3rds is a [[triad|triad]]: a note, the note a [[3rd|3rd]] above it, and the note a [[5th|5th]] above it. In a scale they are notes 1, 3 and 5.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 60,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        },
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        },
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "The triad built on the [[tonic|tonic]] is the [[tonic-triad|tonic triad]]. It is the chord that sounds like home. In C major it is C, E and G, with the tonic at the bottom.",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C4",
+              "E4",
+              "G4"
+            ],
+            "low": "C4",
+            "high": "C5"
+          }
+        },
+        {
+          "text": "Every key has one. G major: G, B, D. D major: D, F♯, A. F major: F, A, C. In D major the F♯ comes from the [[key-signature|key signature]], so no sharp is written beside it.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 60,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "D",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        },
+                        {
+                          "letter": "F",
+                          "accidental": 1,
+                          "octave": 4
+                        },
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "You can spot a triad on the [[stave|stave]]. Its three notes sit on top of each other with no gaps: all three on lines, or all three in spaces. Below are the tonic triads of C, G, D and F major. Count the lines and spaces yourself.",
+        "exhibit": {
+          "kind": "passage",
+          "tempo": 56,
+          "passage": {
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "time": {
+              "beats": 4,
+              "beatUnit": 4
+            },
+            "bars": [
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "C",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "E",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "semibreve",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "G",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "B",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "D",
+                        "accidental": 0,
+                        "octave": 5
+                      }
+                    ],
+                    "duration": {
+                      "value": "semibreve",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "D",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "F",
+                        "accidental": 1,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "A",
+                        "accidental": 0,
+                        "octave": 4
+                      }
+                    ],
+                    "duration": {
+                      "value": "semibreve",
+                      "dots": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "events": [
+                  {
+                    "kind": "note",
+                    "pitches": [
+                      {
+                        "letter": "F",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "A",
+                        "accidental": 0,
+                        "octave": 4
+                      },
+                      {
+                        "letter": "C",
+                        "accidental": 0,
+                        "octave": 5
+                      }
+                    ],
+                    "duration": {
+                      "value": "semibreve",
+                      "dots": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-play-the-triad",
+          "type": "play-keyboard",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Play the tonic [[triad|triad]] of the key.",
+          "hint": "Start on the [[tonic|tonic]], skip a note, play the next, skip another, play the next. Press all three together.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "triad",
+              "keys": [
+                "C",
+                "G"
+              ],
+              "showLabels": true
+            }
+          }
+        },
+        {
+          "id": "p2-which-sounds-like-home",
+          "type": "by-ear",
+          "skill": "harmony.tonic-triad.identify",
+          "prompt": "Both clips end on a chord. Which one ends on the tonic [[triad|triad]] and sounds like home?",
+          "hint": "Listen to the very last sound. Does it feel settled, or does it feel as if it is waiting for something?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A ends on G, B and D, which sounds unfinished, as if it is waiting for something. The tonic [[triad|triad]], C, E and G, is the settled sound in clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p3-name-the-key",
+          "type": "multiple-choice",
+          "skill": "harmony.tonic-triad.identify",
+          "prompt": "This is the tonic [[triad|triad]] of a key. Which key?",
+          "hint": "The bottom note of a tonic [[triad|triad]] is the [[tonic|tonic]], the note the key is named after.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "from-triad",
+              "keys": [
+                "C",
+                "G"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p4-match-the-triads",
+          "type": "match-up",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Match each key to its tonic [[triad|triad]].",
+          "hint": "Each triad starts on the key note. Then take the 3rd and 5th notes of the scale.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "C major"
+                },
+                "match": "ceg",
+                "reason": "C major starts on C, and its 3rd and 5th notes are E and G. The tonic [[triad|triad]] is C, E, G."
+              },
+              {
+                "id": "g",
+                "face": {
+                  "kind": "text",
+                  "text": "G major"
+                },
+                "match": "gbd",
+                "reason": "G major starts on G, and its 3rd and 5th notes are B and D. The tonic [[triad|triad]] is G, B, D."
+              },
+              {
+                "id": "d",
+                "face": {
+                  "kind": "text",
+                  "text": "D major"
+                },
+                "match": "dfa",
+                "reason": "D major starts on D, and its 3rd and 5th notes are F♯ and A. The tonic [[triad|triad]] is D, F♯, A."
+              },
+              {
+                "id": "f",
+                "face": {
+                  "kind": "text",
+                  "text": "F major"
+                },
+                "match": "fac",
+                "reason": "F major starts on F, and its 3rd and 5th notes are A and C. The tonic [[triad|triad]] is F, A, C."
+              }
+            ],
+            "right": [
+              {
+                "id": "dfa",
+                "face": {
+                  "kind": "text",
+                  "text": "D, F♯, A"
+                }
+              },
+              {
+                "id": "ceg",
+                "face": {
+                  "kind": "text",
+                  "text": "C, E, G"
+                }
+              },
+              {
+                "id": "fac",
+                "face": {
+                  "kind": "text",
+                  "text": "F, A, C"
+                }
+              },
+              {
+                "id": "gbd",
+                "face": {
+                  "kind": "text",
+                  "text": "G, B, D"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p5-play-the-triad-in-d-or-f",
+          "type": "play-keyboard",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Play the tonic [[triad|triad]] of the key.",
+          "hint": "Notes 1, 3 and 5 of the scale. Check the [[key-signature|key signature]] for any black keys.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "triad",
+              "keys": [
+                "D",
+                "F"
+              ],
+              "showLabels": true
+            }
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-play-the-triad",
+          "type": "play-keyboard",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Play the tonic [[triad|triad]] of the key.",
+          "hint": "Notes 1, 3 and 5 of the scale, pressed together.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "triad"
+            }
+          }
+        },
+        {
+          "id": "c2-name-the-key",
+          "type": "multiple-choice",
+          "skill": "harmony.tonic-triad.identify",
+          "prompt": "This is the tonic [[triad|triad]] of a key. Which key?",
+          "hint": "The bottom note is the [[tonic|tonic]]. Check whether the others fit that key.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "from-triad",
+              "options": 3
+            }
+          }
+        },
+        {
+          "id": "c3-which-sounds-finished",
+          "type": "by-ear",
+          "skill": "harmony.tonic-triad.identify",
+          "prompt": "Which clip ends on the tonic [[triad|triad]] and sounds finished?",
+          "hint": "Listen to the very last sound. The tonic [[triad|triad]] is the settled one.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B ends on G, B and D, which sounds as if it is leaning forward, waiting for more. The settled sound is the tonic [[triad|triad]] in clip A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c4-triad-of-f",
+          "type": "multiple-choice",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Which notes make the tonic [[triad|triad]] of F major?",
+          "hint": "Say the scale of F major in order, then take notes 1, 3 and 5.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "F, G, A"
+                },
+                "reason": "F, G, A are notes 1, 2 and 3: three neighbours, not stacked in 3rds. The tonic [[triad|triad]] skips a note each time: F, A, C."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "F, B♭, D"
+                },
+                "reason": "F, B♭, D are notes 1, 4 and 6. The tonic [[triad|triad]] uses notes 1, 3 and 5: F, A, C."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "F, A, C"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c5-play-the-triad-again",
+          "type": "play-keyboard",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Play the tonic [[triad|triad]] of the key.",
+          "hint": "Start on the [[tonic|tonic]], then take every other note of the scale.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "triad",
+              "keys": [
+                "D",
+                "F"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c6-play-a-third-triad",
+          "type": "play-keyboard",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Play the tonic [[triad|triad]] of the key.",
+          "hint": "Notes 1, 3 and 5 of the scale, together.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "triad",
+              "keys": [
+                "C",
+                "G"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c7-which-degrees",
+          "type": "multiple-choice",
+          "skill": "harmony.tonic-triad.build",
+          "prompt": "Which notes of the scale make a tonic [[triad|triad]]?",
+          "hint": "Stack notes in 3rds: skip a note, take the next, skip a note, take the next.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Notes 1, 2 and 3"
+                },
+                "reason": "Notes 1, 2 and 3 sit side by side. A [[triad|triad]] is stacked in 3rds, so it skips a note each time: 1, 3 and 5."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Notes 1, 4 and 5"
+                },
+                "reason": "Notes 1, 4 and 5 leave a gap of a [[4th|4th]] at the start. The tonic [[triad|triad]] is stacked in 3rds: 1, 3 and 5."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Notes 1, 3 and 5"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c8-which-ends-at-home",
+          "type": "by-ear",
+          "skill": "harmony.tonic-triad.identify",
+          "prompt": "This tune is in G major. Which clip ends on the tonic [[triad|triad]]?",
+          "hint": "Listen to the last sound. Which clip feels settled, like arriving home?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "G",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "F",
+                              "accidental": 1,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 72,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "G",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            },
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "semibreve",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A ends on D, F♯ and A, which sounds unfinished, as if more is coming. The tonic [[triad|triad]] of G major, G, B and D, is the settled sound in clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "Notes played together make a [[chord|chord]]. A [[triad|triad]] is a chord of three notes stacked in 3rds.",
+        "The tonic [[triad|triad]] is built on the [[tonic|tonic]] of a key, from notes 1, 3 and 5 of the scale. It is the chord that sounds like home.",
+        "The tonic triads are C, E, G in C major; G, B, D in G major; D, F♯, A in D major; and F, A, C in F major."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 60,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    },
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    },
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "semibreve",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

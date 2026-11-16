@@ -1,0 +1,1390 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-scales-keys-01-the-major-scale",
+  "title": "The major scale",
+  "summary": "Build C major from tones and semitones and find the pattern behind every major scale.",
+  "usSummary": "Build C major from whole steps and half steps and find the pattern behind every major scale.",
+  "grade": "1",
+  "unit": "scales-1",
+  "order": 1,
+  "strand": "scales-keys",
+  "skills": [
+    "scales-keys.major.pattern",
+    "scales-keys.major.c"
+  ],
+  "prerequisites": [
+    "g1-pitch-05-tones-and-semitones"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "scale",
+    "major-scale"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "The song *Do-Re-Mi*, from *The Sound of Music*, climbs a ladder of notes one rung at a time. Press play for a ladder like it: eight notes from C up to the next C. Why does the top note sound like an arrival?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 84,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Play every white key from C up to the next C, one after another. Listen as you climb: the steps are not all the same size. Two of them are tiny. Can you find them?",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4",
+          "C5"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play all 8 white keys from C to C and find the two smallest steps."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "A row of notes in order, from one note up to the same note again an [[octave|octave]] higher, is a [[scale|scale]]. This one starts on C and has a bright, happy sound. That makes it a [[major-scale|major scale]]: the scale of C major.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "You found the two tiny steps: E to F and B to C. Those are [[semitone|semitones]]. Every other step is a [[tone|tone]]. Say the pattern like a chant: [[tone|tone]], [[tone|tone]], [[semitone|semitone]]. [[tone|Tone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]].",
+          "exhibit": {
+            "kind": "keyboard",
+            "highlight": [
+              "C4",
+              "D4",
+              "E4",
+              "F4",
+              "G4",
+              "A4",
+              "B4",
+              "C5"
+            ],
+            "low": "C4",
+            "high": "C5"
+          }
+        },
+        {
+          "text": "The pattern makes the scale, not the letter C. Start on any note, follow the pattern, and you have a [[major-scale|major scale]]. C is special only because the pattern fits the white keys. Other starting notes need black keys. More on that next."
+        }
+      ],
+      "alternative": {
+        "text": "Picture a walk up a hill. Most steps are big strides: [[tone|tones]]. Two are small shuffles: [[semitone|semitones]]. Stride, stride, shuffle. Stride, stride, stride, shuffle. That last shuffle is what pulls you up onto the top note, and it is why the scale sounds finished.",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "E4",
+            "F4",
+            "B4",
+            "C5"
+          ],
+          "low": "C4",
+          "high": "C5"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-play-the-scale",
+          "type": "play-keyboard",
+          "skill": "scales-keys.major.c",
+          "prompt": "Play the scale of C major, going up.",
+          "hint": "Start on C and play every white key up to the next C. That is 8 notes.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "scale",
+              "keys": [
+                "C"
+              ],
+              "showLabels": true
+            }
+          }
+        },
+        {
+          "id": "p2-tone-or-semitone",
+          "type": "multiple-choice",
+          "skill": "scales-keys.major.pattern",
+          "prompt": "[[tone|Tone]] or [[semitone|semitone]]?",
+          "hint": "Look for a black key between the two notes. If there is none, it is a [[semitone|semitone]].",
+          "source": "generated",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {
+              "source": "major-scale",
+              "keys": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p3-which-is-major",
+          "type": "by-ear",
+          "skill": "scales-keys.major.c",
+          "prompt": "One clip is a proper major scale. In the other, one note is wrong. Which clip is the major scale?",
+          "hint": "A major scale sounds bright all the way up. Listen for the clip where one note sounds darker and sadder.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 90,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": -1,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 90,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A has a note near the start that dips lower than it should, which makes it sound darker and sadder. The bright, even climb is clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p4-spot-the-wrong-note",
+          "type": "spot-mistake",
+          "skill": "scales-keys.major.c",
+          "prompt": "This should be the scale of C major, going up. Tap the one wrong note.",
+          "hint": "Say the letters in order: C, D, E, F, G, A, B, C. Which written note does not fit?",
+          "source": "generated",
+          "generator": {
+            "id": "spot-scale-note",
+            "params": {
+              "keys": [
+                "C"
+              ],
+              "faults": [
+                "wrong-letter"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p5-the-pattern",
+          "type": "multiple-choice",
+          "skill": "scales-keys.major.pattern",
+          "prompt": "Which pattern of steps makes a major scale?",
+          "hint": "The two [[semitone|semitones]] in C major are E to F and B to C. Where do they fall in the pattern?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "[[semitone|semitone]], [[tone|tone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]], [[tone|tone]], [[tone|tone]]"
+                },
+                "reason": "That starts with a [[semitone|semitone]]. A major scale starts with two [[tone|tones]], and its first [[semitone|semitone]] is the third step."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "[[tone|tone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]]"
+                },
+                "reason": "That has three [[tone|tones]] before the first [[semitone|semitone]]. In a major scale the first [[semitone|semitone]] comes after only two [[tone|tones]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "[[tone|tone]], [[tone|tone]], [[semitone|semitone]], [[tone|tone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]]"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-play-the-scale",
+          "type": "play-keyboard",
+          "skill": "scales-keys.major.c",
+          "prompt": "Play the scale of C major, going up.",
+          "hint": "Start on C and play every white key up to the next C.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "scale",
+              "keys": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c2-tone-or-semitone",
+          "type": "multiple-choice",
+          "skill": "scales-keys.major.pattern",
+          "prompt": "[[tone|Tone]] or [[semitone|semitone]]?",
+          "hint": "A [[semitone|semitone]] has no key between the two notes. A [[tone|tone]] skips one.",
+          "source": "generated",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {
+              "source": "major-scale",
+              "keys": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c3-spot-the-wrong-note",
+          "type": "spot-mistake",
+          "skill": "scales-keys.major.c",
+          "prompt": "Tap the one wrong note in this scale of C major.",
+          "hint": "Say the letters in order: C, D, E, F, G, A, B, C. Which note does not fit?",
+          "source": "generated",
+          "generator": {
+            "id": "spot-scale-note",
+            "params": {
+              "keys": [
+                "C"
+              ],
+              "faults": [
+                "wrong-letter"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c4-which-is-major",
+          "type": "by-ear",
+          "skill": "scales-keys.major.c",
+          "prompt": "Which clip is the proper major scale?",
+          "hint": "Listen to the last step up to the top note. In a major scale it is a small, tight step.",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 90,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 90,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "B",
+                              "accidental": -1,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 5
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B has a note next to the top that is dropped too low, so the last step is a big one and the climb loses its pull. Clip A has the tight last step."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c5-where-are-the-semitones",
+          "type": "multiple-choice",
+          "skill": "scales-keys.major.pattern",
+          "prompt": "Which two steps in the scale of C major are [[semitone|semitones]]?",
+          "hint": "Which white keys have no black key between them?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "C to D and G to A"
+                },
+                "reason": "C to D and G to A each have a black key between them, so they are [[tone|tones]]. The [[semitone|semitones]] are E to F and B to C."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "E to F and B to C"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "D to E and A to B"
+                },
+                "reason": "D to E and A to B each have a black key between them, so they are [[tone|tones]]. The [[semitone|semitones]] are E to F and B to C."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c6-tone-or-semitone-again",
+          "type": "multiple-choice",
+          "skill": "scales-keys.major.pattern",
+          "prompt": "[[tone|Tone]] or [[semitone|semitone]]?",
+          "hint": "Is there a key between the two notes? If not, it is a [[semitone|semitone]].",
+          "source": "generated",
+          "generator": {
+            "id": "tone-or-semitone",
+            "params": {
+              "source": "major-scale",
+              "keys": [
+                "C"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c7-count-the-steps",
+          "type": "multiple-choice",
+          "skill": "scales-keys.major.pattern",
+          "prompt": "How many [[tone|tones]] and [[semitone|semitones]] does a major scale have?",
+          "hint": "Count them in the chant: [[tone|tone]], [[tone|tone]], [[semitone|semitone]]. [[tone|Tone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]].",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "4 [[tone|tones]] and 3 [[semitone|semitones]]"
+                },
+                "reason": "That is one [[tone|tone]] too few. The pattern has two [[tone|tones]], then three [[tone|tones]]: 5 [[tone|tones]] in all, and only 2 [[semitone|semitones]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "6 [[tone|tones]] and 1 [[semitone|semitone]]"
+                },
+                "reason": "That is one [[tone|tone]] too many. A major scale has 2 [[semitone|semitones]]: one after the first two [[tone|tones]] and one at the very top."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "5 [[tone|tones]] and 2 [[semitone|semitones]]"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c8-spot-another-wrong-note",
+          "type": "spot-mistake",
+          "skill": "scales-keys.major.c",
+          "prompt": "One note here does not belong. Tap it.",
+          "hint": "Say the letters in order and match them to the notes.",
+          "source": "generated",
+          "generator": {
+            "id": "spot-scale-note",
+            "params": {
+              "keys": [
+                "C"
+              ],
+              "faults": [
+                "wrong-letter"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "A [[scale|scale]] is a row of notes in order, from one note up to the same note an [[octave|octave]] higher.",
+        "A [[major-scale|major scale]] follows one pattern: [[tone|tone]], [[tone|tone]], [[semitone|semitone]], [[tone|tone]], [[tone|tone]], [[tone|tone]], [[semitone|semitone]].",
+        "The scale of C major uses only white keys. Its two [[semitone|semitones]] are E to F and B to C."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 72,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
