@@ -1,0 +1,2120 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-terms-03-signs-on-the-page",
+  "title": "Signs on the page",
+  "summary": "Read slurs, staccato dots, accents, pauses, repeat marks and metronome marks.",
+  "usSummary": "Read slurs, staccato dots, accents, fermatas, repeat marks and metronome marks.",
+  "grade": "1",
+  "unit": "terms-1",
+  "order": 3,
+  "strand": "terms",
+  "skills": [
+    "terms.articulation.signs",
+    "terms.signs.repeats-and-pauses",
+    "terms.expression.italian"
+  ],
+  "prerequisites": [
+    "g1-terms-02-fast-and-slow"
+  ],
+  "estimatedMinutes": 8,
+  "newTerms": [
+    "legato",
+    "slur",
+    "staccato",
+    "accent",
+    "pause",
+    "cantabile",
+    "dolce",
+    "metronome-mark",
+    "repeat-marks",
+    "da-capo",
+    "dal-segno",
+    "fine",
+    "al-fine"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Glide across the floor and every step melts into the next. Now tiptoe: step, stop, step, stop. Music has both. Press play: every note here runs straight into the next. How would the same tune sound if it tiptoed?",
+      "exhibit": {
+        "kind": "passage",
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "tempo": 84
+      }
+    },
+    "explore": {
+      "text": "Play the five highlighted keys, C up to G. First make them glide: hold each key until the next one starts, so the notes join. Then make them tiptoe: lift your finger at once, so there is a gap after every note.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4",
+          "D4",
+          "E4",
+          "F4",
+          "G4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Play the five keys joined up, then again with a gap after every note."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "Smooth and joined, with no gaps, is [[legato|legato]]. A curved line over notes of different pitches, a [[slur|slur]], asks for it. A [[tie|tie]] looks similar but joins two notes of the *same* pitch into one long sound. Short and detached is [[staccato|staccato]]: a small dot above or below the note."
+        },
+        {
+          "text": "An [[accent|accent]] is a sideways V: play that note with extra force. A [[pause|pause]] is a dot under an arch: hold the note longer than written. [[cantabile|Cantabile]] means in a singing style; [[dolce|dolce]] means sweet and soft. A [[metronome-mark|metronome mark]] such as ♩ = 80 gives the speed: 80 beats a minute."
+        },
+        {
+          "text": "A double [[bar-line|bar line]] with dots means play that section again: these are [[repeat-marks|repeat marks]]. [[da-capo|Da capo]] (*D.C.*) means go back to the beginning. [[dal-segno|Dal segno]] (*D.S.*) means go back to the sign, a curly S with a slash and two dots. [[fine|Fine]] is the end, and [[al-fine|al fine]] means play on to Fine."
+        }
+      ],
+      "alternative": {
+        "text": "Think of gliding and tiptoeing: [[legato|legato]] glides, [[staccato|staccato]] tiptoes. Now think of a journey. [[repeat-marks|Repeat marks]] send you round the loop again. *D.C. al fine* says: drive back to the start, then stop at the sign that says [[fine|Fine]]. A [[pause|pause]] is a red light: wait there, then carry on."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-hear-staccato",
+          "type": "by-ear",
+          "skill": "terms.articulation.signs",
+          "prompt": "Listen to both clips. Which one is **staccato**?",
+          "hint": "Staccato is short and detached. Listen between the notes: which clip has silence after every note?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 84,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 84,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A runs each note straight into the next: that is [[legato|legato]]. [[staccato|Staccato]] has a gap after every note, as in clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-signs-to-names",
+          "type": "match-up",
+          "skill": "terms.articulation.signs",
+          "prompt": "Match each sign to its name.",
+          "hint": "One sign is a curve, one is a dot and one is a sideways V.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "A curved line over notes of different pitches"
+                },
+                "match": "r1",
+                "reason": "A curved line over notes of different pitches is a [[slur|slur]]: play them smoothly, as [[legato|legato]]."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "A small dot above or below a note"
+                },
+                "match": "r2",
+                "reason": "A small dot above or below a note asks for [[staccato|staccato]]: short and detached."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "A sideways V above a note"
+                },
+                "match": "r3",
+                "reason": "A sideways V is an [[accent|accent]]: play that note with extra force."
+              }
+            ],
+            "right": [
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "accent"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "slur"
+                }
+              },
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "staccato"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p3-slur-or-tie",
+          "type": "multiple-choice",
+          "skill": "terms.articulation.signs",
+          "prompt": "Two notes of the **same** pitch are joined by a curved line. What is it?",
+          "hint": "Look at the pitches. Which curved line joins different pitches, and which joins matching ones?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A slur"
+                },
+                "reason": "A [[slur|slur]] joins notes of different pitches. Two notes of the same pitch joined into one long sound make a [[tie|tie]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "A tie"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "An accent"
+                },
+                "reason": "An [[accent|accent]] is a sideways V above a note, not a curved line. Matching pitches joined by a curve are a [[tie|tie]]."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p4-signs-and-names",
+          "type": "match-up",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "Match each sign to its name.",
+          "hint": "Think about what each one does: play again, hold on, jump back, or set the speed.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "A double [[bar-line|bar line]] with dots"
+                },
+                "match": "r1",
+                "reason": "A double [[bar-line|bar line]] with dots is a pair of [[repeat-marks|repeat marks]]: play that section again."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "A dot under an arch over a note"
+                },
+                "match": "r2",
+                "reason": "A dot under an arch is a [[pause|pause]]: hold that note longer than written."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "*D.S.* in the music"
+                },
+                "match": "r3",
+                "reason": "*D.S.* is short for [[dal-segno|dal segno]]: go back to the sign."
+              },
+              {
+                "id": "l4",
+                "face": {
+                  "kind": "text",
+                  "text": "♩ = 72 at the start"
+                },
+                "match": "r4",
+                "reason": "♩ = 72 is a [[metronome-mark|metronome mark]]: it says how many beats to play each minute."
+              }
+            ],
+            "right": [
+              {
+                "id": "r4",
+                "face": {
+                  "kind": "text",
+                  "text": "[[metronome-mark|metronome mark]]"
+                }
+              },
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "[[dal-segno|dal segno]]"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "[[repeat-marks|repeat marks]]"
+                }
+              },
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "[[pause|pause]]"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p5-singing-style",
+          "type": "multiple-choice",
+          "skill": "terms.expression.italian",
+          "prompt": "Which word asks you to play **in a singing style**?",
+          "hint": "Imagine a singer shaping a long, flowing line.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "cantabile"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "dolce"
+                },
+                "reason": "[[dolce|Dolce]] means sweet and soft. A singing style is [[cantabile|cantabile]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "staccato"
+                },
+                "reason": "[[staccato|Staccato]] is short and detached, which is not how singers shape a line. A singing style is [[cantabile|cantabile]]."
+              }
+            ],
+            "correct": "a"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-hear-legato",
+          "type": "by-ear",
+          "skill": "terms.articulation.signs",
+          "prompt": "Listen to both clips. Which one is **legato**?",
+          "hint": "Legato is smooth and joined. Which clip has no gaps between the notes?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 84,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 84,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B has a gap after every note: that is [[staccato|staccato]]. [[legato|Legato]] is smooth, with no gaps, as in clip A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c2-words-to-meanings",
+          "type": "match-up",
+          "skill": "terms.expression.italian",
+          "prompt": "Match each word to its meaning.",
+          "hint": "Two are about how notes join. Two are about the feel of the music.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "legato"
+                },
+                "match": "r1",
+                "reason": "[[legato|Legato]] means smooth and connected, with no gaps."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "staccato"
+                },
+                "match": "r2",
+                "reason": "[[staccato|Staccato]] means short and detached, with a gap after each note."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "cantabile"
+                },
+                "match": "r3",
+                "reason": "[[cantabile|Cantabile]] means in a singing style."
+              },
+              {
+                "id": "l4",
+                "face": {
+                  "kind": "text",
+                  "text": "dolce"
+                },
+                "match": "r4",
+                "reason": "[[dolce|Dolce]] means sweet and soft."
+              }
+            ],
+            "right": [
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "Short and detached"
+                }
+              },
+              {
+                "id": "r4",
+                "face": {
+                  "kind": "text",
+                  "text": "Sweet and soft"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "Smooth and connected"
+                }
+              },
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "In a singing style"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c3-different-pitches",
+          "type": "multiple-choice",
+          "skill": "terms.articulation.signs",
+          "prompt": "A curved line joins two notes of **different** pitches. What is it?",
+          "hint": "A tie joins matching pitches. What joins different ones?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A tie"
+                },
+                "reason": "A [[tie|tie]] joins notes of the same pitch. Different pitches joined by a curve are a [[slur|slur]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "An accent"
+                },
+                "reason": "An [[accent|accent]] is a sideways V, not a curved line. Different pitches joined by a curve are a [[slur|slur]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "A slur"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c4-what-is-dc",
+          "type": "multiple-choice",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "What does *D.C.* tell you to do?",
+          "hint": "Da capo is Italian. Capo means head: where is the head of a piece?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Go back to the beginning"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Go back to the sign"
+                },
+                "reason": "That is *D.S.*, [[dal-segno|dal segno]]. *D.C.* is [[da-capo|da capo]]: back to the very beginning."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Stop at once"
+                },
+                "reason": "Stopping is what [[fine|Fine]] marks. *D.C.* does the opposite: it sends you back to the beginning."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c5-hear-staccato",
+          "type": "by-ear",
+          "skill": "terms.articulation.signs",
+          "prompt": "Listen to both clips. Which one is **staccato**?",
+          "hint": "Listen between the notes. Which clip leaves a gap after each one?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 84,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "rest",
+                          "duration": {
+                            "value": "quaver",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 84,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B runs each note into the next: that is [[legato|legato]]. [[staccato|Staccato]] leaves a gap after every note, as in clip A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c6-dc-al-fine",
+          "type": "ordering",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "A piece ends with *D.C. al fine*. Put what you play in order.",
+          "hint": "Da capo sends you back to the beginning. Fine tells you where to stop.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "stop-at-fine",
+                "face": {
+                  "kind": "text",
+                  "text": "Play on to *Fine*, then stop"
+                }
+              },
+              {
+                "id": "play-to-dc",
+                "face": {
+                  "kind": "text",
+                  "text": "Play from the start to the *D.C.*"
+                }
+              },
+              {
+                "id": "back-to-start",
+                "face": {
+                  "kind": "text",
+                  "text": "Go back to the beginning"
+                }
+              }
+            ],
+            "correctOrder": [
+              "play-to-dc",
+              "back-to-start",
+              "stop-at-fine"
+            ],
+            "ends": {
+              "first": "first",
+              "last": "last"
+            },
+            "reason": "*D.C. al fine*: play to the *D.C.*, go back to the start, then play on until *Fine* and stop."
+          }
+        },
+        {
+          "id": "c7-what-is-a-pause",
+          "type": "multiple-choice",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "What does a [[pause|pause]] over a note ask you to do?",
+          "hint": "A [[pause|pause]] is an arch with a dot under it. Think of what the name suggests.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Hold it longer than written"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Play it louder"
+                },
+                "reason": "Playing louder is what an [[accent|accent]] asks for. A [[pause|pause]] is about length: hold the note on."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Play it shorter"
+                },
+                "reason": "Short and detached is [[staccato|staccato]]. A [[pause|pause]] asks you to hold the note longer, not cut it short."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c8-jump-words",
+          "type": "match-up",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "Match each word to its meaning.",
+          "hint": "Two words send you back. Two are about the end.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "da capo"
+                },
+                "match": "r1",
+                "reason": "[[da-capo|Da capo]] means go back to the beginning."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "dal segno"
+                },
+                "match": "r2",
+                "reason": "[[dal-segno|Dal segno]] means go back to the sign."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "fine"
+                },
+                "match": "r3",
+                "reason": "[[fine|Fine]] marks the end, where the piece stops."
+              },
+              {
+                "id": "l4",
+                "face": {
+                  "kind": "text",
+                  "text": "al fine"
+                },
+                "match": "r4",
+                "reason": "[[al-fine|Al fine]] means play on until you reach Fine."
+              }
+            ],
+            "right": [
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "The end of the piece"
+                }
+              },
+              {
+                "id": "r4",
+                "face": {
+                  "kind": "text",
+                  "text": "Play on to the end"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "Go back to the beginning"
+                }
+              },
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "Go back to the sign"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c9-metronome",
+          "type": "multiple-choice",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "What does ♩ = 100 tell you?",
+          "hint": "It is a metronome mark. A metronome counts in minutes.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Play it 100 times"
+                },
+                "reason": "A [[metronome-mark|metronome mark]] does not count repeats. Repeat marks do that. The number says how many beats fit in a minute."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "100 beats every minute"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Play loudly"
+                },
+                "reason": "Loudness is shown by signs such as *f*. The number in a [[metronome-mark|metronome mark]] is a speed: beats every minute."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c10-what-is-an-accent",
+          "type": "multiple-choice",
+          "skill": "terms.articulation.signs",
+          "prompt": "What does an accent ask for?",
+          "hint": "An accent is a sideways V. Think of a word you say with extra stress.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Hold the note longer"
+                },
+                "reason": "Holding a note longer is what a [[pause|pause]] asks for. An [[accent|accent]] asks for extra force."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Play it short and detached"
+                },
+                "reason": "Short and detached is [[staccato|staccato]], shown by a dot. An [[accent|accent]] asks for extra force."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Play it with extra force"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c11-sweet-and-soft",
+          "type": "multiple-choice",
+          "skill": "terms.expression.italian",
+          "prompt": "Which word means **sweet and soft**?",
+          "hint": "One word is about how notes join. Two are about feel.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "legato"
+                },
+                "reason": "[[legato|Legato]] means smooth and joined. It says nothing about volume. Sweet and soft is [[dolce|dolce]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "dolce"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "cantabile"
+                },
+                "reason": "[[cantabile|Cantabile]] means in a singing style. Sweet and soft is [[dolce|dolce]]."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c12-signs-and-names",
+          "type": "match-up",
+          "skill": "terms.signs.repeats-and-pauses",
+          "prompt": "Match each sign to its name.",
+          "hint": "Repeat, hold, or set the speed?",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "A double [[bar-line|bar line]] with dots"
+                },
+                "match": "r1",
+                "reason": "A double [[bar-line|bar line]] with dots is a pair of [[repeat-marks|repeat marks]]: play the section again."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "A dot under an arch over a note"
+                },
+                "match": "r2",
+                "reason": "A dot under an arch is a [[pause|pause]]: hold that note longer."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "♩ = 80 at the start"
+                },
+                "match": "r3",
+                "reason": "♩ = 80 is a [[metronome-mark|metronome mark]]: 80 beats every minute."
+              }
+            ],
+            "right": [
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "[[pause|pause]]"
+                }
+              },
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "[[metronome-mark|metronome mark]]"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "[[repeat-marks|repeat marks]]"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "[[legato|Legato]] is smooth and joined; a [[slur|slur]] joins notes of different pitches. A [[tie|tie]] joins two notes of the same pitch into one long sound. [[staccato|Staccato]] is short and detached.",
+        "An [[accent|accent]] means extra force. A [[pause|pause]] means hold the note longer. [[cantabile|Cantabile]] is singing and [[dolce|dolce]] is sweet and soft.",
+        "[[repeat-marks|Repeat marks]] mean play again. [[da-capo|Da capo]] goes back to the beginning, [[dal-segno|dal segno]] to the sign, and [[al-fine|al fine]] plays on to [[fine|Fine]].",
+        "A [[metronome-mark|metronome mark]] such as ♩ = 80 says how many beats to play each minute."
+      ]
+    }
+  }
+}

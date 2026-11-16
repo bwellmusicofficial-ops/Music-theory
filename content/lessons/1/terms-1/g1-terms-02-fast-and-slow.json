@@ -1,0 +1,2487 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-terms-02-fast-and-slow",
+  "title": "Fast and slow",
+  "summary": "Learn the Italian words for speed and the ones that speed up or slow down.",
+  "grade": "1",
+  "unit": "terms-1",
+  "order": 2,
+  "strand": "terms",
+  "skills": [
+    "terms.tempo.italian"
+  ],
+  "prerequisites": [
+    "g1-terms-01-loud-and-soft"
+  ],
+  "estimatedMinutes": 6,
+  "newTerms": [
+    "lento",
+    "adagio",
+    "andante",
+    "moderato",
+    "allegretto",
+    "allegro",
+    "poco",
+    "molto",
+    "accelerando",
+    "ritardando",
+    "rallentando",
+    "a-tempo"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "Film composers pick the speed first: a chase never crawls, and a lullaby never races. Press play to hear a tune at a slow, sleepy speed. If it ran twice as fast, what would change?",
+      "exhibit": {
+        "kind": "passage",
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "tempo": 56
+      }
+    },
+    "explore": {
+      "text": "Choose one key. Tap it in a slow, steady pulse, like a gentle walk. Now speed up gradually, a little faster with every tap, until the taps almost blur. Then slow down gradually until you are back to a walk.",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Tap a key slowly, then speed up gradually, then slow down gradually."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "Speed words are Italian and sit at the start of a piece. They tell you the [[tempo|tempo]]. [[lento|Lento]] means slow. [[adagio|Adagio]] means slow and calm. [[andante|Andante]] means at a walking pace. Press play to hear a slow, calm speed.",
+          "exhibit": {
+            "kind": "passage",
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semibreve",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "tempo": 60
+          }
+        },
+        {
+          "text": "Moving up: [[moderato|moderato]] means a moderate speed. [[allegretto|Allegretto]] means quite quick. [[allegro|Allegro]] means quick and lively. Put [[poco|poco]] (a little) or [[molto|molto]] (very much) in front to adjust: *molto allegro* is very quick.",
+          "exhibit": {
+            "kind": "passage",
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "tempo": 132
+          }
+        },
+        {
+          "text": "Speed can change inside a piece. [[accelerando|Accelerando]] (*accel.*) means gradually faster. [[ritardando|Ritardando]] (*rit.*) and [[rallentando|rallentando]] (*rall.*) mean gradually slower. [[a-tempo|A tempo]] means back to the original speed. *Poco rit.* is a little slower."
+        }
+      ],
+      "alternative": {
+        "text": "Picture a day out. You shuffle out of bed: [[lento|lento]]. A calm stroll: [[adagio|adagio]]. Walking to school: [[andante|andante]]. Hurrying so you are not late: [[allegro|allegro]]. Running faster and faster: [[accelerando|accelerando]]. Tiring, you slow: [[ritardando|ritardando]]. Then you settle back to your normal walk: [[a-tempo|a tempo]]."
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-hear-allegro",
+          "type": "by-ear",
+          "skill": "terms.tempo.italian",
+          "prompt": "Listen to both clips. Which one is **allegro**?",
+          "hint": "Allegro means quick and lively. Tap along: which clip makes you tap faster?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 60,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 126,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                },
+                "reason": "Clip A is slow, about one beat a second. [[allegro|Allegro]] is quick and lively, which is clip B."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                }
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "p2-walking-pace",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "Which Italian word means **at a walking pace**?",
+          "hint": "Picture someone strolling along. Is that slower or quicker than quick and lively?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "adagio"
+                },
+                "reason": "[[adagio|Adagio]] is slow and calm, slower than a walk. At a walking pace is [[andante|andante]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "allegro"
+                },
+                "reason": "[[allegro|Allegro]] is quick and lively, quicker than walking. At a walking pace is [[andante|andante]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "andante"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "p3-slowest-to-fastest",
+          "type": "ordering",
+          "skill": "terms.tempo.italian",
+          "prompt": "Put these words in order, from slowest to fastest.",
+          "hint": "Start with the slow and calm one. Allegro is quick and lively, so where does it go?",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "moderato",
+                "face": {
+                  "kind": "text",
+                  "text": "moderato"
+                }
+              },
+              {
+                "id": "allegro",
+                "face": {
+                  "kind": "text",
+                  "text": "allegro"
+                }
+              },
+              {
+                "id": "adagio",
+                "face": {
+                  "kind": "text",
+                  "text": "adagio"
+                }
+              },
+              {
+                "id": "andante",
+                "face": {
+                  "kind": "text",
+                  "text": "andante"
+                }
+              }
+            ],
+            "correctOrder": [
+              "adagio",
+              "andante",
+              "moderato",
+              "allegro"
+            ],
+            "ends": {
+              "first": "slowest",
+              "last": "fastest"
+            },
+            "reason": "Slowest to fastest: [[adagio|adagio]] slow and calm, [[andante|andante]] walking pace, [[moderato|moderato]] moderate, [[allegro|allegro]] quick and lively."
+          }
+        },
+        {
+          "id": "p4-words-to-meanings",
+          "type": "match-up",
+          "skill": "terms.tempo.italian",
+          "prompt": "Match each word to its meaning.",
+          "hint": "Accelerando and a tempo are about change. Adagio is about a fixed speed.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "accelerando"
+                },
+                "match": "r1",
+                "reason": "[[accelerando|Accelerando]] speeds up gradually: it gets faster, not slower."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "ritardando"
+                },
+                "match": "r2",
+                "reason": "[[ritardando|Ritardando]] slows down gradually. It is the opposite of accelerando."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "a tempo"
+                },
+                "match": "r3",
+                "reason": "[[a-tempo|A tempo]] means return to the original speed, after a change."
+              },
+              {
+                "id": "l4",
+                "face": {
+                  "kind": "text",
+                  "text": "adagio"
+                },
+                "match": "r4",
+                "reason": "[[adagio|Adagio]] is a fixed slow, calm speed, not a change."
+              }
+            ],
+            "right": [
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "Back to the original speed"
+                }
+              },
+              {
+                "id": "r4",
+                "face": {
+                  "kind": "text",
+                  "text": "Slow and calm"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "Gradually faster"
+                }
+              },
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "Gradually slower"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p5-molto-allegro",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "What does *molto allegro* mean?",
+          "hint": "Molto changes the word after it. Is it a little, or very much?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Very quick"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "A little quick"
+                },
+                "reason": "[[poco|Poco]] means a little. [[molto|Molto]] is the opposite: very much, so *molto allegro* is very quick."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Slow and calm"
+                },
+                "reason": "Slow and calm is [[adagio|adagio]]. [[allegro|Allegro]] is quick, and [[molto|molto]] makes it even quicker."
+              }
+            ],
+            "correct": "a"
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-hear-adagio",
+          "type": "by-ear",
+          "skill": "terms.tempo.italian",
+          "prompt": "Listen to both clips. Which one is **adagio**: slow and calm?",
+          "hint": "Tap a steady beat. Which clip gives you plenty of time between taps?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 54,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 120,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B is quick: about two beats a second. [[adagio|Adagio]] is slow and calm, which is clip A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c2-four-in-order",
+          "type": "ordering",
+          "skill": "terms.tempo.italian",
+          "prompt": "Put these words in order, from slowest to fastest.",
+          "hint": "Lento is the slow one. Allegro is the quick and lively one. Place the others between.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "allegro",
+                "face": {
+                  "kind": "text",
+                  "text": "allegro"
+                }
+              },
+              {
+                "id": "lento",
+                "face": {
+                  "kind": "text",
+                  "text": "lento"
+                }
+              },
+              {
+                "id": "allegretto",
+                "face": {
+                  "kind": "text",
+                  "text": "allegretto"
+                }
+              },
+              {
+                "id": "moderato",
+                "face": {
+                  "kind": "text",
+                  "text": "moderato"
+                }
+              }
+            ],
+            "correctOrder": [
+              "lento",
+              "moderato",
+              "allegretto",
+              "allegro"
+            ],
+            "ends": {
+              "first": "slowest",
+              "last": "fastest"
+            },
+            "reason": "Slowest to fastest: [[lento|lento]] slow, [[moderato|moderato]] moderate, [[allegretto|allegretto]] quite quick, [[allegro|allegro]] quick and lively."
+          }
+        },
+        {
+          "id": "c3-original-speed",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "Which word means **go back to the original speed**?",
+          "hint": "Two of these words are about changing speed. One is about returning.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "ritardando"
+                },
+                "reason": "[[ritardando|Ritardando]] means gradually slower. Going back to the original speed is [[a-tempo|a tempo]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "accelerando"
+                },
+                "reason": "[[accelerando|Accelerando]] means gradually faster. Going back to the original speed is [[a-tempo|a tempo]]."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "a tempo"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c4-speeds",
+          "type": "match-up",
+          "skill": "terms.tempo.italian",
+          "prompt": "Match each word to its meaning.",
+          "hint": "Walking is andante. Moderate sits in the middle. Allegro is lively.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "allegro"
+                },
+                "match": "r1",
+                "reason": "[[allegro|Allegro]] is quick and lively."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "andante"
+                },
+                "match": "r2",
+                "reason": "[[andante|Andante]] is at a walking pace."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "moderato"
+                },
+                "match": "r3",
+                "reason": "[[moderato|Moderato]] is a moderate speed: not slow, not quick."
+              },
+              {
+                "id": "l4",
+                "face": {
+                  "kind": "text",
+                  "text": "lento"
+                },
+                "match": "r4",
+                "reason": "[[lento|Lento]] means slow."
+              }
+            ],
+            "right": [
+              {
+                "id": "r4",
+                "face": {
+                  "kind": "text",
+                  "text": "Slow"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "Quick and lively"
+                }
+              },
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "At a walking pace"
+                }
+              },
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "At a moderate speed"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c5-hear-andante",
+          "type": "by-ear",
+          "skill": "terms.tempo.italian",
+          "prompt": "Listen to both clips. Which one is **andante**: a walking pace?",
+          "hint": "Tap your feet as if you were strolling. Which clip fits a stroll, not a jog?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 92,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 144,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "A",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B is much quicker than a walk: more like a jog. [[andante|Andante]] is a walking pace, which is clip A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c6-poco",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "What does *poco* mean?",
+          "hint": "It sits in front of another word, as in *poco rit.*",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A little"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Very much"
+                },
+                "reason": "Very much is [[molto|molto]]. [[poco|Poco]] is the opposite: a little."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Half, or medium"
+                },
+                "reason": "Half is [[mezzo|mezzo]], which you met with volume. [[poco|Poco]] means a little."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c7-short-forms",
+          "type": "match-up",
+          "skill": "terms.tempo.italian",
+          "prompt": "Match each short form to its full word.",
+          "hint": "Each short form starts with the first letters of its word.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "l1",
+                "face": {
+                  "kind": "text",
+                  "text": "*accel.*"
+                },
+                "match": "r1",
+                "reason": "*accel.* is short for [[accelerando|accelerando]]: gradually faster."
+              },
+              {
+                "id": "l2",
+                "face": {
+                  "kind": "text",
+                  "text": "*rit.*"
+                },
+                "match": "r2",
+                "reason": "*rit.* is short for [[ritardando|ritardando]]: gradually slower."
+              },
+              {
+                "id": "l3",
+                "face": {
+                  "kind": "text",
+                  "text": "*rall.*"
+                },
+                "match": "r3",
+                "reason": "*rall.* is short for [[rallentando|rallentando]]: gradually slower, and often broader."
+              }
+            ],
+            "right": [
+              {
+                "id": "r2",
+                "face": {
+                  "kind": "text",
+                  "text": "ritardando"
+                }
+              },
+              {
+                "id": "r3",
+                "face": {
+                  "kind": "text",
+                  "text": "rallentando"
+                }
+              },
+              {
+                "id": "r1",
+                "face": {
+                  "kind": "text",
+                  "text": "accelerando"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c8-gradually-faster",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "Which word means **gradually faster**?",
+          "hint": "Gradually faster is a change in speed. One of these is a fixed speed.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "ritardando"
+                },
+                "reason": "[[ritardando|Ritardando]] means gradually slower. The word for gradually faster is [[accelerando|accelerando]]."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "accelerando"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "allegretto"
+                },
+                "reason": "[[allegretto|Allegretto]] is a fixed speed: quite quick. It does not change gradually. Gradually faster is [[accelerando|accelerando]]."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c9-three-in-order",
+          "type": "ordering",
+          "skill": "terms.tempo.italian",
+          "prompt": "Put these words in order, from slowest to fastest.",
+          "hint": "Walking pace sits between slow and calm, and quick and lively.",
+          "source": "authored",
+          "payload": {
+            "items": [
+              {
+                "id": "allegro",
+                "face": {
+                  "kind": "text",
+                  "text": "allegro"
+                }
+              },
+              {
+                "id": "adagio",
+                "face": {
+                  "kind": "text",
+                  "text": "adagio"
+                }
+              },
+              {
+                "id": "andante",
+                "face": {
+                  "kind": "text",
+                  "text": "andante"
+                }
+              }
+            ],
+            "correctOrder": [
+              "adagio",
+              "andante",
+              "allegro"
+            ],
+            "ends": {
+              "first": "slowest",
+              "last": "fastest"
+            },
+            "reason": "Slowest to fastest: [[adagio|adagio]] slow and calm, [[andante|andante]] walking pace, [[allegro|allegro]] quick and lively."
+          }
+        },
+        {
+          "id": "c10-rit-and-rall",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "*Ritardando* and *rallentando* both mean what?",
+          "hint": "Both words are about a change. Does the music speed up or slow down?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Back to the original speed"
+                },
+                "reason": "Back to the original speed is [[a-tempo|a tempo]]. [[ritardando|Ritardando]] and [[rallentando|rallentando]] both ask for a gradual slowing."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Gradually faster"
+                },
+                "reason": "Gradually faster is [[accelerando|accelerando]]. [[ritardando|Ritardando]] and [[rallentando|rallentando]] go the other way."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "Gradually slower"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        },
+        {
+          "id": "c11-hear-allegro",
+          "type": "by-ear",
+          "skill": "terms.tempo.italian",
+          "prompt": "Listen to both clips. Which one is **allegro**: quick and lively?",
+          "hint": "Which clip makes you want to move faster?",
+          "source": "authored",
+          "payload": {
+            "clips": [
+              {
+                "bpm": 132,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "bpm": 66,
+                "passage": {
+                  "clef": "treble",
+                  "key": {
+                    "tonic": {
+                      "letter": "C",
+                      "accidental": 0
+                    },
+                    "mode": "major"
+                  },
+                  "time": {
+                    "beats": 4,
+                    "beatUnit": 4
+                  },
+                  "bars": [
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "F",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "D",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "events": [
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "E",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "G",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "crotchet",
+                            "dots": 0
+                          }
+                        },
+                        {
+                          "kind": "note",
+                          "pitches": [
+                            {
+                              "letter": "C",
+                              "accidental": 0,
+                              "octave": 4
+                            }
+                          ],
+                          "duration": {
+                            "value": "minim",
+                            "dots": 0
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip A"
+                }
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "Clip B"
+                },
+                "reason": "Clip B is slow: about one beat a second. [[allegro|Allegro]] is quick and lively, which is clip A."
+              }
+            ],
+            "correct": "a"
+          }
+        },
+        {
+          "id": "c12-quickest",
+          "type": "multiple-choice",
+          "skill": "terms.tempo.italian",
+          "prompt": "Which of these words asks for the **quickest** speed?",
+          "hint": "Allegretto means quite quick. Which word means quick and lively?",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "allegretto"
+                },
+                "reason": "[[allegretto|Allegretto]] is quite quick, but slower than allegro."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "moderato"
+                },
+                "reason": "[[moderato|Moderato]] is a moderate speed, not a quick one."
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "allegro"
+                }
+              }
+            ],
+            "correct": "c"
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "[[lento|Lento]] and [[adagio|adagio]] are slow. Then, getting faster: [[andante|andante]] (walking pace), [[moderato|moderato]] (moderate), [[allegretto|allegretto]] (quite quick), [[allegro|allegro]] (quick and lively).",
+        "[[poco|Poco]] means a little and [[molto|molto]] means very much: *molto allegro* is very quick.",
+        "[[accelerando|Accelerando]] gets gradually faster. [[ritardando|Ritardando]] and [[rallentando|rallentando]] get gradually slower. [[a-tempo|A tempo]] goes back to the original speed."
+      ]
+    }
+  }
+}
