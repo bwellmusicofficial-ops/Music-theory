@@ -100,7 +100,9 @@ export function PlayKeyboard({
       const base = playedRef.current.length >= payload.targets.length ? [] : playedRef.current;
       const next = [...base, p];
       update(next);
-      setAnnounce(`Played ${keyName(p)}. ${next.length} of ${payload.targets.length}.`);
+      setAnnounce(
+        `${payload.nameNotes === false ? 'Played a key' : `Played ${keyName(p)}`}. ${next.length} of ${payload.targets.length}.`,
+      );
       if (next.length === payload.targets.length) {
         committed.current = true;
         onAnswer({ played: next });
@@ -114,7 +116,7 @@ export function PlayKeyboard({
       ? current.filter((q) => pitch.toMidi(q) !== midi)
       : [...current, p].sort((a, b) => pitch.toMidi(a) - pitch.toMidi(b));
     update(next);
-    setAnnounce(`${keyName(p)} ${isOn ? 'off' : 'on'}. ${next.length} ${next.length === 1 ? 'key' : 'keys'} chosen.`);
+    setAnnounce(`${payload.nameNotes === false ? 'Key' : keyName(p)} ${isOn ? 'off' : 'on'}. ${next.length} ${next.length === 1 ? 'key' : 'keys'} chosen.`);
   }
 
   function clear() {
@@ -136,7 +138,12 @@ export function PlayKeyboard({
     return sequence ? [] : played.map((p) => ({ pitch: p, state: 'target' as const }));
   }, [result, payload, played, sequence]);
 
-  const summary = played.length === 0 ? 'No notes yet' : played.map(keyName).join(', ');
+  const summary =
+    played.length === 0
+      ? 'No notes yet'
+      : payload.nameNotes === false
+        ? `${played.length} ${played.length === 1 ? 'key' : 'keys'}`
+        : played.map(keyName).join(', ');
   const instruction = sequence
     ? `Play ${payload.targets.length === 1 ? 'the note' : `the ${payload.targets.length} notes`} one after another.`
     : hideCheck

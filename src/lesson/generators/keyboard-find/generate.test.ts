@@ -14,10 +14,39 @@ runBattery({
     { name: 'black key groups', params: { ask: 'black-keys' } },
     { name: 'next note', params: { ask: 'next-note' } },
     { name: 'previous note', params: { ask: 'previous-note', letters: ['A', 'C', 'G'] } },
+    { name: 'black key groups, no names', params: { ask: 'black-keys', nameNotes: false } },
+    { name: 'find every C, no names', params: { ask: 'find-every', letters: ['C'], nameNotes: false } },
     { name: 'steps', params: { ask: 'step' } },
     { name: 'semitones up', params: { ask: 'step', steps: ['semitone'], directions: ['up'] } },
     { name: 'tones down', params: { ask: 'step', steps: ['tone'], directions: ['down'] } },
   ],
+});
+
+describe('keyboard-find nameNotes', () => {
+  const asks = ['find-every', 'black-keys', 'next-note', 'previous-note', 'step'] as const;
+  it('defaults to true and leaves the payload without the field', () => {
+    expect(parse({ ask: 'black-keys' }).nameNotes).toBe(true);
+    for (const ask of asks) {
+      const out = keyboardFind.generate(parse({ ask }), recordingRng([0, 0, 0]).rng, 'uk');
+      expect(out.payload).not.toHaveProperty('nameNotes');
+    }
+  });
+  it('writes nameNotes: false into every ask\'s payload and changes nothing else', () => {
+    for (const ask of asks) {
+      const a = keyboardFind.generate(parse({ ask }), recordingRng([0, 0, 0]).rng, 'uk');
+      const b = keyboardFind.generate(parse({ ask, nameNotes: false }), recordingRng([0, 0, 0]).rng, 'uk');
+      expect(b.payload).toEqual({ ...(a.payload as object), nameNotes: false });
+      expect(b.prompt).toBe(a.prompt);
+    }
+  });
+  it('the black-keys prompt names no note', () => {
+    const out = keyboardFind.generate(parse({ ask: 'black-keys', nameNotes: false }), recordingRng([0]).rng, 'uk');
+    expect(out.prompt).toMatch(/black keys/);
+    expect(out.prompt).not.toMatch(/\b[A-G]\b/);
+  });
+  it('rejects a non-boolean', () => {
+    expect(paramsSchema.safeParse({ ask: 'black-keys', nameNotes: 'no' }).success).toBe(false);
+  });
 });
 
 describe('keyboard-find spec', () => {

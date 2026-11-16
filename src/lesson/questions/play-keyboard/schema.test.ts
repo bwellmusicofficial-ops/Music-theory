@@ -33,6 +33,15 @@ describe('play-keyboard payloadSchema', () => {
     expect(payloadSchema.safeParse(example).success).toBe(true);
   });
 
+  it('applies the nameNotes default of true and accepts false', () => {
+    const { showLabels: _unused, ...rest } = base;
+    void _unused;
+    const parsed = payloadSchema.parse(rest);
+    expect(parsed.nameNotes).toBe(true);
+    expect(payloadSchema.parse({ ...rest, nameNotes: false }).nameNotes).toBe(false);
+    expect(issues({ ...rest, nameNotes: 'no' }).length).toBeGreaterThan(0);
+  });
+
   it('applies the showLabels default of false', () => {
     const rest: Record<string, unknown> = { ...base };
     delete rest.showLabels;

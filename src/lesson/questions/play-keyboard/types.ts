@@ -7,6 +7,12 @@ export interface PlayKeyboardPayload {
   high: Pitch;
   /** Letter names printed on the keys. Default false. */
   showLabels?: boolean;
+  /**
+   * true (default): reasons name notes by letter ("F♯ does not belong"). false: reasons
+   * describe position and colour only ("That key is two keys too far to the right"), with no
+   * letter names or accidentals. For lessons before the note names are taught.
+   */
+  nameNotes?: boolean;
   /** 1 to 8 notes to play. */
   targets: Pitch[];
   /** 'sequence': one after another in this order. 'together': as a chord, any order. */

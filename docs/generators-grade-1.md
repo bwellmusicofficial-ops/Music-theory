@@ -719,8 +719,20 @@ interface KeyboardFindParams {
   steps?: ('tone' | 'semitone')[];
   directions?: ('up' | 'down')[];        // step. Default both.
   showLabels?: boolean;                  // default false
+  /**
+   * Default true. false is written into the payload as `nameNotes: false`, so the
+   * marking reasons describe keys by position and colour ("That key is two keys too
+   * far to the right"), never by letter or accidental. See docs/question-payloads.md 2.5.
+   */
+  nameNotes?: boolean;
 }
 ```
+
+`nameNotes` changes only the reasons (and the keyboard question's played-keys
+summary), not the prompt: `find-every`, `next-note`, `previous-note` and `step`
+ask for a note *by name*, so their prompts always name it. For a lesson before
+the names are taught use `black-keys`, whose prompt never names a note. The
+draws and the targets are the same with or without it.
 
 Rng calls and output:
 

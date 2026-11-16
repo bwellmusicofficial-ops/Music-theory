@@ -213,3 +213,76 @@ describe('play-keyboard mark: bad answers', () => {
     }
   });
 });
+
+describe('play-keyboard marking with nameNotes: false', () => {
+  const chord = payload({ targets: ps('C4', 'E4', 'G4'), mode: 'together' });
+  const quiet = (payload: PlayKeyboardPayload) => ({ ...payload, nameNotes: false });
+  const noNames = (reason: string | undefined) => {
+    expect(reason).toBeDefined();
+    expect(reason).not.toMatch(/[♯♭]/);
+    expect(reason).not.toMatch(/\b(letter|sharp|flat)\b/);
+    expect(reason!.replace(/^[A-Z]/, '').match(/\b[A-G]\b/g) ?? []).toEqual([]);
+  };
+
+  it('describes a white key that is too far right or left by how many keys', () => {
+    const one = { ...seq, targets: ps('C4'), mode: 'sequence' as const };
+    expect(mark(quiet(one), { played: ps('E4') }).reason).toBe('That key is two keys too far to the right.');
+    expect(mark(quiet(one), { played: ps('B3') }).reason).toBe('That key is one key too far to the left.');
+    expect(mark(quiet(seq), { played: ps('C4', 'G4', 'E4') }).reason).toBe('Note 2 is three keys too far to the right.');
+  });
+
+  it('counts a wrong octave in white keys, and counts black keys as black keys', () => {
+    const one = { ...seq, targets: ps('C4'), mode: 'sequence' as const };
+    expect(mark(quiet(one), { played: ps('C5') }).reason).toBe('That key is seven keys too far to the right.');
+    const black = { ...one, targets: ps('F#4') };
+    expect(mark(quiet(black), { played: ps('A#4') }).reason).toBe('That key is two black keys too far to the right.');
+  });
+
+  it('says when the colour is wrong', () => {
+    const one = { ...seq, targets: ps('C#4'), mode: 'sequence' as const };
+    expect(mark(quiet(one), { played: ps('D4') }).reason).toBe('That key is a white key, but this one needs a black key.');
+    const white = { ...one, targets: ps('D4') };
+    expect(mark(quiet(white), { played: ps('C#4') }).reason).toBe('That key is a black key, but this one needs a white key.');
+  });
+
+  it('with octave "any" measures to the nearest key with the target\'s name', () => {
+    const any = { ...seq, targets: ps('C4'), mode: 'sequence' as const, octave: 'any' as const };
+    expect(mark(quiet(any), { played: ps('E4') }).reason).toBe('That key is two keys too far to the right.');
+  });
+
+  it('chords: too few keys and a wrong colour name no notes', () => {
+    const blacks = { ...chord, targets: ps('F#4', 'G#4', 'A#4') };
+    expect(mark(quiet(blacks), { played: ps('F#4', 'G#4') }).reason).toBe('You chose 2 keys, but this needs 3 keys.');
+    expect(mark(quiet(blacks), { played: ps('F#4', 'G4', 'A#4') }).reason).toBe(
+      'One of those is a white key: the group you want is the three black keys.',
+    );
+    const whites = { ...chord, targets: ps('C4', 'E4', 'G4') };
+    expect(mark(quiet(whites), { played: ps('C4', 'D#4', 'G4') }).reason).toBe(
+      'One of those is a black key: the keys you want are all white keys.',
+    );
+    expect(mark(quiet(whites), { played: ps('C4', 'F4', 'G4') }).reason).toBe(
+      'One of those keys is one key too far to the right of the nearest key you need.',
+    );
+  });
+
+  it('never names a note, whatever the wrong answer', () => {
+    const sequences = [seq, { ...seq, octave: 'any' as const }];
+    for (const payload of sequences) {
+      for (const played of [ps('D4', 'D4', 'D4'), ps('A#3', 'C#5', 'B4'), ps('C5', 'D4', 'E4'), ps('C4', 'D#4', 'E4')]) {
+        const r = mark(quiet(payload), { played });
+        if (!r.correct) noNames(r.reason);
+      }
+    }
+    for (const played of [ps('C4', 'D4', 'F4'), ps('C#4', 'E4', 'G4'), ps('C4', 'E4'), ps('C4', 'C5', 'E4', 'G4').slice(0, 3)]) {
+      const r = mark(quiet(chord), { played });
+      if (!r.correct) noNames(r.reason);
+    }
+    const dup = mark(quiet({ ...chord, octave: 'any', targets: ps('C4', 'E4', 'G4') }), { played: ps('C4', 'E4', 'C5') });
+    noNames(dup.reason);
+  });
+
+  it('the default is unchanged: names still appear', () => {
+    expect(mark(seq, { played: ps('C4', 'F4', 'E4') }).reason).toContain('should be D');
+    expect(mark({ ...seq, nameNotes: true }, { played: ps('C4', 'F4', 'E4') }).reason).toContain('should be D');
+  });
+});

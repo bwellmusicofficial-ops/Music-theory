@@ -2,6 +2,7 @@ import { TheoryError } from '@/engine/api';
 import { pitch } from '@/engine/pitch';
 import type { Pitch } from '@/engine/types';
 import type { MarkResult } from '@/lesson/contracts';
+import { SAME_SOUND_REASON, chordReasonByPosition, sequenceReasonByPosition, tooFewReason } from './position-reason';
 import { joinList, name, playedName } from './reason';
 import type { PlayKeyboardAnswer, PlayKeyboardPayload } from './types';
 
@@ -73,6 +74,10 @@ function markSequence(payload: PlayKeyboardPayload, played: Pitch[]): MarkResult
   const single = targets.length === 1;
   const subject = single ? 'That' : `Note ${first + 1}`;
 
+  if (payload.nameNotes === false) {
+    const reference = octave === 'exact' ? pitch.toMidi(target) : nearestSameName(payload, target, got);
+    return { correct: false, score, reason: sequenceReasonByPosition(single ? 'That key' : `Note ${first + 1}`, reference, pitch.toMidi(got)) };
+  }
   if (octave === 'exact' && pitch.chroma(target) === pitch.chroma(got)) {
     const side = pitch.toMidi(target) > pitch.toMidi(got) ? 'right' : 'left';
     return {
@@ -103,8 +108,10 @@ function markTogether(payload: PlayKeyboardPayload, played: Pitch[]): MarkResult
   const score = matched / Math.max(targets.length, ordered.length);
   if (score === 1) return { correct: true, score: 1 };
 
-  const list = joinList(targets.map(name));
+  const names = payload.nameNotes !== false;
+  const list = names ? joinList(targets.map(name)) : '';
   if (ordered.length < targets.length) {
+    if (!names) return { correct: false, score, reason: tooFewReason(ordered.length, targets.length) };
     const keys = ordered.length === 1 ? 'key' : 'keys';
     return {
       correct: false,
@@ -113,6 +120,7 @@ function markTogether(payload: PlayKeyboardPayload, played: Pitch[]): MarkResult
     };
   }
   const wrong = ordered.find((p) => !targets.some((target) => matches(target, p, octave)));
+  if (wrong && !names) return { correct: false, score, reason: chordReasonByPosition(wrong, targets) };
   if (wrong) {
     return {
       correct: false,
@@ -121,6 +129,7 @@ function markTogether(payload: PlayKeyboardPayload, played: Pitch[]): MarkResult
     };
   }
   // Only reachable with octave 'any': two keys share one note name, so a target is left out.
+  if (!names) return { correct: false, score, reason: SAME_SOUND_REASON };
   return {
     correct: false,
     score,

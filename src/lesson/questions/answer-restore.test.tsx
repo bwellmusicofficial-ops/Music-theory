@@ -247,3 +247,17 @@ describe('complete-bar', () => {
     await waitFor(() => expect(container.querySelectorAll('.vf-stavenote')).toHaveLength(2));
   });
 });
+
+describe('play-keyboard nameNotes', () => {
+  const p = (s: string) => pitch.parsePitch(s);
+  const payload: PlayKeyboardPayload = {
+    low: p('C4'), high: p('C5'), showLabels: false, targets: [p('C4'), p('D4')], mode: 'sequence', octave: 'exact', nameNotes: false,
+  };
+  it('does not list note names in the played-keys summary when nameNotes is false', async () => {
+    render(<PlayKeyboard {...props} payload={payload} />);
+    await userEvent.click(screen.getByRole('button', { name: 'E 4' }));
+    expect(screen.getByTestId('played-summary')).toHaveTextContent('1 key');
+    expect(screen.getByTestId('played-summary')).not.toHaveTextContent(/E/);
+    expect(screen.getByRole('status')).not.toHaveTextContent(/E/);
+  });
+});
