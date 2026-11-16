@@ -1,0 +1,174 @@
+/* Tap It. Colours come from tokens only; --strand-rhythm is the game's accent. */
+
+.ti-root {
+  --ti-accent: var(--strand-rhythm);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text);
+  background:
+    radial-gradient(120% 80% at 85% -10%, color-mix(in srgb, var(--ti-accent) 24%, transparent), transparent 60%),
+    radial-gradient(90% 70% at 0% 110%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%),
+    var(--bg-raised);
+  box-shadow: var(--elev-lg);
+}
+
+.ti-title {
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(2.75rem, 11vw, 5rem);
+  text-transform: uppercase;
+  font-style: italic;
+  background: linear-gradient(100deg, var(--text) 10%, var(--ti-accent) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ti-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-size: clamp(2rem, 9vw, 3.25rem);
+  text-shadow: 0 0 28px color-mix(in srgb, var(--ti-accent) 55%, transparent);
+}
+
+.ti-stat {
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  padding: 0.25rem 0.625rem;
+}
+
+.ti-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  flex: 1;
+  min-height: 3.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--r-md);
+  border: 2px solid var(--border);
+  font-weight: 800;
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface);
+}
+input:checked + .ti-choice {
+  border-color: var(--ti-accent);
+  background: color-mix(in srgb, var(--ti-accent) 22%, var(--surface));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--ti-accent) 40%, transparent);
+}
+input:focus-visible + .ti-choice {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ti-pip {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--border-subtle);
+}
+.ti-pip--on {
+  background: var(--ti-accent);
+  box-shadow: 0 0 8px var(--ti-accent);
+}
+
+.ti-notation {
+  position: relative;
+  border-radius: var(--r-md);
+  border: 2px solid var(--border);
+  background: var(--surface);
+  padding: 0.5rem 0.5rem 0.25rem;
+  /* A bar of room for the count-in chip that straddles the top edge. */
+  margin-top: 0.75rem;
+  /* Room for two systems, so a rhythm that wraps never moves the tap surface under a finger. */
+  min-height: 13.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/*
+ * The rhythm pad brings its own Start button, result block and tap surface. In the game the
+ * round starts it for the learner and the game shows its own result, so those two are hidden
+ * (the live region stays, so the announcements are kept). The tap surface is made taller.
+ */
+.ti-pad section[aria-label='Rhythm pad'] > div > button:not([data-testid='tap-target']),
+.ti-pad section[aria-label='Rhythm pad'] [data-testid='result'] {
+  display: none;
+}
+.ti-pad [data-testid='tap-target'] {
+  min-height: 8.5rem;
+  width: 100%;
+  font-size: 1.75rem;
+  font-weight: 900;
+}
+.ti-pad section[aria-label='Rhythm pad'] {
+  gap: 0.5rem;
+}
+
+.ti-feedback {
+  min-height: 2rem;
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.ti-feedback[data-kind='good'] {
+  color: var(--success);
+}
+.ti-feedback[data-kind='ok'] {
+  color: var(--warning);
+}
+.ti-feedback[data-kind='bad'] {
+  color: var(--danger);
+}
+.ti-feedback[data-kind='level'] {
+  color: var(--ti-accent);
+}
+
+.ti-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 16rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-subtle);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  text-align: center;
+}
+.ti-count {
+  font-size: 5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ti-accent);
+  text-shadow: 0 0 30px var(--ti-accent);
+}
+
+.ti-root:not([data-reduced='true']) .ti-feedback > span {
+  display: inline-block;
+  animation: ti-pop var(--motion-duration-slow) var(--motion-ease-spring);
+}
+.ti-root:not([data-reduced='true']) .ti-count {
+  animation: ti-pop 0.6s var(--motion-ease-spring);
+}
+
+@keyframes ti-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
