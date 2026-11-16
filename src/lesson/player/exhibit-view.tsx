@@ -22,6 +22,8 @@ export interface ExhibitViewProps {
   /** Passage exhibits: live marks and cursor handed to the passage renderer (the explore step's play-along). */
   marks?: Record<string, StaveMark>;
   cursor?: { bar: number; event: number } | null;
+  /** Passage exhibits: whether a Play button is offered. Default true. */
+  playable?: boolean;
 }
 
 /** Structural check only; the stave validates the detail. */
@@ -64,7 +66,7 @@ function PlayButton({
   );
 }
 
-function PassageExhibit({ exhibit, renderers, label, onInteract, marks, cursor }: ExhibitViewProps & { exhibit: Extract<Exhibit, { kind: 'passage' }> }) {
+function PassageExhibit({ exhibit, renderers, label, onInteract, marks, cursor, playable = true }: ExhibitViewProps & { exhibit: Extract<Exhibit, { kind: 'passage' }> }) {
   const [playing, setPlaying] = useState(false);
   const handle = useRef<{ stop(): void } | null>(null);
   const alive = useRef(true);
@@ -138,7 +140,7 @@ function PassageExhibit({ exhibit, renderers, label, onInteract, marks, cursor }
           This example is not a valid passage.
         </div>
       )}
-      {passage ? <PlayButton label={ariaLabel} playing={playing} onToggle={() => void toggle()} /> : null}
+      {passage && playable ? <PlayButton label={ariaLabel} playing={playing} onToggle={() => void toggle()} /> : null}
     </div>
   );
 }

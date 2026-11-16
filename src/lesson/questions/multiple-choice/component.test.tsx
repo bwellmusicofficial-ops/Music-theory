@@ -103,3 +103,39 @@ describe('MultipleChoice component', () => {
     expect(onAnswer).not.toHaveBeenCalled();
   });
 });
+
+describe('MultipleChoice exhibit', () => {
+  const g4 = { letter: 'G' as const, accidental: 0 as const, octave: 4 };
+  const withExhibit: MultipleChoicePayload = {
+    ...payload,
+    exhibit: {
+      kind: 'passage',
+      passage: {
+        clef: 'treble',
+        key: { tonic: { letter: 'G', accidental: 0 }, mode: 'major' },
+        time: { beats: 4, beatUnit: 4 },
+        bars: [{ events: [{ kind: 'note', pitches: [g4], duration: { value: 'semibreve', dots: 0 } }] }],
+      },
+    },
+  };
+
+  it('draws the music the question asks about above the options', () => {
+    const { container } = render(
+      <MultipleChoice payload={withExhibit} terminology="uk" locked={false} result={null} onAnswer={() => {}} />,
+    );
+    const exhibit = container.querySelector('[data-question-exhibit]');
+    expect(exhibit).not.toBeNull();
+    expect(exhibit?.querySelector('[data-exhibit="passage"]')).not.toBeNull();
+    // A reading question: no Play button, and the exhibit comes before the answer buttons.
+    expect(within(exhibit as HTMLElement).queryByRole('button', { name: /play/i })).toBeNull();
+    const firstOption = screen.getAllByRole('button')[0]!;
+    expect(exhibit!.compareDocumentPosition(firstOption) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it('draws nothing extra when the question has no exhibit', () => {
+    const { container } = render(
+      <MultipleChoice payload={payload} terminology="uk" locked={false} result={null} onAnswer={() => {}} />,
+    );
+    expect(container.querySelector('[data-question-exhibit]')).toBeNull();
+  });
+});
