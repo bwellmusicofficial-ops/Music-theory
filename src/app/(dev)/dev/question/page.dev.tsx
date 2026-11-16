@@ -20,7 +20,7 @@ export default async function DevQuestionPage({ searchParams }: Props) {
   if (!question) notFound();
   const seed = Number(first(params.seed) ?? '1') || 1;
   return (
-    <main className="flex flex-1 flex-col">
+    <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
       <QuestionHarness lessonId={lesson.id} question={question} seed={seed} glossary={loadGlossary(lesson.grade)} />
     </main>
   );

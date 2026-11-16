@@ -88,7 +88,7 @@ describe('learn page (course map)', () => {
     expect(screen.getByTestId('draft-note')).toHaveTextContent('not yet been checked by a music specialist');
     const links = screen.getAllByRole('link').filter((a) => a.getAttribute('href')?.startsWith('/lessons/'));
     expect(links.map((a) => a.getAttribute('href'))).toEqual(lessons.map((l) => `/lessons/${l.id}`));
-    const quavers = screen.getByRole('link', { name: /^Quavers, not started, \d+ min, (draft, )?Grade 1 rhythm/ });
+    const quavers = screen.getByRole('link', { name: /^\d+, Quavers, not started, \d+ min, (draft, )?Grade 1 rhythm/ });
     expect(quavers).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Start here' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Grade 1' })).toBeInTheDocument();
@@ -106,9 +106,9 @@ describe('learn page (course map)', () => {
     seed([row(a!.id, 'complete'), row(b!.id, 'mastered'), row(q.id, 'in-progress')]);
     const { container } = renderPage(<LearnPage />);
     await screen.findByText(`Lesson ${lessons.findIndex((l) => l.id === q.id) + 1} of 36`);
-    expect(screen.getByRole('link', { name: new RegExp(`^${a!.title}, complete, `) })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: new RegExp(`^${b!.title}, mastered, `) })).toBeInTheDocument();
-    const current = screen.getByRole('link', { name: /^You are here, Quavers, in progress, \d+ min, (draft, )?Grade 1 rhythm$/ });
+    expect(screen.getByRole('link', { name: new RegExp(`^\\d+, ${a!.title}, complete, `) })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: new RegExp(`^\\d+, ${b!.title}, mastered, `) })).toBeInTheDocument();
+    const current = screen.getByRole('link', { name: /^\d+, You are here, Quavers, in progress, \d+ min, (draft, )?Grade 1 rhythm$/ });
     expect(current).toHaveAttribute('aria-current', 'step');
     expect(current).toHaveTextContent('You are here');
     for (const s of ['complete', 'mastered', 'in-progress', 'not-started']) expect(container.querySelector(`[data-state="${s}"]`)).not.toBeNull();
@@ -124,7 +124,7 @@ describe('learn page (course map)', () => {
   it('uses US titles when the setting is US', async () => {
     resetBrowserState('us');
     renderPage(<LearnPage />);
-    expect(await screen.findByRole('link', { name: /^Eighth notes, (not started, )?\d+ min, (draft, )?Grade 1 rhythm/ })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /^\d+, Eighth notes, (not started, )?\d+ min, (draft, )?Grade 1 rhythm/ })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /^Quavers,/ })).toBeNull();
   });
 

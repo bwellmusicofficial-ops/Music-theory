@@ -46,7 +46,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `npm run build && npm start -- -p ${PORT}`,
+    // CI builds in its own step (E2E_SKIP_BUILD=1); locally the server is built here so a run never tests a stale build.
+    command: process.env.E2E_SKIP_BUILD ? `npm start -- -p ${PORT}` : `npm run build && npm start -- -p ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 300_000,

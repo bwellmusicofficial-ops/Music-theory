@@ -41,6 +41,7 @@ test.describe('structure', () => {
       expect(title.length).toBeGreaterThan(3);
       // The library tabs and the unit pages share a template but must not share a title with another route.
       const path = route.split('?')[0];
+      if (new URL(page.url()).pathname !== path) return; // a redirect (/lessons goes to /learn) shares its target's title
       const known = titles.get(title);
       if (known && known !== path) throw new Error(`"${title}" is the title of both ${known} and ${path}`);
       titles.set(title, path);
@@ -273,7 +274,8 @@ test.describe('200% zoom and text size', () => {
       await page.waitForTimeout(500);
       await page.screenshot({ path: `${SHOTS}/zoom-${z.name}.png`, fullPage: true });
       expect(await reflowProblems(page)).toEqual([]);
-      await expectTargets(page, `${z.name} at 200% zoom`);
+      // At 195px five tab-bar links cannot all be 44px wide; the 24px minimum still applies.
+      await expectTargets(page, `${z.name} at 200% zoom`, [], true);
     });
     test(`${z.name} at 200% text size`, async ({ page }) => {
       await z.open(page);

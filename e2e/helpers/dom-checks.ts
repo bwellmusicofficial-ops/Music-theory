@@ -17,7 +17,7 @@ export interface TargetProblem {
  * (SC 2.5.8 "inline" exception). A control hidden with sr-only (a styled radio) is measured through the
  * label it sits in. Primary actions, answer buttons, tap pads and tab-bar links must reach 44.
  */
-export async function targetProblems(page: Page): Promise<TargetProblem[]> {
+export async function targetProblems(page: Page, relaxPrimary = false): Promise<TargetProblem[]> {
   return page.evaluate(
     ({ min, primary }) => {
       const sel = 'button, a[href], input:not([type=hidden]), select, textarea, summary, [role=button], [role=tab], [role=link], [role=switch], [role=checkbox], [role=radio], [role=menuitem], [tabindex="0"]';
@@ -49,7 +49,10 @@ export async function targetProblems(page: Page): Promise<TargetProblem[]> {
         // Elements with tabindex only (focus targets such as the main landmark or a scroll box) are not controls.
         if (e.matches('[tabindex]') && !e.matches('button, a[href], input, select, textarea, summary, [role]')) continue;
         // Inline text links and term buttons inside a sentence.
-        const inline = (cs.display === 'inline' || cs.display === 'inline-block') && (e.parentElement?.textContent ?? '').trim().length > (e.textContent ?? '').trim().length;
+        // Climb out of inline wrappers: the control is "in a sentence" when the first block-level ancestor has more text.
+        let host = e.parentElement;
+        while (host && getComputedStyle(host).display === 'inline' && (host.textContent ?? '').trim() === (e.textContent ?? '').trim()) host = host.parentElement;
+        const inline = (cs.display === 'inline' || cs.display === 'inline-block') && (host?.textContent ?? '').trim().length > (e.textContent ?? '').trim().length;
         if (inline) continue;
         const isPrimary = e.matches(primarySel);
         const need = isPrimary ? primary : min;
@@ -57,7 +60,7 @@ export async function targetProblems(page: Page): Promise<TargetProblem[]> {
       }
       return out;
     },
-    { min: MIN_TARGET, primary: MIN_PRIMARY },
+    { min: MIN_TARGET, primary: relaxPrimary ? MIN_TARGET : MIN_PRIMARY },
   );
 }
 
@@ -76,6 +79,17 @@ export async function reflowProblems(page: Page): Promise<string[]> {
     const out: string[] = [];
     const doc = document.documentElement;
     if (doc.scrollWidth > doc.clientWidth + 1) out.push(`page scrolls sideways: ${doc.scrollWidth}px in ${doc.clientWidth}px`);
+    // Text that runs out of its own button or link, or off the edge of the screen.
+    for (const e of document.querySelectorAll('button, a[href]')) {
+      if (e.closest('svg, .mtn-stave, [aria-hidden="true"], .sr-only')) continue;
+      const el = e as HTMLElement;
+      const r = el.getBoundingClientRect();
+      if (r.width === 0 || !(el.textContent ?? '').trim()) continue;
+      const own = getComputedStyle(el);
+      if (own.textOverflow === 'ellipsis' || own.overflow === 'hidden') continue;
+      if (el.scrollWidth > el.clientWidth + 1) out.push(`${el.tagName.toLowerCase()} "${(el.textContent ?? '').trim().slice(0, 24)}" text spills out of its box (${el.scrollWidth} > ${el.clientWidth})`);
+      else if (r.right > innerWidth + 1 || r.left < -1) out.push(`${el.tagName.toLowerCase()} "${(el.textContent ?? '').trim().slice(0, 24)}" is off screen`);
+    }
     for (const e of document.querySelectorAll('body *')) {
       if (e.closest('svg, .mtn-stave, [aria-hidden="true"], .sr-only, .mtn-stave__sr')) continue;
       const cs = getComputedStyle(e);
@@ -89,6 +103,11 @@ export async function reflowProblems(page: Page): Promise<string[]> {
       const box = el.getBoundingClientRect();
       const spills = [...el.querySelectorAll('*')].some((c) => {
         if (c.closest('[aria-hidden="true"], svg, .sr-only')) return false;
+        // Content inside a scroll box of its own is reachable by scrolling, not clipped.
+        for (let a = c.parentElement; a && a !== el; a = a.parentElement) {
+          const o = getComputedStyle(a);
+          if (['auto', 'scroll'].includes(o.overflowX) || ['auto', 'scroll'].includes(o.overflowY)) return false;
+        }
         const r = c.getBoundingClientRect();
         return r.width > 0 && (r.right > box.right + 1 || r.bottom > box.bottom + 1 || r.left < box.left - 1) && (c.textContent ?? '').trim().length > 0;
       });
@@ -101,8 +120,8 @@ export async function reflowProblems(page: Page): Promise<string[]> {
 }
 
 /** Fails with each distinct undersized control listed once. TARGET_REPORT=<file> also appends them as JSON lines. */
-export async function expectTargets(page: Page, where: string, ignore: string[] = []): Promise<void> {
-  const found = (await targetProblems(page)).filter((p) => !ignore.some((i) => p.el.includes(i)));
+export async function expectTargets(page: Page, where: string, ignore: string[] = [], relaxPrimary = false): Promise<void> {
+  const found = (await targetProblems(page, relaxPrimary)).filter((p) => !ignore.some((i) => p.el.includes(i)));
   const unique = [...new Map(found.map((p) => [`${p.el}|${p.w}x${p.h}`, p])).values()];
   if (process.env.TARGET_REPORT) appendFileSync(process.env.TARGET_REPORT, unique.map((p) => JSON.stringify({ where, ...p })).join('\n') + (unique.length ? '\n' : ''));
   if (process.env.AXE_REPORT_ONLY === '1') return;
