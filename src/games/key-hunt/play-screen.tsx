@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Button } from '@/components/ui';
+import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import { pitch } from '@/engine/pitch';
 import { createRng } from '@/engine/rng';
 import type { LearnerSettings } from '@/lesson/contracts';
@@ -399,6 +400,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
                   className={`kh-opt${staveOptions ? ' kh-opt--stave' : ''}`}
                   disabled={frozen || revealing}
                   data-state={state}
+                  {...(DEV_ROUTES_ENABLED ? { 'data-test-correct': i === q.correct } : {})}
                   aria-label={o.label}
                   onClick={() => pick(i)}
                 >

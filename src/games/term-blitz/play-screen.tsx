@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Button } from '@/components/ui';
+import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import { createRng } from '@/engine/rng';
 import type { LearnerSettings } from '@/lesson/contracts';
 import type { Bank } from './bank';
@@ -420,6 +421,7 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
                     className="tb-opt"
                     data-testid={`tb-option-${i + 1}`}
                     data-mark={mark}
+                    {...(DEV_ROUTES_ENABLED ? { 'data-test-correct': i === card.correctIndex } : {})}
                     disabled={frozen || view.phase !== 'playing'}
                     aria-keyshortcuts={String(i + 1)}
                     onClick={() => submit(i)}

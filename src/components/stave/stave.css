@@ -157,6 +157,8 @@
   min-width: 44px;
   min-height: 44px;
   padding: 0 var(--space-2);
+  /* Clip glyph ink overflow so it cannot steal taps from the row below. */
+  overflow: hidden;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
