@@ -1,0 +1,1150 @@
+{
+  "schemaVersion": 1,
+  "id": "g1-scales-keys-04-degrees-of-the-scale",
+  "title": "Degrees of the scale",
+  "summary": "Number the notes of a scale from 1 to 8 and find any degree in any Grade 1 key.",
+  "grade": "1",
+  "unit": "scales-1",
+  "order": 4,
+  "strand": "scales-keys",
+  "skills": [
+    "scales-keys.degrees.number"
+  ],
+  "prerequisites": [
+    "g1-scales-keys-03-d-major-and-f-major"
+  ],
+  "estimatedMinutes": 7,
+  "newTerms": [
+    "degree",
+    "tonic"
+  ],
+  "status": "draft",
+  "steps": {
+    "hook": {
+      "text": "A teacher says: \"Play the 5th note of the scale.\" No letter, only a number. Press play to hear a little tune that goes 1, 2, 3, jumps to 5, then walks home 3, 2, 1. Can you tell which note is number 5?",
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 84,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "C",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "minim",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "explore": {
+      "text": "Play the scale of C major and say the numbers aloud as you climb: 1 on C, 2 on D, and on up to 8. Then jump straight to the 5th note without climbing. Which key did you press?",
+      "instrument": "keyboard",
+      "exhibit": {
+        "kind": "keyboard",
+        "highlight": [
+          "C4",
+          "C5"
+        ],
+        "low": "C4",
+        "high": "C5"
+      },
+      "goal": "Count 1 to 8 up the scale from C, then play the 5th note on its own."
+    },
+    "name": {
+      "cards": [
+        {
+          "text": "Each note of a scale has a number, counted up from the bottom. That number is its [[degree|degree]]. The 1st note, where the scale starts, is the [[tonic|tonic]]. The 8th note is the tonic again, an [[octave|octave]] higher.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "The numbers stay the same in every key, but the notes change. The 5th note of C major is G. In G major it is D. To find a degree, count up from the [[tonic|tonic]] and let the [[key-signature|key signature]] do the spelling.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "G",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 1,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "text": "Numbers also say where the [[semitone|semitones]] are. In every major scale they fall between the 3rd and 4th notes, and between the 7th and 8th. In F major that is A to B♭, and E to F.",
+          "exhibit": {
+            "kind": "passage",
+            "tempo": 72,
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "F",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "G",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "A",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": -1,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "C",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "D",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "E",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "F",
+                          "accidental": 0,
+                          "octave": 5
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "alternative": {
+        "text": "Think of a tower with 8 floors. The floor numbers never change, but who lives on each floor depends on the tower. In the D major tower: 1 is D, 2 is E, 3 is F♯, 4 is G, 5 is A, 6 is B, 7 is C♯ and 8 is D again.",
+        "exhibit": {
+          "kind": "keyboard",
+          "highlight": [
+            "D4",
+            "E4",
+            "F#4",
+            "G4",
+            "A4",
+            "B4",
+            "C#5",
+            "D5"
+          ],
+          "low": "D4",
+          "high": "D5"
+        }
+      }
+    },
+    "practice": {
+      "questions": [
+        {
+          "id": "p1-play-the-degree",
+          "type": "play-keyboard",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Play one numbered note of the scale.",
+          "hint": "Call the first note 1 and count up the keys, black ones too if the scale needs them.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "degree",
+              "keys": [
+                "C",
+                "G"
+              ],
+              "showLabels": true
+            }
+          }
+        },
+        {
+          "id": "p2-which-number",
+          "type": "multiple-choice",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Which number is this note?",
+          "hint": "Say the scale from the [[tonic|tonic]], numbering as you go, until you reach the note.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "note-degree",
+              "keys": [
+                "C",
+                "G"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p3-match-the-numbers",
+          "type": "match-up",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "In D major, match each note number to its note.",
+          "hint": "Say the notes of D major in order, using the key signature, and number them from 1.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "one",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 1"
+                },
+                "match": "d",
+                "reason": "Note 1 is the [[tonic|tonic]], the note the scale starts on. In D major that is D."
+              },
+              {
+                "id": "three",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 3"
+                },
+                "match": "fs",
+                "reason": "Note 3 is two steps above the [[tonic|tonic]]: D, E, F♯. The key signature makes the F sharp."
+              },
+              {
+                "id": "five",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 5"
+                },
+                "match": "a",
+                "reason": "Note 5 is D, E, F♯, G, A. Counting D as 1, the fifth note is A."
+              },
+              {
+                "id": "seven",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 7"
+                },
+                "match": "cs",
+                "reason": "Note 7 is the last note before the top D: D, E, F♯, G, A, B, C♯."
+              }
+            ],
+            "right": [
+              {
+                "id": "fs",
+                "face": {
+                  "kind": "text",
+                  "text": "F♯"
+                }
+              },
+              {
+                "id": "cs",
+                "face": {
+                  "kind": "text",
+                  "text": "C♯"
+                }
+              },
+              {
+                "id": "d",
+                "face": {
+                  "kind": "text",
+                  "text": "D"
+                }
+              },
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "p4-which-note",
+          "type": "multiple-choice",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Which note has this number?",
+          "hint": "Count up from the [[tonic|tonic]], calling it 1. Use the key signature for sharps and flats.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "degree-note",
+              "keys": [
+                "D",
+                "F"
+              ]
+            }
+          }
+        },
+        {
+          "id": "p5-write-note-5",
+          "type": "note-on-stave",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "In C major, put the 5th note of the scale on the [[stave|stave]].",
+          "hint": "Call C number 1, then count up through the lines and spaces until you reach 5.",
+          "source": "authored",
+          "payload": {
+            "mode": "place",
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "C",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "target": {
+              "letter": "G",
+              "accidental": 0
+            },
+            "accidentals": false
+          }
+        }
+      ]
+    },
+    "challenge": {
+      "seconds": 90,
+      "count": 8,
+      "passMark": 0.8,
+      "questions": [
+        {
+          "id": "c1-play-the-degree",
+          "type": "play-keyboard",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Play one numbered note of the scale.",
+          "hint": "Call the first note 1 and count up.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "degree"
+            }
+          }
+        },
+        {
+          "id": "c2-which-number",
+          "type": "multiple-choice",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Which number is this note?",
+          "hint": "Count up from the [[tonic|tonic]], calling it 1.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "note-degree"
+            }
+          }
+        },
+        {
+          "id": "c3-which-note",
+          "type": "multiple-choice",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Which note has this number?",
+          "hint": "Count up from the [[tonic|tonic]], calling it 1.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "degree-note"
+            }
+          }
+        },
+        {
+          "id": "c4-write-note-5-in-g",
+          "type": "note-on-stave",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "In G major, put the 5th note of the scale on the [[stave|stave]].",
+          "hint": "Call G number 1 and count up through the lines and spaces.",
+          "source": "authored",
+          "payload": {
+            "mode": "place",
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "G",
+                "accidental": 0
+              },
+              "mode": "major"
+            },
+            "target": {
+              "letter": "D",
+              "accidental": 0
+            },
+            "accidentals": true
+          }
+        },
+        {
+          "id": "c5-play-another-degree",
+          "type": "play-keyboard",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Play one numbered note of the scale.",
+          "hint": "Count up from the first note, black keys included.",
+          "source": "generated",
+          "generator": {
+            "id": "play-scale-or-triad",
+            "params": {
+              "ask": "degree",
+              "keys": [
+                "D",
+                "F"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c6-match-in-f-major",
+          "type": "match-up",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "In F major, match each note number to its note.",
+          "hint": "Say the notes of F major in order, using the key signature, and number them from 1.",
+          "source": "authored",
+          "payload": {
+            "left": [
+              {
+                "id": "one",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 1"
+                },
+                "match": "f",
+                "reason": "Note 1 is the [[tonic|tonic]], the note the scale starts on. In F major that is F."
+              },
+              {
+                "id": "three",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 3"
+                },
+                "match": "a",
+                "reason": "Note 3 is F, G, A. Counting F as 1, the third note is A."
+              },
+              {
+                "id": "four",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 4"
+                },
+                "match": "bb",
+                "reason": "Note 4 is F, G, A, B♭. The key signature makes the B flat."
+              },
+              {
+                "id": "five",
+                "face": {
+                  "kind": "text",
+                  "text": "Note 5"
+                },
+                "match": "c",
+                "reason": "Note 5 is F, G, A, B♭, C. Counting F as 1, the fifth note is C."
+              }
+            ],
+            "right": [
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "C"
+                }
+              },
+              {
+                "id": "f",
+                "face": {
+                  "kind": "text",
+                  "text": "F"
+                }
+              },
+              {
+                "id": "bb",
+                "face": {
+                  "kind": "text",
+                  "text": "B♭"
+                }
+              },
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "c7-what-is-note-8",
+          "type": "multiple-choice",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "What is the 8th note of a scale?",
+          "hint": "The scale climbs from one note up to the same note again.",
+          "source": "authored",
+          "payload": {
+            "options": [
+              {
+                "id": "a",
+                "face": {
+                  "kind": "text",
+                  "text": "A new note that is not in the scale"
+                },
+                "reason": "The scale stops once it gets back to where it began, so there is no new note. The 8th note is the 1st note again."
+              },
+              {
+                "id": "b",
+                "face": {
+                  "kind": "text",
+                  "text": "The 1st note again, an octave higher"
+                }
+              },
+              {
+                "id": "c",
+                "face": {
+                  "kind": "text",
+                  "text": "The same note as the 7th note"
+                },
+                "reason": "The 7th and 8th notes are a step apart, so they are different notes. The 8th is the 1st note again, an [[octave|octave]] higher."
+              }
+            ],
+            "correct": "b"
+          }
+        },
+        {
+          "id": "c8-which-number-again",
+          "type": "multiple-choice",
+          "skill": "scales-keys.degrees.number",
+          "prompt": "Which number is this note?",
+          "hint": "Say the scale from the [[tonic|tonic]], numbering as you go.",
+          "source": "generated",
+          "generator": {
+            "id": "key-facts",
+            "params": {
+              "ask": "note-degree",
+              "keys": [
+                "D",
+                "F"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "recap": {
+      "points": [
+        "Each note of a scale has a number counted up from the bottom: its [[degree|degree]], from 1st to 8th.",
+        "The 1st note is the [[tonic|tonic]], the note the scale starts on. The 8th note is the tonic again, an [[octave|octave]] higher.",
+        "Degree numbers stay the same in every key, but the notes change: the 5th note is G in C major and D in G major.",
+        "In every major scale the two [[semitone|semitones]] fall between the 3rd and 4th notes, and between the 7th and 8th."
+      ],
+      "exhibit": {
+        "kind": "passage",
+        "tempo": 72,
+        "passage": {
+          "clef": "treble",
+          "key": {
+            "tonic": {
+              "letter": "G",
+              "accidental": 0
+            },
+            "mode": "major"
+          },
+          "time": {
+            "beats": 4,
+            "beatUnit": 4
+          },
+          "bars": [
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "A",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "B",
+                      "accidental": 0,
+                      "octave": 4
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "C",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            },
+            {
+              "events": [
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "D",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "E",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "F",
+                      "accidental": 1,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                },
+                {
+                  "kind": "note",
+                  "pitches": [
+                    {
+                      "letter": "G",
+                      "accidental": 0,
+                      "octave": 5
+                    }
+                  ],
+                  "duration": {
+                    "value": "crotchet",
+                    "dots": 0
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
