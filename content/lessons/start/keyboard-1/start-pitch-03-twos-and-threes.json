@@ -34,7 +34,8 @@
           "A#4"
         ],
         "low": "C3",
-        "high": "B4"
+        "high": "B4",
+        "showLabels": false
       }
     },
     "explore": {
@@ -44,9 +45,11 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C3",
-        "high": "B4"
+        "high": "B4",
+        "showLabels": false
       },
-      "goal": "Play every black key from the left and count the size of each group."
+      "goal": "Play every black key from the left and count the size of each group.",
+      "showLabels": false
     },
     "name": {
       "cards": [
@@ -62,7 +65,8 @@
               "A#4"
             ],
             "low": "C4",
-            "high": "B4"
+            "high": "B4",
+            "showLabels": false
           }
         },
         {
@@ -74,7 +78,8 @@
               "D4"
             ],
             "low": "C3",
-            "high": "B4"
+            "high": "B4",
+            "showLabels": false
           }
         }
       ],
@@ -96,7 +101,8 @@
               "kind": "keyboard",
               "highlight": [],
               "low": "C3",
-              "high": "B4"
+              "high": "B4",
+              "showLabels": false
             },
             "options": [
               {
@@ -198,7 +204,9 @@
           "generator": {
             "id": "keyboard-find",
             "params": {
-              "ask": "black-keys"
+              "ask": "black-keys",
+              "showLabels": false,
+              "nameNotes": false
             }
           }
         },
@@ -258,7 +266,9 @@
               "ask": "black-keys",
               "groups": [
                 "twos"
-              ]
+              ],
+              "showLabels": false,
+              "nameNotes": false
             }
           }
         },
@@ -373,7 +383,9 @@
               "ask": "black-keys",
               "groups": [
                 "threes"
-              ]
+              ],
+              "showLabels": false,
+              "nameNotes": false
             }
           }
         },
@@ -423,7 +435,9 @@
           "generator": {
             "id": "keyboard-find",
             "params": {
-              "ask": "black-keys"
+              "ask": "black-keys",
+              "showLabels": false,
+              "nameNotes": false
             }
           }
         },
@@ -472,7 +486,8 @@
           "A#4"
         ],
         "low": "C4",
-        "high": "B4"
+        "high": "B4",
+        "showLabels": false
       }
     }
   }

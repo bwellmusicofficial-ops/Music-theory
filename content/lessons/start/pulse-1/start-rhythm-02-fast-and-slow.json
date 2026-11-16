@@ -25,7 +25,8 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C4",
-        "high": "G4"
+        "high": "G4",
+        "showLabels": false
       }
     },
     "explore": {
@@ -35,9 +36,11 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C4",
-        "high": "G4"
+        "high": "G4",
+        "showLabels": false
       },
-      "goal": "Tap one key slowly, then quickly, then slowly again."
+      "goal": "Tap one key slowly, then quickly, then slowly again.",
+      "showLabels": false
     },
     "name": {
       "cards": [

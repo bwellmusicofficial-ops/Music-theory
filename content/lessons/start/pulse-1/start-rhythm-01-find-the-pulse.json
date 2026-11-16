@@ -24,7 +24,8 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C4",
-        "high": "G4"
+        "high": "G4",
+        "showLabels": false
       }
     },
     "explore": {

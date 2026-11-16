@@ -31,7 +31,8 @@
           "C5"
         ],
         "low": "C3",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       }
     },
     "explore": {
@@ -41,9 +42,11 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C3",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       },
-      "goal": "Play the white key on the left of every group of 2 black keys."
+      "goal": "Play the white key on the left of every group of 2 black keys.",
+      "showLabels": false
     },
     "name": {
       "cards": [
@@ -57,7 +60,8 @@
               "C5"
             ],
             "low": "C3",
-            "high": "C5"
+            "high": "C5",
+            "showLabels": false
           }
         },
         {
@@ -68,7 +72,8 @@
               "C4"
             ],
             "low": "C3",
-            "high": "C5"
+            "high": "C5",
+            "showLabels": false
           }
         }
       ],
@@ -80,7 +85,8 @@
             "C4"
           ],
           "low": "C4",
-          "high": "B4"
+          "high": "B4",
+          "showLabels": false
         }
       }
     },
@@ -143,7 +149,8 @@
               "ask": "find-every",
               "letters": [
                 "C"
-              ]
+              ],
+              "showLabels": false
             }
           }
         },
@@ -301,7 +308,8 @@
               "ask": "find-every",
               "letters": [
                 "C"
-              ]
+              ],
+              "showLabels": false
             }
           }
         },
@@ -531,7 +539,8 @@
               "ask": "find-every",
               "letters": [
                 "C"
-              ]
+              ],
+              "showLabels": false
             }
           }
         },
@@ -616,7 +625,8 @@
           "C5"
         ],
         "low": "C3",
-        "high": "C5"
+        "high": "C5",
+        "showLabels": false
       }
     }
   }

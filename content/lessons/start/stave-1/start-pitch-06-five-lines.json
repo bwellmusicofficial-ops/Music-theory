@@ -120,7 +120,9 @@
               ]
             }
           ]
-        }
+        },
+        "hideClef": true,
+        "hideTime": true
       }
     },
     "explore": {
@@ -264,7 +266,9 @@
               ]
             }
           ]
-        }
+        },
+        "hideClef": true,
+        "hideTime": true
       },
       "goal": "Play the tune and follow the notes as they climb and fall."
     },
@@ -368,7 +372,9 @@
                   ]
                 }
               ]
-            }
+            },
+            "hideClef": true,
+            "hideTime": true
           }
         },
         {
@@ -469,7 +475,9 @@
                   ]
                 }
               ]
-            }
+            },
+            "hideClef": true,
+            "hideTime": true
           }
         }
       ],
@@ -537,7 +545,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "That note sits on the bottom line, which is lower on the [[stave|stave]], so it sounds lower. The note on the fourth line sounds higher."
               },
@@ -578,7 +588,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -754,7 +766,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes step down the [[stave|stave]], so that tune falls. The sound you heard climbed."
               },
@@ -837,7 +851,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes stay level on the [[stave|stave]], so that tune stays on one sound. The tune you heard climbed."
               },
@@ -920,7 +936,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -973,7 +991,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1013,7 +1033,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1053,7 +1075,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -1164,7 +1188,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "That note sits on the top line, so it sounds higher. The note on the second line is lower on the [[stave|stave]]."
               },
@@ -1205,7 +1231,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -1381,7 +1409,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes climb up the [[stave|stave]], so that tune rises. The sound you heard fell."
               },
@@ -1464,7 +1494,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "These notes stay level on the [[stave|stave]], so that tune stays on one sound. The tune you heard fell."
               },
@@ -1547,7 +1579,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -1636,7 +1670,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1676,7 +1712,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1716,7 +1754,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               },
               {
@@ -1756,7 +1796,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -1831,7 +1873,9 @@
                     ]
                   }
                 ]
-              }
+              },
+              "hideClef": true,
+              "hideTime": true
             },
             "options": [
               {
@@ -1871,7 +1915,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "That note is on the second line, lower than the note shown, so it sounds lower."
               },
@@ -1912,7 +1958,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 },
                 "reason": "That note is on the bottom line, the lowest one, so it sounds lower than the note shown."
               },
@@ -1953,7 +2001,9 @@
                         ]
                       }
                     ]
-                  }
+                  },
+                  "hideClef": true,
+                  "hideTime": true
                 }
               }
             ],
@@ -2063,7 +2113,9 @@
               ]
             }
           ]
-        }
+        },
+        "hideClef": true,
+        "hideTime": true
       }
     }
   }

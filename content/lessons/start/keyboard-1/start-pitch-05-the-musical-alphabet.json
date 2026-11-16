@@ -9,8 +9,7 @@
   "summary": "Name the white keys from A to G and see why the letters start again.",
   "order": 3,
   "skills": [
-    "pitch.keyboard.find-notes",
-    "pitch.keyboard.layout"
+    "pitch.keyboard.note-names"
   ],
   "prerequisites": [
     "start-pitch-04-finding-c"
@@ -107,7 +106,7 @@
         {
           "id": "p1-after-g",
           "type": "multiple-choice",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Which letter comes straight after G in the musical alphabet?",
           "hint": "Say the letters from A. What happens when you run out?",
           "source": "authored",
@@ -143,7 +142,7 @@
         {
           "id": "p2-next-note",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play the next note in the musical alphabet.",
           "hint": "Say the letters in order from A. Which one follows? Then play any key with that name.",
           "source": "generated",
@@ -157,7 +156,7 @@
         {
           "id": "p3-order-the-letters",
           "type": "ordering",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Put these letters in musical alphabet order.",
           "hint": "Say A, B, C, D, E, F, G. The letters here come in that order, with some left out.",
           "source": "authored",
@@ -208,7 +207,7 @@
         {
           "id": "p4-find-the-letter",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.layout",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play every note with this name.",
           "hint": "Find C by the twos, then count up the white keys: C, D, E, F, G, A, B.",
           "source": "generated",
@@ -229,7 +228,7 @@
         {
           "id": "p5-g-a-b",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play G, then the next two letters up: A and B.",
           "hint": "After G the alphabet starts again at A. Any G, A and B on the keyboard will do, one after another.",
           "source": "authored",
@@ -276,7 +275,7 @@
         {
           "id": "c1-next-note",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play the next note in the musical alphabet.",
           "hint": "Say the letters in order. Which one comes next?",
           "source": "generated",
@@ -290,7 +289,7 @@
         {
           "id": "c2-previous-note",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play the note before this one in the musical alphabet.",
           "hint": "Say the letters backwards from G. After A, the alphabet wraps round to G.",
           "source": "generated",
@@ -304,7 +303,7 @@
         {
           "id": "c3-find-the-letter",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.layout",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play every note with this name.",
           "hint": "Start from C, which you find by the twos, and count along.",
           "source": "generated",
@@ -326,7 +325,7 @@
         {
           "id": "c4-letter-after",
           "type": "match-up",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Match each letter to the letter that comes after it.",
           "hint": "Say the musical alphabet and stop at each letter. Remember that G is followed by A.",
           "source": "authored",
@@ -388,7 +387,7 @@
         {
           "id": "c5-how-many-letters",
           "type": "multiple-choice",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "How many letters does the musical alphabet use?",
           "hint": "Count A, B, C, D, E, F, G.",
           "source": "authored",
@@ -424,7 +423,7 @@
         {
           "id": "c6-before-a",
           "type": "multiple-choice",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Which letter comes straight **before** A?",
           "hint": "Going down from A, the alphabet wraps round the other way.",
           "source": "authored",
@@ -460,7 +459,7 @@
         {
           "id": "c7-order-f-g-a",
           "type": "ordering",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Put these letters in order, going up the keyboard from F.",
           "hint": "Start at F and say the letters on. Remember that the alphabet starts again after G.",
           "source": "authored",
@@ -503,7 +502,7 @@
         {
           "id": "c8-d-e-f",
           "type": "play-keyboard",
-          "skill": "pitch.keyboard.find-notes",
+          "skill": "pitch.keyboard.note-names",
           "prompt": "Play D, then E, then F.",
           "hint": "Find C by the twos, then count up: C, D, E, F.",
           "source": "authored",

@@ -9,7 +9,8 @@
   "strand": "rhythm",
   "skills": [
     "rhythm.long-short.hear",
-    "rhythm.pulse.steady"
+    "rhythm.pulse.steady",
+    "rhythm.perform.patterns"
   ],
   "prerequisites": [
     "start-rhythm-02-fast-and-slow"
@@ -30,9 +31,11 @@
         "kind": "keyboard",
         "highlight": [],
         "low": "C4",
-        "high": "G4"
+        "high": "G4",
+        "showLabels": false
       },
-      "goal": "Play a short sound, then a long one, then a short one."
+      "goal": "Play a short sound, then a long one, then a short one.",
+      "showLabels": false
     },
     "name": {
       "cards": [
@@ -245,7 +248,7 @@
         {
           "id": "p4-tap-the-pattern",
           "type": "tap-rhythm",
-          "skill": "rhythm.pulse.steady",
+          "skill": "rhythm.perform.patterns",
           "prompt": "Listen, then copy the pattern. One tap for each sound.",
           "hint": "Tap once for every sound, long ones too. After a long one, wait for the second tick before you tap again.",
           "source": "generated",
@@ -286,7 +289,7 @@
         {
           "id": "p5-long-first",
           "type": "tap-rhythm",
-          "skill": "rhythm.pulse.steady",
+          "skill": "rhythm.perform.patterns",
           "prompt": "Listen, then copy it. The long sound comes first.",
           "hint": "Tap the long one, then wait through its second tick. Say \"taa-aa, ta, ta\" as you go.",
           "source": "authored",
@@ -420,7 +423,7 @@
         {
           "id": "c2-tap-pattern",
           "type": "tap-rhythm",
-          "skill": "rhythm.pulse.steady",
+          "skill": "rhythm.perform.patterns",
           "prompt": "Listen, then copy the pattern.",
           "hint": "One tap for each sound. After a long sound, wait for its second tick.",
           "source": "generated",
@@ -579,7 +582,7 @@
         {
           "id": "c5-tap-again",
           "type": "tap-rhythm",
-          "skill": "rhythm.pulse.steady",
+          "skill": "rhythm.perform.patterns",
           "prompt": "Listen, then copy the pattern.",
           "hint": "Tap, wait, tap: a long sound gets one tap and a wait.",
           "source": "generated",
