@@ -148,12 +148,9 @@ export function ResultsScreen({ config, result, lessons, onReview, onRetry }: Re
                   type="button"
                   onClick={() => onReview(q.index)}
                   className="flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-lg border-2 border-border-subtle bg-surface px-3 py-2 text-left hover:border-accent"
-                  aria-label={`Question ${q.index + 1}, ${st.label}. Open to review.`}
                 >
-                  <span
-                    aria-hidden="true"
-                    className="flex size-9 shrink-0 items-center justify-center rounded-md border-2 border-border text-sm font-bold"
-                  >
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-md border-2 border-border text-sm font-bold">
+                    <span className="sr-only">Question </span>
                     {q.index + 1}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -163,8 +160,8 @@ export function ResultsScreen({ config, result, lessons, onReview, onRetry }: Re
                       {st.label}
                     </span>
                   </span>
-                  <span aria-hidden="true" className="text-accent">
-                    Review &rsaquo;
+                  <span className="text-accent">
+                    Review<span aria-hidden="true"> &rsaquo;</span>
                   </span>
                 </button>
               </li>
@@ -202,10 +199,10 @@ export function ReviewHeader({ result, index }: Pick<ReviewHeaderProps, 'result'
   const st = statusOf(q);
   return (
     <div className="flex flex-col gap-1 pt-4 pb-3" data-testid="review-header">
-      <p className="text-sm font-bold uppercase tracking-wide text-muted">
+      <h1 className="text-sm font-bold uppercase tracking-wide text-muted">
         Review: question {index + 1} of {result.questions.length}
         {q.flagged ? ' (flagged)' : ''}
-      </p>
+      </h1>
       <p className="text-sm text-fg-secondary">
         {section ? `${section.title}. ` : ''}Skill: {skillLabel(q.skill).toLowerCase()}
       </p>

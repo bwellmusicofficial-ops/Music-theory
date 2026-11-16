@@ -31,7 +31,7 @@ export function ResultsScreen({ result, bestScore, reducedMotion, onPlayAgain, o
   return (
     <div className="flex flex-col gap-5 p-5 sm:p-8">
       <div>
-        <h2 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Round over</h2>
+        <h1 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Round over</h1>
         <p className="kh-score m-0 mt-1" data-testid="kh-final-score">
           {result.score}
         </p>
@@ -49,9 +49,9 @@ export function ResultsScreen({ result, bestScore, reducedMotion, onPlayAgain, o
         <Stat label="Correct" value={String(result.correct)} />
       </dl>
       <section aria-labelledby="kh-practise">
-        <h3 id="kh-practise" className="m-0 text-lg font-black">
+        <h2 id="kh-practise" className="m-0 text-lg font-black">
           {worst.length > 0 ? 'Keys to practise' : 'No slips'}
-        </h3>
+        </h2>
         {worst.length > 0 ? (
           <ul className="m-0 mt-2 grid list-none grid-cols-1 gap-2 p-0 min-[480px]:grid-cols-2" data-testid="kh-mistakes">
             {worst.map((m) => {

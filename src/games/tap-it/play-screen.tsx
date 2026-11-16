@@ -323,6 +323,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
 
   return (
     <div className="flex flex-col gap-2 p-3 sm:p-5">
+      <h1 className="sr-only">Tap It</h1>
       <p role="status" aria-live="polite" aria-atomic="true" className="sr-only" data-testid="ti-announce">
         <span key={announcement.key}>{announcement.text}</span>
       </p>

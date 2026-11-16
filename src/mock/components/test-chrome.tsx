@@ -31,9 +31,9 @@ export function TestHeader({ paper, state, onGoTo, onFinish }: Omit<TestChromePr
     <div className="sticky top-0 z-10 -mx-4 border-b border-border-subtle bg-bg px-4 pt-3 pb-3" data-testid="test-header">
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-lg font-extrabold leading-tight" data-testid="position">
+          <h1 className="text-lg font-extrabold leading-tight" data-testid="position">
             Question {state.current + 1} of {n}
-          </p>
+          </h1>
           <p className="truncate text-sm text-fg-secondary">{section?.title}</p>
         </div>
         <Countdown secondsLeft={state.secondsLeft} />

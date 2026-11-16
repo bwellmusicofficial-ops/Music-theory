@@ -198,6 +198,9 @@ input:disabled + .kh-choice {
   font-size: 0.75rem;
   font-weight: 800;
 }
+.kh-num::before {
+  content: attr(data-n);
+}
 .kh-tag {
   font-size: 0.7rem;
   font-weight: 900;

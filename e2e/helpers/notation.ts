@@ -31,6 +31,18 @@ export async function expectNotationDrawn(scope: Locator, min = 1): Promise<void
     expect(info.w, `stave ${i} SVG has no width`).toBeGreaterThan(20);
     expect(info.h, `stave ${i} SVG has no height`).toBeGreaterThan(20);
     expect(info.glyphs, `stave ${i} has staff lines but no clef, note or rest glyphs`).toBeGreaterThan(0);
+    // Drawn is not enough: a stave squeezed into a narrow box scrolls sideways and hides its notes. Long
+    // passages may scroll on purpose, but the first note or rest must be inside the visible box.
+    const seen = await stave.locator('.mtn-stave__scroll').evaluate((el) => {
+      const box = el.getBoundingClientRect();
+      const notes = [...el.querySelectorAll('.vf-stavenote')];
+      const visible = notes.filter((n) => {
+        const r = n.getBoundingClientRect();
+        return r.right > box.left + 1 && r.left < box.right - 1 && r.width > 0;
+      }).length;
+      return { notes: notes.length, visible, width: box.width };
+    });
+    if (seen.notes > 0) expect(seen.visible, `stave ${i}: none of its ${seen.notes} notes is visible in a ${Math.round(seen.width)}px box (clipped)`).toBeGreaterThan(0);
   }
 }
 

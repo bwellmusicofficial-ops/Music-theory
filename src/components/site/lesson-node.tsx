@@ -20,12 +20,19 @@ export interface LessonNodeProps {
   terminology: Terminology;
 }
 
-/** The accessible name: "Quavers, Grade 1 rhythm, complete". */
+/**
+ * The accessible name: "Quavers, complete, 6 min, Grade 1 rhythm". It starts with everything the link
+ * shows, in the order it shows it, so voice control ("click Quavers") and the name always agree
+ * (WCAG 2.5.3); the grade and strand are extra context at the end.
+ */
 export function nodeName(lesson: LessonMeta, gradeTitle: string, terminology: Terminology, state: LessonState | undefined, current: boolean): string {
-  const parts = [lessonTitle(lesson, terminology), `${gradeTitle} ${STRAND_NAMES[lesson.strand].toLowerCase()}`];
+  const parts: string[] = [];
+  if (current) parts.push('You are here');
+  parts.push(lessonTitle(lesson, terminology));
   if (state) parts.push(STATE_LABELS[state].toLowerCase());
+  parts.push(`${lesson.estimatedMinutes} min`);
   if (lesson.status === 'draft') parts.push('draft');
-  if (current) parts.push('you are here');
+  parts.push(`${gradeTitle} ${STRAND_NAMES[lesson.strand].toLowerCase()}`);
   return parts.join(', ');
 }
 

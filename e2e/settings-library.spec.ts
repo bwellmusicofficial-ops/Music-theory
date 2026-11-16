@@ -39,8 +39,8 @@ test('US terminology: "crotchet" becomes "quarter note" in a lesson and in the g
   await page.goto('/library?tab=glossary');
   await waitReady(page);
   await page.getByRole('searchbox', { name: 'Search the glossary' }).fill('quarter note');
-  await expect(page.getByRole('heading', { name: 'quarter note', level: 3 }).first()).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'crotchet', level: 3 })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'quarter note', level: 2 }).first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'crotchet', level: 2 })).toHaveCount(0);
 
   // And back to UK, persisted over a reload.
   await page.goto('/settings');
@@ -48,7 +48,7 @@ test('US terminology: "crotchet" becomes "quarter note" in a lesson and in the g
   await page.reload();
   await page.goto('/library?tab=glossary');
   await page.getByRole('searchbox', { name: 'Search the glossary' }).fill('crotchet');
-  await expect(page.getByRole('heading', { name: 'crotchet', level: 3 }).first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'crotchet', level: 2 }).first()).toBeVisible();
 });
 
 test('reduced motion: the setting sets data-reduced-motion and persists', async ({ page }) => {
@@ -118,7 +118,7 @@ test('library: search finds a lesson and a glossary term', async ({ page }) => {
   const term = allGlossary().find((g) => g.id === 'crotchet')!;
   const gsearch = page.getByRole('searchbox', { name: 'Search the glossary' });
   await gsearch.fill(term.term);
-  await expect(page.getByRole('heading', { name: term.term, level: 3 }).first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: term.term, level: 2 }).first()).toBeVisible();
   expectNoProblems(problems);
 });
 

@@ -82,6 +82,11 @@ function formatClock(secs: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
+/** BCP 47 code for a language label shown next to a term (English text needs none). */
+function langCode(label: string | null): string | undefined {
+  return label === 'Italian' ? 'it' : label === 'French' ? 'fr' : label === 'German' ? 'de' : undefined;
+}
+
 export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onExit }: PlayScreenProps) {
   const reduced = settings.reducedMotion;
   const untimed = config.untimed;
@@ -314,6 +319,7 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
 
   return (
     <div className="flex flex-col gap-2.5 p-3 sm:p-5">
+      <h1 className="sr-only">Term Blitz</h1>
       <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">
         <span key={announcement.key}>{announcement.text}</span>
       </p>
@@ -383,7 +389,7 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
               <span aria-hidden="true">{reveal.reason === 'timeout' ? '⏱ ' : '✗ '}</span>
               {reveal.reason === 'timeout' ? 'Time is up' : 'Not quite'}
             </p>
-            <p className="tb-prompt-term" data-testid="tb-answer-term">
+            <p className="tb-prompt-term" data-testid="tb-answer-term" lang={langCode(rv.language)}>
               {rv.term}
             </p>
             {rv.language ? <span className="tb-tag">{rv.language}</span> : null}
@@ -397,7 +403,11 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
         ) : cv ? (
           <div className="tb-prompt" data-testid="tb-prompt">
             <p className="tb-kicker">{cv.kicker}</p>
-            {cv.promptKind === 'term' ? <p className="tb-prompt-term">{cv.prompt}</p> : null}
+            {cv.promptKind === 'term' ? (
+              <p className="tb-prompt-term" lang={langCode(cv.language)}>
+                {cv.prompt}
+              </p>
+            ) : null}
             {cv.promptKind === 'meaning' ? <p className="tb-prompt-meaning">{cv.prompt}</p> : null}
             {cv.promptKind === 'abbreviation' ? (
               <p className="tb-prompt-abbr" aria-label={`Abbreviation ${cv.prompt}`}>
@@ -429,7 +439,9 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
                     <span className="tb-chip" aria-hidden="true">
                       {mark === 'correct' ? '✓' : mark === 'wrong' ? '✗' : i + 1}
                     </span>
-                    <span className="tb-opt-text">{text}</span>
+                    <span className="tb-opt-text" lang={cv.promptKind === 'meaning' ? bank.byId.get(card.options[i])?.language : undefined}>
+                      {text}
+                    </span>
                     {mark === 'correct' ? <span className="sr-only">(correct answer)</span> : null}
                     {mark === 'wrong' ? <span className="sr-only">(your answer, wrong)</span> : null}
                   </button>

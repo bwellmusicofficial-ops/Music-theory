@@ -28,7 +28,7 @@ export function ResultsScreen({ result, bestScore, onPlayAgain, onExit }: Result
   return (
     <div className="flex flex-col gap-5 p-5 sm:p-8">
       <div>
-        <h2 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Round over</h2>
+        <h1 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Round over</h1>
         <p className="nr-score m-0 mt-1" data-testid="nr-final-score">
           {result.score}
         </p>
@@ -46,9 +46,9 @@ export function ResultsScreen({ result, bestScore, onPlayAgain, onExit }: Result
         <Stat label="Correct" value={String(result.correct)} />
       </dl>
       <section aria-labelledby="nr-practise">
-        <h3 id="nr-practise" className="m-0 text-lg font-black">
+        <h2 id="nr-practise" className="m-0 text-lg font-black">
           {worst.length > 0 ? 'Practise these' : 'No slips'}
-        </h3>
+        </h2>
         {worst.length > 0 ? (
           <ul className="m-0 mt-2 flex list-none flex-wrap gap-2 p-0">
             {worst.map((m) => (

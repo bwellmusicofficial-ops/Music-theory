@@ -27,7 +27,7 @@ export function ResultsScreen({ result, bestScore, onPlayAgain, onExit }: Result
     <div className="flex flex-col gap-5 p-5 sm:p-8">
       {result.practice ? (
         <div>
-          <h2 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Practice over</h2>
+          <h1 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Practice over</h1>
           <p className="m-0 mt-1 text-4xl font-black tabular-nums" data-testid="ti-practice-summary">
             {hits} of {result.onsets} notes hit
           </p>
@@ -35,7 +35,7 @@ export function ResultsScreen({ result, bestScore, onPlayAgain, onExit }: Result
         </div>
       ) : (
         <div>
-          <h2 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Round over</h2>
+          <h1 className="m-0 text-sm font-bold uppercase tracking-widest text-fg-secondary">Round over</h1>
           <p className="ti-score m-0 mt-1" data-testid="ti-final-score">
             {result.score}
           </p>
@@ -66,9 +66,9 @@ export function ResultsScreen({ result, bestScore, onPlayAgain, onExit }: Result
       </dl>
       {result.practice ? null : (
         <section aria-labelledby="ti-practise">
-          <h3 id="ti-practise" className="m-0 text-lg font-black">
+          <h2 id="ti-practise" className="m-0 text-lg font-black">
             {result.practise ? 'Next time' : 'No slips'}
-          </h3>
+          </h2>
           <p className="m-0 mt-1 text-fg-secondary" data-testid="ti-practise-line">
             {result.practise ? `${result.practise}.` : 'Every note was a hit.'}
           </p>

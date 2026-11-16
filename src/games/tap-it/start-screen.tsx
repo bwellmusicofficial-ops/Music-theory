@@ -64,7 +64,7 @@ export function StartScreen({ untimed, initialLevel, initialSeconds, bests, onSt
   return (
     <div className="flex flex-col gap-5 p-5 sm:p-8">
       <div>
-        <h2 className="ti-title m-0">Tap It</h2>
+        <h1 className="ti-title m-0">Tap It</h1>
         {untimed ? (
           <>
             <p className="mt-3 max-w-prose text-lg font-medium text-fg-secondary">
