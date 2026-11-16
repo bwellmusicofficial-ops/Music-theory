@@ -218,3 +218,20 @@ describe('RichTextView', () => {
     });
   });
 });
+
+describe('RichTextView: language of foreign terms', () => {
+  const adagio: GlossaryEntry = { ...entry('adagio', 'adagio'), language: 'it' };
+  it('marks an Italian term as lang="it" in its link and in the popover title, and leaves English terms unmarked', async () => {
+    const user = userEvent.setup();
+    render(
+      <p>
+        <RichTextView text="Play [[adagio|adagio]] on each [[beat|beat]]." terminology="uk" glossary={[adagio, ...GLOSSARY]} />
+      </p>,
+    );
+    const link = screen.getByRole('button', { name: 'adagio' });
+    expect(link.querySelector('[lang="it"]')).not.toBeNull();
+    expect(screen.getByRole('button', { name: 'beat' }).querySelector('[lang]')).toBeNull();
+    await user.click(link);
+    expect(screen.getByRole('dialog').querySelector('[lang="it"]')).toHaveTextContent('Adagio');
+  });
+});

@@ -7,7 +7,7 @@ import type { Bests } from '@/progress-view/hooks';
 
 function Card({ href, icon, title, children }: { href: string; icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="group flex items-start gap-4 rounded-3xl border border-border-subtle bg-surface p-5 shadow-md hover:-translate-y-0.5 hover:border-border hover:shadow-lg">
+    <Link href={href} className="group flex min-w-0 items-start gap-4 rounded-3xl border border-border-subtle bg-surface p-5 shadow-md hover:-translate-y-0.5 hover:border-border hover:shadow-lg">
       <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-surface-raised text-accent">
         {icon}
       </span>
@@ -26,7 +26,7 @@ function Card({ href, icon, title, children }: { href: string; icon: React.React
 export function PracticeCards({ bests }: { bests: Bests }) {
   const withBest = GAMES.filter((g) => bests.games[g.id] !== undefined);
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <Card href="/games" icon={<IconGames width={24} height={24} />} title="Games">
         {bests.loaded && withBest.length > 0 ? (
           <span className="flex flex-col">
