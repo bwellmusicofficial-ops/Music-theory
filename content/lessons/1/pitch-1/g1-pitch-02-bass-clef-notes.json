@@ -276,7 +276,7 @@
     "name": {
       "cards": [
         {
-          "text": "This sign is the [[bass-clef|bass clef]]. Its two dots sit either side of the fourth line, which is F. The five [[line|lines]] are G, B, D, F, A, from the bottom up. Try: Giant Bears Dunk Fish Angrily.",
+          "text": "This sign is the [[bass-clef|bass clef]]. Its two dots sit either side of the fourth line, which is F. The five [[line|lines]] are G, B, D, F, A, from the bottom up. Try: Good Birds Don't Fly Away.",
           "exhibit": {
             "kind": "passage",
             "tempo": 72,
@@ -437,7 +437,7 @@
           }
         },
         {
-          "text": "The four [[space|spaces]] are A, C, E, G, from the bottom up. To remember them, try: Ants Cross Every Gap.",
+          "text": "The four [[space|spaces]] are A, C, E, G, from the bottom up. To remember them, try: All Cows Eat Grass.",
           "exhibit": {
             "kind": "passage",
             "tempo": 72,
@@ -1392,7 +1392,7 @@
     "recap": {
       "points": [
         "The bass clef is for low notes. Its two dots sit either side of the F line, the fourth line up.",
-        "Bass clef lines from the bottom are G, B, D, F, A: Giant Bears Dunk Fish Angrily. The spaces are A, C, E, G: Ants Cross Every Gap.",
+        "Bass clef lines from the bottom are G, B, D, F, A: Good Birds Don't Fly Away. The spaces are A, C, E, G: All Cows Eat Grass.",
         "The clef decides the names. The bottom line is E in treble clef but G in bass clef, so check the clef first."
       ],
       "exhibit": {

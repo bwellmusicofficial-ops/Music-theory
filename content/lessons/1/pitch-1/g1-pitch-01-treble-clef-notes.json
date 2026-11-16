@@ -202,7 +202,7 @@
     "name": {
       "cards": [
         {
-          "text": "This [[stave|stave]] starts with a [[treble-clef|treble clef]], a sign that fixes the names of the notes. The five [[line|lines]] are E, G, B, D, F, from the bottom up. To remember them, try: Eager Goats Bounce Down Footpaths.",
+          "text": "This [[stave|stave]] starts with a [[treble-clef|treble clef]], a sign that fixes the names of the notes. The five [[line|lines]] are E, G, B, D, F, from the bottom up. To remember them, try: Every Green Bus Drives Fast.",
           "exhibit": {
             "kind": "passage",
             "tempo": 72,
@@ -363,7 +363,7 @@
           }
         },
         {
-          "text": "The four [[space|spaces]] are F, A, C, E, from the bottom up. They spell a word: FACE. Every line and every space is one letter further along the alphabet than the one before.",
+          "text": "The four [[space|spaces]] are F, A, C, E, from the bottom up. They spell a word: FACE. Remember it as FACE in the space. Every line and every space is one letter further along the alphabet than the one before.",
           "exhibit": {
             "kind": "passage",
             "tempo": 72,
@@ -1357,8 +1357,8 @@
     },
     "recap": {
       "points": [
-        "On the treble clef the five lines are E, G, B, D, F from the bottom up: Eager Goats Bounce Down Footpaths.",
-        "The four spaces are F, A, C, E from the bottom up. They spell FACE.",
+        "On the treble clef the five lines are E, G, B, D, F from the bottom up: Every Green Bus Drives Fast.",
+        "The four spaces are F, A, C, E from the bottom up: FACE in the space.",
         "Read up from the bottom line and the letters climb in order from E to F. After G the musical alphabet starts again at A."
       ],
       "exhibit": {
