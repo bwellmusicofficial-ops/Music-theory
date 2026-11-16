@@ -6,7 +6,8 @@ import { Button } from '@/components/ui';
 import { cn } from '@/components/ui/cn';
 import type { Passage } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
-import { FaceView, ResultMark } from '@/lesson/questions/face-view';
+import { FaceView, ResultMark, SelectedMark } from '@/lesson/questions/face-view';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import type { ByEarAnswer, ByEarPayload } from './types';
 
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
@@ -24,9 +25,21 @@ export function setByEarNotationRenderer(fn: NotationRenderer | null): void {
 }
 
 /** Play buttons for the clips, then the options, which stay disabled until every clip has been heard to the end once. */
-export function ByEar({ payload, locked, result, onAnswer }: QuestionProps<ByEarPayload, ByEarAnswer>) {
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [heard, setHeard] = useState<ReadonlySet<number>>(() => new Set());
+export function ByEar({
+  payload,
+  locked,
+  result,
+  onAnswer,
+  initialAnswer,
+  onAnswerChange,
+}: QuestionProps<ByEarPayload, ByEarAnswer>) {
+  const restored = payload.options.some((o) => o.id === initialAnswer?.optionId);
+  const [chosen, setChosen] = useState<string | null>(() => (restored ? (initialAnswer?.optionId ?? null) : null));
+  // A restored answer was given after listening, so the options stay open.
+  const [heard, setHeard] = useState<ReadonlySet<number>>(() =>
+    restored ? new Set(payload.clips.map((_, i) => i)) : new Set(),
+  );
+  useAnswerReporting<ByEarAnswer>(chosen === null ? null : { optionId: chosen }, onAnswerChange);
   const [playing, setPlaying] = useState<number | null>(null);
   const [problem, setProblem] = useState(false);
   const current = useRef<{ index: number; stop(): void; stopped: boolean } | null>(null);
@@ -147,12 +160,14 @@ export function ByEar({ payload, locked, result, onAnswer }: QuestionProps<ByEar
         {payload.options.map((option, index) => {
           const isCorrect = option.id === payload.correct;
           const isChosen = chosen === option.id;
-          const state = result === null ? 'idle' : isCorrect ? 'right' : isChosen ? 'wrong' : 'other';
+          const state =
+            result === null ? (isChosen ? 'selected' : 'idle') : isCorrect ? 'right' : isChosen ? 'wrong' : 'other';
           return (
             <li key={option.id}>
               <button
                 type="button"
                 disabled={optionsOff}
+                aria-pressed={result === null ? isChosen : undefined}
                 data-state={state}
                 onClick={() => choose(option.id)}
                 className={cn(
@@ -162,6 +177,7 @@ export function ByEar({ payload, locked, result, onAnswer }: QuestionProps<ByEar
                   'disabled:cursor-default',
                   !locked && !allHeard && 'opacity-60',
                   state === 'idle' && 'border-border',
+                  state === 'selected' && 'border-accent',
                   state === 'right' && 'border-success',
                   state === 'wrong' && 'border-danger',
                   state === 'other' && 'border-border-subtle opacity-60',
@@ -176,6 +192,7 @@ export function ByEar({ payload, locked, result, onAnswer }: QuestionProps<ByEar
                 <span className="flex min-w-0 flex-1 items-center text-lg font-semibold">
                   <FaceView face={option.face} {...(notationRenderer ? { renderPassage: notationRenderer } : {})} />
                 </span>
+                {state === 'selected' ? <SelectedMark /> : null}
                 {state === 'right' ? <ResultMark tone="right">Correct answer</ResultMark> : null}
                 {state === 'wrong' ? <ResultMark tone="wrong">Your answer</ResultMark> : null}
               </button>

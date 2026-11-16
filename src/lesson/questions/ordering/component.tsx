@@ -8,9 +8,23 @@ import { rhythm } from '@/engine/rhythm';
 import type { Terminology } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
 import { FaceView, ResultMark, plainText } from '@/lesson/questions/face-view';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import type { OrderingAnswer, OrderingPayload } from './types';
 
 type Direction = 'up' | 'down';
+
+function isPermutation(payload: OrderingPayload, order: readonly string[]): boolean {
+  return (
+    order.length === payload.items.length &&
+    payload.items.every((item) => order.includes(item.id)) &&
+    new Set(order).size === order.length
+  );
+}
+
+/** A restored order if it holds every item once, otherwise the starting order. */
+function restoreOrder(payload: OrderingPayload, answer: OrderingAnswer | undefined): string[] {
+  return answer && isPermutation(payload, answer.order) ? [...answer.order] : payload.items.map((item) => item.id);
+}
 type Item = OrderingPayload['items'][number];
 
 /** What a screen reader calls an item: its text, its note name, or its place in the starting order. */
@@ -37,8 +51,14 @@ export function Ordering({
   locked,
   result,
   onAnswer,
+  initialAnswer,
+  onAnswerChange,
+  hideCheck = false,
 }: QuestionProps<OrderingPayload, OrderingAnswer>) {
-  const [order, setOrder] = useState<string[]>(() => payload.items.map((item) => item.id));
+  const [order, setOrder] = useState<string[]>(() => restoreOrder(payload, initialAnswer));
+  // The starting order is not an answer until the learner moves something (or one is restored).
+  const [moved, setMoved] = useState(() => initialAnswer !== undefined && isPermutation(payload, initialAnswer.order));
+  useAnswerReporting<OrderingAnswer>(moved ? { order } : null, onAnswerChange);
   const [announcement, setAnnouncement] = useState('');
   /** After a move, focus returns to the row (arrow keys) or to the same button (buttons). */
   const pendingFocus = useRef<{ id: string; via: Direction | 'row' } | null>(null);
@@ -83,6 +103,7 @@ export function Ordering({
     [next[from], next[to]] = [next[to] as string, next[from] as string];
     pendingFocus.current = { id, via };
     setOrder(next);
+    setMoved(true);
     setAnnouncement(`${label} moved to position ${to + 1} of ${order.length}.`);
   }
 
@@ -180,11 +201,13 @@ export function Ordering({
       <p role="status" aria-live="polite" className="sr-only" data-testid="ordering-announcement">
         {announcement}
       </p>
-      <div>
-        <Button size="lg" className="w-full sm:w-auto" disabled={locked} onClick={() => onAnswer({ order })}>
-          Check
-        </Button>
-      </div>
+      {hideCheck ? null : (
+        <div>
+          <Button size="lg" className="w-full sm:w-auto" disabled={locked} onClick={() => onAnswer({ order })}>
+            Check
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

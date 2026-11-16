@@ -5,19 +5,43 @@ import { Button } from '@/components/ui';
 import { cn } from '@/components/ui/cn';
 import type { QuestionProps } from '@/lesson/contracts';
 import { FaceView, ResultMark } from '@/lesson/questions/face-view';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import type { MatchUpAnswer, MatchUpPayload } from './types';
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'] as const;
+
+/** The pairs of a restored answer that name real items; anything else is dropped. */
+function restorePairs(payload: MatchUpPayload, answer: MatchUpAnswer | undefined): Record<string, string> {
+  const out: Record<string, string> = {};
+  const used = new Set<string>();
+  for (const item of payload.left) {
+    const rightId = answer?.pairs[item.id];
+    if (rightId !== undefined && payload.right.some((r) => r.id === rightId) && !used.has(rightId)) {
+      out[item.id] = rightId;
+      used.add(rightId);
+    }
+  }
+  return out;
+}
 
 /**
  * Tap a left item, then a right item, to pair them. Tapping a paired item (either side) unpairs it.
  * Every control is a button, so the same steps work with the keyboard.
  */
-export function MatchUp({ payload, locked, result, onAnswer }: QuestionProps<MatchUpPayload, MatchUpAnswer>) {
-  const [pairs, setPairs] = useState<Record<string, string>>({});
+export function MatchUp({
+  payload,
+  locked,
+  result,
+  onAnswer,
+  initialAnswer,
+  onAnswerChange,
+  hideCheck = false,
+}: QuestionProps<MatchUpPayload, MatchUpAnswer>) {
+  const [pairs, setPairs] = useState<Record<string, string>>(() => restorePairs(payload, initialAnswer));
   const [active, setActive] = useState<string | null>(null);
 
   const complete = payload.left.every((item) => Object.hasOwn(pairs, item.id));
+  useAnswerReporting<MatchUpAnswer>(complete ? { pairs } : null, onAnswerChange);
   const rightLetter = (rightId: string) => LETTERS[payload.right.findIndex((item) => item.id === rightId)];
   const leftNumber = (leftId: string) => payload.left.findIndex((item) => item.id === leftId) + 1;
   const partnerOf = (rightId: string): string | undefined =>
@@ -144,16 +168,18 @@ export function MatchUp({ payload, locked, result, onAnswer }: QuestionProps<Mat
         </ul>
       </div>
 
-      <div>
-        <Button
-          size="lg"
-          className="w-full sm:w-auto"
-          disabled={locked || !complete}
-          onClick={() => onAnswer({ pairs })}
-        >
-          Check
-        </Button>
-      </div>
+      {hideCheck ? null : (
+        <div>
+          <Button
+            size="lg"
+            className="w-full sm:w-auto"
+            disabled={locked || !complete}
+            onClick={() => onAnswer({ pairs })}
+          >
+            Check
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

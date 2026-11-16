@@ -149,6 +149,7 @@ function Running({ test, config, glossary, settings, questionTypes, lessons, sin
   const flag = useCallback((i: number) => test.toggleFlag(i), [test]);
   const goTo = useCallback((i: number) => test.goTo(i), [test]);
   const onAnswer = useCallback((i: number, a: unknown) => test.setAnswer(i, a), [test]);
+  const onClear = useCallback((i: number) => test.clearAnswer(i), [test]);
   const onSkip = useCallback((i: number) => test.goTo(i + 1), [test]);
 
   const common = {
@@ -159,13 +160,12 @@ function Running({ test, config, glossary, settings, questionTypes, lessons, sin
     terminology: settings.terminology,
     glossary,
     onAnswer,
+    onClear,
     onSkip,
   };
 
   const n = paper.questions.length;
 
-  // The panels sit at one fixed place in the tree (the keyed wrapper below) in every phase, so the
-  // question components keep their state from the test into the review.
   return (
     <div className="flex flex-1 flex-col" ref={top}>
       {finished ? null : paper.problems.length > 0 ? (

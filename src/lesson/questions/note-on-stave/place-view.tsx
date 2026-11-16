@@ -5,6 +5,7 @@ import { Stave } from '@/components/stave';
 import { Button } from '@/components/ui';
 import type { Passage, Pitch, Terminology } from '@/engine/types';
 import type { MarkResult } from '@/lesson/contracts';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import { singleNotePassage } from './passage';
 import type { NoteOnStaveAnswer, NoteOnStavePlace } from './types';
 
@@ -17,6 +18,9 @@ export interface PlaceViewProps {
   locked: boolean;
   result: MarkResult | null;
   onAnswer: (answer: NoteOnStaveAnswer) => void;
+  initialAnswer?: Extract<NoteOnStaveAnswer, { mode: 'place' }>;
+  onAnswerChange?: (answer: NoteOnStaveAnswer | null) => void;
+  hideCheck?: boolean;
 }
 
 function placedPitch(passage: Passage): Pitch | null {
@@ -25,9 +29,21 @@ function placedPitch(passage: Passage): Pitch | null {
 }
 
 /** The stave in "pitch only" mode: one semibreve that a tap, drag or letter key sets. Check commits. */
-export function PlaceView({ payload, terminology, locked, result, onAnswer }: PlaceViewProps) {
-  const [passage, setPassage] = useState<Passage>(() => singleNotePassage(payload.clef, payload.key, null));
+export function PlaceView({
+  payload,
+  terminology,
+  locked,
+  result,
+  onAnswer,
+  initialAnswer,
+  onAnswerChange,
+  hideCheck = false,
+}: PlaceViewProps) {
+  const [passage, setPassage] = useState<Passage>(() =>
+    singleNotePassage(payload.clef, payload.key, initialAnswer?.pitch ?? null),
+  );
   const placed = placedPitch(passage);
+  useAnswerReporting<NoteOnStaveAnswer>(placed === null ? null : { mode: 'place', pitch: placed }, onAnswerChange);
   const palette = useMemo(
     () => ({ durations: [...DURATION], accidentals: payload.accidentals }),
     [payload.accidentals],
@@ -52,16 +68,18 @@ export function PlaceView({ payload, terminology, locked, result, onAnswer }: Pl
         terminology={terminology}
         ariaLabel={readOnly ? 'The note you placed on the stave' : 'Place the note on the stave'}
       />
-      <div>
-        <Button
-          size="lg"
-          className="w-full sm:w-auto"
-          disabled={readOnly || placed === null}
-          onClick={() => placed && onAnswer({ mode: 'place', pitch: placed })}
-        >
-          Check
-        </Button>
-      </div>
+      {hideCheck ? null : (
+        <div>
+          <Button
+            size="lg"
+            className="w-full sm:w-auto"
+            disabled={readOnly || placed === null}
+            onClick={() => placed && onAnswer({ mode: 'place', pitch: placed })}
+          >
+            Check
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

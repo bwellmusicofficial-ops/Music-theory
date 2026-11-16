@@ -2,14 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { getAudioEngine } from '@/audio';
-import { CountInOverlay, RhythmPad, useTapAlong } from '@/components/rhythm-pad';
+import { CountInOverlay, RhythmPad, onsetRefs, useTapAlong } from '@/components/rhythm-pad';
 import type { StaveMark } from '@/components/stave';
 import { Button } from '@/components/ui';
 import { rhythm } from '@/engine/rhythm';
 import type { Passage, Terminology } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
-import { ResultMark } from '@/lesson/questions/face-view';
+import { ResultMark, SelectedMark } from '@/lesson/questions/face-view';
 import { useLearnerSettings } from '@/lesson/player';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import { DEFAULT_TOLERANCE_MS, matchWindowMs, type TapRhythmAnswer, type TapRhythmPayload } from './types';
 
 /** Live feedback for the notation: marks keyed "bar:event" and the note due now. */
@@ -56,6 +57,11 @@ export function describeRhythm(payload: TapRhythmPayload, terminology: Terminolo
   );
 }
 
+/** How many expected onsets the pad will judge: every note, tied notes counted once. */
+function countOnsets(payload: TapRhythmPayload): number {
+  return onsetRefs(payload.bars, payload.time).length;
+}
+
 type Listening = 'idle' | 'playing' | 'heard';
 
 /** Listen (optional), then tap on the rhythm pad. The pad's TapResult is the answer. */
@@ -65,12 +71,21 @@ export function TapRhythm({
   locked,
   result,
   onAnswer,
+  initialAnswer,
+  onAnswerChange,
 }: QuestionProps<TapRhythmPayload, TapRhythmAnswer>) {
   const [listening, setListening] = useState<Listening>('idle');
   const [audioProblem, setAudioProblem] = useState(false);
   const handle = useRef<{ stop(): void } | null>(null);
   const alive = useRef(true);
   const answered = useRef(false);
+  // The recorded tap result, if any: restored on mount, set when the pad completes, cleared by "Tap again".
+  const [recorded, setRecorded] = useState<TapRhythmAnswer | null>(() =>
+    initialAnswer && initialAnswer.errorsMs.length === countOnsets(payload) ? initialAnswer : null,
+  );
+  // Bumped by "Tap again" to remount the pad.
+  const [padRun, setPadRun] = useState(0);
+  useAnswerReporting<TapRhythmAnswer>(recorded, onAnswerChange);
   const { latencyOffsetMs, reducedMotion } = useLearnerSettings();
 
   useEffect(() => {
@@ -121,7 +136,19 @@ export function TapRhythm({
   function handleComplete(tap: TapRhythmAnswer) {
     if (answered.current) return;
     answered.current = true;
+    setRecorded(tap);
     onAnswer(tap);
+  }
+
+  // A host that saves answers as they change (or restores one) gets a summary and a way to redo the tapping.
+  const hosted = onAnswerChange !== undefined || initialAnswer !== undefined;
+  const showRecorded = recorded !== null && hosted && (initialAnswer !== undefined || (!locked && result === null));
+  const canRetap = !locked && result === null;
+
+  function tapAgain() {
+    answered.current = false;
+    setRecorded(null);
+    setPadRun((n) => n + 1);
   }
 
   const mustListen = payload.listenFirst && listening !== 'heard' && !locked;
@@ -169,9 +196,21 @@ export function TapRhythm({
         </div>
       ) : null}
 
-      {mustListen ? null : (
+      {showRecorded ? (
+        <div className="flex flex-wrap items-center gap-3" data-testid="answer-recorded">
+          <p className="flex items-center gap-2 text-lg font-semibold text-fg">
+            <SelectedMark>Answer recorded</SelectedMark>
+          </p>
+          {canRetap ? (
+            <Button variant="secondary" size="lg" onClick={tapAgain}>
+              Tap again
+            </Button>
+          ) : null}
+        </div>
+      ) : mustListen ? null : (
         <div inert={locked} data-testid="pad-wrapper">
           <RhythmPad
+            key={padRun}
             mode="perform"
             bars={payload.bars}
             time={payload.time}

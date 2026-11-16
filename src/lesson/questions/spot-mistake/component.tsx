@@ -7,6 +7,7 @@ import { Button } from '@/components/ui';
 import type { QuestionProps } from '@/lesson/contracts';
 import { PlayButton } from '@/lesson/questions/notation/play-button';
 import { usePassagePlayback } from '@/lesson/questions/notation/use-passage-playback';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import type { SpotMistakeAnswer, SpotMistakePayload } from './types';
 
 const keyOf = (select: SpotMistakePayload['select'], bar: number, event?: number) =>
@@ -23,9 +24,17 @@ export function SpotMistake({
   locked,
   result,
   onAnswer,
+  initialAnswer,
+  onAnswerChange,
+  hideCheck = false,
 }: QuestionProps<SpotMistakePayload, SpotMistakeAnswer>) {
   const { select, passage, mistake, reference } = payload;
-  const [selected, setSelected] = useState<SpotMistakeAnswer | null>(null);
+  const [selected, setSelected] = useState<SpotMistakeAnswer | null>(() => {
+    const a = initialAnswer;
+    if (!a || !payload.passage.bars[a.bar]) return null;
+    return select === 'bar' ? { bar: a.bar } : a.event === undefined ? null : { bar: a.bar, event: a.event };
+  });
+  useAnswerReporting<SpotMistakeAnswer>(selected, onAnswerChange);
   const playback = usePassagePlayback();
   const readOnly = locked || result !== null;
 
@@ -72,9 +81,11 @@ export function SpotMistake({
             onToggle={() => (playback.playing ? playback.stop() : void playback.play(reference.passage, reference.bpm))}
           />
         ) : null}
-        <Button size="lg" disabled={readOnly || selected === null} onClick={() => selected && onAnswer(selected)}>
-          Check
-        </Button>
+        {hideCheck ? null : (
+          <Button size="lg" disabled={readOnly || selected === null} onClick={() => selected && onAnswer(selected)}>
+            Check
+          </Button>
+        )}
       </div>
     </div>
   );

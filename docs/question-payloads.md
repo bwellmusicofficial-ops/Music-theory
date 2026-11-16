@@ -38,6 +38,23 @@ Each type lives in `src/lesson/questions/<type>/` and exports a
   Authors and generators choose the order. This keeps questions replayable from
   a seed.
 
+### 1.1a Restoring and reporting answers
+
+`QuestionProps` has three optional props (see `src/lesson/contracts.ts`) that every
+component honours:
+
+- `initialAnswer`: shows an earlier answer as the current selection or state
+  (chosen option "selected", pairs, order, placed notes, played keys restored; for
+  `tap-rhythm`, "Answer recorded" with a "Tap again" control). It never shows right
+  or wrong marking, which only `result` does. An answer that does not fit the payload
+  is ignored.
+- `onAnswerChange(answer | null)`: called whenever the current answer changes, with
+  null when it is incomplete or cleared. It is not called on mount. It is independent
+  of `onAnswer`, the commit action. In `note-on-stave` identify mode the answer is
+  always the current letter and sign together, whichever was picked last.
+- `hideCheck`: components with their own "Check" button leave it out, for hosts (the
+  mock test) that save answers as they change.
+
 ### 1.2 Shared types
 
 Import engine types from `src/engine/types.ts`. These extra types are shared by

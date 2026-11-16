@@ -8,6 +8,7 @@ import type { Accidental, Letter, PitchClass } from '@/engine/types';
 import type { MarkResult } from '@/lesson/contracts';
 import { ResultMark } from '@/lesson/questions/face-view';
 import type { Terminology } from '@/engine/types';
+import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
 import { singleNotePassage } from './passage';
 import type { NoteOnStaveAnswer, NoteOnStaveIdentify } from './types';
 
@@ -29,12 +30,25 @@ export interface IdentifyViewProps {
   locked: boolean;
   result: MarkResult | null;
   onAnswer: (answer: NoteOnStaveAnswer) => void;
+  initialAnswer?: Extract<NoteOnStaveAnswer, { mode: 'identify' }>;
+  onAnswerChange?: (answer: NoteOnStaveAnswer | null) => void;
 }
 
 /** The note on a read-only stave; letter buttons (and a sign row when `accidentals`) name it. */
-export function IdentifyView({ payload, terminology, locked, result, onAnswer }: IdentifyViewProps) {
-  const [sign, setSign] = useState<Accidental>(0);
-  const [chosen, setChosen] = useState<PitchClass | null>(null);
+export function IdentifyView({
+  payload,
+  terminology,
+  locked,
+  result,
+  onAnswer,
+  initialAnswer,
+  onAnswerChange,
+}: IdentifyViewProps) {
+  const [sign, setSign] = useState<Accidental>(() => (payload.accidentals ? (initialAnswer?.name.accidental ?? 0) : 0));
+  const [letter, setLetter] = useState<Letter | null>(() => initialAnswer?.name.letter ?? null);
+  // The answer is always the current letter and sign together, whichever was picked last.
+  const chosen: PitchClass | null = letter === null ? null : { letter, accidental: payload.accidentals ? sign : 0 };
+  useAnswerReporting<NoteOnStaveAnswer>(chosen === null ? null : { mode: 'identify', name: chosen }, onAnswerChange);
   const passage = useMemo(
     () => singleNotePassage(payload.clef, payload.key, payload.pitch),
     [payload.clef, payload.key, payload.pitch],
@@ -44,16 +58,23 @@ export function IdentifyView({ payload, terminology, locked, result, onAnswer }:
     [result],
   );
 
-  function choose(letter: Letter) {
+  function choose(next: Letter) {
     if (locked) return;
-    const name: PitchClass = { letter, accidental: payload.accidentals ? sign : 0 };
-    setChosen(name);
-    onAnswer({ mode: 'identify', name });
+    setLetter(next);
+    onAnswer({ mode: 'identify', name: { letter: next, accidental: payload.accidentals ? sign : 0 } });
+  }
+
+  function chooseSign(next: Accidental) {
+    if (locked) return;
+    setSign(next);
+    // The letter was already committed: commit the new sign with it, so the answer is not stale.
+    if (letter !== null) onAnswer({ mode: 'identify', name: { letter, accidental: next } });
   }
 
   const shown: PitchClass = payload.pitch;
-  const right = (letter: Letter) => result !== null && letter === shown.letter;
-  const wrong = (letter: Letter) => result !== null && !result.correct && chosen?.letter === letter;
+  const right = (l: Letter) => result !== null && l === shown.letter;
+  const wrong = (l: Letter) => result !== null && !result.correct && chosen?.letter === l;
+  const selected = (l: Letter) => chosen?.letter === l;
 
   return (
     <div className="flex flex-col gap-4">
@@ -74,7 +95,7 @@ export function IdentifyView({ payload, terminology, locked, result, onAnswer }:
               type="button"
               aria-pressed={sign === s.sign}
               disabled={locked}
-              onClick={() => setSign(s.sign)}
+              onClick={() => chooseSign(s.sign)}
               className={cn(CHOICE, 'min-h-11 text-base', sign === s.sign ? 'border-accent' : 'border-border')}
             >
               <span aria-hidden="true" className="mr-2 text-xl">
@@ -86,16 +107,31 @@ export function IdentifyView({ payload, terminology, locked, result, onAnswer }:
         </div>
       ) : null}
       <div role="group" aria-label="Note name" className="flex flex-wrap gap-2">
-        {LETTERS.map((letter) => (
+        {LETTERS.map((l) => (
           <button
-            key={letter}
+            key={l}
             type="button"
             disabled={locked}
-            data-state={right(letter) ? 'right' : wrong(letter) ? 'wrong' : 'idle'}
-            onClick={() => choose(letter)}
-            className={cn(CHOICE, right(letter) ? 'border-success' : wrong(letter) ? 'border-danger' : 'border-border')}
+            aria-pressed={result === null ? selected(l) : undefined}
+            data-state={right(l) ? 'right' : wrong(l) ? 'wrong' : selected(l) && result === null ? 'selected' : 'idle'}
+            onClick={() => choose(l)}
+            className={cn(
+              CHOICE,
+              right(l)
+                ? 'border-success'
+                : wrong(l)
+                  ? 'border-danger'
+                  : selected(l) && result === null
+                    ? 'border-accent'
+                    : 'border-border',
+            )}
           >
-            {letter}
+            {selected(l) && result === null ? (
+              <span aria-hidden="true" className="mr-1.5 text-accent">
+                {'\u2713'}
+              </span>
+            ) : null}
+            {l}
           </button>
         ))}
       </div>
