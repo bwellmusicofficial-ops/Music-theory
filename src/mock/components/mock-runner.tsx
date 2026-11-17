@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Button } from '@/components/ui';
-import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
 import { generators } from '@/lesson/generators';
 import { LessonContextProvider } from '@/lesson/player';
 import { questionTypes as defaultQuestionTypes } from '@/lesson/questions';
@@ -63,7 +62,7 @@ export function MockRunner(props: MockRunnerProps) {
       terminology: settings.terminology,
     });
     // Test hook (dev routes only): the browser tests read the generated paper to answer it.
-    if (DEV_ROUTES_ENABLED) (window as unknown as { __mockPaper?: unknown }).__mockPaper = paper;
+    if (process.env.NEXT_PUBLIC_ENABLE_DEV_ROUTES === '1') (window as unknown as { __mockPaper?: unknown }).__mockPaper = paper;
     setTest(createMockTest({ config, paper, questionTypes, clock, untimed: settings.untimed, lessons }));
   }, [config, makeSeed, generatorRegistry, questionTypes, settings.terminology, settings.untimed, clock, lessons]);
 
