@@ -202,6 +202,27 @@ export function Ordering({
       <p role="status" aria-live="polite" className="sr-only" data-testid="ordering-announcement">
         {announcement}
       </p>
+      {/* Without a move there is no answer, so a learner who thinks the starting order is right says so here. */}
+      {result === null && !moved ? (
+        <div>
+          <Button
+            variant="secondary"
+            size="lg"
+            className="w-full sm:w-auto"
+            disabled={locked}
+            onClick={() => {
+              setMoved(true);
+              setAnnouncement('You chose to keep this order.');
+              if (!hideCheck) onAnswer({ order });
+            }}
+          >
+            This order is correct
+          </Button>
+        </div>
+      ) : null}
+      {result === null && moved && hideCheck ? (
+        <p className="text-sm text-fg-secondary">Your answer is this order. Move an item to change it.</p>
+      ) : null}
       {hideCheck ? null : (
         <div>
           <Button size="lg" className="w-full sm:w-auto" disabled={locked} onClick={() => onAnswer({ order })}>
