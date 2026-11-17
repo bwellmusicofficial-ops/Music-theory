@@ -42,25 +42,25 @@ describe('note-on-stave mark: identify', () => {
     expect(mark(identify('G4'), named('A'))).toEqual({
       correct: false,
       score: 0,
-      reason: 'That note is on the second line of the treble stave, which is G, not A.',
+      reason: 'That note is on the second line of the treble [[stave|stave]], which is G, not A.',
     });
   });
 
   it('wrong letter names the clef and the position, including ledger lines', () => {
     expect(mark(identify('C4', { clef: 'treble' }), named('D')).reason).toBe(
-      'That note is on the first ledger line below the stave of the treble stave, which is C, not D.',
+      'That note is on the first ledger line below the [[stave|stave]] of the treble [[stave|stave]], which is C, not D.',
     );
     expect(mark(identify('E3', { clef: 'bass' }), named('F')).reason).toBe(
-      'That note is in the third space of the bass stave, which is E, not F.',
+      'That note is in the third space of the bass [[stave|stave]], which is E, not F.',
     );
     expect(mark(identify('C4', { clef: 'alto' }), named('B')).reason).toBe(
-      'That note is on the middle line of the alto stave, which is C, not B.',
+      'That note is on the middle line of the alto [[stave|stave]], which is C, not B.',
     );
   });
 
   it('wrong letter, shown note has a sign: names the pitch with its sign', () => {
     expect(mark(identify('F#5', { key: major('G'), accidentals: true }), named('G')).reason).toBe(
-      'That note is on the top line of the treble stave, which is F♯, not G.',
+      'That note is on the top line of the treble [[stave|stave]], which is F♯, not G.',
     );
   });
 
@@ -131,7 +131,7 @@ describe('note-on-stave mark: place', () => {
     );
     // C4 is position -2; B3 (position -3) is one away.
     expect(mark(place('B'), placed('C4')).reason).toBe(
-      'You put the note on the first ledger line below the stave, which is C. B is just below the first ledger line below the stave.',
+      'You put the note on the first ledger line below the [[stave|stave]], which is C. B is just below the first ledger line below the [[stave|stave]].',
     );
     // F4 is position 1; B4 (position 4) is three away and B3 (position -3) four.
     expect(mark(place('B'), placed('F4')).reason).toBe(
@@ -147,7 +147,7 @@ describe('note-on-stave mark: place', () => {
 
   it('right letter, wrong octave: says higher or lower', () => {
     expect(mark(place('C', { octave: 4 }), placed('C5')).reason).toBe(
-      'That is a C, but not the one asked for. You need the C on the first ledger line below the stave, which is lower than yours.',
+      'That is a C, but not the one asked for. You need the C on the first ledger line below the [[stave|stave]], which is lower than yours.',
     );
     expect(mark(place('C', { octave: 5 }), placed('C4')).reason).toBe(
       'That is a C, but not the one asked for. You need the C in the third space, which is higher than yours.',

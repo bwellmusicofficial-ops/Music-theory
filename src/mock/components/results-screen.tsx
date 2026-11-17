@@ -204,7 +204,7 @@ export function ReviewHeader({ result, index }: Pick<ReviewHeaderProps, 'result'
         {q.flagged ? ' (flagged)' : ''}
       </h1>
       <p className="text-sm text-fg-secondary">
-        {section ? `${section.title}. ` : ''}Skill: {skillLabel(q.skill).toLowerCase()}
+        {section ? `${section.title}. ` : ''}Skill: {skillLabel(q.skill)}
       </p>
       <p
         className={`text-xl font-extrabold ${q.correct ? 'text-success' : q.answered ? 'text-danger' : 'text-fg-secondary'}`}

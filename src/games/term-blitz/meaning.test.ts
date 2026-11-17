@@ -140,7 +140,7 @@ describe('every glossary entry', () => {
   it('flags entries whose meaning contains their own term (they cannot be asked as meaning cards)', () => {
     const selfReferring = [...bank.byId.values()].filter((i) => i.selfReferring).map((i) => i.id);
     console.log(`SELF-REFERRING (no meaning cards): ${selfReferring.join(', ') || 'none'}`);
-    expect(selfReferring).toEqual(['line']);
+    expect(selfReferring).toEqual([]);
   });
 });
 

@@ -217,9 +217,10 @@ export function plan(type: string, p: Payload, how: How): Plan | null {
             }
           }
           if (JSON.stringify(current) === JSON.stringify(p.items.map((i: any) => i.id))) {
-            // Nothing moved: a never-moved list is not an answer yet. Nudge an item down and back up.
-            await rows.nth(0).getByRole('button', { name: /^Move .* down$/ }).click();
-            await rows.nth(1).getByRole('button', { name: /^Move .* up$/ }).click();
+            // Nothing moved: the learner says the starting order is right. In a lesson this
+            // answers at once; in a mock test it saves the order as the answer.
+            await root.getByRole('button', { name: 'This order is correct', exact: true }).click();
+            return;
           }
           await clickCheck(root);
         },

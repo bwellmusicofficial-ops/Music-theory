@@ -893,7 +893,7 @@ All facts come from `pitch.keySignature`, `pitch.signatureAccidentals`,
 
 | ask | Exhibit and prompt | Options | Reasons |
 | --- | --- | --- | --- |
-| `name-key` | Passage: one bar with a semibreve rest in the key. `Which key has this {key-signature}?` | `keyName` of each key | `{K} has {desc K}. This signature has {desc}, so the key is {key}.` |
+| `name-key` | Passage: one bar with a semibreve rest in the key. `Which key has this {key-signature}?` (C major, whose signature is empty, adds ` It has no sharps or flats.`) | `keyName` of each key | `{K} has {desc K}. This signature has {desc}, so the key is {key}.` |
 | `accidentals` | none. `Which notes are sharp or flat in {key}?` | the sharps or flats of each key: `No sharps or flats`, `F♯`, `F♯ and C♯`, `B♭` | `That is the signature of {K}: {desc K}. {key} has {desc}.` |
 | `from-triad` | Passage: a semibreve chord, the tonic triad, no key signature. `This is the tonic {triad} of a key. Which key?` | `keyName` of each key | `The tonic triad of {K} is {notes K}. These notes are {notes}, so the key is {key}.` |
 | `degree-note` | none. `In {key}, which note is note {n} of the scale?` | note names, spelled as in the key: degree n-1, n+1, the correct note with its sign dropped (when it has one), then n-2, n+2, n-3, n+3 (degrees 1 to 7 only) | `{X} is note {k} of {key}, not note {n}.` or, for a note not in the key: `{X} is not in {key}: the key signature makes it {Y}.` |

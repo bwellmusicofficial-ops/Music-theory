@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { STRANDS, lessonSchema, skillIdSchema } from './schema';
+import { SKILL_LABELS } from './skill-labels';
 import { SKILLS, skillInfo, skillLabel } from './skills';
 
 const root = process.cwd();
@@ -53,14 +54,27 @@ describe('skills.ts against the authoring guide (section 9)', () => {
 });
 
 describe('skillLabel', () => {
-  it('gives a short title-case label from the topic and detail', () => {
-    expect(skillLabel('rhythm.note-values.crotchet-minim')).toBe('Note Values: Crotchet Minim');
-    expect(skillLabel('pitch.treble.lines')).toBe('Treble: Lines');
-    expect(skillLabel('rhythm.perform.patterns')).toBe('Perform: Patterns');
-    expect(skillLabel('pitch.keyboard.note-names')).toBe('Keyboard: Note Names');
+  it('has a written label for every skill id, none empty and none repeated', () => {
+    const labels = SKILLS.map((s) => SKILL_LABELS[s.id]);
+    expect(SKILLS.filter((s) => !SKILL_LABELS[s.id]?.trim()).map((s) => s.id)).toEqual([]);
+    expect(new Set(labels).size).toBe(labels.length);
+    for (const label of labels) expect(label).toMatch(/^[A-Z0-9]/);
   });
-  it('labels every listed skill, and an unlisted or odd id, without throwing', () => {
-    for (const s of SKILLS) expect(skillLabel(s.id)).toMatch(/^[A-Z0-9]/);
+  it('has no label for an id that is not a skill', () => {
+    const ids = new Set<string>(SKILLS.map((s) => s.id));
+    expect(Object.keys(SKILL_LABELS).filter((id) => !ids.has(id))).toEqual([]);
+  });
+  it('uses the written label for a listed skill', () => {
+    expect(skillLabel('scales-keys.signature.read')).toBe('Reading key signatures');
+    expect(skillLabel('intervals.number.read')).toBe('Naming intervals by number');
+    expect(skillLabel('rhythm.note-values.crotchet-minim')).toBe('Crotchets and minims');
+  });
+  it('keeps every label short enough for a phone: under 40 characters', () => {
+    for (const label of Object.values(SKILL_LABELS)) expect(label.length, label).toBeLessThan(40);
+  });
+  it('falls back to a title-case label from the topic and detail for an id with no written label', () => {
+    expect(skillLabel('rhythm.note-values.triplets')).toBe('Note Values: Triplets');
+    expect(skillLabel('pitch.treble.clef-sign')).toBe('Treble: Clef Sign');
     expect(skillLabel('composition.melody')).toBe('Melody');
     expect(skillLabel('terms')).toBe('Terms');
     expect(skillLabel('score-reading.a.b.c')).toBe('A: B C');

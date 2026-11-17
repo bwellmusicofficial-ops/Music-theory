@@ -116,7 +116,7 @@ describe('weakestSkills', () => {
     ];
     const weak = weakestSkills(rows, lessons);
     expect(weak.map((w) => w.skill)).toEqual(['pitch.treble.lines', 'rhythm.note-values.quaver']);
-    expect(weak[0]).toMatchObject({ accuracy: 0.4, attempts: 5, label: 'Treble: Lines' });
+    expect(weak[0]).toMatchObject({ accuracy: 0.4, attempts: 5, label: 'Treble clef lines' });
     expect(weak[0]!.lessons.map((l) => l.id)).toEqual(['g3']);
     expect(weak[1]!.lessons.map((l) => l.id)).toEqual(['g1', 'g2']);
   });

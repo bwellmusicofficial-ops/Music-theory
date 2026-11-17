@@ -62,6 +62,31 @@ describe('Ordering component', () => {
     expect(onAnswer).toHaveBeenCalledWith({ order: ['crotchet', 'minim', 'semibreve'] });
   });
 
+  it('commits the starting order from "This order is correct" without any move', async () => {
+    const user = userEvent.setup();
+    const { onAnswer } = renderQuestion();
+    await user.click(screen.getByRole('button', { name: 'This order is correct' }));
+    expect(onAnswer).toHaveBeenCalledWith({ order: ['minim', 'semibreve', 'crotchet'] });
+    expect(screen.queryByRole('button', { name: 'This order is correct' })).toBeNull();
+  });
+
+  it('with the Check button hidden, "This order is correct" reports the order as the answer', async () => {
+    const user = userEvent.setup();
+    const onAnswer = vi.fn();
+    const onAnswerChange = vi.fn();
+    render(
+      <Ordering payload={payload} terminology="uk" locked={false} result={null} onAnswer={onAnswer} onAnswerChange={onAnswerChange} hideCheck />,
+    );
+    await user.click(screen.getByRole('button', { name: 'This order is correct' }));
+    expect(onAnswerChange).toHaveBeenLastCalledWith({ order: ['minim', 'semibreve', 'crotchet'] });
+    expect(onAnswer).not.toHaveBeenCalled();
+  });
+
+  it('does not offer "This order is correct" once a result is shown', () => {
+    renderQuestion({ locked: true, result: { correct: false, score: 0, reason: 'x' } });
+    expect(screen.queryByRole('button', { name: 'This order is correct' })).toBeNull();
+  });
+
   it('disables moves and Check when locked', () => {
     renderQuestion({ locked: true });
     screen.getAllByRole('button').forEach((button) => expect(button).toBeDisabled());
@@ -112,6 +137,7 @@ describe('Ordering component: accessible names', () => {
       'Move Semibreve down',
       'Move Crotchet up',
       'Move Crotchet down',
+      'This order is correct',
       'Check',
     ]);
     expect(new Set(names).size).toBe(names.length);

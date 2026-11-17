@@ -34,7 +34,7 @@ function markIdentify(payload: NoteOnStaveIdentify, name: PitchClass): MarkResul
     return {
       correct: false,
       score: 0,
-      reason: `That note is ${where(pos)} of the ${payload.clef} stave, which is ${pitchName(shown)}, not ${pitchName(name)}.`,
+      reason: `That note is ${where(pos)} of the ${payload.clef} [[stave|stave]], which is ${pitchName(shown)}, not ${pitchName(name)}.`,
     };
   }
   // The key signature explains the sign only when it is the sign the note carries.

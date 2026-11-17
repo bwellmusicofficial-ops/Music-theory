@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createRng } from '@/engine/rng';
 import { recordingRng, runBattery } from '../shared/test-kit';
 import { keyFacts, paramsSchema } from './index';
 
@@ -38,6 +39,25 @@ describe('key-facts spec', () => {
     expect(options(out).map((o) => o.face.text)).toEqual(['D major', 'C major', 'G major']);
     expect(options(out)[1]!.reason).toBe('C major has no sharps or flats. This signature has two sharps, F♯ and C♯, so the key is D major.');
     expect(options(out)[2]!.reason).toBe('G major has one sharp, F♯. This signature has two sharps, F♯ and C♯, so the key is D major.');
+  });
+
+  it('name-key: C major says its empty signature has no sharps or flats; other keys do not', () => {
+    const c = keyFacts.generate(parse({ ask: 'name-key' }), recordingRng([0]).rng, 'uk');
+    expect(c.prompt).toBe('Which key has this [[key-signature|key signature]]? It has no sharps or flats.');
+    const g = keyFacts.generate(parse({ ask: 'name-key' }), recordingRng([1]).rng, 'uk');
+    expect(g.prompt).toBe('Which key has this [[key-signature|key signature]]?');
+  });
+
+  it('name-key: C major is asked, and no more often than each other Grade 1 key', () => {
+    const counts: Record<string, number> = { C: 0, G: 0, D: 0, F: 0 };
+    for (let seed = 1; seed <= 800; seed++) {
+      const out = keyFacts.generate(parse({ ask: 'name-key' }), createRng(seed), 'uk');
+      const passage = (out.payload as { exhibit: { passage: { key: { tonic: { letter: string } } } } }).exhibit.passage;
+      counts[passage.key.tonic.letter]!++;
+    }
+    expect(counts.C).toBeGreaterThan(100);
+    const others = [counts.G!, counts.D!, counts.F!];
+    expect(counts.C!).toBeLessThanOrEqual(Math.min(...others) * 1.4);
   });
 
   it('accidentals: the options are the signatures', () => {

@@ -21,8 +21,8 @@ describe('available types', () => {
     expect(availableTypes(bank.byId.get('allegro')!)).toEqual(['term-meaning', 'meaning-term']);
     expect(availableTypes(bank.byId.get('crotchet')!)).toEqual(['term-meaning', 'meaning-term']);
   });
-  it('offers no meaning card to an entry whose meaning names itself', () => {
-    expect(availableTypes(bank.byId.get('line')!)).toEqual([]);
+  it('offers meaning cards to line now that its meaning no longer names itself', () => {
+    expect(availableTypes(bank.byId.get('line')!)).toEqual(['term-meaning', 'meaning-term']);
   });
 });
 

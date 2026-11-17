@@ -33,8 +33,8 @@ export function generate(params: SameNoteOtherClefParams, rng: Rng, t: Terminolo
   const posFrom = pitch.stavePosition(shown, from);
   const posTo = pitch.stavePosition(shown, to);
   const stave = term('stave', t);
-  // where() writes a plain "stave"; link it so the US swap works.
-  const whereText = (pos: number): string => where(pos).replace(/\bstave\b/g, stave);
+  // where() links "stave" as the UK word; show the name for this terminology so the text reads right unswapped.
+  const whereText = (pos: number): string => where(pos).replaceAll('[[stave|stave]]', stave);
 
   const samePlace = pitch.pitchAtStavePosition(posFrom, to);
   const octaveAway = [1, -1].map((d) => ({ ...shown, octave: shown.octave + d })).find((p) => inRange(p, to));

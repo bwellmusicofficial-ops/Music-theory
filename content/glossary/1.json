@@ -20,7 +20,7 @@
     "term": "crotchet",
     "us": "quarter note",
     "language": "en",
-    "definition": "A note with a filled-in head and a stem. In the music you meet first it lasts 1 beat.",
+    "definition": "A note with a filled-in head and a stem with no hook. In 4/4 it lasts 1 beat, twice as long as a [[quaver|quaver]].",
     "grade": "1",
     "strand": "rhythm",
     "exhibit": {
@@ -354,7 +354,7 @@
     "id": "ledger-line",
     "term": "ledger line",
     "language": "en",
-    "definition": "A short extra line added above or below the [[stave|stave]] for notes that are too high or too low to fit on it.",
+    "definition": "A short extra line above or below the [[stave|stave]]. Notes that are too high or too low to fit on it sit on this line.",
     "grade": "1",
     "strand": "pitch"
   },
@@ -378,7 +378,7 @@
     "id": "natural",
     "term": "natural",
     "language": "en",
-    "definition": "The symbol ♮ that cancels a [[sharp|sharp]] or [[flat|flat]], returning the note to its original, unaltered pitch.",
+    "definition": "The symbol ♮ that cancels a [[sharp|sharp]] or [[flat|flat]]. The note goes back to its original, unaltered pitch.",
     "grade": "1",
     "strand": "pitch"
   },
@@ -460,7 +460,7 @@
     "id": "interval",
     "term": "interval",
     "language": "en",
-    "definition": "The distance between two [[note|notes]], counted by [[note-name|letter names]] from the lower note to the higher one, including both. C up to E is a [[3rd|third]].",
+    "definition": "The distance between two [[note|notes]], counted in [[note-name|letter names]]. Count from the lower note up to the higher, including both. C up to E is a [[3rd|third]].",
     "grade": "1",
     "strand": "intervals"
   },
@@ -513,10 +513,18 @@
     "strand": "intervals"
   },
   {
+    "id": "8th",
+    "term": "8th",
+    "language": "en",
+    "definition": "The interval covering eight [[note-name|letter names]], such as C up to the next C. It is the [[octave|octave]].",
+    "grade": "1",
+    "strand": "intervals"
+  },
+  {
     "id": "triad",
     "term": "triad",
     "language": "en",
-    "definition": "A [[chord|chord]] of three notes stacked in thirds: the bottom note, a [[3rd|third]] above it, and another third above that.",
+    "definition": "A [[chord|chord]] of three notes stacked in [[3rd|thirds]]. It has a bottom note, a third above it, and another third above that.",
     "grade": "1",
     "strand": "harmony"
   },
@@ -637,6 +645,22 @@
     "term": "diminuendo",
     "language": "it",
     "definition": "Gradually getting quieter (dim.). It means the same as decrescendo.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "dynamics",
+    "term": "dynamics",
+    "language": "en",
+    "definition": "How loud or quiet music is played. Signs such as [[forte|forte]] and [[piano|piano]] show it.",
+    "grade": "1",
+    "strand": "terms"
+  },
+  {
+    "id": "hairpin",
+    "term": "hairpin",
+    "language": "en",
+    "definition": "The wedge signs that open for getting louder and close for getting quieter. They mean the same as [[crescendo|crescendo]] and [[decrescendo|decrescendo]].",
     "grade": "1",
     "strand": "terms"
   },
@@ -788,7 +812,7 @@
     "id": "accent",
     "term": "accent",
     "language": "en",
-    "definition": "A mark, usually shaped like a sideways V, telling you to play that note louder or with more force.",
+    "definition": "A sideways V mark that tells you to play that note louder. It asks for more force than the notes around it.",
     "grade": "1",
     "strand": "terms"
   },

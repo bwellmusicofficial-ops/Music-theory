@@ -89,7 +89,7 @@ describe('deck membership', () => {
   it('drops only the entries that cannot be asked, and reports them', () => {
     const dropped = entries.filter((e) => e.grade === '1' || e.grade === 'start').filter((e) => !members('start').concat(members('grade-1')).includes(e.id));
     console.log(`NOT ASKABLE (dropped from decks): ${dropped.map((e) => e.id).join(', ') || 'none'}`);
-    expect(dropped.map((e) => e.id)).toEqual(['line']);
+    expect(dropped.map((e) => e.id)).toEqual([]);
   });
   it('does not offer a deck that is too small, and ignores curated ids that are not in the glossary', () => {
     const few = entries.filter((e) => e.language === 'it').slice(0, 3);

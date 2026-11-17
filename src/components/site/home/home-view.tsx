@@ -64,15 +64,23 @@ export function HomeView({ lessons }: { lessons: readonly LessonMeta[] }) {
   const terminology = settings.terminology;
   const next = nextLesson(lessons, progress);
   return (
-    <PageContainer className="gap-5">
-      <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Welcome back</h1>
-      {next ? <ContinueCard next={next} terminology={terminology} /> : <FinishedCard />}
-      <WeekCard week={weekSummary(attempts, now)} streak={streakOf(attempts, now)} />
-      <JourneyCard course={course} journey={journeyPosition(lessons, progress)} progress={progress} />
-      <StrandMeters meters={strandProgress(lessons, progress)} />
-      <WorthAnotherLook skills={weakestSkills(attempts, lessons)} terminology={terminology} />
-      <RecentLessons rows={recentlyOpened(lessons, progress, 3)} terminology={terminology} />
-      <PracticeCards bests={bests} />
+    // One column on a phone. From 1024px: the page widens to two columns, with the
+    // heading and the practice cards spanning both.
+    <PageContainer className="lg:grid lg:max-w-5xl lg:grid-cols-2 lg:items-start">
+      <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl lg:col-span-2">Welcome back</h1>
+      <div className="flex min-w-0 flex-col gap-6">
+        {next ? <ContinueCard next={next} terminology={terminology} /> : <FinishedCard />}
+        <WeekCard week={weekSummary(attempts, now)} streak={streakOf(attempts, now)} />
+        <JourneyCard course={course} journey={journeyPosition(lessons, progress)} progress={progress} />
+      </div>
+      <div className="flex min-w-0 flex-col gap-6">
+        <StrandMeters meters={strandProgress(lessons, progress)} />
+        <WorthAnotherLook skills={weakestSkills(attempts, lessons)} terminology={terminology} />
+        <RecentLessons rows={recentlyOpened(lessons, progress, 3)} terminology={terminology} />
+      </div>
+      <div className="lg:col-span-2 lg:[&>div]:gap-6">
+        <PracticeCards bests={bests} />
+      </div>
     </PageContainer>
   );
 }

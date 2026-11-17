@@ -127,7 +127,7 @@ describe('name-note-on-stave generate', () => {
     expect(out).toEqual({
       type: 'note-on-stave',
       payload: { mode: 'place', clef: 'treble', key: key('C'), target: { letter: 'G', accidental: 0 }, accidentals: false },
-      prompt: 'Put the note **G** on the stave.',
+      prompt: 'Put the note **G** on the [[stave|stave]].',
     });
     expect(out.payload).not.toHaveProperty('octave');
   });
@@ -140,7 +140,13 @@ describe('name-note-on-stave generate', () => {
       rng,
       'uk',
     );
-    expect(out.prompt).toBe('Put the note **G♯** on the stave.');
+    expect(out.prompt).toBe('Put the note **G♯** on the [[stave|stave]].');
+    const us = nameNoteOnStave.generate(
+      parse({ ...treble, mode: 'place', positions: 'lines', accidentals: true }),
+      recordingRng([1, 2]).rng,
+      'us',
+    );
+    expect(us.prompt).toBe('Put the note **G♯** on the [[stave|staff]].');
   });
 
   it('with accidentals false, the key signature sets the accidental of the letter', () => {
