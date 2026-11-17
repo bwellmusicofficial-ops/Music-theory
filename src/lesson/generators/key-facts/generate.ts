@@ -84,7 +84,8 @@ export function generate(params: KeyFactsParams, rng: Rng, t: Terminology): Gene
     );
     return {
       type: 'multiple-choice',
-      prompt: `Which key has this ${plainTerm('key-signature', 'key signature')}?`,
+      // C major draws an empty signature, which reads as broken, so the prompt says what it shows.
+      prompt: `Which key has this ${plainTerm('key-signature', 'key signature')}?${key.tonic.letter === 'C' ? ' It has no sharps or flats.' : ''}`,
       payload: { exhibit: { kind: 'passage', passage: silentBar(clef, key) }, ...placed },
     };
   }
