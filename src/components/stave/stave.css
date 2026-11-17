@@ -223,3 +223,27 @@
 .mtn-stave[data-reduced-motion='true'] .mtn-ghost--shake {
   animation: none;
 }
+
+/* Expression marks (docs/expression.md section 4): coloured with the notation, in both themes. */
+.mtn-stave__notation .mtn-dyn,
+.mtn-stave__notation .mtn-words,
+.mtn-stave__notation .mtn-tempo,
+.mtn-stave__notation .mtn-repeat,
+.mtn-stave__notation .mtn-artic,
+.mtn-stave__notation .mtn-fermata {
+  fill: currentColor;
+  stroke: none;
+}
+.mtn-stave__notation .mtn-hairpin path {
+  fill: none;
+  stroke: currentColor;
+}
+.mtn-stave__notation .mtn-slur path {
+  fill: currentColor;
+  stroke: currentColor;
+}
+/* The bold text font has a very narrow space; "D.C. al Fine" must not read "D.C.alFine". */
+.mtn-stave__notation .mtn-repeat text,
+.mtn-stave__notation .mtn-tempo text {
+  word-spacing: 0.3em;
+}

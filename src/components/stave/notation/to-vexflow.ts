@@ -1,5 +1,5 @@
 /** Pure translation of engine types to VexFlow strings (docs/stave-interaction.md 0 and 1.4). */
-import type { Accidental, Bar, Clef, Key, NoteValue, Pitch, TimeSignature } from '@/engine/types';
+import type { Accidental, Bar, Clef, Duration, Key, NoteValue, Pitch, TimeSignature } from '@/engine/types';
 import type { Engines } from '../types';
 
 export function vexKey(p: Pitch): string {
@@ -53,4 +53,30 @@ export function beamIndexGroups(e: Engines, bar: Bar, time: TimeSignature): numb
   return groups
     .map((g) => g.filter((i) => bar.events[i]?.kind === 'note' && SHORT.has(bar.events[i].duration.value)))
     .filter((g) => g.length >= 2);
+}
+
+// --- expression (docs/expression.md section 4) --------------------------------
+
+export const ARTICULATION_CODES = { staccato: 'a.', accent: 'a>', tenuto: 'a-' } as const;
+
+const TEMPO_CODES: Record<NoteValue, string> = {
+  breve: '1/2',
+  semibreve: 'w',
+  minim: 'h',
+  crotchet: 'q',
+  quaver: '8',
+  semiquaver: '16',
+  demisemiquaver: '32',
+};
+
+/**
+ * The note that `bpm` counts, as StaveTempo wants it. Default: the felt beat of the time
+ * signature (a dotted note in compound time; the written beat unit in irregular metres).
+ */
+export function tempoBeat(time: TimeSignature, beat?: Duration): { duration: string; dots: number } {
+  if (beat) return { duration: TEMPO_CODES[beat.value], dots: beat.dots };
+  const compound = time.beats === 6 || time.beats === 9 || time.beats === 12;
+  const unit = compound ? time.beatUnit / 2 : time.beatUnit;
+  const value: NoteValue = ({ 1: 'semibreve', 2: 'minim', 4: 'crotchet', 8: 'quaver', 16: 'semiquaver' } as Record<number, NoteValue>)[unit] ?? 'crotchet';
+  return { duration: TEMPO_CODES[value], dots: compound ? 1 : 0 };
 }

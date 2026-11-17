@@ -58,3 +58,34 @@ export const NATURAL_GLYPH = '';
 export const SHARP_GLYPH = '';
 export const DOUBLE_SHARP_GLYPH = '';
 export const DOUBLE_FLAT_GLYPH = '';
+
+// Expression (docs/expression.md section 4, docs/stave-interaction.md section 14). Units unless stated.
+/** Highest reserved position (above the bottom line) when a system holds a tempo, pause, sign or word above the stave. */
+export const EXPR_TOP_RESERVED_MAX = 14;
+/** Lowest reserved position (negative) when a system holds a dynamic, hairpin or word below the stave. */
+export const EXPR_BOTTOM_RESERVED_MIN = -9;
+/** Dynamic letters: baseline distance below the bottom stave line. */
+export const DYN_BASELINE_OFFSET = 28;
+/** Rough extent of a drawn dynamic letter above and below its baseline (for room checks). */
+export const DYN_ASCENT = 21;
+export const DYN_DESCENT = 9;
+/** Clear space kept between the lowest note content and the top of the dynamic letters. */
+export const DYN_NOTE_GAP = 3;
+/** Gap between neighbouring dynamics or a dynamic and a hairpin. */
+export const DYN_GAP = 4;
+/** A hairpin squeezed below this width (units) moves to a lower lane instead. */
+export const HAIRPIN_MIN_WIDTH = 16;
+export const HAIRPIN_HEIGHT = 10;
+export const HAIRPIN_LANE_GAP = 14;
+/** Words: font size (pt, VexFlow convention) and baseline offsets from the stave lines. */
+export const WORDS_FONT_PT = 11;
+export const WORDS_BELOW_OFFSET = 28;
+export const WORDS_ABOVE_OFFSET = 14;
+export const TEMPO_BASELINE_ABOVE = 24;
+export const SLUR_GAP = 9;
+/** Extra distance when a staccato, accent or tenuto sign sits on the slur's side of the note. */
+export const SLUR_SIGN_LIFT = 12;
+export const SLUR_MIN_HEIGHT = 12;
+export const SLUR_MAX_HEIGHT = 26;
+/** Room kept at the right of a line for a dynamic under its last note. */
+export const DYN_RIGHT_ROOM = 8;

@@ -3,6 +3,7 @@ import type { Accidental, NoteEvent, Passage, Pitch, ScoreEvent, Terminology } f
 import { signsForBar } from '../edit/accidentals';
 import type { RejectReason } from '../edit/actions';
 import type { Engines, StaveMark } from '../types';
+import { barSigns, eventMarkText, plain, tempoText, toSegments, type TextSegment } from './expression-text';
 import { MESSAGES, SIGN_WORDS, strings } from './strings';
 
 export interface DescribeOptions {
@@ -99,7 +100,7 @@ function inline(e: Engines, passage: Passage, bar: number, event: number, o: Des
   const name = durationName(e, ev, o.terminology);
   let t = ev.kind === 'rest' ? name : `${pitchPart(e, passage, bar, ev, event, o)} ${name}`;
   if (ev.kind === 'note' && ev.tieToNext) t += `, ${MESSAGES.tiedWord}`;
-  return t + tupletWord(ev) + markSuffix(o, `${bar}:${event}`);
+  return t + tupletWord(ev) + eventMarkText(passage, bar, event, o.terminology) + markSuffix(o, `${bar}:${event}`);
 }
 
 function keySigText(e: Engines, passage: Passage): string {
@@ -128,14 +129,19 @@ export interface ShowFlags {
   timeSignature?: boolean;
 }
 
-export function describePassage(e: Engines, passage: Passage, o: DescribeOptions, show: ShowFlags = {}): string {
+/** The description with Italian terms marked for `lang="it"`; use `describePassageSegments` or `describePassage`. */
+function describeMarked(e: Engines, passage: Passage, o: DescribeOptions, show: ShowFlags): string {
   const s = strings(o.terminology);
   const parts: string[] = [];
   if (show.clef !== false) parts.push(`${s.clef[passage.clef]}.`);
   if (show.keySignature !== false) parts.push(`Key signature: ${keySigText(e, passage)}.`);
   if (show.timeSignature !== false) parts.push(`Time signature: ${passage.time.beats} ${passage.time.beatUnit}.`);
+  const tempo = tempoText(e, passage, o.terminology);
+  if (tempo) parts.push(tempo);
   passage.bars.forEach((b, bi) => {
-    const body = b.events.length === 0 ? MESSAGES.empty : b.events.map((_, i) => inline(e, passage, bi, i, o)).join('; ');
+    const signs = barSigns(passage, bi);
+    const events = b.events.length === 0 && signs.before.length + signs.after.length === 0 ? [MESSAGES.empty] : b.events.map((_, i) => inline(e, passage, bi, i, o));
+    const body = [...signs.before, ...events, ...signs.after].join('; ');
     parts.push(`${s.bar} ${bi + 1}: ${body}${markSuffix(o, String(bi))}.`);
   });
   const ed = o.editableBars;
@@ -143,6 +149,15 @@ export function describePassage(e: Engines, passage: Passage, o: DescribeOptions
     parts.push(`${ed.length === 1 ? s.bar : s.barPlural} ${runs(ed)} can be edited.`);
   }
   return parts.join(' ');
+}
+
+export function describePassage(e: Engines, passage: Passage, o: DescribeOptions, show: ShowFlags = {}): string {
+  return plain(describeMarked(e, passage, o, show));
+}
+
+/** Same words as `describePassage`, in pieces, so Italian terms can be given `lang="it"`. */
+export function describePassageSegments(e: Engines, passage: Passage, o: DescribeOptions, show: ShowFlags = {}): TextSegment[] {
+  return toSegments(describeMarked(e, passage, o, show));
 }
 
 // --- announcements --------------------------------------------------------

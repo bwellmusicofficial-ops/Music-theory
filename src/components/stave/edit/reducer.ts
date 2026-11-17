@@ -3,6 +3,7 @@ import type { Engines } from '../types';
 import type { EditAction, EditConstraints, EditFocus, EditResult, RejectReason, Sign } from './actions';
 import { fromWritten, toWritten, type WrittenEvent, type WrittenHead } from './accidentals';
 import { isBarEditable, isEventLocked, isTupletEvent, slotRange, withinCapacity } from './constraints';
+import { carryEventMarks, deleteMap, hasExpressionOrMarks, identityMap, insertMap, remapExpression, type EventMap } from './expression-refs';
 import { pruneTies } from './ties';
 
 type Fail = { fail: RejectReason };
@@ -12,6 +13,8 @@ const isFail = (x: unknown): x is Fail => typeof x === 'object' && x !== null &&
 interface Draft {
   events: WrittenEvent[];
   focus: EditFocus;
+  /** Where each event of the edited bar went (expression refs follow it); identity when omitted. */
+  map?: EventMap;
   /** Which written events' pitches should sound: the focus event heads (or a single head). */
   sound: 'focus-head' | 'focus-event' | 'none';
 }
@@ -57,7 +60,9 @@ export function createReducer(e: Engines) {
 
     const rebuilt = fromWritten(e, draft.events, passage.key, passage.clef, tieIn);
     const nextFirst = passage.bars[barIdx + 1]?.events[0];
-    const newBar = pruneTies(rebuilt, nextFirst);
+    let newBar = pruneTies(rebuilt, nextFirst);
+    // Expression and written signs ride along: the editor models only pitch, length and ties.
+    if (hasExpressionOrMarks(passage)) newBar = carryEventMarks(bar, newBar, draft.map ?? identityMap(bar.events.length));
 
     if (action.type === 'toggle-tie') {
       const before = bar.events[action.event];
@@ -68,7 +73,8 @@ export function createReducer(e: Engines) {
 
     const bars = passage.bars.slice();
     bars[barIdx] = newBar;
-    const next: Passage = { ...passage, bars };
+    let next: Passage = { ...passage, bars };
+    if (hasExpressionOrMarks(passage)) next = remapExpression(passage, next, barIdx, draft.map ?? identityMap(bar.events.length));
 
     const focus = draft.focus;
     let sound: Pitch[] = [];
@@ -115,7 +121,7 @@ export function createReducer(e: Engines) {
           heads: [{ position: a.position, sign: a.sign }],
         });
         if (!capacity(passage, events)) return fail('bar-full');
-        return { events, focus: evFocus(a.slot), sound: 'focus-head' };
+        return { events, focus: evFocus(a.slot), sound: 'focus-head', map: insertMap(w.length, a.slot) };
       }
       case 'insert-rest': {
         if (!c.allow.rests || !c.allow.values.includes(a.value)) return fail('not-allowed');
@@ -128,7 +134,7 @@ export function createReducer(e: Engines) {
           heads: [],
         });
         if (!capacity(passage, events)) return fail('bar-full');
-        return { events, focus: evFocus(a.slot), sound: 'none' };
+        return { events, focus: evFocus(a.slot), sound: 'none', map: insertMap(w.length, a.slot) };
       }
       case 'set-single-note': {
         const entry = c.editable.find((x) => x.bar === a.bar)!;
@@ -151,7 +157,7 @@ export function createReducer(e: Engines) {
           if (cur.kind !== 'note') return fail('no-target');
           events[index] = { ...cur, heads: [{ position: a.position, sign: a.sign }] };
         }
-        return { events, focus: evFocus(index), sound: 'focus-head' };
+        return { events, focus: evFocus(index), sound: 'focus-head', map: index >= end ? insertMap(w.length, index) : undefined };
       }
       case 'move-head': {
         const ev = w[a.event];
@@ -190,7 +196,7 @@ export function createReducer(e: Engines) {
         if (ev.heads.length <= 1) {
           const events = w.slice();
           events.splice(a.event, 1);
-          return { events, focus: slotFocus(a.event), sound: 'none' };
+          return { events, focus: slotFocus(a.event), sound: 'none', map: deleteMap(w.length, a.event) };
         }
         const heads = ev.heads.filter((_, i) => i !== a.pitchIndex);
         const events = w.slice();
@@ -253,7 +259,7 @@ export function createReducer(e: Engines) {
       case 'delete-event': {
         const events = w.slice();
         events.splice(a.event, 1);
-        return { events, focus: slotFocus(a.event), sound: 'none' };
+        return { events, focus: slotFocus(a.event), sound: 'none', map: deleteMap(w.length, a.event) };
       }
     }
   }
