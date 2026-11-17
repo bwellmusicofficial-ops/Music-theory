@@ -50,7 +50,8 @@ function measure(marks: Locator): Promise<Covered[]> {
       const text = el.querySelector('text');
       if (text) {
         const x = Number(text.getAttribute('x'));
-        const y = Number(text.getAttribute('y'));
+        // Repetition signs are moved as a group; the baseline is the attribute plus that move.
+        const y = Number(text.getAttribute('y')) + Number(/translate\(\s*[-\d.]+[ ,]+([-\d.]+)/.exec(el.getAttribute('transform') ?? '')?.[1] ?? 0);
         const dyn = el.classList.contains('mtn-dyn');
         // Ink above the baseline: music-font signs are small marks sitting on the baseline; words are about as tall as 3/4 of their size.
         const asc = dyn ? 21 : el.classList.contains('mtn-artic') ? 4 : el.classList.contains('mtn-fermata') ? 12 : parseFloat(getComputedStyle(text).fontSize) * 0.75;

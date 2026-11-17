@@ -246,7 +246,8 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       const curve = new vf.Curve(part.from, part.to, {
         openingDirection: below ? 'up' : 'down',
         thickness: 2.4,
-        xShift: -4,
+        // Reach to the middle of each head; a piece that runs to the edge of the stave stops there.
+        xShift: part.from && part.to ? -4 : 0,
         yShift: SLUR_GAP + (signOnSide ? SLUR_SIGN_LIFT : 0),
         cps: [
           { x: 0, y: height },
