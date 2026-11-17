@@ -84,7 +84,7 @@
     "id": "line",
     "term": "line",
     "language": "en",
-    "definition": "One of the five horizontal lines of the [[stave|stave]]. A note that sits on a line has its head centred on it.",
+    "definition": "One of the five level strokes that make up the [[stave|stave]]. A note on one has the stroke running through the middle of its head.",
     "grade": "start",
     "strand": "pitch"
   },

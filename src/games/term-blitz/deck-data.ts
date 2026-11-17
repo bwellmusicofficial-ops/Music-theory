@@ -42,6 +42,8 @@ export const CURATED_DECKS: Readonly<Record<CuratedDeckId, readonly string[]>> =
     'crescendo',
     'decrescendo',
     'diminuendo',
+    'dynamics',
+    'hairpin',
     // Words that modify a dynamic ("molto forte", "poco piano").
     'poco',
     'molto',
