@@ -59,6 +59,11 @@ registries, and the four contract files.
 If a task needs a new dependency or a contract change, it says so in its report
 instead of making the change.
 
+## Expression
+
+Dynamics, articulation, slurs, hairpins, tempo marks and changes, the pause and
+repeat signs are optional fields on passages, designed in `docs/expression.md`.
+
 ## Dependency rules
 
 ```

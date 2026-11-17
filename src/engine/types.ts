@@ -120,17 +120,29 @@ export interface NoteEvent {
    * every pitch; an array is parallel to `pitches` (needed for chords).
    */
   showAccidental?: boolean | boolean[];
+  /** Articulation signs on this note (docs/expression.md). Omit for none. */
+  articulations?: Articulation[];
+  /** A pause (fermata) over the note: held about twice as long. */
+  fermata?: boolean;
 }
 
 export interface RestEvent {
   kind: 'rest';
   duration: Duration;
+  /** A pause (fermata) over the rest. */
+  fermata?: boolean;
 }
 
 export type ScoreEvent = NoteEvent | RestEvent;
 
 export interface Bar {
   events: ScoreEvent[];
+  /** A start-repeat sign at the beginning of this bar. */
+  repeatStart?: boolean;
+  /** The bar line at the end of this bar. Default 'single' ('final' on the last bar is drawn automatically only if given). */
+  endBarline?: EndBarline;
+  /** A navigation sign written at this bar (docs/expression.md section 4). */
+  marker?: BarMarker;
 }
 
 /** A single-stave passage. Multi-stave (SATB) arrives in Phase 4. */
@@ -139,6 +151,54 @@ export interface Passage {
   key: Key;
   time: TimeSignature;
   bars: Bar[];
+  /** Dynamics, hairpins, slurs, tempo marks and words. Omit for none. */
+  expression?: Expression;
+}
+
+// ---------------------------------------------------------------------------
+// Expression (docs/expression.md). Everything here is optional, so passages
+// written before it existed are unchanged in meaning, look and sound.
+// ---------------------------------------------------------------------------
+
+export type Articulation = 'staccato' | 'accent' | 'tenuto';
+
+export type EndBarline = 'single' | 'double' | 'final' | 'repeat-end';
+
+export type BarMarker = 'segno' | 'fine' | 'dc' | 'dc-al-fine' | 'ds' | 'ds-al-fine';
+
+export type DynamicLevel = 'pp' | 'p' | 'mp' | 'mf' | 'f' | 'ff';
+
+/** Points at one event: `bars[bar].events[event]`, both zero-based. */
+export interface EventRef {
+  bar: number;
+  event: number;
+}
+
+/** From one event to another, both inclusive; `to` is at or after `from`. */
+export interface EventSpan {
+  from: EventRef;
+  to: EventRef;
+}
+
+export interface Expression {
+  /** A dynamic letter under an event; it applies until the next one. */
+  dynamics?: { at: EventRef; level: DynamicLevel }[];
+  /** Getting louder ('cresc') or quieter ('dim') across a span, drawn as a wedge. */
+  hairpins?: (EventSpan & { kind: 'cresc' | 'dim' })[];
+  /** Curved lines joining different notes to be played smoothly (legato). */
+  slurs?: EventSpan[];
+  /**
+   * The tempo marking at the start: an Italian word, a metronome mark, or both.
+   * `bpm` counts `beat` notes per minute (default: the felt beat of the time signature).
+   */
+  tempo?: { text?: string; bpm?: number; beat?: Duration };
+  /** Gradual or sudden tempo changes. `toBpm` defaults are in docs/expression.md section 3. */
+  tempoChanges?: (
+    | (EventSpan & { kind: 'accel' | 'rit' | 'rall'; toBpm?: number })
+    | { at: EventRef; kind: 'a-tempo' }
+  )[];
+  /** Other words written above or below the stave: cresc., dim., dolce, cantabile, poco, molto... */
+  words?: { at: EventRef; text: string; place?: 'above' | 'below'; lang?: 'it' | 'en' | 'fr' | 'de' }[];
 }
 
 // ---------------------------------------------------------------------------
