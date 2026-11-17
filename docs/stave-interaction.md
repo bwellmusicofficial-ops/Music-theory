@@ -1507,3 +1507,83 @@ budget while keeping VexFlow inside this folder.
   global, move the canvas stub there.
 - No new dependency is needed. `vexflow/bravura` is an export of the installed
   package.
+
+## 14. Expression (E3, docs/expression.md section 4)
+
+The stave draws every marking in `docs/expression.md` section 4, reads them in the passage description, and
+keeps them valid when the learner edits. The marks are displayed in both modes and are never editable in this
+phase. Hit-testing, marks, the cursor and the overlay are untouched. Passages without expression, pauses or
+signs draw exactly as before: `render/layout-baseline.test.ts` compares height, layout model and SVG markup of
+hand-written and real lesson passages with a baseline recorded before the change.
+
+### 14.1 What is drawn, and how
+
+Each mark is wrapped in an SVG `<g>` whose class is the one named in the spec, so tests find it and CSS colours
+it (`.mtn-stave__notation .mtn-*` in `stave.css`; ink is `currentColor`, so both themes work with no redraw).
+VexFlow's `addClass` does not reach the SVG in 5.0.0, so `render/expression.ts` patches the element's `draw` to
+open the group first (`classed`).
+
+| Class | Drawn with | Notes |
+| --- | --- | --- |
+| `mtn-artic` | `Articulation('a.' / 'a>' / 'a-')` as a note modifier | Notehead side, away from the stem: below a stem-up note, above a stem-down note. A semibreve (no stem) takes the side a stem would be on. `data-kind` is the articulation. |
+| `mtn-fermata` | `Articulation('a@a')`, above | Notes and rests. VexFlow stacks it with other signs above. |
+| `mtn-dyn` | `Element` set in Bravura with `TextDynamics.GLYPHS` | Below the stave, left edge on the notehead, one common baseline per system (`DYN_BASELINE_OFFSET` below the bottom line, lower if a low note or a slur below needs it). A dynamic that would touch the one before it is nudged right. `data-level`. |
+| `mtn-hairpin` | `StaveHairpin.renderHairpin` | On the dynamics baseline, from the first event's notehead to the last event's right edge, but starting after a dynamic on its first event and stopping before a dynamic on its last or next event. If that leaves under `HAIRPIN_MIN_WIDTH`, or a dynamic sits inside it, it moves to a second lane `HAIRPIN_LANE_GAP` lower at full width. `data-part` is `whole`, `first`, `middle` or `last`. |
+| `mtn-slur` | `Curve` | Below the heads when every stem points up, above otherwise (mixed stems put it above). Starts from a stem tip when the stem points at the slur. Height grows with length (`SLUR_MIN_HEIGHT` to `SLUR_MAX_HEIGHT`), sits `SLUR_GAP` off the head (more when a sign is on that side), so it reads as longer and flatter than a tie. `data-side`. |
+| `mtn-tempo` | `StaveTempo` on bar 1 | Bold word, then "(note = bpm)", the note being the felt beat (dotted in compound time) or `tempo.beat`. US terminology does not change it. |
+| `mtn-words` | `Element` in italic Academico | The `lang` attribute is on the `<text>` (`words.lang`, else `it` for known Italian terms, else `en`). Above by default, or below. |
+| `mtn-repeat` | repeat, double and final bar lines the passage asks for (`data-kind` `repeat-begin`, `repeat-end`, `repeat-both`, `double`, `final`), and `Repetition` for segno, D.C., D.S., Fine (`data-kind` is the marker) | The plain last bar still gets the default final bar line, untagged. A repeat end followed by a start repeat in the same system is one `REPEAT_BOTH` line. |
+
+Tempo changes (`accel`, `rit`, `rall`, `a-tempo`) are drawn as italic words above ("accel.", "rit.", "rall.",
+"a tempo", class `mtn-words`, `data-tempo-change`) unless a `words` entry at the same event already says it.
+The table in the spec does not list them; a silent speed change would break "show, don't tell".
+
+### 14.2 Room
+
+`layout/expression-room.ts` decides per system: room above for a tempo mark (bar 1), a pause, a bar marker,
+words above or a tempo change; room below for a dynamic, hairpin or words below. Only then does the system's
+reserved range grow (`EXPR_TOP_RESERVED_MAX`, `EXPR_BOTTOM_RESERVED_MIN`). The draw pass also reports what
+the marks actually needed (dynamics under low notes, slurs, words) through the existing overflow loop, so a
+second pass grows the box if the first guess was short. A system holding dynamics keeps `DYN_RIGHT_ROOM` free
+at its right, because a dynamic under the last note can run past the bar line.
+
+Hairpins and slurs that cross a system break are drawn in two parts (more if they cross a whole system): a
+hairpin opens or closes evenly along its whole length, so the pieces meet at the same width; a slur's pieces
+run to and from the stave edges.
+
+### 14.3 Description
+
+`a11y/expression-text.ts` adds to `describePassage`, in reading order: after the time signature, "Tempo:
+Allegro, 120 crotchets a minute." (US "quarter notes"; "dotted crotchets" in compound time); then per bar,
+signs before the events ("start repeat", "segno sign"), each event followed by its marks ("staccato", "accent",
+"tenuto", "pause", "mezzo forte", "marked dolce", "getting louder from note 1 to note 4", "slurred from note 1
+to note 4", "getting slower (ritardando) from ..."), and signs after the events ("end repeat: go back to the
+start repeat", "double bar line", "D.C. al Fine: go back to the beginning and stop at Fine"). Italian terms
+(tempo word, dynamic names, "segno", D.C. and D.S. signs, "a tempo") are wrapped so the component renders them
+in `<span lang="it">`; `describePassageSegments` returns the pieces and `describePassage` the plain string.
+
+### 14.4 Editing
+
+`edit/expression-refs.ts` runs after every reducer action when the passage has expression or written signs:
+
+- **Insert** (`insert-note`, `insert-rest`, `set-single-note` when it adds an event): refs at or after the slot
+  shift by one; spans that straddle the slot grow; refs in other bars do not move.
+- **Delete** (`delete-event`, `remove-head` of the last head): dynamics and words on the event, and its
+  articulation and pause, go. A hairpin or tempo change loses an end by moving that end to the nearest
+  surviving event inside its span, and is dropped when none survive. A slur does the same but only counts
+  notes and needs two; a slur never ends on a rest. A dynamic left equal to the one before it is dropped. An
+  "a tempo" whose slowing down was dropped is dropped.
+- **Everything else** keeps every event: articulation, pause, bar-level `repeatStart`, `endBarline` and
+  `marker` are carried across the rebuild of the edited bar (the editor models pitch, length and ties only).
+  `to-rest` drops the articulation (rests cannot have one) and keeps the pause.
+- **Ties**: a note that becomes a tied continuation (`toggle-tie`) loses its own articulation and pause, in this
+  bar and across the bar line (rule 8 of the spec).
+
+`validateExpression` is clean on the result of every case in `edit/reducer-expression.test.ts`.
+
+### 14.5 Dev harness
+
+`/dev/expression` (dev routes only, `src/app/(dev)/dev/expression/`) shows one passage per marking and a
+realistic four-bar one, in read mode at the lesson size. `e2e/expression.spec.ts` opens it at 390x844 and
+1280x800 in both themes: notation drawn, each marking class present, visible, inside the drawing and in the
+stave's colour; dynamics and hairpins do not overlap; axe is clean.

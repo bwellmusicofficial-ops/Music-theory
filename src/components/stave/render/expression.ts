@@ -82,6 +82,17 @@ export function addNoteMarks(vf: VF, note: Note, ev: ScoreEvent, dir: 1 | -1, at
   }
 }
 
+/** Gives the repeat, double and final bar lines the passage asked for the class mtn-repeat (the plain bar lines stay as they were). */
+export function tagBarlines(vf: VF, stave: Stave): void {
+  const B = vf.BarlineType;
+  const names: Record<number, string> = { [B.REPEAT_BEGIN]: 'repeat-begin', [B.REPEAT_END]: 'repeat-end', [B.REPEAT_BOTH]: 'repeat-both', [B.DOUBLE]: 'double', [B.END]: 'final' };
+  for (const m of stave.getModifiers()) {
+    if (m.getCategory() !== 'Barline') continue;
+    const type = (m as unknown as { getType(): number }).getType();
+    if (names[type]) classed(m as unknown as Drawable, 'mtn-repeat', { 'data-kind': names[type] });
+  }
+}
+
 // --- on staves: tempo and navigation signs -------------------------------------------
 
 export function addTempo(vf: VF, stave: Stave, passage: Passage): void {
@@ -131,6 +142,8 @@ export interface ExpressionOverflow {
   /** Units that did not fit above / below the box, per system (0 when everything fits). */
   up: number[];
   down: number[];
+  /** Rightmost x any mark reaches (a dynamic under the last note can run past the bar line). */
+  right: number;
 }
 
 const key = (r: EventRef) => `${r.bar}:${r.event}`;
@@ -147,6 +160,7 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
   const { vf, ctx, passage, notes, staves, systems } = inp;
   const x = passage.expression;
   const up = systems.map(() => 0);
+  let reachRight = 0;
   const down = systems.map(() => 0);
   const barSystem = new Map<number, number>();
   systems.forEach((s, i) => s.bars.forEach((b) => barSystem.set(b, i)));
@@ -303,6 +317,7 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       el.renderText(ctx, px, y);
       closeGroup(ctx);
       dynRects.set(key(d.at), { x0: px, x1: px + w });
+      reachRight = Math.max(reachRight, px + w);
       prevRight = px + w;
       growDown(si, y + DYN_DESCENT);
     }
@@ -396,6 +411,7 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       belowRects[s].push(rect);
       growDown(s, y + 5);
     }
+    reachRight = Math.max(reachRight, px + width);
     const g = openGroup(ctx, 'mtn-words', { 'data-bar': String(w.at.bar), 'data-event': String(w.at.event), ...(w.tempoChange ? { 'data-tempo-change': 'true' } : {}) });
     el.renderText(ctx, px, y);
     g.lastElementChild?.setAttribute('lang', w.lang);
@@ -411,7 +427,7 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       if (m) growUp(si, top - (m === 'segno' ? 12 + 34 : 22 + 12));
     }
   });
-  return { up, down };
+  return { up, down, right: reachRight };
 }
 
 function drawHairpin(

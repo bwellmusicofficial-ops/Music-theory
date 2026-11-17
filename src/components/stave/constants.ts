@@ -87,3 +87,5 @@ export const SLUR_GAP = 9;
 export const SLUR_SIGN_LIFT = 12;
 export const SLUR_MIN_HEIGHT = 12;
 export const SLUR_MAX_HEIGHT = 26;
+/** Room kept at the right of a line for a dynamic under its last note. */
+export const DYN_RIGHT_ROOM = 8;

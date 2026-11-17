@@ -92,7 +92,7 @@ describe('each marking draws its classed SVG element', () => {
   it('repeat bar lines, double and final lines', async () => {
     const bars = [{ ...four(), repeatStart: true }, { ...four(), endBarline: 'repeat-end' as const }, { ...four(), endBarline: 'double' as const }, { ...four(), endBarline: 'final' as const }];
     const { host } = await render(withExpr(bars), 900);
-    expect(count(host, '.vf-stavebarline')).toBeGreaterThan(4);
+    expect([...host.querySelectorAll('.mtn-repeat')].map((e) => e.getAttribute('data-kind'))).toEqual(['repeat-begin', 'repeat-end', 'double', 'final']);
     expect(host.innerHTML).not.toEqual((await render(withExpr(bars.map((b) => ({ events: b.events }))), 900)).host.innerHTML);
   });
   it.each([

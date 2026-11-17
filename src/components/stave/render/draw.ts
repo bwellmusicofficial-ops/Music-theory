@@ -3,7 +3,7 @@
  * and returns a plain-data LayoutModel (docs/stave-interaction.md 1.3 and 1.4).
  */
 import type { Bar, Duration, NoteValue, Passage, ScoreEvent } from '@/engine/types';
-import { EXPR_BOTTOM_RESERVED_MIN, EXPR_TOP_RESERVED_MAX, LINE_GAP, POSITION_UNITS, SYSTEM_GAP } from '../constants';
+import { DYN_RIGHT_ROOM, EXPR_BOTTOM_RESERVED_MIN, EXPR_TOP_RESERVED_MAX, LINE_GAP, POSITION_UNITS, SYSTEM_GAP } from '../constants';
 import { signsForBar } from '../edit/accidentals';
 import { tiePairs } from '../edit/ties';
 import { finishBarColumns } from '../layout/hit-test';
@@ -14,7 +14,7 @@ import { accidentalType, beamIndexGroups, durationCode, keySpec, restKey, timeSp
 import { tupletChunks } from '../notation/tuplets';
 import type { BarLayout, Engines, EventLayout, LayoutModel, SystemLayout } from '../types';
 import type { VexFlowModule } from '../vexflow-loader';
-import { addMarker, addNoteMarks, addTempo, drawExpression } from './expression';
+import { addMarker, addNoteMarks, addTempo, drawExpression, tagBarlines } from './expression';
 
 export interface DrawInput {
   vf: VexFlowModule;
@@ -244,7 +244,9 @@ export function draw(input: DrawInput): DrawOutput {
     });
   }
 
-  const plan = planSystems(measures, input.editableBars, { availablePx: input.availablePx - MARGIN * 2 * input.scale, scale: input.scale });
+  // A dynamic under the last note of a line can run past the bar line: keep some room at the right for it.
+  const hang = passage.expression?.dynamics?.length ? DYN_RIGHT_ROOM * input.scale : 0;
+  const plan = planSystems(measures, input.editableBars, { availablePx: input.availablePx - MARGIN * 2 * input.scale - hang, scale: input.scale });
   const scale = plan.scale;
 
   // --- stage 2: draw (at most two passes: the second only when boxes overflow) ---
@@ -330,6 +332,7 @@ function drawPass(
       const nextStarts = sys.bars[k + 1] !== undefined && passage.bars[sys.bars[k + 1]].repeatStart;
       if (nextStarts && passage.bars[barIndex].endBarline === 'repeat-end') stave.setEndBarType(vf.BarlineType.REPEAT_BOTH);
       if (k > 0 && passage.bars[barIndex].repeatStart && passage.bars[sys.bars[k - 1]].endBarline === 'repeat-end') stave.setBegBarType(vf.BarlineType.NONE);
+      if (asked.beg !== undefined || asked.end !== undefined || nextStarts) tagBarlines(vf, stave);
       stave.setContext(ctx).draw();
       staves.set(barIndex, stave);
       barSystem.set(barIndex, si);
@@ -428,7 +431,8 @@ function drawPass(
     notes: staveNotes as never,
     staves: staves as never,
     systems: plan.systems.map((sys, si) => ({ bars: sys.bars, top: systems[si].top, height: systems[si].height })),
-  }) : { up: [], down: [] };
+  }) : { up: [], down: [], right: 0 };
+  width = Math.max(width, ex.right + MARGIN);
   ex.up.forEach((u, si) => {
     if (u > 0) overflows[si].up = Math.max(overflows[si].up, Math.ceil(u / POSITION_UNITS));
   });
