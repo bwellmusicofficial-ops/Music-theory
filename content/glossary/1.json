@@ -354,7 +354,7 @@
     "id": "ledger-line",
     "term": "ledger line",
     "language": "en",
-    "definition": "A short extra line above or below the [[stave|stave]]. Notes that are too high or too low to fit on it sit on this line.",
+    "definition": "A short extra line above or below the [[stave|stave]]. Notes too high or too low for the stave sit on or between these lines.",
     "grade": "1",
     "strand": "pitch"
   },
