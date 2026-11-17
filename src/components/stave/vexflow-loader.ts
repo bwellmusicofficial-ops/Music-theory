@@ -16,7 +16,8 @@ export function loadVexFlow(): Promise<VexFlowModule> {
     promise = (async () => {
       const mod = await import('vexflow/bravura');
       if (typeof document !== 'undefined' && document.fonts?.load) {
-        const font = document.fonts.load('30pt Bravura').then(() => true as const);
+        // Bravura draws the music; Academico draws tempo words, D.C. and the like (VexFlow measures them to place them).
+        const font = Promise.all([document.fonts.load('30pt Bravura'), document.fonts.load('bold 12pt Academico'), document.fonts.load('12pt Academico')]).then(() => true as const);
         const timeout = new Promise<false>((resolve) => setTimeout(() => resolve(false), FONT_TIMEOUT_MS));
         const ok = await Promise.race([font, timeout]);
         fontsReadyFlag = ok;

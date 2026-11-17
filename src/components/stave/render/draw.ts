@@ -3,16 +3,18 @@
  * and returns a plain-data LayoutModel (docs/stave-interaction.md 1.3 and 1.4).
  */
 import type { Bar, Duration, NoteValue, Passage, ScoreEvent } from '@/engine/types';
-import { LINE_GAP, POSITION_UNITS, SYSTEM_GAP } from '../constants';
+import { EXPR_BOTTOM_RESERVED_MIN, EXPR_TOP_RESERVED_MAX, LINE_GAP, POSITION_UNITS, SYSTEM_GAP } from '../constants';
 import { signsForBar } from '../edit/accidentals';
 import { tiePairs } from '../edit/ties';
 import { finishBarColumns } from '../layout/hit-test';
+import { expressionRoom } from '../layout/expression-room';
 import { notesWidth, planSystems, reservedFor, systemBox, type BarMeasure } from '../layout/plan';
 import { stemDirections } from '../notation/stems';
 import { accidentalType, beamIndexGroups, durationCode, keySpec, restKey, timeSpec, vexKey } from '../notation/to-vexflow';
 import { tupletChunks } from '../notation/tuplets';
 import type { BarLayout, Engines, EventLayout, LayoutModel, SystemLayout } from '../types';
 import type { VexFlowModule } from '../vexflow-loader';
+import { addMarker, addNoteMarks, addTempo, drawExpression } from './expression';
 
 export interface DrawInput {
   vf: VexFlowModule;
@@ -112,6 +114,12 @@ function buildBar(input: DrawInput, barIndex: number): BarBuild {
       });
     }
     for (let d = 0; d < ev.duration.dots; d++) vf.Dot.buildAndAttach([note], { all: true });
+    if (ev.fermata || (ev.kind === 'note' && ev.articulations?.length)) {
+      // Stemless notes (semibreve) take the side a stem would be on.
+      const stemless = ev.kind === 'note' && (ev.duration.value === 'semibreve' || ev.duration.value === 'breve');
+      const dir = stemless && ev.kind === 'note' ? (e.pitch.stavePosition(ev.pitches[0], passage.clef) < 4 ? 1 : -1) : stems[i];
+      addNoteMarks(vf, note, ev, dir, { bar: barIndex, event: i });
+    }
     note.setAttribute('id', `${input.uid}-${barIndex}-${i}`);
     return note;
   });
@@ -140,11 +148,48 @@ function buildBar(input: DrawInput, barIndex: number): BarBuild {
   };
 }
 
-function addModifiers(input: DrawInput, stave: InstanceType<VexFlowModule['Stave']>, first: boolean, barIndex: number) {
-  const { passage, engines, show } = input;
+type BarlineCode = number;
+
+/** Bar lines asked for by the passage (repeat signs, double and final lines). `end` is undefined when nothing is asked for. */
+function barlines(vf: VexFlowModule, input: DrawInput, barIndex: number): { beg?: BarlineCode; end?: BarlineCode } {
+  const bar = input.passage.bars[barIndex];
+  const B = vf.BarlineType;
+  const out: { beg?: BarlineCode; end?: BarlineCode } = {};
+  if (bar.repeatStart) out.beg = B.REPEAT_BEGIN;
+  switch (bar.endBarline) {
+    case 'double':
+      out.end = B.DOUBLE;
+      break;
+    case 'final':
+      out.end = input.show.finalBarline ? B.END : B.SINGLE;
+      break;
+    case 'repeat-end':
+      out.end = B.REPEAT_END;
+      break;
+    case 'single':
+      out.end = B.SINGLE;
+      break;
+  }
+  return out;
+}
+
+function addModifiers(
+  input: DrawInput,
+  stave: InstanceType<VexFlowModule['Stave']>,
+  first: boolean,
+  barIndex: number,
+  opts: { withEnd?: boolean } = {},
+) {
+  const { passage, engines, show, vf } = input;
+  const lines = barlines(vf, input, barIndex);
+  if (lines.beg !== undefined) stave.setBegBarType(lines.beg);
+  if (opts.withEnd !== false && lines.end !== undefined) stave.setEndBarType(lines.end);
   if (first && show.clef) stave.addClef(passage.clef);
   if (first && show.keySignature) stave.addKeySignature(keySpec(engines, passage.key));
   if (barIndex === 0 && show.timeSignature) stave.addTimeSignature(timeSpec(passage.time));
+  if (barIndex === 0) addTempo(vf, stave, passage);
+  const marker = passage.bars[barIndex].marker;
+  if (marker) addMarker(vf, stave, marker);
 }
 
 function headRange(input: DrawInput, barIdx: number[]): { lowest: number; highest: number } | null {
@@ -185,8 +230,15 @@ export function draw(input: DrawInput): DrawOutput {
     addModifiers(input, sFirst, true, i);
     const sOther = new vf.Stave(0, 0, 500);
     addModifiers(input, sOther, false, i);
+    // A written end bar line (repeat, double) takes more room than the plain one; nothing changes without one.
+    let endExtra = 0;
+    if (barlines(vf, input, i).end !== undefined) {
+      const plain = new vf.Stave(0, 0, 500);
+      addModifiers(input, plain, true, i, { withEnd: false });
+      endExtra = Math.max(0, plain.getNoteEndX() - sFirst.getNoteEndX());
+    }
     measures.push({
-      notes: notesWidth(minTotal, passage.bars[i].events.length, input.scale, input.editableBars[i]),
+      notes: notesWidth(minTotal, passage.bars[i].events.length, input.scale, input.editableBars[i]) + endExtra,
       modFirst: sFirst.getNoteStartX() - sFirst.getX(),
       modOther: sOther.getNoteStartX() - sOther.getX(),
     });
@@ -227,7 +279,10 @@ function drawPass(
   // Vertical plan.
   const boxes = plan.systems.map((s, si) => {
     const r = reservedFor(input.edit, input.range, withReadRange(input, headRange(input, s.bars)));
-    return systemBox(r.min - extras[si].down, r.max + extras[si].up);
+    const room = expressionRoom(passage, s.bars);
+    const max = room.top ? Math.max(r.max, EXPR_TOP_RESERVED_MAX) : r.max;
+    const min = room.bottom ? Math.min(r.min, EXPR_BOTTOM_RESERVED_MIN) : r.min;
+    return systemBox(min - extras[si].down, max + extras[si].up);
   });
   const emptyReserved = reservedFor(input.edit, input.range, withReadRange(input, null));
   const emptyBox = systemBox(emptyReserved.min, emptyReserved.max);
@@ -244,6 +299,7 @@ function drawPass(
   const barLayouts: BarLayout[] = [];
   const elements = new Map<string, EventElements>();
   const staveNotes = new Map<string, unknown>();
+  const staves = new Map<number, InstanceType<VexFlowModule['Stave']>>();
   const barSystem = new Map<number, number>();
   const overflows = useBoxes.map(() => ({ up: 0, down: 0 }));
   let headWidth = 11;
@@ -268,8 +324,14 @@ function drawPass(
       const stave = new vf.Stave(x, systemTop + box.topLineY - 4 * LINE_GAP, w);
       stave.setDefaultLedgerLineStyle({ strokeStyle: 'currentColor', lineWidth: 1.5 });
       addModifiers(input, stave, first, barIndex);
-      if (barIndex === passage.bars.length - 1 && input.show.finalBarline) stave.setEndBarType(vf.BarlineType.END);
+      const asked = barlines(vf, input, barIndex);
+      if (barIndex === passage.bars.length - 1 && input.show.finalBarline && asked.end === undefined) stave.setEndBarType(vf.BarlineType.END);
+      // The end of one repeat and the start of the next, side by side, share one bar line (:||:).
+      const nextStarts = sys.bars[k + 1] !== undefined && passage.bars[sys.bars[k + 1]].repeatStart;
+      if (nextStarts && passage.bars[barIndex].endBarline === 'repeat-end') stave.setEndBarType(vf.BarlineType.REPEAT_BOTH);
+      if (k > 0 && passage.bars[barIndex].repeatStart && passage.bars[sys.bars[k - 1]].endBarline === 'repeat-end') stave.setBegBarType(vf.BarlineType.NONE);
       stave.setContext(ctx).draw();
+      staves.set(barIndex, stave);
       barSystem.set(barIndex, si);
 
       const bar = passage.bars[barIndex];
@@ -357,6 +419,22 @@ function drawPass(
       tie({ firstNote: null, lastNote: dst, firstIndexes: pair.toIndexes, lastIndexes: pair.toIndexes });
     }
   }
+
+  // Dynamics, hairpins, slurs and words need every note placed.
+  const ex = passage.expression ? drawExpression({
+    vf,
+    ctx,
+    passage,
+    notes: staveNotes as never,
+    staves: staves as never,
+    systems: plan.systems.map((sys, si) => ({ bars: sys.bars, top: systems[si].top, height: systems[si].height })),
+  }) : { up: [], down: [] };
+  ex.up.forEach((u, si) => {
+    if (u > 0) overflows[si].up = Math.max(overflows[si].up, Math.ceil(u / POSITION_UNITS));
+  });
+  ex.down.forEach((d, si) => {
+    if (d > 0) overflows[si].down = Math.max(overflows[si].down, Math.ceil(d / POSITION_UNITS));
+  });
 
   renderer.resize(width * scale, height * scale);
   (ctx as unknown as { setViewBox(x: number, y: number, w: number, h: number): void }).setViewBox(0, 0, width, height);
