@@ -2,7 +2,8 @@ import type * as ToneNs from 'tone';
 import type { Passage, Pitch, TimeSignature } from '@/engine/types';
 import { pitchToFrequency } from './pitch';
 import { DEFAULT_PIANO_BASE_URL, PIANO_MANIFEST_FILE, availableSampleUrls, normaliseBaseUrl } from './samples';
-import { feltBeatsPerBar, beatSeconds, schedulePassage } from './timing';
+import { DEFAULT_VELOCITY, performPassage } from './performance';
+import { feltBeatsPerBar, beatSeconds } from './timing';
 import type { AudioEngine, AudioEngineVoice, UiSound } from './types';
 
 type ToneModule = typeof ToneNs;
@@ -35,7 +36,6 @@ const START_LEAD = 0.1;
 /** The scheduler tops up this far ahead of the audio clock. */
 const HORIZON = 0.25;
 const PUMP_INTERVAL_MS = 25;
-const DEFAULT_VELOCITY = 0.8;
 
 const ACCENT_HZ = 1568;
 const CLICK_HZ = 1046.5;
@@ -300,7 +300,7 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
     passage: Passage,
     options: { bpm: number; countInBeats?: number; onEvent?: (bar: number, event: number) => void },
   ): { stop(): void; done: Promise<void> } {
-    const timing = schedulePassage(passage, options.bpm, options.countInBeats ?? 0);
+    const timing = performPassage(passage, options.bpm, options.countInBeats ?? 0);
     const Tone = this.ready();
     const voice = this.activeVoice();
     const clicker = this.clicker;
@@ -333,13 +333,7 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
         time: at,
         run: () => {
           for (const attack of ev.attacks) {
-            const gap = Math.min(0.03, attack.sustain * 0.1);
-            voice.triggerAttackRelease(
-              attack.frequency,
-              Math.max(0.01, attack.sustain - gap),
-              at,
-              DEFAULT_VELOCITY,
-            );
+            voice.triggerAttackRelease(attack.frequency, attack.duration, at, attack.velocity);
           }
           if (options.onEvent) {
             const { bar, event } = ev;
