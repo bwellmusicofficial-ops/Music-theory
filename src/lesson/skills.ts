@@ -6,6 +6,7 @@
  * run the script. `skills.test.ts` fails if the two drift apart.
  */
 
+import { SKILL_LABELS } from './skill-labels';
 import type { Strand } from './schema';
 
 export interface SkillInfo {
@@ -96,11 +97,13 @@ const titleCase = (words: string): string =>
     .join(' ');
 
 /**
- * A short title-case label for a skill id: its topic and detail, such as
- * "Note Values: Crotchet Minim" for `rhythm.note-values.crotchet-minim`. Works
- * for any well-formed id, listed or not, so a new skill never shows as blank.
+ * A short label for a skill id. Listed skills have a written label in
+ * `skill-labels.ts`; any other well-formed id falls back to its topic and detail,
+ * such as "Note Values: Crotchet Minim", so a new skill never shows as blank.
  */
 export function skillLabel(id: string): string {
+  const written = SKILL_LABELS[id];
+  if (written) return written;
   const [, ...rest] = id.split('.');
   if (rest.length === 0) return titleCase(id);
   const [topic, ...detail] = rest;
