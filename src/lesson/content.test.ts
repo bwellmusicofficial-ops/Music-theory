@@ -16,6 +16,7 @@ import { basename, join, relative, sep } from 'node:path';
 import { z } from 'zod';
 import { createRng } from '../engine/rng';
 import type { Bar, Duration, NoteValue, TimeSignature } from '../engine/types';
+import { passageShapeSchema } from './questions/face-view/face-schema';
 import { generators } from './generators';
 import { questionTypes } from './questions';
 import {
@@ -197,6 +198,36 @@ function allowedWrongBars(question: Question, payloadPath: string): Map<string, 
   return allowed;
 }
 
+/** True when a passage-shaped value carries any dynamics, articulation, pause, tempo, repeat or sign. */
+function hasExpressionMarkings(value: Record<string, unknown>): boolean {
+  if (value.expression !== undefined) return true;
+  return (value.bars as unknown[]).some((bar) => {
+    if (!isRecord(bar)) return false;
+    if (bar.repeatStart !== undefined || bar.endBarline !== undefined || bar.marker !== undefined) return true;
+    return (Array.isArray(bar.events) ? bar.events : []).some(
+      (event) => isRecord(event) && (event.fermata !== undefined || event.articulations !== undefined),
+    );
+  });
+}
+
+/**
+ * Every passage that carries expression markings must pass the strict passage schema and
+ * `expression.validateExpression` (docs/expression.md section 2), wherever it sits: exhibits
+ * included, which the lesson schema leaves unchecked. Messages name the bar and event.
+ */
+function expressionProblems(root: unknown, rootPath: string): string[] {
+  const problems: string[] = [];
+  walk(root, rootPath, (value, path) => {
+    if (!isRecord(value) || !Array.isArray(value.bars) || !('clef' in value) || !hasExpressionMarkings(value)) return;
+    const parsed = passageShapeSchema.safeParse(value);
+    if (parsed.success) return;
+    for (const issue of parsed.error.issues) {
+      problems.push(`${path}: invalid expression (${issue.path.length ? `${issue.path.join('.')}: ` : ''}${issue.message})`);
+    }
+  });
+  return problems;
+}
+
 const wordCount = (text: string) => text.trim().split(/\s+/).filter(Boolean).length;
 
 /** Keys whose string values are learner-facing RichText inside payloads. */
@@ -251,6 +282,10 @@ describe.each(glossaryFiles.map((file) => [label(file), file] as const))('glossa
 
   it('has valid passages with full bars', () => {
     expect(passageProblems(parsed.data ?? [], 'glossary')).toEqual([]);
+  });
+
+  it('has valid expression markings on every passage that has any', () => {
+    expect(expressionProblems(parsed.data ?? [], 'glossary')).toEqual([]);
   });
 });
 
@@ -354,6 +389,21 @@ describe.each(lessonFiles.map((file) => [label(file), file] as const))('lesson %
     expect(problems).toEqual([]);
   });
 
+  it('has valid expression markings on every passage that has any', () => {
+    const problems = [
+      ...expressionProblems(lesson.steps.hook, 'steps.hook'),
+      ...expressionProblems(lesson.steps.explore, 'steps.explore'),
+      ...expressionProblems(lesson.steps.name, 'steps.name'),
+      ...expressionProblems(lesson.steps.recap, 'steps.recap'),
+      ...questions.flatMap(({ question, path }) =>
+        question.source === 'authored'
+          ? expressionProblems(question.payload, `${path}.payload`)
+          : expressionProblems(question.generator.params, `${path}.generator.params`),
+      ),
+    ];
+    expect(problems).toEqual([]);
+  });
+
   it('has a short bar for every complete-bar question to complete', () => {
     const problems: string[] = [];
     for (const { question } of questions) {
@@ -433,5 +483,40 @@ describe.each(lessonFiles.map((file) => [label(file), file] as const))('register
       }
     }
     expect(problems).toEqual([]);
+  });
+});
+
+// --- the expression check itself ------------------------------------------------------
+
+describe('expression check', () => {
+  const crotchet = { kind: 'note', pitches: [{ letter: 'C', accidental: 0, octave: 4 }], duration: { value: 'crotchet', dots: 0 } };
+  const passage = (expression: unknown, extraBar: object = {}) => ({
+    clef: 'treble',
+    key: { tonic: { letter: 'C', accidental: 0 }, mode: 'major' },
+    time: { beats: 4, beatUnit: 4 },
+    bars: [{ events: [crotchet, crotchet, { kind: 'rest', duration: { value: 'crotchet', dots: 0 } }, crotchet], ...extraBar }],
+    ...(expression === undefined ? {} : { expression }),
+  });
+
+  it('passes a passage with no markings, and one with valid markings', () => {
+    expect(expressionProblems({ passage: passage(undefined) }, 'x')).toEqual([]);
+    expect(expressionProblems({ passage: passage({ slurs: [{ from: { bar: 0, event: 0 }, to: { bar: 0, event: 1 } }] }) }, 'x')).toEqual([]);
+  });
+
+  it('fails an invalid marking inside an exhibit with a plain-English message', () => {
+    const bad = passage({ slurs: [{ from: { bar: 0, event: 0 }, to: { bar: 0, event: 2 } }] });
+    expect(expressionProblems({ exhibit: { kind: 'passage', passage: bad } }, 'steps.explore')).toEqual([
+      'steps.explore.exhibit.passage: invalid expression (Bar 1, rest 3: a slur must end on a note)',
+    ]);
+  });
+
+  it('fails an unknown marking field', () => {
+    expect(expressionProblems({ passage: passage({ trills: [] }) }, 'x')).toHaveLength(1);
+  });
+
+  it('fails a repeat sign problem found only through a bar field', () => {
+    expect(expressionProblems({ passage: passage(undefined, { marker: 'dc-al-fine' }) }, 'x')).toEqual([
+      'x.passage: invalid expression (Bar 1: D.C. al Fine needs a Fine marked in the passage)',
+    ]);
   });
 });

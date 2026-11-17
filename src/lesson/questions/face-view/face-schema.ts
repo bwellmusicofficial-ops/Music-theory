@@ -6,6 +6,7 @@
  */
 
 import { z } from 'zod';
+import { expression } from '@/engine/expression';
 import { pitch } from '@/engine/pitch';
 import { rhythm } from '@/engine/rhythm';
 import type { Passage, ScoreEvent } from '@/engine/types';
@@ -55,16 +56,64 @@ export const durationSchema = z.strictObject({
 /** A note value with dots and no tuplet: glyphs, tap-rhythm and generator params. */
 export const plainDurationSchema = z.strictObject({ value: noteValueSchema, dots: dotsSchema });
 
+export const articulationSchema = z.enum(['staccato', 'accent', 'tenuto']);
+export const endBarlineSchema = z.enum(['single', 'double', 'final', 'repeat-end']);
+export const barMarkerSchema = z.enum(['segno', 'fine', 'dc', 'dc-al-fine', 'ds', 'ds-al-fine']);
+export const dynamicLevelSchema = z.enum(['pp', 'p', 'mp', 'mf', 'f', 'ff']);
+
 const noteEventSchema = z.strictObject({
   kind: z.literal('note'),
   pitches: z.array(pitchSchema).min(1),
   duration: durationSchema,
   tieToNext: z.boolean().optional(),
   showAccidental: z.union([z.boolean(), z.array(z.boolean())]).optional(),
+  articulations: z.array(articulationSchema).optional(),
+  fermata: z.boolean().optional(),
 });
-const restEventSchema = z.strictObject({ kind: z.literal('rest'), duration: durationSchema });
+const restEventSchema = z.strictObject({
+  kind: z.literal('rest'),
+  duration: durationSchema,
+  fermata: z.boolean().optional(),
+});
 export const eventSchema = z.discriminatedUnion('kind', [noteEventSchema, restEventSchema]);
-export const barSchema = z.strictObject({ events: z.array(eventSchema).min(1) });
+export const barSchema = z.strictObject({
+  events: z.array(eventSchema).min(1),
+  repeatStart: z.boolean().optional(),
+  endBarline: endBarlineSchema.optional(),
+  marker: barMarkerSchema.optional(),
+});
+
+// Expression (docs/expression.md). Shape only: the rules (refs point at events, ranges, overlaps,
+// repeat structure) are `expression.validateExpression`, called from passageShapeSchema below.
+const eventRefSchema = z.strictObject({ bar: z.number().int().min(0), event: z.number().int().min(0) });
+const eventSpanShape = { from: eventRefSchema, to: eventRefSchema };
+
+export const expressionSchema = z.strictObject({
+  dynamics: z.array(z.strictObject({ at: eventRefSchema, level: dynamicLevelSchema })).optional(),
+  hairpins: z.array(z.strictObject({ ...eventSpanShape, kind: z.enum(['cresc', 'dim']) })).optional(),
+  slurs: z.array(z.strictObject(eventSpanShape)).optional(),
+  tempo: z
+    .strictObject({ text: z.string().optional(), bpm: z.number().optional(), beat: durationSchema.optional() })
+    .optional(),
+  tempoChanges: z
+    .array(
+      z.union([
+        z.strictObject({ ...eventSpanShape, kind: z.enum(['accel', 'rit', 'rall']), toBpm: z.number().optional() }),
+        z.strictObject({ at: eventRefSchema, kind: z.literal('a-tempo') }),
+      ]),
+    )
+    .optional(),
+  words: z
+    .array(
+      z.strictObject({
+        at: eventRefSchema,
+        text: z.string(),
+        place: z.enum(['above', 'below']).optional(),
+        lang: z.enum(['it', 'en', 'fr', 'de']).optional(),
+      }),
+    )
+    .optional(),
+});
 
 function samePitches(a: ScoreEvent & { kind: 'note' }, b: ScoreEvent & { kind: 'note' }): boolean {
   const names = (event: ScoreEvent & { kind: 'note' }) => event.pitches.map((p) => pitch.formatPitch(p)).sort();
@@ -76,7 +125,8 @@ function samePitches(a: ScoreEvent & { kind: 'note' }, b: ScoreEvent & { kind: '
 /**
  * A passage's structure without the bar-length rule: at least one bar, every
  * bar has an event, a tied note is followed by a note with the same pitches,
- * consecutive tuplet notes share one ratio. `complete-bar` and `spot-mistake`
+ * consecutive tuplet notes share one ratio, and the expression markings obey
+ * `expression.validateExpression`. `complete-bar` and `spot-mistake`
  * build on this because they may break the length rule for one named bar.
  */
 export const passageShapeSchema: z.ZodType<Passage> = z
@@ -85,6 +135,7 @@ export const passageShapeSchema: z.ZodType<Passage> = z
     key: keySchema,
     time: timeSchema,
     bars: z.array(barSchema).min(1),
+    expression: expressionSchema.optional(),
   })
   .superRefine((passage, ctx) => {
     const events = passage.bars.flatMap((bar) => bar.events);
@@ -118,6 +169,11 @@ export const passageShapeSchema: z.ZodType<Passage> = z
         previous = tuplet;
       }
     });
+
+    // Dynamics, hairpins, slurs, tempo, repeats and signs (docs/expression.md section 2).
+    for (const message of expression.validateExpression(passage as Passage)) {
+      ctx.addIssue({ code: 'custom', path: [], message });
+    }
   });
 
 /** A passage in a payload: the structure above, and every bar exactly full (1.3). */

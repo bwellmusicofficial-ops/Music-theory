@@ -134,3 +134,67 @@ describe('tap-rhythm payloadSchema', () => {
     ).toEqual([]);
   });
 });
+
+describe('tap-rhythm payloadSchema: expression the scorer does not understand', () => {
+  const crotchetNote = (extra: object = {}) => ({ ...crotchet, ...extra });
+  const full = (events: object[], barExtra: object = {}) => ({
+    ...specExample,
+    bars: [{ events, ...barExtra }],
+  });
+  const four = [crotchetNote(), crotchetNote(), crotchetNote(), crotchetNote()];
+
+  it('accepts plain bars and staccato or accent signs', () => {
+    expect(issues(full(four))).toEqual([]);
+    expect(issues(full([crotchetNote({ articulations: ['staccato'] }), crotchetNote(), crotchetNote(), crotchetNote()]))).toEqual([]);
+  });
+
+  it('rejects a fermata, saying why', () => {
+    const got = issues(full([crotchetNote({ fermata: true }), crotchetNote(), crotchetNote(), crotchetNote()]));
+    expect(got).toEqual([
+      'bars.0.events.0.fermata: Fermatas are not supported in tap-rhythm: the tap scorer expects every note at its written time at one steady tempo, and a pause would hold the music back',
+    ]);
+  });
+
+  it('rejects a fermata on a rest', () => {
+    const pause = { kind: 'rest', duration: { value: 'crotchet', dots: 0 }, fermata: true };
+    expect(issues(full([crotchetNote(), pause, crotchetNote(), crotchetNote()])).length).toBe(1);
+  });
+
+  it.each([
+    ['repeatStart', { repeatStart: true }],
+    ['endBarline', { endBarline: 'repeat-end' }],
+    ['marker', { marker: 'dc' }],
+  ])('rejects %s on a bar, saying why', (key, extra) => {
+    const got = issues(full(four, extra));
+    expect(got).toEqual([
+      `bars.0.${key}: Repeat signs and markers (${key}) are not supported in tap-rhythm: the tap scorer expects every note at its written time at one steady tempo and plays the bars once, in order`,
+    ]);
+  });
+
+  it('rejects tempo changes, saying why', () => {
+    const got = issues({
+      ...full(four),
+      expression: { tempoChanges: [{ kind: 'rit', from: { bar: 0, event: 0 }, to: { bar: 0, event: 3 } }] },
+    });
+    expect(got).toEqual([
+      'expression.tempoChanges: Tempo changes are not supported in tap-rhythm: the tap scorer expects every note at its written time at one steady tempo',
+    ]);
+  });
+
+  it('rejects the words rit., rall. and accel., which change the tempo', () => {
+    for (const text of ['rit.', 'rall.', 'accel.', 'Accelerando']) {
+      const got = issues({ ...full(four), expression: { words: [{ at: { bar: 0, event: 0 }, text }] } });
+      expect(got).toHaveLength(1);
+      expect(got[0]).toContain('change the tempo');
+    }
+  });
+
+  it('accepts words and dynamics that change nothing the scorer hears', () => {
+    expect(
+      issues({
+        ...full(four),
+        expression: { words: [{ at: { bar: 0, event: 0 }, text: 'dolce' }], dynamics: [{ at: { bar: 0, event: 0 }, level: 'p' }] },
+      }),
+    ).toEqual([]);
+  });
+});

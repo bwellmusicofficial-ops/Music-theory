@@ -135,3 +135,66 @@ describe('faceSchema: passage display options', () => {
     expect(faceSchema.safeParse({ kind: 'passage', passage: p, hideKey: true }).success).toBe(false);
   });
 });
+
+describe('passageSchema: expression (docs/expression.md)', () => {
+  const messages = (value: unknown) => {
+    const result = passageSchema.safeParse(value);
+    return result.success ? [] : result.error.issues.map((i) => i.message);
+  };
+  const bars = (): Bar[] => [
+    { events: [note(), note(), note(), note()] },
+    { events: [note(), note(), note(), note()] },
+  ];
+  const ref = (bar: number, event: number) => ({ bar, event });
+
+  it('accepts every new field', () => {
+    const full = {
+      ...passage([
+        { events: [note('crotchet', { articulations: ['staccato', 'accent'], fermata: false }), note(), note(), note()], repeatStart: true },
+        { events: [note(), note(), note(), note('crotchet', { fermata: true })], endBarline: 'repeat-end' },
+      ]),
+      expression: {
+        dynamics: [{ at: ref(0, 0), level: 'p' }, { at: ref(1, 0), level: 'f' }],
+        hairpins: [{ kind: 'cresc', from: ref(0, 0), to: ref(0, 3) }],
+        slurs: [{ from: ref(1, 0), to: ref(1, 2) }],
+        tempo: { text: 'Andante', bpm: 80, beat: { value: 'crotchet', dots: 0 } },
+        tempoChanges: [{ kind: 'rit', from: ref(1, 2), to: ref(1, 3), toBpm: 60 }],
+        words: [{ at: ref(0, 0), text: 'dolce', place: 'below', lang: 'it' }],
+      },
+    };
+    expect(messages(full)).toEqual([]);
+  });
+
+  it('accepts a rest with a fermata, a bar marker and the end barlines', () => {
+    const p = passage([
+      { events: [note(), note(), note(), note()], marker: 'segno' },
+      { events: [note(), note(), note(), { kind: 'rest', duration: { value: 'crotchet', dots: 0 }, fermata: true }], endBarline: 'double', marker: 'fine' },
+      { events: [note(), note(), note(), note()], endBarline: 'final', marker: 'ds-al-fine' },
+    ]);
+    expect(messages(p)).toEqual([]);
+  });
+
+  it('rejects unknown articulations, bar markers, levels and keys', () => {
+    expect(messages(passage([{ events: [note('crotchet', { articulations: ['marcato'] }), note(), note(), note()] }]))).not.toEqual([]);
+    expect(messages(passage([{ ...fourCrotchets, marker: 'coda' } as unknown as Bar]))).not.toEqual([]);
+    expect(messages({ ...passage(bars()), expression: { dynamics: [{ at: ref(0, 0), level: 'fff' }] } })).not.toEqual([]);
+    expect(messages({ ...passage(bars()), expression: { trills: [] } })).not.toEqual([]);
+  });
+
+  it('reports a broken marking with the bar and event in plain English', () => {
+    const p = { ...passage(bars()), expression: { slurs: [{ from: ref(0, 0), to: ref(0, 9) }] } };
+    expect(messages(p)).toEqual(['Bar 1, event 10: this slur points at an event that does not exist (bar 1 has 4)']);
+  });
+
+  it('runs the repeat rules too', () => {
+    const p = passage([{ ...fourCrotchets, marker: 'ds' }]);
+    expect(messages(p)).toEqual(['Bar 1: D.S. needs a segno marked in the passage']);
+  });
+
+  it('rejects an articulation on a tied continuation', () => {
+    const p = passage([{ events: [note('crotchet', { tieToNext: true }), note('crotchet', { articulations: ['tenuto'] }), note(), note()] }]);
+    expect(messages(p)).toEqual([
+      'Bar 1, note 2: this note continues a tie, so it cannot have its own articulation or pause; put it on the first note of the tie',
+    ]);
+  });
+});
