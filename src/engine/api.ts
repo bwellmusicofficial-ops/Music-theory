@@ -7,6 +7,8 @@
  *   `export const pitch: PitchEngine`
  * P0-05 implements `RhythmEngine` in `src/engine/rhythm/` and exports
  *   `export const rhythm: RhythmEngine`
+ * E1 implements `ExpressionEngine` in `src/engine/expression/` and exports
+ *   `export const expression: ExpressionEngine` (docs/expression.md)
  * P0-04 also provides `createRng(seed: number): Rng` in `src/engine/rng.ts`.
  *
  * Rules for implementers:
@@ -32,6 +34,7 @@ import type {
   PitchClass,
   ScaleDirection,
   ScaleType,
+  Passage,
   ScoreEvent,
   Terminology,
   TimeSignature,
@@ -179,4 +182,58 @@ export interface RhythmEngine {
    * excluded) at the given tempo, where bpm counts felt beats per minute.
    */
   onsetTimes(bars: Bar[], time: TimeSignature, bpm: number): number[];
+}
+
+// ---------------------------------------------------------------------------
+// Expression (docs/expression.md). Pure functions over a Passage; a passage with
+// no expression fields behaves exactly as it did before they existed.
+// ---------------------------------------------------------------------------
+
+export interface TempoMap {
+  /** Seconds from the start of the passage to the event's onset: written order, one pass. */
+  timeOf(bar: number, event: number): number;
+  /** Seconds the event occupies (twice its length under a fermata). */
+  durationOf(bar: number, event: number): number;
+  /** Seconds for one pass through every bar in written order. */
+  totalSeconds: number;
+}
+
+export interface PerformedEvent {
+  /** Written position, as `onEvent` reports it. */
+  bar: number;
+  event: number;
+  /** Seconds from the start of playing. */
+  time: number;
+  /** Seconds the event occupies. */
+  duration: number;
+}
+
+export interface SoundingDetail {
+  /** Fraction of the written length (of the whole tie chain) that sounds. */
+  fraction: number;
+  /** Add `slurOverlapSeconds` to the sounding time so the note runs into the next. */
+  overlap: boolean;
+  /** Apply the floor: seconds = min(written, max(fraction * written, staccatoMinSeconds)). */
+  staccato: boolean;
+}
+
+export interface ExpressionEngine {
+  /** Messages naming the bar and event for every broken rule; empty when valid. */
+  validateExpression(passage: Passage): string[];
+  /** Bar indexes in playing order (repeats, D.C., D.S., al Fine). */
+  performanceOrder(passage: Passage): number[];
+  /** dB relative to mf for every event, `[bar][event]`; null for rests. */
+  loudnessAt(passage: Passage): (number | null)[][];
+  /** Fraction of written length each note sounds, `[bar][event]`; null for rests and tied continuations. */
+  soundingLengths(passage: Passage): (number | null)[][];
+  /** `soundingLengths` plus the overlap and staccato-floor flags. */
+  soundingDetails(passage: Passage): (SoundingDetail | null)[][];
+  /** Timing at `baseBpm` felt beats a minute, applying fermatas and tempo changes. */
+  tempoMap(passage: Passage, baseBpm: number): TempoMap;
+  /** Every event in playing order with its time and duration. */
+  performedEvents(passage: Passage, baseBpm: number): PerformedEvent[];
+  /** The staccato floor, 0.06 s. */
+  staccatoMinSeconds: number;
+  /** The slur overlap, 0.02 s. */
+  slurOverlapSeconds: number;
 }
