@@ -15,7 +15,7 @@ import {
 import { pitch } from '@/engine/pitch';
 import { rhythm } from '@/engine/rhythm';
 import type { Passage } from '@/engine/types';
-import { describeEvent, describePassage } from './a11y/describe';
+import { describeEvent, describePassageSegments } from './a11y/describe';
 import { keyHelp, SURFACE_ROLE_DESCRIPTION } from './a11y/strings';
 import { SCALES } from './constants';
 import { signsForBar } from './edit/accidentals';
@@ -373,7 +373,7 @@ function StaveImpl(props: InnerProps) {
   // --- text ---------------------------------------------------------------------------------
   const description = useMemo(
     () =>
-      describePassage(
+      describePassageSegments(
         engines,
         passage,
         { terminology, pitchSpeech, marks, editableBars: restricted ? editableBars : undefined },
@@ -444,7 +444,15 @@ function StaveImpl(props: InnerProps) {
       style={model ? undefined : { minHeight: placeholderHeight }}
     >
       <p id={`${uid}-desc`} className="mtn-stave__sr">
-        {description}
+        {description.map((seg, i) =>
+          seg.lang ? (
+            <span key={i} lang={seg.lang}>
+              {seg.text}
+            </span>
+          ) : (
+            seg.text
+          ),
+        )}
       </p>
       {isEdit ? (
         <p id={`${uid}-keys`} className="mtn-stave__sr">
