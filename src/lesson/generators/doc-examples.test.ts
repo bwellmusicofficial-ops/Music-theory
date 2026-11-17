@@ -1,32 +1,11 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createRng } from '@/engine/rng';
 import { GENERATOR_SKILLS } from './coverage';
 import { generators } from './index';
+import { quickReferenceRows } from './shared/quick-reference';
 import { checkQuestion } from './shared/test-kit';
 
-const doc = readFileSync(join(process.cwd(), 'docs/generators-grade-1.md'), 'utf8');
-const section = doc.split("## Author's quick reference")[1]!.split('## 0. Conventions')[0]!;
-
-interface Row {
-  id: string;
-  type: string;
-  skills: string[];
-  example: { id: string; params: unknown };
-}
-
-const rows: Row[] = [];
-let current: Omit<Row, 'example'> | null = null;
-for (const line of section.split('\n')) {
-  if (!line.startsWith('| ') || line.startsWith('| Generator') || line.startsWith('| ---')) continue;
-  const cells = line.split(/ \| /).map((c) => c.replace(/^\| /, '').replace(/ \|$/, '').trim());
-  const [id, type, skills, example] = cells as [string, string, string, string];
-  if (id) current = { id: id.replace(/`/g, ''), type: type.replace(/`/g, ''), skills: [...skills.matchAll(/`([^`]+)`/g)].map((m) => m[1]!) };
-  const json = /^`(.*)`$/.exec(example)?.[1];
-  if (!current || !json) throw new Error(`Bad quick reference row: ${line}`);
-  rows.push({ ...current, example: JSON.parse(json) });
-}
+const rows = quickReferenceRows();
 
 /** Written before P1-04 under the older conventions (no prompt, an unlinked "stave"): parsed and generated, not held to the new text rules. */
 const EXISTING = new Set(['name-note-on-stave', 'tap-note-values']);

@@ -44,19 +44,19 @@ const LINES_AND_SPACES: Record<number, string> = {
   8: 'on the top line',
   9: 'just above the top line',
   [-1]: 'just below the bottom line',
-  10: 'on the first ledger line above the stave',
-  [-2]: 'on the first ledger line below the stave',
-  11: 'just above the first ledger line above the stave',
-  [-3]: 'just below the first ledger line below the stave',
-  12: 'on the second ledger line above the stave',
-  [-4]: 'on the second ledger line below the stave',
+  10: 'on the first ledger line above the [[stave|stave]]',
+  [-2]: 'on the first ledger line below the [[stave|stave]]',
+  11: 'just above the first ledger line above the [[stave|stave]]',
+  [-3]: 'just below the first ledger line below the [[stave|stave]]',
+  12: 'on the second ledger line above the [[stave|stave]]',
+  [-4]: 'on the second ledger line below the [[stave|stave]]',
 };
 
-/** A stave position (`pitch.stavePosition`) in words. */
+/** A stave position (`pitch.stavePosition`) in words. "stave" is a glossary link so US learners see "staff". */
 export function where(pos: number): string {
   if (!Number.isInteger(pos)) throw new TheoryError(`where: stave position must be an integer, got ${pos}`);
-  if (pos < -4) return 'far below the stave';
-  if (pos > 12) return 'far above the stave';
+  if (pos < -4) return 'far below the [[stave|stave]]';
+  if (pos > 12) return 'far above the [[stave|stave]]';
   return LINES_AND_SPACES[pos] as string;
 }
 
