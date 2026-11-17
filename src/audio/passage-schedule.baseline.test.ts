@@ -109,6 +109,55 @@ const TABLE: { name: string; passage: Passage; bpm: number; countIn?: number }[]
     bpm: 66,
     countIn: 4,
   },
+  {
+    name: 'six-four (felt as six crotchets in playback)',
+    passage: make({ beats: 6, beatUnit: 4 }, [
+      [note([C4], d('minim')), note([D4], d('minim')), note([E4], d('minim'))],
+      [note([F4], d('crotchet')), note([G4], d('crotchet')), note([E4], d('minim', 1))],
+    ]),
+    bpm: 90,
+    countIn: 6,
+  },
+  {
+    name: 'five-four, irregular metre',
+    passage: make({ beats: 5, beatUnit: 4 }, [
+      [note([C4], d('minim')), note([D4], d('minim')), note([E4], d('crotchet'))],
+      [note([F4], d('minim', 1)), note([G4], d('minim'))],
+    ]),
+    bpm: 100,
+    countIn: 5,
+  },
+  {
+    name: 'two-two and three-eight',
+    passage: make({ beats: 2, beatUnit: 2 }, [[note([C4], d('minim')), note([D4], d('minim'))], [note([E4], d('semibreve'))]]),
+    bpm: 70,
+    countIn: 2,
+  },
+  {
+    name: 'three-eight',
+    passage: make({ beats: 3, beatUnit: 8 }, [[note([C4], d('quaver')), note([D4], d('quaver')), note([E4], d('quaver'))], [note([F4], d('crotchet', 1))]]),
+    bpm: 120,
+  },
+  {
+    name: 'whole-bar rests in 3/4 and 2/4 (semibreve rest)',
+    passage: make({ beats: 3, beatUnit: 4 }, [[rest(d('semibreve'))], [note([C4], d('minim', 1))], [rest(d('semibreve'))], [note([D4], d('minim', 1))]]),
+    bpm: 100,
+  },
+  {
+    name: 'whole-bar rest in 2/4',
+    passage: make({ beats: 2, beatUnit: 4 }, [[note([C4], d('minim'))], [rest(d('semibreve'))], [note([D4], d('minim'))]]),
+    bpm: 100,
+  },
+  {
+    name: 'short last bar (not padded)',
+    passage: make({ beats: 4, beatUnit: 4 }, [[note([C4], d('semibreve'))], [note([D4], d('crotchet')), note([E4], d('crotchet'))]]),
+    bpm: 100,
+  },
+  {
+    name: 'empty bar between notes',
+    passage: { ...make({ beats: 4, beatUnit: 4 }, [[note([C4], d('semibreve'))], [], [note([D4], d('semibreve'))]]) },
+    bpm: 100,
+  },
 ];
 
 /** Passages from the lesson content that carry no expression, spread across lessons. */

@@ -289,6 +289,126 @@ exports[`baseline schedule of passages without expression > dotted notes and qua
 }
 `;
 
+exports[`baseline schedule of passages without expression > empty bar between notes 1`] = `
+{
+  "clicks": [],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 0,
+    },
+    {
+      "bar": 2,
+      "event": 0,
+      "time": 2.4,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 2.37,
+      "hz": 261.625565301,
+      "time": 0,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 2.37,
+      "hz": 293.664767917,
+      "time": 2.4,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
+exports[`baseline schedule of passages without expression > five-four, irregular metre 1`] = `
+{
+  "clicks": [
+    {
+      "hz": 1568,
+      "time": 0,
+    },
+    {
+      "hz": 1046.5,
+      "time": 0.6,
+    },
+    {
+      "hz": 1046.5,
+      "time": 1.2,
+    },
+    {
+      "hz": 1046.5,
+      "time": 1.8,
+    },
+    {
+      "hz": 1046.5,
+      "time": 2.4,
+    },
+  ],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 3,
+    },
+    {
+      "bar": 0,
+      "event": 1,
+      "time": 4.2,
+    },
+    {
+      "bar": 0,
+      "event": 2,
+      "time": 5.4,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 6,
+    },
+    {
+      "bar": 1,
+      "event": 1,
+      "time": 7.8,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 1.17,
+      "hz": 261.625565301,
+      "time": 3,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.17,
+      "hz": 293.664767917,
+      "time": 4.2,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.57,
+      "hz": 329.627556913,
+      "time": 5.4,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.77,
+      "hz": 349.228231433,
+      "time": 6,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.17,
+      "hz": 391.995435982,
+      "time": 7.8,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
 exports[`baseline schedule of passages without expression > four crotchets 1`] = `
 {
   "clicks": [],
@@ -1169,6 +1289,207 @@ exports[`baseline schedule of passages without expression > semiquavers and a se
 }
 `;
 
+exports[`baseline schedule of passages without expression > short last bar (not padded) 1`] = `
+{
+  "clicks": [],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 0,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 2.4,
+    },
+    {
+      "bar": 1,
+      "event": 1,
+      "time": 3,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 2.37,
+      "hz": 261.625565301,
+      "time": 0,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.57,
+      "hz": 293.664767917,
+      "time": 2.4,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.57,
+      "hz": 329.627556913,
+      "time": 3,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
+exports[`baseline schedule of passages without expression > six-four (felt as six crotchets in playback) 1`] = `
+{
+  "clicks": [
+    {
+      "hz": 1568,
+      "time": 0,
+    },
+    {
+      "hz": 1046.5,
+      "time": 0.666666667,
+    },
+    {
+      "hz": 1046.5,
+      "time": 1.333333333,
+    },
+    {
+      "hz": 1046.5,
+      "time": 2,
+    },
+    {
+      "hz": 1046.5,
+      "time": 2.666666667,
+    },
+    {
+      "hz": 1046.5,
+      "time": 3.333333333,
+    },
+  ],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 4,
+    },
+    {
+      "bar": 0,
+      "event": 1,
+      "time": 5.333333333,
+    },
+    {
+      "bar": 0,
+      "event": 2,
+      "time": 6.666666667,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 8,
+    },
+    {
+      "bar": 1,
+      "event": 1,
+      "time": 8.666666667,
+    },
+    {
+      "bar": 1,
+      "event": 2,
+      "time": 9.333333333,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 1.303333333,
+      "hz": 261.625565301,
+      "time": 4,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.303333333,
+      "hz": 293.664767917,
+      "time": 5.333333333,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.303333333,
+      "hz": 329.627556913,
+      "time": 6.666666667,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.636666667,
+      "hz": 349.228231433,
+      "time": 8,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.636666667,
+      "hz": 391.995435982,
+      "time": 8.666666667,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.97,
+      "hz": 329.627556913,
+      "time": 9.333333333,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
+exports[`baseline schedule of passages without expression > three-eight 1`] = `
+{
+  "clicks": [],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 0,
+    },
+    {
+      "bar": 0,
+      "event": 1,
+      "time": 0.5,
+    },
+    {
+      "bar": 0,
+      "event": 2,
+      "time": 1,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 1.5,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 0.47,
+      "hz": 261.625565301,
+      "time": 0,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.47,
+      "hz": 293.664767917,
+      "time": 0.5,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.47,
+      "hz": 329.627556913,
+      "time": 1,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.47,
+      "hz": 349.228231433,
+      "time": 1.5,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
 exports[`baseline schedule of passages without expression > ties within and across bars, chord tie 1`] = `
 {
   "clicks": [],
@@ -1355,6 +1676,140 @@ exports[`baseline schedule of passages without expression > two-four with count-
       "duration": 1.060909091,
       "hz": 329.627556913,
       "time": 3.272727273,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
+exports[`baseline schedule of passages without expression > two-two and three-eight 1`] = `
+{
+  "clicks": [
+    {
+      "hz": 1568,
+      "time": 0,
+    },
+    {
+      "hz": 1046.5,
+      "time": 0.857142857,
+    },
+  ],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 1.714285714,
+    },
+    {
+      "bar": 0,
+      "event": 1,
+      "time": 2.571428571,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 3.428571429,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 0.827142857,
+      "hz": 261.625565301,
+      "time": 1.714285714,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 0.827142857,
+      "hz": 293.664767917,
+      "time": 2.571428571,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.684285714,
+      "hz": 329.627556913,
+      "time": 3.428571429,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
+exports[`baseline schedule of passages without expression > whole-bar rest in 2/4 1`] = `
+{
+  "clicks": [],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 0,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 1.2,
+    },
+    {
+      "bar": 2,
+      "event": 0,
+      "time": 3.6,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 1.17,
+      "hz": 261.625565301,
+      "time": 0,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.17,
+      "hz": 293.664767917,
+      "time": 3.6,
+      "velocity": 0.8,
+    },
+  ],
+}
+`;
+
+exports[`baseline schedule of passages without expression > whole-bar rests in 3/4 and 2/4 (semibreve rest) 1`] = `
+{
+  "clicks": [],
+  "cursor": [
+    {
+      "bar": 0,
+      "event": 0,
+      "time": 0,
+    },
+    {
+      "bar": 1,
+      "event": 0,
+      "time": 2.4,
+    },
+    {
+      "bar": 2,
+      "event": 0,
+      "time": 4.2,
+    },
+    {
+      "bar": 3,
+      "event": 0,
+      "time": 6.6,
+    },
+  ],
+  "doneResolved": true,
+  "notes": [
+    {
+      "duration": 1.77,
+      "hz": 261.625565301,
+      "time": 2.4,
+      "velocity": 0.8,
+    },
+    {
+      "duration": 1.77,
+      "hz": 293.664767917,
+      "time": 6.6,
       "velocity": 0.8,
     },
   ],
