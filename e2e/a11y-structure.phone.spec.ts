@@ -75,7 +75,7 @@ test.describe('structure', () => {
   });
 
   test('skip link is the first focusable element and moves focus into main', async ({ page }) => {
-    for (const url of ['/', '/learn', '/library', '/games', '/games/note-rush', '/mock/grade-1', '/settings', '/accessibility', '/lessons/g1-rhythm-01-crotchets-and-minims']) {
+    for (const url of ['/', '/learn', '/library', '/games', '/games/note-rush', '/mock/grade-1', '/settings', '/accessibility', '/privacy', '/terms', '/lessons/g1-rhythm-01-crotchets-and-minims']) {
       await seedSettings(page, {});
       await page.goto(url);
       await waitReady(page);
