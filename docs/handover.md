@@ -13,8 +13,8 @@ latest CI run before relying on it.
 | Live site | https://music-theory-five.vercel.app (Vercel redeploys on every push to `main`) |
 | Started | 13 November 2026 |
 | Stack | Next.js 16 (App Router), React 19, TypeScript strict, Tailwind v4, Zod 4, VexFlow 5, Tone.js 15, Vitest, Playwright |
-| Tests | About 4,740 unit and component tests; 321 real-browser tests on every push; a 1,225-test sweep on demand |
-| Lessons | 36: twelve "Start here", 24 Grade 1. One is reviewed; 35 are drafts awaiting the owner's review |
+| Tests | About 5,230 unit and component tests; about 350 real-browser tests on every push; a sweep of every question on demand |
+| Lessons | 37: twelve "Start here", 25 Grade 1. One is reviewed; 36 are drafts awaiting the owner's review |
 | Storage | Browser only (localStorage). No database is connected yet |
 | Phase | Phase 0 complete and tested with real learners. Phase 1 complete except everything that needs a database |
 | Nothing is running | No agents, no servers, no worktrees |
@@ -242,15 +242,17 @@ so an interruption costs less.
 Nothing here stops the site working. Roughly in order of how much it matters.
 
 **Teaching quality**
-1. **Dynamics and tempo changes cannot be heard.** The audio engine plays every
-   note at one loudness and a clip has one fixed tempo. So loud and soft,
-   crescendo, accelerando and ritardando are taught without sound.
-2. **Musical signs cannot be drawn.** The stave has no dynamics letters,
-   hairpins, slurs, staccato dots, accents, pauses, repeat marks, segno, D.C.,
-   Fine or metronome marks. The three terms lessons describe them in words.
-   About eleven drawings or stave features are needed.
-3. **`g1-terms-03-signs-on-the-page` teaches 13 terms in one lesson** (the guide
-   says six at most). It should be split in two once signs can be drawn.
+1. ~~Dynamics and tempo changes cannot be heard.~~ **Done (18 Nov)**: the
+   expression system (`docs/expression.md`) plays dynamics, hairpins,
+   articulation, pauses, tempo changes and repeats.
+2. ~~Musical signs cannot be drawn.~~ **Done (18 Nov)**: the stave draws every
+   marking in `docs/expression.md`; see `/dev/expression`.
+3. ~~The signs lesson teaches 13 terms.~~ **Done (18 Nov)**: the terms lessons
+   are now four: `g1-terms-01-loud-and-soft`, `g1-terms-02-fast-and-slow`,
+   `g1-terms-03-smooth-short-and-held`, `g1-terms-04-repeats-and-road-signs`.
+   Remaining gaps: cantabile and dolce are taught in words only; moderato,
+   allegretto and lento likewise; lessons 1 and 2 introduce 10 and 12 terms
+   (the guide says six at most); there are no terms-strand generators.
 4. **No question type exists for:** placing bar lines, correcting beaming (the
    stave beams automatically), writing a key signature, or finding a named
    feature in a passage. Those Grade 1 skills are taught by recognition only.
@@ -278,19 +280,19 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 11. **Engine limits to revisit at Grades 4 and 5:** chromatic scales use sharps
     up and flats down (odd in sharp keys); Roman numerals in minor keys cover
     harmonic-minor chords only (G major in A minor cannot be named).
-12. **Mock test:** a C major "which key signature" question shows an empty
+12. **Done (17 Nov).** **Mock test:** a C major "which key signature" question shows an empty
     stave; an ordering question left in its starting order counts as unanswered.
-13. **Glossary rewordings wanted by Term Blitz:** `line` (its meaning contains
+13. **Done (17 Nov).** **Glossary rewordings wanted by Term Blitz:** `line` (its meaning contains
     "lines", so the game cannot ask it; changing it means updating three Term
     Blitz tests that expect it to be unaskable), `crotchet` (first sentence also
     fits a quaver), long first sentences for `triad`, `interval`, `natural`,
     `accent`, `ledger-line`. Missing entries: `8th`, `dynamics`, `hairpin`.
-14. **US terminology leaks:** the word "stave" in note-on-stave feedback and in
+14. **Done (17 Nov).** **US terminology leaks:** the word "stave" in note-on-stave feedback and in
     the `name-note-on-stave` prompt is not swapped to "staff".
-15. **Skill labels are bare** ("Signature: Read") because they are derived from
+15. **Done (17 Nov).** **Skill labels are bare** ("Signature: Read") because they are derived from
     the id. An override list would read better.
-16. **The dashboard is a sparse single column on a desktop screen.**
-17. **Test hooks** (`__mockPaper`, `data-test-correct`) remain as inert strings
+16. **Done (17 Nov).** **The dashboard is a sparse single column on a desktop screen.**
+17. **Done (17 Nov).** **Test hooks** (`__mockPaper`, `data-test-correct`) remain as inert strings
     in production bundles.
 18. **Dependency audit warnings** from `npm ci` have not been looked at.
 
@@ -315,8 +317,10 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 | Needed | Unblocks |
 | --- | --- |
 | A Supabase project (London region): its URL and anon key in chat, service-role key only as a Vercel environment variable | P1-02, P1-03, P1-16, P1-17 |
-| Review of the 35 draft lessons (`/learn` lists them with Draft badges) | Publishing Grade 1; the Phase 1 gate |
+| Review of the 36 draft lessons (`/learn` lists them with Draft badges) | Publishing Grade 1; the Phase 1 gate |
 | Answers to four questions at the end of `docs/accounts-and-data.md`: lost recovery code, deleting inactive accounts, who sends marketing email and is the data controller, whether teachers will see pupils' progress | Final account build and privacy wording |
+| A listen on his phone to the four terms lessons (rit in lesson 2, accents in lesson 3, staccato, pp) | Tuning the expression numbers in `docs/expression.md` |
+| Whether to keep the terms lessons split in four or merge back | Lesson structure |
 | Rulings on backlog items 5, 6 and 7 | Those lessons |
 | Go-ahead on piano samples (item 8) | Real piano sound |
 | Business model (free, subscription after Grade 1, school licences) | Whether payments are built at all |
@@ -324,11 +328,8 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 
 ### Can be done now without him, in suggested order
 
-1. **Audio and notation for terms and signs** (backlog 1 to 3). Design first
-   (Opus): per-note velocity and a tempo map in `Passage`/`Clip` playback, and
-   how the stave draws dynamics, hairpins, slurs, articulation, pause and repeat
-   marks, keeping `src/engine/types.ts` backward compatible. Then build
-   (Sonnet), then rewrite the three terms lessons and split the third (Sonnet).
+1. ~~Audio and notation for terms and signs~~ Done 18 Nov (E1 to E4 in
+   `docs/expression.md`).
 2. **Missing question types** (backlog 4): place bar lines, write a key
    signature, fix the grouping. Design (Opus) against `docs/question-payloads.md`
    and `docs/stave-interaction.md`, then build (Sonnet) and add generators.
@@ -336,7 +337,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    a new visitor, with no sign-up. Sonnet.
 4. **Rhythm pad start control and continuous metronome** (backlog 9), then
    simplify Tap It. Sonnet.
-5. **Small fixes** (backlog 12 to 17). Sonnet or Haiku, in one task.
+5. ~~Small fixes (backlog 12 to 17)~~ Done 17 Nov.
 6. **Privacy policy, terms and cookie notice drafts** as pages, clearly marked
    as drafts for legal review. Opus to draft from `docs/accounts-and-data.md`.
 7. **Phase 2 work that needs no database** (see below): the mastery model

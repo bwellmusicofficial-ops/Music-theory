@@ -221,5 +221,6 @@ added to the e2e suite with `expectNotationDrawn`.
 
 **E4** rewrites the terms lessons to hear and see what they teach, following
 `docs/lesson-authoring-guide.md` and `docs/briefs/lesson-author.md`, and splits
-`g1-terms-03-signs-on-the-page` into two lessons (articulation and the pause;
+the old signs lesson into two (now `g1-terms-03-smooth-short-and-held` and
+`g1-terms-04-repeats-and-road-signs`) (articulation and the pause;
 repeats, D.C., D.S., Fine and the metronome mark). The lessons stay drafts.
