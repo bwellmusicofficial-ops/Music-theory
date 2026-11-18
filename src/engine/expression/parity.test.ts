@@ -105,7 +105,17 @@ describe('a passage with no expression behaves as it did before', () => {
   });
 
   it('holds for every passage in content/ that has no expression', () => {
-    const plain = found.filter((p) => !p.expression);
+    // "No expression" means no marking of any kind: passage-level, bar-level or on a note.
+    const hasMarking = (p: Passage) =>
+      p.expression !== undefined ||
+      p.bars.some(
+        (b) =>
+          b.repeatStart !== undefined ||
+          b.endBarline !== undefined ||
+          b.marker !== undefined ||
+          b.events.some((e) => e.fermata !== undefined || (e.kind === 'note' && e.articulations !== undefined)),
+      );
+    const plain = found.filter((p) => !hasMarking(p));
     expect(plain.length).toBeGreaterThan(20);
     const failures: string[] = [];
     plain.forEach((p, i) => {

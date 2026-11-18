@@ -30,6 +30,10 @@ beforeEach(() => {
 afterEach(cleanup);
 
 const lessons = listLessons();
+// Counts come from the content so adding a lesson does not break these tests.
+const TOTAL = lessons.length;
+const GRADE_1 = lessons.filter((l) => l.grade === '1').length;
+const TERMS = lessons.filter((l) => l.strand === 'terms').length;
 const glossary = loadGlossary('8');
 
 describe('library tabs', () => {
@@ -64,11 +68,11 @@ describe('lessons tab', () => {
   it('lists every lesson, then filters by grade, strand and text, and clears', async () => {
     const user = userEvent.setup();
     renderPage(<LibraryPage />);
-    expect(screen.getByRole('status')).toHaveTextContent('36 lessons');
+    expect(screen.getByRole('status')).toHaveTextContent(`${TOTAL} lessons`);
     await user.click(screen.getByRole('button', { name: 'Grade 1' }));
-    expect(screen.getByRole('status')).toHaveTextContent('24 lessons match');
+    expect(screen.getByRole('status')).toHaveTextContent(`${GRADE_1} lessons match`);
     await user.click(screen.getByRole('button', { name: 'Terms' }));
-    expect(screen.getByRole('status')).toHaveTextContent('3 lessons match');
+    expect(screen.getByRole('status')).toHaveTextContent(`${TERMS} lessons match`);
     await user.click(screen.getByRole('button', { name: 'All strands' }));
     await user.type(screen.getByRole('searchbox', { name: 'Search lessons' }), 'quavers');
     const links = screen.getAllByRole('link');
@@ -78,7 +82,7 @@ describe('lessons tab', () => {
     await user.type(screen.getByRole('searchbox'), 'zzzzqq');
     expect(screen.getByText(/No lessons match/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Clear filters' }));
-    expect(screen.getByRole('status')).toHaveTextContent('36 lessons');
+    expect(screen.getByRole('status')).toHaveTextContent(`${TOTAL} lessons`);
   });
 
   it('shows state and Draft badges', async () => {
@@ -99,9 +103,9 @@ describe('recap tab', () => {
     seed([row(done.id, 'complete')]);
     renderPage(<LibraryPage />);
     expect(await screen.findByRole('heading', { name: 'Your cards (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Still to earn (35)' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: `Still to earn (${TOTAL - 1})` })).toBeInTheDocument();
     const cards = screen.getAllByRole('article');
-    expect(cards).toHaveLength(36);
+    expect(cards).toHaveLength(TOTAL);
     expect(cards[0]).toHaveAttribute('data-earned', 'true');
     expect(cards[0]).toHaveTextContent('Crotchets and minims');
     expect(cards[0]).toHaveTextContent('In your library');
@@ -116,7 +120,7 @@ describe('recap tab', () => {
   it('has an empty state with no completed lessons', async () => {
     renderPage(<LibraryPage />);
     expect(await screen.findByText(/Finish a lesson and its recap card lands here/)).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Still to earn (36)' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: `Still to earn (${TOTAL})` })).toBeInTheDocument();
   });
 });
 

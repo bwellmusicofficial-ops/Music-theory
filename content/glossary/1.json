@@ -840,5 +840,13 @@
     "definition": "A marking such as ♩ = 80 that tells you how many [[beat|beats]] to play each minute. The note symbol shows which note counts as one beat.",
     "grade": "1",
     "strand": "terms"
+  },
+  {
+    "id": "segno",
+    "term": "segno",
+    "language": "it",
+    "definition": "The sign 𝄋 that marks a place in the music. [[dal-segno|Dal segno]] tells you to go back to it.",
+    "grade": "1",
+    "strand": "terms"
   }
 ]

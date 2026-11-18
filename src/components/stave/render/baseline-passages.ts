@@ -27,14 +27,34 @@ function collect(v: unknown, found: Passage[]): void {
   else if (v && typeof v === 'object') Object.values(v as object).forEach((x) => collect(x, found));
 }
 
-/** Every passage in content/, in file order, then `count` of them spread evenly across the whole list. */
-export function lessonPassages(count: number): { id: string; passage: Passage }[] {
+/** Every passage in content/, in file order, with an id of `<file>#<index in file>`. */
+export function allLessonPassages(): { id: string; passage: Passage }[] {
   const all: { id: string; passage: Passage }[] = [];
   for (const file of walk(join(process.cwd(), 'content'))) {
     const found: Passage[] = [];
     collect(JSON.parse(readFileSync(file, 'utf8')), found);
     found.forEach((p, i) => all.push({ id: `${file.split('/content/')[1]}#${i}`, passage: p }));
   }
+  return all;
+}
+
+/** True when a passage carries any expression marking (dynamics, articulation, repeats and so on). */
+export function hasMarking(p: Passage): boolean {
+  return (
+    p.expression !== undefined ||
+    p.bars.some(
+      (b) =>
+        b.repeatStart !== undefined ||
+        b.endBarline !== undefined ||
+        b.marker !== undefined ||
+        b.events.some((e) => e.fermata !== undefined || (e.kind === 'note' && e.articulations !== undefined)),
+    )
+  );
+}
+
+/** `count` unmarked passages spread evenly across content/. Used only when recording a new baseline. */
+export function lessonPassages(count: number): { id: string; passage: Passage }[] {
+  const all = allLessonPassages().filter((c) => !hasMarking(c.passage));
   const step = Math.max(1, Math.floor(all.length / count));
   return all.filter((_, i) => i % step === 0).slice(0, count);
 }
