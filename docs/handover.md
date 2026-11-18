@@ -253,7 +253,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    Remaining gaps: cantabile and dolce are taught in words only; moderato,
    allegretto and lento likewise; lessons 1 and 2 introduce 10 and 12 terms
    (the guide says six at most); there are no terms-strand generators.
-4. **No question type exists for:** placing bar lines, correcting beaming (the
+4. **No question type exists for** (design done 18 Nov in `docs/question-types-2.md`, build in progress): placing bar lines, correcting beaming (the
    stave beams automatically), writing a key signature, or finding a named
    feature in a passage. Those Grade 1 skills are taught by recognition only.
 5. **`g1-pitch-03-middle-c-and-ledger-lines` goes to two ledger lines**, which
