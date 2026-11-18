@@ -1274,7 +1274,7 @@
                     "mode": "major"
                   },
                   "time": {
-                    "beats": 4,
+                    "beats": 2,
                     "beatUnit": 4
                   },
                   "bars": [
@@ -1307,34 +1307,6 @@
                             "value": "crotchet",
                             "dots": 0
                           }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "E",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
                         }
                       ]
                     },
@@ -1344,21 +1316,7 @@
                           "kind": "note",
                           "pitches": [
                             {
-                              "letter": "D",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "F",
+                              "letter": "G",
                               "accidental": 0,
                               "octave": 4
                             }
@@ -1381,20 +1339,6 @@
                             "value": "crotchet",
                             "dots": 0
                           }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "F",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
                         }
                       ],
                       "repeatStart": true,
@@ -1402,34 +1346,6 @@
                     },
                     {
                       "events": [
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "E",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "D",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
                         {
                           "kind": "note",
                           "pitches": [
@@ -1466,7 +1382,7 @@
                       "mode": "major"
                     },
                     "time": {
-                      "beats": 4,
+                      "beats": 2,
                       "beatUnit": 4
                     },
                     "bars": [
@@ -1477,34 +1393,6 @@
                             "pitches": [
                               {
                                 "letter": "C",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "G",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -1538,21 +1426,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
+                                "letter": "G",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -1575,53 +1449,11 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
                           }
                         ]
                       },
                       {
                         "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
                           {
                             "kind": "note",
                             "pitches": [
@@ -1659,7 +1491,7 @@
                       "mode": "major"
                     },
                     "time": {
-                      "beats": 4,
+                      "beats": 2,
                       "beatUnit": 4
                     },
                     "bars": [
@@ -1692,34 +1524,6 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "G",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
                           }
                         ]
                       },
@@ -1729,21 +1533,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
+                                "letter": "G",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -1766,20 +1556,6 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
                           }
                         ],
                         "repeatStart": true,
@@ -1787,34 +1563,6 @@
                       },
                       {
                         "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
                           {
                             "kind": "note",
                             "pitches": [
@@ -1851,7 +1599,7 @@
                       "mode": "major"
                     },
                     "time": {
-                      "beats": 4,
+                      "beats": 2,
                       "beatUnit": 4
                     },
                     "bars": [
@@ -1884,34 +1632,6 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "G",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
                           }
                         ]
                       },
@@ -1921,21 +1641,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
+                                "letter": "G",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -1958,53 +1664,11 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
                           }
                         ]
                       },
                       {
                         "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
                           {
                             "kind": "note",
                             "pitches": [
@@ -3206,7 +2870,7 @@
                     "mode": "major"
                   },
                   "time": {
-                    "beats": 4,
+                    "beats": 2,
                     "beatUnit": 4
                   },
                   "bars": [
@@ -3217,34 +2881,6 @@
                           "pitches": [
                             {
                               "letter": "E",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "A",
                               "accidental": 0,
                               "octave": 4
                             }
@@ -3278,7 +2914,7 @@
                           "kind": "note",
                           "pitches": [
                             {
-                              "letter": "F",
+                              "letter": "A",
                               "accidental": 0,
                               "octave": 4
                             }
@@ -3292,35 +2928,7 @@
                           "kind": "note",
                           "pitches": [
                             {
-                              "letter": "E",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "D",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "E",
+                              "letter": "G",
                               "accidental": 0,
                               "octave": 4
                             }
@@ -3338,20 +2946,6 @@
                           "kind": "note",
                           "pitches": [
                             {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
                               "letter": "F",
                               "accidental": 0,
                               "octave": 4
@@ -3366,21 +2960,7 @@
                           "kind": "note",
                           "pitches": [
                             {
-                              "letter": "E",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "C",
+                              "letter": "D",
                               "accidental": 0,
                               "octave": 4
                             }
@@ -3412,7 +2992,7 @@
                       "mode": "major"
                     },
                     "time": {
-                      "beats": 4,
+                      "beats": 2,
                       "beatUnit": 4
                     },
                     "bars": [
@@ -3445,7 +3025,11 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
+                          }
+                        ]
+                      },
+                      {
+                        "events": [
                           {
                             "kind": "note",
                             "pitches": [
@@ -3474,7 +3058,9 @@
                               "dots": 0
                             }
                           }
-                        ]
+                        ],
+                        "repeatStart": true,
+                        "endBarline": "repeat-end"
                       },
                       {
                         "events": [
@@ -3483,20 +3069,6 @@
                             "pitches": [
                               {
                                 "letter": "F",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -3511,82 +3083,6 @@
                             "pitches": [
                               {
                                 "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          }
-                        ],
-                        "repeatStart": true,
-                        "endBarline": "repeat-end"
-                      },
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "G",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "C",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -3619,7 +3115,7 @@
                       "mode": "major"
                     },
                     "time": {
-                      "beats": 4,
+                      "beats": 2,
                       "beatUnit": 4
                     },
                     "bars": [
@@ -3652,7 +3148,11 @@
                               "value": "crotchet",
                               "dots": 0
                             }
-                          },
+                          }
+                        ]
+                      },
+                      {
+                        "events": [
                           {
                             "kind": "note",
                             "pitches": [
@@ -3703,95 +3203,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
                                 "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      },
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "G",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "F",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "C",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -3826,7 +3238,7 @@
                       "mode": "major"
                     },
                     "time": {
-                      "beats": 4,
+                      "beats": 2,
                       "beatUnit": 4
                     },
                     "bars": [
@@ -3837,34 +3249,6 @@
                             "pitches": [
                               {
                                 "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "G",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "A",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -3898,7 +3282,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "F",
+                                "letter": "A",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -3912,35 +3296,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "D",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "E",
+                                "letter": "G",
                                 "accidental": 0,
                                 "octave": 4
                               }
@@ -3958,20 +3314,6 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "G",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
                                 "letter": "F",
                                 "accidental": 0,
                                 "octave": 4
@@ -3986,21 +3328,7 @@
                             "kind": "note",
                             "pitches": [
                               {
-                                "letter": "E",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "C",
+                                "letter": "D",
                                 "accidental": 0,
                                 "octave": 4
                               }
