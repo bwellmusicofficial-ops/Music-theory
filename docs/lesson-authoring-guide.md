@@ -639,7 +639,7 @@ No notation is assumed. Lessons 1 to 8 show no stave at all.
 | 11 | `start-pitch-08-the-treble-clef` | The treble clef | pitch | `stave-1` | See how one curly sign pins the note G to a line and names all the others. |
 | 12 | `start-pitch-09-first-notes-c-d-e` | Your first notes: C, D, E | pitch | `stave-1` | Read, play and place middle C, D and E, then read a three-note tune. |
 
-### Grade 1 (24 lessons)
+### Grade 1 (25 lessons)
 
 | # | Lesson id | Title | Strand | Unit | Summary |
 | --- | --- | --- | --- | --- | --- |
@@ -664,9 +664,10 @@ No notation is assumed. Lessons 1 to 8 show no stave at all.
 | 19 | `g1-scales-keys-04-degrees-of-the-scale` | Degrees of the scale | scales-keys | `scales-1` | Number the notes of a scale from 1 to 8 and find any degree in any Grade 1 key. |
 | 20 | `g1-intervals-01-intervals-by-number` | Intervals by number | intervals | `harmony-1` | Measure the distance between two notes by counting letter names, from a 2nd to an octave. |
 | 21 | `g1-harmony-01-tonic-triads` | Tonic triads | harmony | `harmony-1` | Stack the 1st, 3rd and 5th notes of a scale to build the chord a key calls home. |
-| 22 | `g1-terms-01-loud-and-soft` | Loud and soft | terms | `terms-1` | Read the signs and Italian words that tell you how loudly to play. |
-| 23 | `g1-terms-02-fast-and-slow` | Fast and slow | terms | `terms-1` | Learn the Italian words for speed and the ones that speed up or slow down. |
-| 24 | `g1-terms-03-signs-on-the-page` | Signs on the page | terms | `terms-1` | Read slurs, staccato dots, accents, pauses, repeat marks and metronome marks. |
+| 22 | `g1-terms-01-loud-and-soft` | Loud and soft | terms | `terms-1` | Hear loud, soft and changing volume, then read the signs and Italian words that ask for it. |
+| 23 | `g1-terms-02-fast-and-slow` | Fast and slow | terms | `terms-1` | Hear the speed words and speed changes, and learn the Italian terms that name them. |
+| 24 | `g1-terms-03-smooth-short-and-held` | Smooth, short and held | terms | `terms-1` | Hear and read slurs, staccato dots, accents and pauses, and tell a slur from a tie. |
+| 25 | `g1-terms-04-repeats-and-road-signs` | Repeats and road signs | terms | `terms-1` | Follow repeat marks, D.C., D.S. and Fine through a piece, and read a metronome mark. |
 
 Notes on the order:
 
