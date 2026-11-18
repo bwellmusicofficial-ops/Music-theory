@@ -16,8 +16,12 @@ import {
   HAIRPIN_HEIGHT,
   HAIRPIN_LANE_GAP,
   HAIRPIN_MIN_WIDTH,
+  HAIRPIN_SPLIT_OPEN,
   SLUR_GAP,
-  SLUR_SIGN_LIFT,
+  SLUR_SIGN_CLEAR,
+  ARTIC_ABOVE_LIFT,
+  ARTIC_INK,
+  FERMATA_INK,
   SLUR_MAX_HEIGHT,
   SLUR_MIN_HEIGHT,
   TEMPO_BASELINE_ABOVE,
@@ -70,7 +74,10 @@ export function addNoteMarks(vf: VF, note: Note, ev: ScoreEvent, dir: 1 | -1, at
     for (const a of ev.articulations ?? []) {
       const art = new vf.Articulation(ARTICULATION_CODES[a]);
       art.setPosition(dir === 1 ? vf.Modifier.Position.BELOW : vf.Modifier.Position.ABOVE);
-      classed(art as unknown as Drawable, 'mtn-artic', { ...where, 'data-kind': a });
+      // Above a stem-down note VexFlow sets the sign close to the head: lift it a little.
+      const dy = dir === 1 ? 0 : -ARTIC_ABOVE_LIFT;
+      classed(art as unknown as Drawable, 'mtn-artic', { ...where, 'data-kind': a }, dy);
+      signShift.set(art, dy);
       note.addModifier(art, 0);
     }
   }
@@ -78,8 +85,32 @@ export function addNoteMarks(vf: VF, note: Note, ev: ScoreEvent, dir: 1 | -1, at
     const f = new vf.Articulation('a@a');
     f.setPosition(vf.Modifier.Position.ABOVE);
     classed(f as unknown as Drawable, 'mtn-fermata', where);
+    signShift.set(f, 0);
     note.addModifier(f, 0);
   }
+}
+
+/** Vertical shift applied to each sign's group, so the slur code can find where the sign really is. */
+const signShift = new WeakMap<object, number>();
+
+/**
+ * How far past the note's stem base (towards the slur) the nearest sign on the slur's side reaches, in units.
+ * Read after the notes are drawn; 0 when no sign is on that side.
+ */
+function signReach(note: Note, side: 'above' | 'below'): number {
+  const base = side === 'above' ? Math.min(...note.getYs()) : Math.max(...note.getYs());
+  let reach = 0;
+  for (const m of note.getModifiers()) {
+    if (m.getCategory() !== 'Articulation') continue;
+    const art = m as unknown as { y?: number; getPosition(): number; articulation?: { code?: string } };
+    if (!signShift.has(m)) continue;
+    const isAbove = art.getPosition() === 3;
+    if ((side === 'above') !== isAbove || art.y === undefined) continue;
+    const ink = art.articulation?.code === 'a@a' ? FERMATA_INK : ARTIC_INK;
+    const y = art.y + (signShift.get(m) ?? 0);
+    reach = Math.max(reach, side === 'above' ? base - (y - ink) : y + ink - base);
+  }
+  return reach;
 }
 
 /** Gives the repeat, double and final bar lines the passage asked for the class mtn-repeat (the plain bar lines stay as they were). */
@@ -98,13 +129,51 @@ export function tagBarlines(vf: VF, stave: Stave): void {
 export function addTempo(vf: VF, stave: Stave, passage: Passage): void {
   const t = passage.expression?.tempo;
   if (!t || (!t.text && t.bpm === undefined)) return;
-  const opts: Record<string, unknown> = {};
-  if (t.text) opts.name = t.text;
-  if (t.bpm !== undefined) Object.assign(opts, tempoBeat(passage.time, t.beat), { bpm: t.bpm });
-  const tempo = new vf.StaveTempo(opts, stave.getX(), TEMPO_SHIFT);
-  classed(tempo as unknown as Drawable, 'mtn-tempo');
-  stave.addModifier(tempo);
+  // StaveTempo always wraps the metronome mark in brackets when a word comes first and sets it tight. Print it as in a
+  // score, "Allegro ♩ = 120": VexFlow draws the word, and the mark is drawn here with the same glyphs and fonts.
+  const carrier = new vf.StaveTempo(t.text ? { name: t.text } : {}, stave.getX(), TEMPO_SHIFT);
+  const beat = t.bpm !== undefined ? { ...tempoBeat(passage.time, t.beat), bpm: t.bpm } : undefined;
+  const original = carrier.draw.bind(carrier);
+  carrier.draw = () => {
+    original();
+    if (!beat) return;
+    const ctx = stave.checkContext();
+    const shiftX = stave.getModifierXShift(vf.StaveModifierPosition.ABOVE);
+    const y = stave.getYForTopText(1) + TEMPO_SHIFT;
+    let x = stave.getX() + shiftX + TEMPO_XSHIFT;
+    if (t.text) {
+      const word = new vf.Element('StaveTempo');
+      word.setFont(vf.Metrics.getFontInfo('StaveTempo.name'));
+      word.setText(t.text);
+      x += word.getWidth() + TEMPO_WORD_GAP;
+    }
+    const glyph = new vf.Element('StaveTempo.glyph');
+    const text = new vf.Element('StaveTempo');
+    const codes = (carrier as unknown as { durationToCode: Record<string, string> }).durationToCode;
+    glyph.setText(codes[beat.duration as string]);
+    glyph.renderText(ctx, x, y);
+    x += glyph.getWidth() + TEMPO_PART_GAP;
+    glyph.setText(MET_AUGMENTATION_DOT);
+    for (let i = 0; i < (beat.dots ?? 0); i++) {
+      glyph.renderText(ctx, x, y + 2);
+      x += glyph.getWidth() + 3;
+    }
+    for (const part of ['=', String(beat.bpm)]) {
+      text.setText(part);
+      text.renderText(ctx, x, y);
+      x += text.getWidth() + TEMPO_PART_GAP;
+    }
+  };
+  classed(carrier as unknown as Drawable, 'mtn-tempo');
+  stave.addModifier(carrier);
 }
+/** The metronome-mark augmentation dot (Bravura metAugmentationDot). */
+const MET_AUGMENTATION_DOT = '\uecb7';
+const TEMPO_WORD_GAP = 7;
+/** Space between the note, the equals sign and the number. */
+const TEMPO_PART_GAP = 5;
+/** StaveTempo's own sideways shift. */
+const TEMPO_XSHIFT = 10;
 /** StaveTempo sits 20 units above the top line by default; raise it clear of pauses and signs. */
 const TEMPO_SHIFT = -(TEMPO_BASELINE_ABOVE - 20);
 
@@ -147,6 +216,14 @@ export interface ExpressionOverflow {
 }
 
 const key = (r: EventRef) => `${r.bar}:${r.event}`;
+
+/** Width of a dynamic's glyphs, and of one letter of the dynamic font (the least gap allowed beside a dynamic). */
+export function dynamicWidth(vf: VF, level: DynamicLevel): number {
+  const el = new vf.Element('TextDynamics');
+  el.setText([...level].map((c) => vf.TextDynamics.GLYPHS[c]).join(''));
+  return el.getWidth();
+}
+export const letterWidth = (vf: VF): number => dynamicWidth(vf, 'p');
 
 const ITALIAN = /^(cresc|dim|decresc|rit|rall|accel|a tempo|dolce|cantabile|poco|molto|legato|staccato|marcato|sempre|meno|pi[uù]|mezzo|forte|piano|pesante|con |espress|subito|morendo|calando|tempo|largo|lento|andante|moderato|allegro|vivace|presto|adagio)/i;
 
@@ -235,34 +312,40 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       const height = Math.min(SLUR_MAX_HEIGHT, Math.max(SLUR_MIN_HEIGHT, 10 + span / 9));
       // Where the stem points at the slur, start from its tip so the curve clears it.
       const tip = (n: Note) => (below ? n.getStemDirection() === -1 : n.getStemDirection() === 1) && n.hasStem();
-      // Signs on the notehead side sit inside the slur: lift it clear of them.
-      const signOnSide = [part.from && slur.from, part.to && slur.to].some((r) => {
-        if (!r) return false;
-        const ev = passage.bars[r.bar].events[r.event];
-        const n = noteAt(r) as Note;
-        const stemUp = n.hasStem() ? n.getStemDirection() === 1 : n.getYs()[0] > staveOf(sysOf(r)).getYForLine(2);
-        return ev.kind === 'note' && (ev.articulations?.length ?? 0) > 0 && stemUp === below;
-      });
+      // Signs on the notehead side sit inside the slur: each end starts clear of the nearest sign at that end
+      // (measured where the sign really is), so an end without a sign is not lifted for the other one.
+      const side = below ? 'below' : 'above';
+      const clearOf = (n: Note | undefined) => {
+        const reach = n ? signReach(n, side) : 0;
+        return reach > 0 ? Math.max(SLUR_GAP, reach + SLUR_SIGN_CLEAR) : SLUR_GAP;
+      };
+      const gapFirst = clearOf(part.from);
+      const gapLast = clearOf(part.to);
+      const gap = Math.max(gapFirst, gapLast);
+      const dir = below ? 1 : -1;
+      // Where VexFlow's own Curve would start and end (it shifts both ends alike), here with a shift for each end.
+      const metricOf = (n: Note, useTip: boolean) => n.getStemExtents()[useTip ? 'topY' : 'baseY'];
+      const firstY = metricOf(part.from ?? (part.to as Note), tip(first)) + dir * gapFirst;
+      const lastY = metricOf(part.to ?? (part.from as Note), tip(last)) + dir * gapLast;
       const curve = new vf.Curve(part.from, part.to, {
         openingDirection: below ? 'up' : 'down',
         thickness: 2.4,
         // Reach to the middle of each head; a piece that runs to the edge of the stave stops there.
         xShift: part.from && part.to ? -4 : 0,
-        yShift: SLUR_GAP + (signOnSide ? SLUR_SIGN_LIFT : 0),
+        yShift: 0,
         cps: [
           { x: 0, y: height },
           { x: 0, y: height },
         ],
-        position: tip(first) ? 'nearTop' : 'nearHead',
-        positionEnd: tip(last) ? 'nearTop' : 'nearHead',
       });
       curve.setContext(ctx);
-      classed(curve as unknown as Drawable, 'mtn-slur', { 'data-from': key(slur.from), 'data-to': key(slur.to), 'data-side': below ? 'below' : 'above' });
-      curve.draw();
+      openGroup(ctx, 'mtn-slur', { 'data-from': key(slur.from), 'data-to': key(slur.to), 'data-side': side });
+      curve.renderCurve({ firstX: startX, lastX: endX, firstY, lastY, direction: dir });
+      closeGroup(ctx);
       // Room: where the curve starts and how far it bulges.
       const ys = [first, last].map((n) => (below ? Math.max(...n.getYs()) : Math.min(...n.getYs())));
-      const lift = SLUR_GAP + (signOnSide ? SLUR_SIGN_LIFT : 0) + height * 0.75 + 3;
-      const reach = (below ? Math.max(...ys) : Math.min(...ys)) + (below ? 1 : -1) * lift;
+      const lift = gap + height * 0.75 + 3;
+      const reach = (below ? Math.max(...ys) : Math.min(...ys)) + dir * lift;
       const e = slurExtent[part.system];
       if (below) e.below = Math.max(e.below, reach);
       else e.above = Math.min(e.above, reach);
@@ -301,6 +384,7 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
   });
 
   // --- dynamics ---------------------------------------------------------------------------
+  const LW = letterWidth(vf);
   const dynRects = new Map<string, Rect>();
   const dynBySystem = systems.map(() => [] as { at: EventRef; level: DynamicLevel }[]);
   for (const d of x?.dynamics ?? []) if (noteAt(d.at)) dynBySystem[sysOf(d.at)].push(d);
@@ -312,7 +396,7 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       const el = new vf.Element('TextDynamics');
       el.setText(glyphs);
       const w = el.getWidth();
-      const px = Math.max(left(d.at), prevRight + DYN_GAP);
+      const px = Math.max(left(d.at), prevRight + LW);
       const y = belowBase[si];
       openGroup(ctx, 'mtn-dyn', { 'data-level': d.level, 'data-bar': String(d.at.bar), 'data-event': String(d.at.event) });
       el.renderText(ctx, px, y);
@@ -342,12 +426,12 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       const full = { x0, x1 };
       // Keep clear of the letters: start after a dynamic on the first event, stop before one on the last or the next.
       const own = dynRects.get(key(h.from));
-      if (startsHere && own) x0 = Math.max(x0, own.x1 + DYN_GAP);
+      if (startsHere && own) x0 = Math.max(x0, own.x1 + LW);
       const stop = [dynRects.get(key(h.to)), next && sysOf(next) === s ? dynRects.get(key(next)) : undefined].filter(Boolean) as Rect[];
-      for (const r of stop) if (endsHere && r.x0 > x0) x1 = Math.min(x1, r.x0 - DYN_GAP);
+      for (const r of stop) if (endsHere && r.x0 > x0) x1 = Math.min(x1, r.x0 - LW);
       const inside = [...dynRects.entries()].some(([k, r]) => {
         const i = flatIndex.get(k) ?? -1;
-        return i > a && i <= b && sysOf(flat[i]) === s && overlaps({ x0, x1 }, r, DYN_GAP);
+        return i > a && i <= b && sysOf(flat[i]) === s && overlaps({ x0, x1 }, r, LW);
       });
       let lane = 0;
       if (x1 - x0 < HAIRPIN_MIN_WIDTH || inside) {
@@ -357,13 +441,18 @@ export function drawExpression(inp: ExpressionInput): ExpressionOverflow {
       }
       parts.push({ s, x0, x1, lane });
     }
-    // The wedge opens (or closes) evenly along its whole length, so a split hairpin's two pieces meet at the same width.
+    // One wedge, drawn in pieces. Across two systems the first piece opens to SPLIT_OPEN of the full width and the
+    // continuation starts there, so each piece is plainly a wedge; across more, the openings follow the pieces' lengths.
     const total = parts.reduce((sum, p) => sum + (p.x1 - p.x0), 0) || 1;
     let done = 0;
     parts.forEach((p, i) => {
-      const t0 = done / total;
+      const along = (u: number) =>
+        parts.length === 2
+          ? i === 0 ? u * HAIRPIN_SPLIT_OPEN : HAIRPIN_SPLIT_OPEN + u * (1 - HAIRPIN_SPLIT_OPEN)
+          : (done + u * (p.x1 - p.x0)) / total;
+      const t0 = along(0);
+      const t1 = along(1);
       done += p.x1 - p.x0;
-      const t1 = done / total;
       const yc = belowBase[p.s] - DYN_ASCENT * 0.3 + p.lane * HAIRPIN_LANE_GAP;
       drawHairpin(vf, ctx, noteAt(h.from) as Note, h.kind, p, yc, t0, t1, { from: key(h.from), to: key(h.to), part: parts.length === 1 ? 'whole' : i === 0 ? 'first' : i === parts.length - 1 ? 'last' : 'middle' });
       hairpinRects[p.s].push({ x0: p.x0, x1: p.x1 });

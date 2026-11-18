@@ -1525,14 +1525,14 @@ open the group first (`classed`).
 
 | Class | Drawn with | Notes |
 | --- | --- | --- |
-| `mtn-artic` | `Articulation('a.' / 'a>' / 'a-')` as a note modifier | Notehead side, away from the stem: below a stem-up note, above a stem-down note. A semibreve (no stem) takes the side a stem would be on. `data-kind` is the articulation. |
+| `mtn-artic` | `Articulation('a.' / 'a>' / 'a-')` as a note modifier | Notehead side, away from the stem: below a stem-up note, above a stem-down note. Above a stem-down note the sign is lifted `ARTIC_ABOVE_LIFT` off VexFlow's position. A semibreve (no stem) takes the side a stem would be on. `data-kind` is the articulation. |
 | `mtn-fermata` | `Articulation('a@a')`, above | Notes and rests. VexFlow stacks it with other signs above. |
-| `mtn-dyn` | `Element` set in Bravura with `TextDynamics.GLYPHS` | Below the stave, left edge on the notehead, one common baseline per system (`DYN_BASELINE_OFFSET` below the bottom line, lower if a low note or a slur below needs it). A dynamic that would touch the one before it is nudged right. `data-level`. |
-| `mtn-hairpin` | `StaveHairpin.renderHairpin` | On the dynamics baseline, from the first event's notehead to the last event's right edge, but starting after a dynamic on its first event and stopping before a dynamic on its last or next event. If that leaves under `HAIRPIN_MIN_WIDTH`, or a dynamic sits inside it, it moves to a second lane `HAIRPIN_LANE_GAP` lower at full width. `data-part` is `whole`, `first`, `middle` or `last`. |
-| `mtn-slur` | `Curve` | Below the heads when every stem points up, above otherwise (mixed stems put it above). Starts from a stem tip when the stem points at the slur. Height grows with length (`SLUR_MIN_HEIGHT` to `SLUR_MAX_HEIGHT`), sits `SLUR_GAP` off the head (more when a sign is on that side), so it reads as longer and flatter than a tie. `data-side`. |
-| `mtn-tempo` | `StaveTempo` on bar 1 | Bold word, then "(note = bpm)", the note being the felt beat (dotted in compound time) or `tempo.beat`. US terminology does not change it. |
+| `mtn-dyn` | `Element` set in Bravura with `TextDynamics.GLYPHS` | Below the stave, left edge on the notehead, one common baseline per system (`DYN_BASELINE_OFFSET` below the bottom line, lower if a low note or a slur below needs it). Two dynamics are never closer than one letter of the dynamic font (the width of a `p`): `draw.ts` measures how close the formatter puts the notes and adds width after the first note (`dynamicRoom`), so the dynamics stay under their own notes and hit-testing agrees with what is drawn. Only if that is still not enough (across a bar line) is a dynamic nudged right. `data-level`. |
+| `mtn-hairpin` | `StaveHairpin.renderHairpin` | On the dynamics baseline, from the first event's notehead to the last event's right edge, but starting one letter-width after a dynamic on its first event and stopping one letter-width before a dynamic on its last or next event. If that leaves under `HAIRPIN_MIN_WIDTH`, or a dynamic sits inside it, it moves to a second lane `HAIRPIN_LANE_GAP` lower at full width. `data-part` is `whole`, `first`, `middle` or `last`. |
+| `mtn-slur` | `Curve` | Below the heads when every stem points up, above otherwise (mixed stems put it above). Starts from a stem tip when the stem points at the slur. Height grows with length (`SLUR_MIN_HEIGHT` to `SLUR_MAX_HEIGHT`), sits `SLUR_GAP` off the head, and each end clears a staccato, accent, tenuto or pause on that side by `SLUR_SIGN_CLEAR` (measured from where the sign was really drawn, per end), so it reads as longer and flatter than a tie. `data-side`. |
+| `mtn-tempo` | `StaveTempo` on bar 1 for the word; the mark is drawn by `addTempo` with the same glyphs | Bold word, then "note = bpm" with no brackets (StaveTempo cannot omit them), the note being the felt beat (dotted in compound time) or `tempo.beat`. US terminology does not change it. |
 | `mtn-words` | `Element` in italic Academico | The `lang` attribute is on the `<text>` (`words.lang`, else `it` for known Italian terms, else `en`). Above by default, or below. |
-| `mtn-repeat` | repeat, double and final bar lines the passage asks for (`data-kind` `repeat-begin`, `repeat-end`, `repeat-both`, `double`, `final`), and `Repetition` for segno, D.C., D.S., Fine (`data-kind` is the marker) | The plain last bar still gets the default final bar line, untagged. A repeat end followed by a start repeat in the same system is one `REPEAT_BOTH` line. |
+| `mtn-repeat` | repeat, double and final bar lines the passage asks for (`data-kind` `repeat-begin`, `repeat-end`, `repeat-both`, `double`, `final`), and `Repetition` for segno, D.C., D.S., Fine (`data-kind` is the marker; the words are bold italic through `stave.css`) | The plain last bar still gets the default final bar line, untagged. A repeat end followed by a start repeat in the same system is one `REPEAT_BOTH` line. |
 
 Tempo changes (`accel`, `rit`, `rall`, `a-tempo`) are drawn as italic words above ("accel.", "rit.", "rall.",
 "a tempo", class `mtn-words`, `data-tempo-change`) unless a `words` entry at the same event already says it.
@@ -1548,8 +1548,11 @@ second pass grows the box if the first guess was short. A system holding dynamic
 at its right, because a dynamic under the last note can run past the bar line.
 
 Hairpins and slurs that cross a system break are drawn in two parts (more if they cross a whole system): a
-hairpin opens or closes evenly along its whole length, so the pieces meet at the same width; a slur's pieces
-run to and from the stave edges.
+hairpin over two systems is one wedge: a crescendo's first piece opens from closed to `HAIRPIN_SPLIT_OPEN`
+(60%) of the full opening and the continuation starts at 60% and ends fully open (a diminuendo is the mirror);
+over more systems the openings follow the lengths of the pieces. Line breaking prefers a break that does not cut
+a hairpin (`avoidBreakBefore` in `layout/plan.ts`, counted before evenness; with no hairpins nothing changes).
+A slur's pieces run to and from the stave edges.
 
 ### 14.3 Description
 

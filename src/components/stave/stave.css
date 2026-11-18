@@ -243,6 +243,11 @@
   stroke: currentColor;
 }
 /* The bold text font has a very narrow space; "D.C. al Fine" must not read "D.C.alFine". */
+.mtn-stave__notation .mtn-repeat:is([data-kind='dc'], [data-kind='dc-al-fine'], [data-kind='ds'], [data-kind='ds-al-fine'], [data-kind='fine']) text {
+  /* Printed music sets these in bold italic. */
+  font-weight: bold;
+  font-style: italic;
+}
 .mtn-stave__notation .mtn-repeat text,
 .mtn-stave__notation .mtn-tempo text {
   word-spacing: 0.3em;
