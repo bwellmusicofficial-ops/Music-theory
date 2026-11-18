@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { Bar, Expression, Passage } from '@/engine/types';
 import { bar, engines, note, passage, rest } from '../fixtures';
 import { installStaveStubs } from '../test-utils';
+import { GALLERY } from '@/app/(dev)/dev/expression/gallery';
 import { loadVexFlow } from '../vexflow-loader';
 import { draw } from './draw';
 
@@ -156,3 +157,119 @@ describe('layout rules', () => {
     xs.slice(1).forEach((x, i) => expect(x).toBeGreaterThanOrEqual(xs[i] + widths[i]));
   });
 });
+
+describe('print rules from review: clear dynamics, whole-looking split hairpins, slurs clear of signs, plain tempo mark', () => {
+  const STUB_LETTER = 10; // the test font stub measures 10 per glyph, so one letter is 10 wide
+  const galleryPassage = (id: string) => (GALLERY.find((g) => g.id === id) as (typeof GALLERY)[number]).passage;
+
+  it('consecutive dynamics on crotchets at phone width are at least one letter apart (notes are spread to allow it)', async () => {
+    for (const width of [358, 330]) {
+      const { host } = await render(galleryPassage('dynamics'), width);
+      const texts = [...host.querySelectorAll('.mtn-dyn text')];
+      expect(texts).toHaveLength(6);
+      const boxes = texts.map((t) => ({ x0: Number(t.getAttribute('x')), w: (t.textContent ?? '').length * STUB_LETTER }));
+      // The dynamics of one bar sit on notes: each starts where its note head starts, never pushed along.
+      const notes = [...host.querySelectorAll('.vf-stavenote')];
+      expect(notes.length).toBeGreaterThanOrEqual(6);
+      boxes.slice(1).forEach((b, i) => {
+        // same system only (a new system starts further left)
+        if (b.x0 < boxes[i].x0) return;
+        expect(b.x0 - (boxes[i].x0 + boxes[i].w)).toBeGreaterThanOrEqual(STUB_LETTER - 0.5);
+      });
+    }
+  });
+  it('even dynamics on quavers are spread a letter apart (the notes are widened, the dynamics are not moved)', async () => {
+    const q = (n: string) => note(n, 'quaver');
+    const dense = withExpr([bar(q('C5'), q('D5'), q('E5'), q('F5'), q('G5'), q('F5'), q('E5'), q('D5'))], {
+      dynamics: [{ at: r(0, 0), level: 'pp' }, { at: r(0, 1), level: 'mf' }, { at: r(0, 2), level: 'ff' }, { at: r(0, 3), level: 'p' }],
+    });
+    const { host, out } = await render(dense, 300);
+    const headStart = (i: number) => out.model.bars[0].events[i].heads[0].x - out.model.headWidth / 2;
+    [...host.querySelectorAll('.mtn-dyn text')].forEach((t, i) => expect(Math.abs(Number(t.getAttribute('x')) - headStart(i))).toBeLessThan(2));
+    const boxes = [...host.querySelectorAll('.mtn-dyn text')].map((t) => ({ x0: Number(t.getAttribute('x')), w: (t.textContent ?? '').length * STUB_LETTER }));
+    expect(boxes).toHaveLength(4);
+    boxes.slice(1).forEach((b, i) => expect(b.x0 - (boxes[i].x0 + boxes[i].w)).toBeGreaterThanOrEqual(STUB_LETTER - 0.5));
+  });
+  it('a dynamic sits exactly under its own note head, not moved off it', async () => {
+    const { host, out } = await render(galleryPassage('dynamics'), 358);
+    const xs = [...host.querySelectorAll('.mtn-dyn text')].map((t) => Number(t.getAttribute('x')));
+    const heads = out.model.bars.flatMap((b) => b.events.map((e) => e.heads[0].x - out.model.headWidth / 2));
+    xs.forEach((x, i) => expect(Math.abs(x - heads[i])).toBeLessThan(2));
+  });
+  it('passages with one dynamic per bar are not widened', async () => {
+    const one = withExpr([four()], { dynamics: [{ at: r(0, 0), level: 'f' }] });
+    const none = withExpr([four()]);
+    const a = await render(one);
+    const b = await render(none);
+    expect(a.out.model.bars[0].events.map((e) => e.centreX)).toEqual(b.out.model.bars[0].events.map((e) => e.centreX));
+  });
+  it('a hairpin over a break: the first piece opens to 60% and the continuation starts at 60% (crescendo), mirrored for diminuendo', async () => {
+    const bars = Array.from({ length: 2 }, four);
+    for (const kind of ['cresc', 'dim'] as const) {
+      const p = withExpr(Array.from({ length: 4 }, four), { hairpins: [{ kind, from: r(0, 0), to: r(3, 3) }] });
+      const { host } = await render(p, 300);
+      const pieces = [...host.querySelectorAll('.mtn-hairpin')].map((g) => {
+        const d = g.querySelector('path')?.getAttribute('d') ?? '';
+        const nums = [...d.matchAll(/(-?\d+(?:\.\d+)?)/g)].map((m) => Number(m[1]));
+        // M x y L x y M x y L x y: the opening at each end is the gap between the upper and the lower line
+        return { start: Math.abs(nums[5] - nums[1]), end: Math.abs(nums[7] - nums[3]) };
+      });
+      expect(pieces.length).toBe(2);
+      const full = Math.max(...pieces.flatMap((q) => [q.start, q.end]));
+      const share = (v: number) => v / full;
+      if (kind === 'cresc') {
+        expect(share(pieces[0].start)).toBeCloseTo(0, 1);
+        expect(share(pieces[0].end)).toBeCloseTo(0.6, 1);
+        expect(share(pieces[1].start)).toBeCloseTo(0.6, 1);
+        expect(share(pieces[1].end)).toBeCloseTo(1, 1);
+      } else {
+        expect(share(pieces[0].start)).toBeCloseTo(1, 1);
+        expect(share(pieces[0].end)).toBeCloseTo(0.4, 1);
+        expect(share(pieces[1].start)).toBeCloseTo(0.4, 1);
+        expect(share(pieces[1].end)).toBeCloseTo(0, 1);
+      }
+    }
+    void bars;
+  });
+  it('line breaking avoids cutting a hairpin when a break elsewhere is possible, and leaves other passages alone', async () => {
+    const bars = Array.from({ length: 4 }, four);
+    const hairpin = withExpr(bars, { hairpins: [{ kind: 'cresc', from: r(2, 0), to: r(3, 3) }] });
+    const plain4 = withExpr(bars);
+    const a = await render(hairpin, 260);
+    const b = await render(plain4, 260);
+    const splitAt = (m: typeof a.out.model) => m.systems.map((s) => s.bars.length);
+    expect(a.out.model.systems.length).toBe(b.out.model.systems.length);
+    // the hairpin lies in bars 2-3: they must share a system
+    const sysOf = (m: typeof a.out.model, bar: number) => m.systems.findIndex((s) => s.bars.includes(bar));
+    expect(sysOf(a.out.model, 2)).toBe(sysOf(a.out.model, 3));
+    expect(splitAt(b.out.model).reduce((x, y) => x + y, 0)).toBe(4);
+  });
+  it('a slur ends clear of an accent on its side, with a gap', async () => {
+    const p = withExpr([bar(note('G4'), note('A4'), note('B4'), note('G4')), bar(note('E5', 'crotchet', { articulations: ['accent'] }), note('D5'), note('C5'), note('B4'))], { slurs: [{ from: r(0, 3), to: r(1, 0) }] });
+    const { host } = await render(p);
+    const slur = host.querySelector('.mtn-slur path');
+    expect(slur).not.toBeNull();
+    const d = slur?.getAttribute('d') ?? '';
+    const endY = Number([...d.matchAll(/(-?\d+(?:\.\d+)?)/g)].map((m) => m[1])[5]);
+    const signY = Number(host.querySelector('.mtn-artic text')?.getAttribute('y'));
+    // above the notes: smaller y is higher; the slur's end must be above the sign's top (sign ink is about 8 tall)
+    expect(host.querySelector('.mtn-slur')?.getAttribute('data-side')).toBe('above');
+    expect(endY).toBeLessThan(signY - 8);
+  });
+  it('the metronome mark has no brackets: word, then note = number', async () => {
+    const { host } = await render(withExpr([four()], { tempo: { text: 'Allegro', bpm: 120 } }));
+    expect(count(host, '.mtn-tempo')).toBe(1);
+    const text = host.querySelector('.mtn-tempo')?.textContent ?? '';
+    expect(text).not.toMatch(/[()]/);
+    expect(text).toContain('Allegro');
+    expect(text).toContain('=');
+    expect(text).toContain('120');
+  });
+  it('D.C., D.S. and Fine signs are marked for bold italic (CSS), the segno is not', async () => {
+    const p = withExpr([{ ...four(), marker: 'segno' }, { ...four(), marker: 'dc-al-fine' }, { ...four(), marker: 'fine' }]);
+    const { host } = await render(p, 600);
+    const kinds = [...host.querySelectorAll('.mtn-repeat')].map((e) => e.getAttribute('data-kind'));
+    expect(kinds).toEqual(expect.arrayContaining(['segno', 'dc-al-fine', 'fine']));
+  });
+});
+

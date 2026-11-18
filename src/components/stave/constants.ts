@@ -76,6 +76,8 @@ export const DYN_GAP = 4;
 /** A hairpin squeezed below this width (units) moves to a lower lane instead. */
 export const HAIRPIN_MIN_WIDTH = 16;
 export const HAIRPIN_HEIGHT = 10;
+/** Where a hairpin split over two systems is when it crosses the break, as a share of its full opening. */
+export const HAIRPIN_SPLIT_OPEN = 0.6;
 export const HAIRPIN_LANE_GAP = 14;
 /** Words: font size (pt, VexFlow convention) and baseline offsets from the stave lines. */
 export const WORDS_FONT_PT = 11;
@@ -83,8 +85,13 @@ export const WORDS_BELOW_OFFSET = 28;
 export const WORDS_ABOVE_OFFSET = 14;
 export const TEMPO_BASELINE_ABOVE = 24;
 export const SLUR_GAP = 9;
-/** Extra distance when a staccato, accent or tenuto sign sits on the slur's side of the note. */
-export const SLUR_SIGN_LIFT = 12;
+/** Gap left between a slur's end and a sign (staccato, accent, tenuto, pause) on the slur's side of the note. */
+export const SLUR_SIGN_CLEAR = 4;
+/** Signs above a stem-down note are lifted this much off VexFlow's position. */
+export const ARTIC_ABOVE_LIFT = 4;
+/** Height of the ink of an articulation sign and of a pause sign, for clearing them. */
+export const ARTIC_INK = 8;
+export const FERMATA_INK = 12;
 export const SLUR_MIN_HEIGHT = 12;
 export const SLUR_MAX_HEIGHT = 26;
 /** Room kept at the right of a line for a dynamic under its last note. */

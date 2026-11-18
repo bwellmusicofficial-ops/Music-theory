@@ -87,6 +87,7 @@ function breakBars(
   available: number,
   editable: boolean[],
   maxPerSystem: number,
+  avoid?: ReadonlySet<number>,
 ): { bars: number[]; naturals: number[] }[] {
   const n = measures.length;
   const k = countSystems(measures, available, editable, maxPerSystem);
@@ -94,7 +95,10 @@ function breakBars(
   // best[j][i]: smallest possible widest-system width for the first i bars in j systems.
   const best: number[][] = Array.from({ length: k + 1 }, () => Array<number>(n + 1).fill(Infinity));
   const cut: number[][] = Array.from({ length: k + 1 }, () => Array<number>(n + 1).fill(0));
+  // Breaks that would split something (a hairpin) are counted first; without any `avoid` the count is always 0.
+  const splits: number[][] = Array.from({ length: k + 1 }, () => Array<number>(n + 1).fill(Infinity));
   best[0][0] = 0;
+  splits[0][0] = 0;
   for (let j = 1; j <= k; j++) {
     for (let i = j; i <= n; i++) {
       for (let from = Math.max(j - 1, i - maxPerSystem); from < i; from++) {
@@ -102,7 +106,9 @@ function breakBars(
         // A one-bar system may overflow (the scrolling case); a longer one must fit.
         if (i - from > 1 && w > available) continue;
         const cost = Math.max(best[j - 1][from], w);
-        if (cost < best[j][i]) {
+        const cuts = splits[j - 1][from] + (from > 0 && avoid?.has(from) ? 1 : 0);
+        if (cuts < splits[j][i] || (cuts === splits[j][i] && cost < best[j][i])) {
+          splits[j][i] = cuts;
           best[j][i] = cost;
           cut[j][i] = from;
         }
@@ -127,7 +133,7 @@ function breakBars(
 export function planSystems(
   measures: BarMeasure[],
   editable: boolean[],
-  opts: { availablePx: number; scale: number },
+  opts: { availablePx: number; scale: number; avoidBreakBefore?: ReadonlySet<number> },
 ): Plan {
   let scale = opts.scale;
   let available = Math.floor(opts.availablePx / scale);
@@ -149,7 +155,7 @@ export function planSystems(
       available = Math.max(Math.floor(opts.availablePx / scale), Math.ceil(oneLine));
     }
   }
-  const raw = breakBars(measures, available, editable, MAX_BARS_PER_SYSTEM);
+  const raw = breakBars(measures, available, editable, MAX_BARS_PER_SYSTEM, opts.avoidBreakBefore);
   const systems: PlannedSystem[] = raw.map((s) => {
     const total = s.naturals.reduce((a, b) => a + b, 0);
     let widths = s.naturals.slice();

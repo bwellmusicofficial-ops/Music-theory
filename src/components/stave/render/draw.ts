@@ -14,7 +14,7 @@ import { accidentalType, beamIndexGroups, durationCode, keySpec, restKey, timeSp
 import { tupletChunks } from '../notation/tuplets';
 import type { BarLayout, Engines, EventLayout, LayoutModel, SystemLayout } from '../types';
 import type { VexFlowModule } from '../vexflow-loader';
-import { addMarker, addNoteMarks, addTempo, drawExpression, tagBarlines } from './expression';
+import { addMarker, addNoteMarks, addTempo, drawExpression, dynamicWidth, letterWidth, tagBarlines } from './expression';
 
 export interface DrawInput {
   vf: VexFlowModule;
@@ -81,7 +81,45 @@ interface BarBuild {
   count: number;
 }
 
+/** Extra width, per event, that keeps each dynamic one letter clear of the next dynamic in the same bar. */
+function dynamicRoom(input: DrawInput, barIndex: number): number[] {
+  const { vf, passage } = input;
+  const bar = passage.bars[barIndex];
+  const levels = new Map<number, number>();
+  for (const d of passage.expression?.dynamics ?? []) {
+    if (d.at.bar === barIndex && d.at.event < bar.events.length) levels.set(d.at.event, dynamicWidth(vf, d.level));
+  }
+  const extra = bar.events.map(() => 0);
+  if (levels.size < 2) return extra;
+  const need = letterWidth(vf);
+  const order = [...levels.keys()].sort((a, b) => a - b);
+  // The least spacing the formatter gives is not known without trying: format at the minimum width, measure, widen, repeat.
+  for (let round = 0; round < 6; round++) {
+    const b = buildBarRaw(input, barIndex, extra);
+    const w = b.formatter.preCalculateMinTotalWidth(b.voices);
+    b.formatter.format(b.voices, w);
+    const xs = b.notes.map((n) => (n as { getTickContext(): { getX(): number } }).getTickContext().getX());
+    let changed = false;
+    for (let k = 1; k < order.length; k++) {
+      const j = order[k - 1];
+      const i = order[k];
+      const deficit = (levels.get(j) as number) + need - (xs[i] - xs[j]);
+      if (deficit > 0.25) {
+        extra[j] += deficit;
+        changed = true;
+      }
+    }
+    if (!changed) break;
+  }
+  return extra;
+}
+
 function buildBar(input: DrawInput, barIndex: number): BarBuild {
+  const room = input.passage.expression?.dynamics?.length ? dynamicRoom(input, barIndex) : null;
+  return buildBarRaw(input, barIndex, room ?? []);
+}
+
+function buildBarRaw(input: DrawInput, barIndex: number, extra: number[]): BarBuild {
   const { vf, engines: e, passage } = input;
   const bar = passage.bars[barIndex];
   const tieInLast = barIndex > 0 ? passage.bars[barIndex - 1].events.at(-1) : undefined;
@@ -121,6 +159,15 @@ function buildBar(input: DrawInput, barIndex: number): BarBuild {
       addNoteMarks(vf, note, ev, dir, { bar: barIndex, event: i });
     }
     note.setAttribute('id', `${input.uid}-${barIndex}-${i}`);
+    if (extra[i] > 0) {
+      // More room after this note, for the dynamic that sits under it.
+      const preFormat = note.preFormat.bind(note);
+      note.preFormat = () => {
+        if ((note as unknown as { preFormatted: boolean }).preFormatted) return;
+        preFormat();
+        note.setWidth(note.getWidth() + extra[i]);
+      };
+    }
     return note;
   });
 
@@ -246,7 +293,14 @@ export function draw(input: DrawInput): DrawOutput {
 
   // A dynamic under the last note of a line can run past the bar line: keep some room at the right for it.
   const hang = passage.expression?.dynamics?.length ? DYN_RIGHT_ROOM * input.scale : 0;
-  const plan = planSystems(measures, input.editableBars, { availablePx: input.availablePx - MARGIN * 2 * input.scale - hang, scale: input.scale });
+  // Prefer line breaks that do not cut a hairpin in two.
+  const avoidBreakBefore = new Set<number>();
+  for (const h of passage.expression?.hairpins ?? []) for (let b = h.from.bar + 1; b <= h.to.bar; b++) avoidBreakBefore.add(b);
+  const plan = planSystems(measures, input.editableBars, {
+    availablePx: input.availablePx - MARGIN * 2 * input.scale - hang,
+    scale: input.scale,
+    avoidBreakBefore,
+  });
   const scale = plan.scale;
 
   // --- stage 2: draw (at most two passes: the second only when boxes overflow) ---
