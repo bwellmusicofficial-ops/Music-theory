@@ -60,6 +60,7 @@ export const CURATED_DECKS: Readonly<Record<CuratedDeckId, readonly string[]>> =
     'repeat-marks',
     'da-capo',
     'dal-segno',
+    'segno',
     'al-fine',
     'fine',
   ],
@@ -122,6 +123,7 @@ export const FAMILIES: Readonly<Record<string, string>> = {
   'repeat-marks': 'navigation',
   'da-capo': 'navigation',
   'dal-segno': 'navigation',
+  segno: 'navigation',
   'al-fine': 'navigation',
   fine: 'navigation',
   // note values and rests
