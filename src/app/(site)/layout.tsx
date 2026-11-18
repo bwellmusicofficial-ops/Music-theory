@@ -13,11 +13,19 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">{children}</main>
       <footer className="border-t border-border-subtle">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3 text-sm text-fg-secondary">
-          <span>Music Theory Now</span>
-          <Link href="/accessibility" className="inline-flex min-h-11 items-center rounded-md px-2 font-semibold underline underline-offset-2">
-            Accessibility
-          </Link>
+        <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-x-4 px-4 py-3 text-sm text-fg-secondary">
+          <span className="whitespace-nowrap">Music Theory Now</span>
+          <nav aria-label="About this site" className="-mx-2 flex flex-wrap">
+            <Link href="/accessibility" className="inline-flex min-h-11 items-center rounded-md px-2 font-semibold underline underline-offset-2">
+              Accessibility
+            </Link>
+            <Link href="/privacy" className="inline-flex min-h-11 items-center rounded-md px-2 font-semibold underline underline-offset-2">
+              Privacy
+            </Link>
+            <Link href="/terms" className="inline-flex min-h-11 items-center rounded-md px-2 font-semibold underline underline-offset-2">
+              Terms
+            </Link>
+          </nav>
         </div>
       </footer>
       <BottomTabBar />
