@@ -1620,8 +1620,9 @@ before it (`{ bar, event }`; the event after may be the first of the next bar). 
 `onEventTap` and in edit mode. The root is then not `role="img"` (it holds buttons).
 
 - `stave-gap-buttons.tsx`: one transparent `<button>` per offered gap inside `role="group"` (`ariaLabel`), full
-  system height, centred halfway between the two events' `centreX` (halfway to the bar's right edge when no event
-  follows on that line). Width `GAP_TARGET_PX` (44) where the gap allows, shrinking to the distance to the
+  system height, centred halfway between the two events' `centreX`. After the last event of a bar that another bar
+  follows on the same line, the gap is centred on the bar line (`bar.x + bar.width`), so an *on* marker sits on the
+  line the stave draws there (place-bar-lines); with no bar after it on that line it sits halfway to the bar's right edge. Width `GAP_TARGET_PX` (44) where the gap allows, shrinking to the distance to the
   nearest other gap on the line, never under `GAP_MIN_PX` (24). `aria-label` is `label(at)`;
   `aria-pressed` is on or off. `gapPlaces(model, offered)` is the pure geometry.
 - One Tab stop (roving tabindex); Left/Right (and Up/Down), Home and End move between gaps; Space and Enter
@@ -1665,3 +1666,11 @@ passage supplies only its clef. The parent owns the signs, and does the undo, cl
 beams (all eight quavers joined, no beams, a beam across a beat), a two-bar passage with gap toggles (some on),
 and the key-signature edit stave for treble and bass with a few signs placed and a sharp/flat/undo/clear
 palette. `e2e/question-types-2.spec.ts` opens it at 390x844 and 1280x800 in both themes.
+
+### 15.5 `pressed` (read mode, with `onEventTap`)
+
+`pressed?: string[]` marks events as chosen. Each entry is `"bar:event"` (one note or rest) or `"bar"` (every event of
+that bar). The stave's event buttons then carry `aria-pressed` (true or false for every button; absent when `pressed`
+is not given), so a screen reader hears which are chosen. It changes only the overlay and `aria-pressed`, never the
+notation, and it is independent of `marks`: `find-in-passage` shows the choice with `pressed` while the learner is
+choosing, then switches to `marks` (right, wrong, missed) once the answer is checked. `areEqual` compares it by value.

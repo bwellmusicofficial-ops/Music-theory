@@ -23,8 +23,9 @@ export interface GapPlace {
 
 /**
  * Where each offered gap sits. A gap is centred halfway between the `centreX` of the event before it and the
- * event after it (the first event of the next bar when it is the last of its bar). Where there is no next event
- * on the same line (the end of a line, or of the passage) it sits halfway to the right edge of the bar.
+ * event after it. After the last event of a bar that another bar follows on the same line it sits on the bar
+ * line (the right edge of the bar), where the stave draws one. Where there is no next event on the same line
+ * (the end of a line, or of the passage) it sits halfway to the right edge of the bar.
  * Offered gaps that name no event are left out. Pure: reads the layout model only.
  */
 export function gapPlaces(model: LayoutModel, offered: readonly StaveGapRef[]): GapPlace[] {
@@ -33,8 +34,10 @@ export function gapPlaces(model: LayoutModel, offered: readonly StaveGapRef[]): 
     const bar = model.bars.find((b) => b.bar === at.bar);
     const ev = bar?.events[at.event];
     if (!bar || !ev) continue;
-    const next = bar.events[at.event + 1] ?? model.bars.find((b) => b.bar === at.bar + 1 && b.system === bar.system)?.events[0];
-    const x = next ? (ev.centreX + next.centreX) / 2 : (ev.centreX + (bar.x + bar.width)) / 2;
+    const nextBar = bar.events[at.event + 1] ? undefined : model.bars.find((b) => b.bar === at.bar + 1 && b.system === bar.system);
+    const next = bar.events[at.event + 1] ?? nextBar?.events[0];
+    // After the last event of a bar that another bar follows on the same line, the gap is the bar line itself.
+    const x = nextBar ? bar.x + bar.width : next ? (ev.centreX + next.centreX) / 2 : (ev.centreX + (bar.x + bar.width)) / 2;
     const sys = model.systems[bar.system];
     places.push({
       at,

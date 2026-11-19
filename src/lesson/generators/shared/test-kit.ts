@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { pitch } from '@/engine/pitch';
 import { rhythm } from '@/engine/rhythm';
 import { createRng } from '@/engine/rng';
-import type { Pitch, Terminology } from '@/engine/types';
+import type { Clef, Key, Passage, Pitch, Terminology } from '@/engine/types';
 import type { GeneratedQuestion, QuestionGenerator } from '@/lesson/contracts';
 import { questionTypes } from '@/lesson/questions';
 import { stripRichText } from '@/lesson/player/rich-text';
@@ -145,6 +145,27 @@ export function correctAnswer(type: string, payload: Obj): unknown {
       const m = payload.mistake as { bar: number; event?: number };
       return payload.select === 'bar' ? { bar: m.bar } : { bar: m.bar, event: m.event };
     }
+    case 'place-bar-lines': {
+      const passage = payload.passage as Passage;
+      const after: number[] = [];
+      let seen = 0;
+      passage.bars.slice(0, -1).forEach((bar) => {
+        seen += bar.events.length;
+        after.push(seen - 1);
+      });
+      return { after };
+    }
+    case 'fix-beaming': {
+      const passage = payload.passage as Passage;
+      return { beams: rhythm.beamGroups(passage.bars[payload.barIndex as number]!, passage.time) };
+    }
+    case 'write-key-signature': {
+      const key = payload.key as Key;
+      const signature = pitch.keySignature(key);
+      return { signs: pitch.keySignaturePositions(signature, payload.clef as Clef).map((position) => ({ sign: signature > 0 ? 1 : -1, position })) };
+    }
+    case 'find-in-passage':
+      return { chosen: payload.targets };
   }
   throw new Error(`no solver for ${type}`);
 }
@@ -212,6 +233,45 @@ export function wrongAnswers(type: string, payload: Obj): Case[] {
         }
       });
       return cases;
+    }
+    case 'place-bar-lines': {
+      const passage = payload.passage as Passage;
+      const total = passage.bars.reduce((sum, bar) => sum + bar.events.length, 0);
+      const right = (correctAnswer(type, payload) as { after: number[] }).after;
+      const cases: Case[] = [
+        { label: 'no bar lines', answer: { after: [] } },
+        { label: 'a bar line after every note', answer: { after: Array.from({ length: total - 1 }, (_, i) => i) } },
+      ];
+      // The first bar line one place early or late.
+      for (const shift of [-1, 1]) {
+        const moved = right.map((x, i) => (i === 0 ? x + shift : x));
+        if (moved.every((x) => x >= 0 && x <= total - 2) && new Set(moved).size === moved.length) cases.push({ label: `first bar line moved ${shift}`, answer: { after: moved } });
+      }
+      return cases;
+    }
+    case 'fix-beaming': {
+      const passage = payload.passage as Passage;
+      const bar = passage.bars[payload.barIndex as number]!;
+      return [{ label: 'the beams as given', answer: { beams: bar.beams } }];
+    }
+    case 'write-key-signature': {
+      const key = payload.key as Key;
+      const clef = payload.clef as Clef;
+      const signature = pitch.keySignature(key);
+      const kind = signature > 0 ? 1 : -1;
+      const positions = pitch.keySignaturePositions(signature, clef);
+      return [
+        { label: 'no signs', answer: { signs: [] } },
+        { label: 'the other kind of sign', answer: { signs: positions.map((position) => ({ sign: -kind, position })) } },
+        { label: 'first sign one step out', answer: { signs: positions.map((position, i) => ({ sign: kind, position: i === 0 ? (position >= 9 ? position - 1 : position + 1) : position })) } },
+        ...(positions.length < 7 ? [{ label: 'one sign too many', answer: { signs: [...positions, 4].map((position) => ({ sign: kind, position })) } }] : []),
+      ];
+    }
+    case 'find-in-passage': {
+      const targets = payload.targets as { bar: number; event?: number }[];
+      const passage = payload.passage as Passage;
+      const other = passage.bars.flatMap((b, bar) => b.events.map((_, event) => (payload.select === 'bar' ? { bar } : { bar, event }))).find((p) => !targets.some((t) => t.bar === p.bar && t.event === p.event));
+      return other ? [{ label: 'a place that is not a target', answer: { chosen: [other] } }] : [];
     }
   }
   throw new Error(`no wrong answers for ${type}`);

@@ -264,14 +264,14 @@ describe('gaps: geometry', () => {
     await screen.findAllByRole('button');
     return getStaveLayout(container.querySelector('.mtn-stave__canvas')!)!;
   }
-  it('each gap is centred halfway between the centres of the two events', async () => {
+  it('each gap is centred halfway between the centres of the two events, or on the bar line at the end of a bar', async () => {
     const m = await model(twoBars());
     const places = gapPlaces(m, [{ bar: 0, event: 0 }, { bar: 0, event: 3 }]);
     const e = m.bars[0].events;
     expect(places[0].x).toBeCloseTo((e[0].centreX + e[1].centreX) / 2, 5);
-    // The last event of a bar: halfway to the first event of the next bar on the same line.
-    const next = m.bars[1].events[0];
-    if (m.bars[1].system === m.bars[0].system) expect(places[1].x).toBeCloseTo((e[3].centreX + next.centreX) / 2, 5);
+    // The last event of a bar with another bar after it on the same line: on the bar line, the right edge of the bar.
+    if (m.bars[1].system === m.bars[0].system) expect(places[1].x).toBeCloseTo(m.bars[0].x + m.bars[0].width, 5);
+    else expect(places[1].x).toBeCloseTo((e[3].centreX + (m.bars[0].x + m.bars[0].width)) / 2, 5);
   });
   it('button widths are 44 px where the gap allows and never under 24 px', async () => {
     const m = await model(twoBars());
