@@ -369,6 +369,29 @@ describe('metronome', () => {
   });
 });
 
+describe('metronome start time and stop time', () => {
+  it('startAt puts the first click exactly there (never in the past); stopAt commits no click from that time on', async () => {
+    const engine = await unlocked();
+    // 4/4 at 120: clicks every 0.5 s. Ask for the first click at 10.6 (the clock is at 10).
+    const m = engine.startMetronome({ beats: 4, beatUnit: 4 }, 120, undefined, { startAt: 10.6 });
+    expect(m.startTime).toBeCloseTo(10.6, 9);
+    m.stopAt(11.6);
+    for (let i = 0; i < 20; i++) {
+      h.currentTime += 0.1;
+      await vi.advanceTimersByTimeAsync(25);
+    }
+    const times = calls('synth', 'triggerAttackRelease').map((c) => (c.args as number[])[2]!);
+    expect(times).toHaveLength(2);
+    expect(times[0]).toBeCloseTo(10.6, 9);
+    expect(times[1]).toBeCloseTo(11.1, 9);
+    m.stop();
+    // A startAt in the past is moved up to now.
+    const late = engine.startMetronome({ beats: 4, beatUnit: 4 }, 120, undefined, { startAt: 1 });
+    expect(late.startTime).toBeCloseTo(h.currentTime, 9);
+    late.stop();
+  });
+});
+
 describe('ui sounds, mute, clock', () => {
   it('plays distinct short sounds and is silent when muted', async () => {
     const engine = await unlocked();

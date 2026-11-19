@@ -5,19 +5,22 @@ import { installStaveStubs } from '@/components/stave/test-utils';
 import { rhythm } from '@/engine/rhythm';
 import { createRng } from '@/engine/rng';
 import { DEFAULT_SETTINGS, type LearnerSettings } from '@/lesson/contracts';
-import { createGame, resolveConfig, TapIt, type GameResult, type TapItConfig } from './index';
+import { completeRhythm, createGame, judge, resolveConfig, TapIt, type GameResult, type TapItConfig } from './index';
 
 const fake = vi.hoisted(() => ({
   clock: 0,
   unlock: vi.fn(async () => {}),
   load: vi.fn(async () => {}),
   stop: vi.fn(),
+  stopAt: vi.fn(),
   startMetronome: vi.fn(),
   playUi: vi.fn(),
   setMuted: vi.fn(),
 }));
 const getAudioEngine = vi.hoisted(() => vi.fn());
 vi.mock('@/audio', () => ({ getAudioEngine }));
+// The pad publishes the audio-clock time of every expected onset when this is on; the tests read it back.
+vi.mock('@/dev/enabled', () => ({ DEV_ROUTES_ENABLED: true }));
 
 const SEED = 42;
 
@@ -25,8 +28,14 @@ beforeAll(() => installStaveStubs());
 beforeEach(() => {
   vi.useFakeTimers();
   fake.clock = 0;
-  for (const f of [fake.unlock, fake.load, fake.stop, fake.playUi, fake.setMuted]) f.mockClear();
-  fake.startMetronome.mockReset().mockImplementation(() => ({ stop: fake.stop, startTime: fake.clock + 0.1 }));
+  for (const f of [fake.unlock, fake.load, fake.stop, fake.stopAt, fake.playUi, fake.setMuted]) f.mockClear();
+  fake.startMetronome
+    .mockReset()
+    .mockImplementation((_t: unknown, _b: unknown, _cb: unknown, o?: { startAt?: number }) => ({
+      stop: fake.stop,
+      stopAt: fake.stopAt,
+      startTime: o?.startAt ?? fake.clock + 0.1,
+    }));
   getAudioEngine.mockReset();
   getAudioEngine.mockImplementation(() => ({
     now: () => fake.clock,
@@ -138,7 +147,7 @@ describe('start screen', () => {
     await pressStart();
     expect(screen.getByTestId('ti-level')).toHaveTextContent('5');
     // Level 5 plays at 82 bpm.
-    expect(fake.startMetronome).toHaveBeenCalledWith(expect.anything(), 82);
+    expect(fake.startMetronome).toHaveBeenCalledWith(expect.anything(), 82, undefined, undefined);
   });
 });
 
@@ -153,7 +162,7 @@ describe('a timed round, by pointer', () => {
     expect(screen.getByTestId('ti-notation')).toBeInTheDocument();
     expect(screen.getByRole('region', { name: 'Rhythm pad' })).toHaveAttribute('data-phase', 'count-in');
     expect(fake.startMetronome).toHaveBeenCalledTimes(1);
-    expect(fake.startMetronome).toHaveBeenCalledWith(r.time, r.bpm);
+    expect(fake.startMetronome).toHaveBeenCalledWith(r.time, r.bpm, undefined, undefined);
     expect(screen.getByTestId('ti-announce')).toHaveTextContent(/Rhythm 1/);
     expect(screen.getByTestId('ti-score')).toHaveTextContent('0');
     expect(screen.getByTestId('ti-level')).toHaveTextContent('1');
@@ -247,12 +256,12 @@ describe('a timed round, by pointer', () => {
     expect(fake.playUi).toHaveBeenCalledWith('wrong');
   });
 
-  it('plays again into a fresh round, and the next rhythm follows the feedback when time remains', async () => {
+  it('keeps one click running into the next rhythm, which enters on a bar line of it', async () => {
     const config = { roundSeconds: 60 };
-    const r = shadow(config);
+    const r1 = shadow(config);
     setup({ config });
     await pressStart();
-    const t = timesOf(r);
+    const t = timesOf(r1);
     for (const o of t.onsets) {
       advanceTo(o);
       pointerTap();
@@ -260,16 +269,68 @@ describe('a timed round, by pointer', () => {
     advanceTo(t.end + 0.05);
     expect(screen.getByTestId('ti-feedback')).toHaveTextContent('Perfect rhythm!');
     expect(fake.startMetronome).toHaveBeenCalledTimes(1);
-    // About a bar of feedback later the next rhythm is prepared: the pad restarts its click.
-    act(() => {
-      vi.advanceTimersByTime(3600);
-    });
+
+    // What the game plays next: the same engine, the same seed, every onset hit.
+    let g = createGame(resolveConfig({ ...config, startLevel: 1 }), createRng(SEED));
+    for (let i = 0; i < g.current.onsets; i += 1) g = judge(g, i, 'perfect').state;
+    const r2 = completeRhythm(g).state.current;
+    expect(r2.time).toEqual(r1.time);
+    expect(r2.bpm).toBe(r1.bpm);
+
+    // The feedback stays up, the click does not stop, and the next rhythm appears.
+    let guard = 0;
+    while (!/Rhythm 2, level 1/.test(screen.getByTestId('ti-announce').textContent ?? '') && guard++ < 400) advanceTo(fake.clock + 0.05);
+    expect(guard).toBeLessThan(400);
     await flush();
-    expect(fake.startMetronome).toHaveBeenCalledTimes(2);
-    expect(screen.getByTestId('ti-announce')).toHaveTextContent(/Rhythm 2, level 1/);
+    const shown = fake.clock;
+    expect(fake.startMetronome).toHaveBeenCalledTimes(1);
+    expect(fake.stop).not.toHaveBeenCalled();
     expect(screen.getByRole('region', { name: 'Rhythm pad' })).toHaveAttribute('data-phase', 'count-in');
-    // Score and streak carried over.
-    expect(screen.getByTestId('ti-score')).toHaveTextContent(String(10 * r.onsets + 25));
+    // The feedback was up for at least 1.8 s of the audio clock.
+    expect(shown - t.end).toBeGreaterThanOrEqual(1.8 - 0.1);
+
+    // Its count-in starts on the first bar line of the one click at least 0.15 s after it appeared.
+    const bar = r1.time.beats * t.spb;
+    const k = Math.ceil((shown + 0.15 - t.start) / bar - 1e-9);
+    const countIn = t.start + k * bar;
+    expect(countIn).toBeGreaterThanOrEqual(shown + 0.15 - 1e-9);
+    expect(countIn - (shown + 0.15)).toBeLessThan(bar);
+    // The pad measured its onsets from that bar line: exactly one bar of count-in, then the rhythm.
+    const published = (window as unknown as { __rhythmRun: { expected: number[] } }).__rhythmRun.expected;
+    const spb2 = 60 / r2.bpm;
+    const wanted = rhythm.onsetTimes(r2.bars, r2.time, r2.bpm).map((o) => countIn + r2.time.beats * spb2 + o);
+    expect(published).toHaveLength(wanted.length);
+    published.forEach((at, i) => expect(at).toBeCloseTo(wanted[i]!, 9));
+    // And tapping at those times is perfect.
+    const before = Number(screen.getByTestId('ti-score').textContent);
+    for (const o of wanted) {
+      advanceTo(o);
+      pointerTap();
+    }
+    advanceTo(countIn + (r2.time.beats + r2.bars.length * r2.time.beats + 1) * spb2 + 0.05);
+    expect(screen.getByTestId('ti-record')).toHaveTextContent(`${r2.onsets} perfect, 0 close, 0 missed`);
+    expect(Number(screen.getByTestId('ti-score').textContent)).toBeGreaterThan(before);
+    expect(fake.startMetronome).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not click or auto-press anything: the pad shows no Start, Try again or result of its own', async () => {
+    const config = { roundSeconds: 5 };
+    setup({ config });
+    await pressStart();
+    const pad = screen.getByRole('region', { name: 'Rhythm pad' });
+    expect(pad).toHaveAttribute('data-chrome', 'minimal');
+    expect(pad.querySelectorAll('button')).toHaveLength(1); // the tap surface only
+    expect(screen.queryByTestId('result')).not.toBeInTheDocument();
+    // Pause is the game's own button, outside the pad.
+    expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument();
+  });
+
+  it('the click does not start before the Start press and unlocks from it', async () => {
+    setup({ config: { roundSeconds: 5 } });
+    expect(fake.startMetronome).not.toHaveBeenCalled();
+    await pressStart();
+    expect(fake.unlock).toHaveBeenCalled();
+    expect(fake.startMetronome).toHaveBeenCalledTimes(1);
   });
 
   it('Play again starts a new round', async () => {
@@ -280,7 +341,7 @@ describe('a timed round, by pointer', () => {
     const t = timesOf(r);
     advanceTo(t.end + 0.05);
     act(() => {
-      vi.advanceTimersByTime(3600);
+      vi.advanceTimersByTime(8000);
     });
     expect(screen.getByRole('button', { name: 'Play again' })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Play again' }));
@@ -408,7 +469,7 @@ describe('untimed setting: slow practice', () => {
     const r = shadow(config, true);
     const { onFinish } = setup({ settings: UNTIMED, config });
     await pressStart('Start slow practice');
-    expect(fake.startMetronome).toHaveBeenCalledWith(r.time, 50);
+    expect(fake.startMetronome).toHaveBeenCalledWith(r.time, 50, undefined, undefined);
     expect(r.bpm).toBe(50);
     expect(screen.queryByTestId('ti-score')).not.toBeInTheDocument();
     expect(screen.queryByTestId('ti-time')).not.toBeInTheDocument();

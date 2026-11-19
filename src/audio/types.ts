@@ -16,13 +16,19 @@ export interface AudioEngine {
   ): { stop(): void; done: Promise<void> };
   /**
    * Metronome click on felt beats, with an accented first beat. `startTime` is
-   * the audio-clock time (see `now()`) of the first click.
+   * the audio-clock time (see `now()`) of the first click. `options.startAt`
+   * asks for that first click at a chosen audio-clock time instead of the
+   * default short lead (never earlier than now); `startTime` is what was used.
+   * `stopAt(time)` stops the click from `time` on; it only works if called more
+   * than a third of a second before `time`, because clicks are committed to the
+   * audio clock slightly ahead.
    */
   startMetronome(
     time: TimeSignature,
     bpm: number,
     onBeat?: (beat: number) => void,
-  ): { stop(): void; startTime: number };
+    options?: { startAt?: number },
+  ): { stop(): void; startTime: number; stopAt(time: number): void };
   /** Short interface sounds; silent when muted. */
   playUi(sound: 'correct' | 'wrong' | 'tap' | 'complete'): void;
   setMuted(muted: boolean): void;

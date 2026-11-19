@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useRef, useState, useSyncExternalStore } from 'react';
 import { getAudioEngine } from '@/audio';
 import { Button } from '@/components/ui';
 import { DEV_ROUTES_ENABLED } from '@/dev/enabled';
@@ -73,9 +73,17 @@ export function RhythmPad({
   onBeat,
   onPhase,
   reducedMotion = false,
+  ref,
+  autoStart = false,
+  chrome = 'full',
+  tapSize = 'default',
+  clock,
   children,
 }: RhythmPadProps) {
   const free = mode === 'free';
+  const minimal = chrome === 'minimal';
+  // A parent-owned clock only makes sense for a scored performance; free mode keeps its own click.
+  const sharedClock = free ? undefined : clock;
   const perBar = rhythm.beatsPerBar(time);
   const [phase, setPhase] = useState<Phase>('idle');
   const [beat, setBeat] = useState(-1);
@@ -286,8 +294,9 @@ export function RhythmPad({
 
     const spb = 60 / bpm;
     const countInBeats = free ? 0 : Math.max(0, Math.round(countInBars)) * perBar;
-    const metro = engine.startMetronome(time, bpm);
-    const metronomeStart = metro.startTime;
+    // With a parent-owned clock the click is already running: the count-in starts on its next bar line.
+    const metro = sharedClock ? null : engine.startMetronome(time, bpm);
+    const metronomeStart = sharedClock ? sharedClock.claimBarLine(time, bpm) : (metro as { startTime: number }).startTime;
     const playStart = metronomeStart + countInBeats * spb;
     const scoreBeats = bars.length * perBar;
     const stopOffset = Math.min(METRONOME_STOP_MARGIN_S, spb - 0.01);
@@ -302,7 +311,7 @@ export function RhythmPad({
       countInBeats,
       playStart,
       endTime: metronomeStart + (countInBeats + scoreBeats + 1) * spb,
-      metroStopAt: !free && !metronome ? playStart - stopOffset : null,
+      metroStopAt: !free && !metronome && !sharedClock ? playStart - stopOffset : null,
       expected,
       matcher: free ? null : createTapMatcher(expected, { perfectMs, toleranceMs, windowMs }),
       perfectMs,
@@ -328,15 +337,38 @@ export function RhythmPad({
       changePhase('playing');
       setAnnounce('Go');
     }
-  }, [bars, bpm, countInBars, free, metronome, perBar, time, tick, changePhase, perfectMs, toleranceMs, matchWindowMs]);
+  }, [bars, bpm, countInBars, free, metronome, perBar, time, tick, changePhase, perfectMs, toleranceMs, matchWindowMs, sharedClock]);
 
   const stopFree = useCallback(() => {
     clearRun();
     setBeat(-1);
     setBeatPulse(false);
     changePhase('idle');
-    setAnnounce(`Stopped. ${tapCountRef.current} taps.`);
-  }, [clearRun, changePhase]);
+    setAnnounce(free ? `Stopped. ${tapCountRef.current} taps.` : 'Stopped.');
+  }, [clearRun, changePhase, free]);
+
+  // The parent's controls. `start` is the same function the Start button runs.
+  useImperativeHandle(
+    ref,
+    () => ({
+      start,
+      stop: () => {
+        const p = phaseRef.current;
+        if (p === 'count-in' || p === 'playing') stopFree();
+      },
+    }),
+    [start, stopFree],
+  );
+
+  useEffect(() => {
+    // In a microtask so the effect itself sets no state; a second call (StrictMode) finds the pad already starting.
+    if (autoStart)
+      queueMicrotask(() => {
+        if (mounted.current) void start();
+      });
+    // Once, on mount: later changes to bars or tempo do not restart a performance.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleTap = useCallback(() => {
     // Read the clock first: this is the timestamp that gets scored.
@@ -373,6 +405,9 @@ export function RhythmPad({
   }, [free, judged, showVerdict, changePhase]);
 
   const running = phase === 'count-in' || phase === 'playing';
+  const showStart = !minimal && (phase === 'idle' || phase === 'starting');
+  const showRetryButton = !minimal && phase === 'done' && showRetry;
+  const showControls = showStart || showRetryButton || (free && running);
   const status =
     phase === 'count-in' ? 'Count-in' : phase === 'playing' ? (free ? 'Play along' : 'Tap the rhythm') : '';
 
@@ -380,7 +415,8 @@ export function RhythmPad({
     <section
       aria-label={free ? 'Rhythm play-along' : 'Rhythm pad'}
       data-phase={phase}
-      className="flex flex-col items-stretch gap-4"
+      data-chrome={chrome}
+      className={minimal ? 'flex flex-col items-stretch gap-2' : 'flex flex-col items-stretch gap-4'}
     >
       {children}
       <div className="flex min-h-12 flex-col items-center gap-2">
@@ -407,24 +443,27 @@ export function RhythmPad({
         beatPulse={running && beatPulse}
         reduced={reduced}
         label={free ? 'Tap along' : 'Tap the rhythm'}
+        size={tapSize}
       />
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        {phase === 'idle' || phase === 'starting' ? (
-          <Button onClick={start} loading={phase === 'starting'} size="lg">
-            Start
-          </Button>
-        ) : null}
-        {free && running ? (
-          <Button variant="secondary" onClick={stopFree}>
-            Stop
-          </Button>
-        ) : null}
-        {phase === 'done' && showRetry ? (
-          <Button variant="secondary" onClick={start}>
-            Try again
-          </Button>
-        ) : null}
-      </div>
+      {showControls ? (
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {showStart ? (
+            <Button onClick={start} loading={phase === 'starting'} size="lg">
+              Start
+            </Button>
+          ) : null}
+          {free && running ? (
+            <Button variant="secondary" onClick={stopFree}>
+              Stop
+            </Button>
+          ) : null}
+          {showRetryButton ? (
+            <Button variant="secondary" onClick={start}>
+              Try again
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
       {free && tapCount > 0 ? (
         <p className="text-center text-sm text-fg-secondary">{`Taps: ${tapCount}`}</p>
       ) : null}
@@ -433,7 +472,7 @@ export function RhythmPad({
           {error}
         </p>
       ) : null}
-      {result ? (
+      {result && !minimal ? (
         <div className="flex flex-col items-center gap-3" data-testid="result">
           <p className="text-lg font-semibold">{`Accuracy ${Math.round(result.accuracy * 100)}%`}</p>
           <FeedbackRow errorsMs={result.errorsMs} perfectMs={perfectMs} toleranceMs={toleranceMs} />

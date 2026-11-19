@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAudioEngine } from '@/audio';
+import { createPadClock } from '@/components/rhythm-pad';
 import { Button } from '@/components/ui';
 import { createRng } from '@/engine/rng';
 import type { LearnerSettings } from '@/lesson/contracts';
@@ -35,9 +36,14 @@ export interface PlayScreenProps {
   onExit: () => void;
 }
 
-/** About one bar of feedback, never shorter or longer than this. */
+/**
+ * Feedback stays up for at least this long, and then until the next bar line of the click (less
+ * NEXT_ROUND_LEAD_S), so the next rhythm's count-in lands on a bar line of the unbroken click.
+ */
 const FEEDBACK_MIN_MS = 1800;
 const FEEDBACK_MAX_MS = 3500;
+/** The next rhythm appears this long before its count-in starts, so the pad can claim that bar line (it needs 0.4 s for a tempo change). */
+const NEXT_ROUND_LEAD_S = 0.5;
 const CLOCK_MS = 100;
 const MAX_CLOCK_STEP_MS = 500;
 
@@ -78,7 +84,7 @@ function formatClock(ms: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 }
 
-/** One bar of the rhythm, in ms, within limits. */
+/** One bar of the rhythm, in ms, within limits. Used when the click is not running. */
 function feedbackMsFor(r: TapRhythm): number {
   const barMs = (r.time.beats * 60000) / r.bpm;
   return Math.round(Math.min(FEEDBACK_MAX_MS, Math.max(FEEDBACK_MIN_MS, barMs)));
@@ -89,6 +95,8 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
   const practice = config.practice;
 
   const [initial] = useState(() => createGame(config, createRng(seed)));
+  // One metronome for the whole round, shared by every rhythm's pad.
+  const [clock] = useState(createPadClock);
   const gameRef = useRef<GameState>(initial);
   const [view, setView] = useState<View>(() => snapshot(initial));
   const [round, setRound] = useState<{ key: number; rhythm: TapRhythm }>(() => ({ key: 1, rhythm: initial.current }));
@@ -120,8 +128,9 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
     () => () => {
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
       if (bannerTimer.current) clearTimeout(bannerTimer.current);
+      clock.stop();
     },
-    [],
+    [clock],
   );
 
   const playSound = useCallback((sound: 'correct' | 'wrong' | 'complete') => {
@@ -221,8 +230,17 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
     commit(completeRhythm(gameRef.current));
     setStage('feedback');
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
-    feedbackTimer.current = setTimeout(startNextRhythm, feedbackMsFor(rhythmPlayed));
-  }, [commit, startNextRhythm]);
+    // The click keeps going through the feedback; the next rhythm is shown just before a bar line.
+    let waitMs = feedbackMsFor(rhythmPlayed);
+    try {
+      const now = getAudioEngine().now();
+      const line = clock.nextBarLine(now + FEEDBACK_MIN_MS / 1000 + NEXT_ROUND_LEAD_S);
+      if (line !== null) waitMs = Math.max(0, (line - now - NEXT_ROUND_LEAD_S) * 1000);
+    } catch {
+      // No audio clock: fall back to a bar of feedback.
+    }
+    feedbackTimer.current = setTimeout(startNextRhythm, waitMs);
+  }, [commit, startNextRhythm, clock]);
 
   // --- the round clock: engine time only moves here, and only while running --------------------
   useEffect(() => {
@@ -250,6 +268,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
     // The rhythm on the pad is abandoned and its taps taken back; in feedback it is already scored.
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
     feedbackTimer.current = null;
+    clock.stop();
     if (stage === 'play') {
       resumeWith.current = 'replay';
       gameRef.current = restartRhythm(gameRef.current);
@@ -258,7 +277,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
       resumeWith.current = 'next';
     }
     setRun('paused');
-  }, [stage]);
+  }, [stage, clock]);
   const resume = useCallback(() => {
     setCount(3);
     setRun('countdown');
@@ -412,6 +431,7 @@ export function PlayScreen({ settings, config, seed, onFinished, onExit }: PlayS
         <RhythmRound
           key={round.key}
           rhythm={round.rhythm}
+          clock={clock}
           terminology={settings.terminology}
           reducedMotion={reduced}
           latencyOffsetMs={settings.latencyOffsetMs}

@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 import type { Bar, TimeSignature } from '@/engine/types';
+import type { PadClock } from './pad-clock';
 
 export interface TapResult {
   /** One entry per expected onset: signed error in ms (negative = early), or null if missed. */
@@ -21,6 +22,22 @@ export interface OnsetJudgement {
 }
 
 export type PadPhase = 'idle' | 'count-in' | 'playing' | 'done';
+
+/**
+ * What a parent can do with the pad through `ref`. The pad is still the one that listens for taps and
+ * scores them; the parent only decides when a performance begins and ends.
+ */
+export interface RhythmPadHandle {
+  /**
+   * Begins a performance (count-in first), exactly as the pad's own Start button does. Resolves once the
+   * count-in is under way. Does nothing while a performance is running. Sound can only begin after a user
+   * gesture, so call it from a tap handler, or after something else has unlocked the audio (Tap It's
+   * Start press does); the pad also unlocks and loads the engine, which is harmless when already done.
+   */
+  start(): Promise<void>;
+  /** Ends a performance early without calling `onComplete` and returns the pad to idle. Does nothing when idle or done. */
+  stop(): void;
+}
 
 export interface RhythmPadProps {
   bars: Bar[];
@@ -71,6 +88,24 @@ export interface RhythmPadProps {
   reducedMotion?: boolean;
   /** Show the pad's own "Try again" after a performance. Default true; a parent that owns retrying (the lesson player) passes false. */
   showRetry?: boolean;
+  /** Pass a ref to start and stop the pad from the parent. */
+  ref?: Ref<RhythmPadHandle>;
+  /** Start as soon as the pad mounts, as if the parent had called `start()`. Default false. */
+  autoStart?: boolean;
+  /**
+   * 'full' (default) shows the pad's Start and Try again buttons and its own result block. 'minimal' shows
+   * none of them: the parent starts the pad (`ref` or `autoStart`) and shows the result itself. The tap
+   * surface, beat dots, tally, verdict chip and live region stay, and so does Stop in free mode.
+   */
+  chrome?: 'full' | 'minimal';
+  /** 'large' makes the tap surface taller and fill the width, for a game. Default 'default'. */
+  tapSize?: 'default' | 'large';
+  /**
+   * A metronome owned by the parent (see `createPadClock`). The pad then starts no click of its own: its
+   * count-in begins on the next bar line of that click, and `metronome` is ignored (the parent decides when
+   * the click stops). Several pads in a row sharing one clock hear one unbroken click. Perform mode only.
+   */
+  clock?: PadClock;
   /** Rendered above the tap target (the parent shows the notation here). */
   children?: ReactNode;
 }

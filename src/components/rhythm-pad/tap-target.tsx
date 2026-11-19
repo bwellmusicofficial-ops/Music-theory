@@ -16,10 +16,12 @@ export interface TapTargetProps {
   beatPulse?: boolean;
   /** No scaling or pulsing; the verdict colour still shows. */
   reduced?: boolean;
+  /** 'large' is taller and always full width (a game). */
+  size?: 'default' | 'large';
 }
 
 /** Large tap surface. Timing events are pointerdown and keydown, never click. */
-export function TapTarget({ onTap, active, pulsing, label, flash = null, beatPulse = false, reduced = false }: TapTargetProps) {
+export function TapTarget({ onTap, active, pulsing, label, flash = null, beatPulse = false, reduced = false, size = 'default' }: TapTargetProps) {
   const onPointerDown = (e: PointerEvent<HTMLButtonElement>) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     onTap();
@@ -45,8 +47,9 @@ export function TapTarget({ onTap, active, pulsing, label, flash = null, beatPul
       // Prevent the synthetic click from Space/Enter keyup doing anything.
       onClick={(e) => e.preventDefault()}
       className={cn(
-        'flex min-h-24 w-full select-none items-center justify-center rounded-lg border-2 px-6 py-6 text-xl font-semibold',
-        'touch-manipulation transition-transform duration-(--motion-duration-fast) ease-out sm:w-auto sm:min-w-64',
+        'flex w-full select-none items-center justify-center rounded-lg border-2 px-6 py-6',
+        size === 'large' ? 'min-h-34 text-[1.75rem] font-black' : 'min-h-24 text-xl font-semibold sm:w-auto sm:min-w-64',
+        'touch-manipulation transition-transform duration-(--motion-duration-fast) ease-out',
         'data-[pulsing=true]:scale-95 data-[accent-pulse=true]:bg-accent data-[accent-pulse=true]:text-on-accent',
         'data-[beat=true]:ring-4 data-[beat=true]:ring-accent/50',
         'data-[flash=perfect]:border-success data-[flash=perfect]:bg-success data-[flash=perfect]:text-on-success',
