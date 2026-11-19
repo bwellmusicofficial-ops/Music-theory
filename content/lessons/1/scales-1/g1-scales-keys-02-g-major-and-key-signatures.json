@@ -9,7 +9,8 @@
   "strand": "scales-keys",
   "skills": [
     "scales-keys.major.g",
-    "scales-keys.signature.read"
+    "scales-keys.signature.read",
+    "scales-keys.signature.write"
   ],
   "prerequisites": [
     "g1-scales-keys-01-the-major-scale"
@@ -1070,20 +1071,20 @@
           }
         },
         {
-          "id": "p5-which-notes-are-sharp",
-          "type": "multiple-choice",
-          "skill": "scales-keys.signature.read",
-          "prompt": "Which notes are sharp or flat in this key?",
-          "hint": "Think back to the scale. Which note had to be raised to make the pattern fit?",
-          "source": "generated",
-          "generator": {
-            "id": "key-facts",
-            "params": {
-              "ask": "accidentals",
-              "keys": [
-                "C",
-                "G"
-              ]
+          "id": "p5-write-g-major",
+          "type": "write-key-signature",
+          "skill": "scales-keys.signature.write",
+          "prompt": "Write the [[key-signature|key signature]] of G major. Pick the sharp sign, then tap where it goes on the [[stave|stave]].",
+          "hint": "G major has one sharp, F♯. Put it on the line where you saw it at the start of the G major tune.",
+          "source": "authored",
+          "payload": {
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "G",
+                "accidental": 0
+              },
+              "mode": "major"
             }
           }
         }
@@ -1454,19 +1455,26 @@
           }
         },
         {
-          "id": "c5-which-notes-are-sharp",
-          "type": "multiple-choice",
-          "skill": "scales-keys.signature.read",
-          "prompt": "Which notes are sharp or flat in this key?",
-          "hint": "Which note of the scale had to be raised to fit the pattern?",
+          "id": "c5-write-g-major",
+          "type": "write-key-signature",
+          "skill": "scales-keys.signature.write",
+          "prompt": "Write the [[key-signature|key signature]] of G major.",
+          "hint": "G major has one sharp, F♯. Pick the sharp sign, then place it on the line you saw at the start of the G major tune.",
           "source": "generated",
           "generator": {
-            "id": "key-facts",
+            "id": "write-key-signature",
             "params": {
-              "ask": "accidentals",
               "keys": [
-                "C",
-                "G"
+                {
+                  "tonic": {
+                    "letter": "G",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                }
+              ],
+              "clefs": [
+                "treble"
               ]
             }
           }

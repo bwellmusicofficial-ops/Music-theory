@@ -288,172 +288,172 @@
   "svg": "ade8cb3df15d"
  },
  "lessons/1/rhythm-1/g1-rhythm-02-bars-and-four-four.json#9 @ md-340": {
-  "src": "5d67d640a479",
+  "src": "a7f31acd179b",
   "w": 125.64924240491749,
   "h": 88,
   "systems": "0/88",
-  "model": "552a67c79dda",
-  "svg": "af77461e3707"
+  "model": "494994179397",
+  "svg": "5f588743ea49"
  },
  "lessons/1/rhythm-1/g1-rhythm-02-bars-and-four-four.json#9 @ md-700": {
-  "src": "5d67d640a479",
+  "src": "a7f31acd179b",
   "w": 125.64924240491749,
   "h": 88,
   "systems": "0/88",
-  "model": "552a67c79dda",
-  "svg": "349b32cd4675"
+  "model": "494994179397",
+  "svg": "7c3d032d1a7b"
  },
  "lessons/1/rhythm-1/g1-rhythm-02-bars-and-four-four.json#9 @ lg-edit-400": {
-  "src": "5d67d640a479",
+  "src": "a7f31acd179b",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "5459603e97d5",
-  "svg": "29eabee0afea"
+  "model": "051b09feb364",
+  "svg": "4bf66764f545"
  },
- "lessons/1/rhythm-1/g1-rhythm-03-semibreves.json#11 @ md-340": {
-  "src": "8c7d9de5e500",
-  "w": 130.39999999999998,
+ "lessons/1/rhythm-1/g1-rhythm-03-semibreves.json#10 @ md-340": {
+  "src": "49ca36b2d841",
+  "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "2649ec8ef2ce",
-  "svg": "08baee7a2b72"
+  "model": "bf119284bc95",
+  "svg": "04762d50814c"
  },
- "lessons/1/rhythm-1/g1-rhythm-03-semibreves.json#11 @ md-700": {
-  "src": "8c7d9de5e500",
-  "w": 130.39999999999998,
+ "lessons/1/rhythm-1/g1-rhythm-03-semibreves.json#10 @ md-700": {
+  "src": "49ca36b2d841",
+  "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "2649ec8ef2ce",
-  "svg": "5318fde3eadb"
+  "model": "bf119284bc95",
+  "svg": "6d46484ad2a8"
  },
- "lessons/1/rhythm-1/g1-rhythm-03-semibreves.json#11 @ lg-edit-400": {
-  "src": "8c7d9de5e500",
+ "lessons/1/rhythm-1/g1-rhythm-03-semibreves.json#10 @ lg-edit-400": {
+  "src": "49ca36b2d841",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "b8e6be5204a1",
-  "svg": "7d4de52d1b89"
+  "model": "a0f583c31d02",
+  "svg": "87ef50d9b23d"
  },
- "lessons/1/rhythm-1/g1-rhythm-04-quavers.json#13 @ md-340": {
+ "lessons/1/rhythm-1/g1-rhythm-04-quavers.json#12 @ md-340": {
   "src": "8db074e58e67",
   "w": 272,
   "h": 88,
   "systems": "0/88",
   "model": "091b9bbb8a92",
-  "svg": "dca119df99f8"
+  "svg": "1e5e2cd257eb"
  },
- "lessons/1/rhythm-1/g1-rhythm-04-quavers.json#13 @ md-700": {
+ "lessons/1/rhythm-1/g1-rhythm-04-quavers.json#12 @ md-700": {
   "src": "8db074e58e67",
   "w": 220.93161507461906,
   "h": 88,
   "systems": "0/88",
   "model": "ec615c9bd76a",
-  "svg": "27d6e1d71c62"
+  "svg": "ef3cd444589f"
  },
- "lessons/1/rhythm-1/g1-rhythm-04-quavers.json#13 @ lg-edit-400": {
+ "lessons/1/rhythm-1/g1-rhythm-04-quavers.json#12 @ lg-edit-400": {
   "src": "8db074e58e67",
   "w": 266,
   "h": 302,
   "systems": "0/148,154/148",
   "model": "dd0f3137b1ff",
-  "svg": "7b66cf10bfb3"
+  "svg": "aac21caeb0dd"
  },
- "lessons/1/rhythm-2/g1-rhythm-06-rests.json#1 @ md-340": {
-  "src": "e30121ca8b12",
+ "lessons/1/rhythm-1/g1-rhythm-05-two-four-and-three-four.json#11 @ md-340": {
+  "src": "53c8386493a9",
   "w": 272,
-  "h": 182,
-  "systems": "0/88,94/88",
-  "model": "ed145d779168",
-  "svg": "f2ab66dee8dc"
- },
- "lessons/1/rhythm-2/g1-rhythm-06-rests.json#1 @ md-700": {
-  "src": "e30121ca8b12",
-  "w": 560,
   "h": 88,
   "systems": "0/88",
-  "model": "16c123568ab8",
-  "svg": "96c839c17e35"
+  "model": "8cfc8cff5964",
+  "svg": "080e4bca8294"
  },
- "lessons/1/rhythm-2/g1-rhythm-06-rests.json#1 @ lg-edit-400": {
-  "src": "e30121ca8b12",
+ "lessons/1/rhythm-1/g1-rhythm-05-two-four-and-three-four.json#11 @ md-700": {
+  "src": "53c8386493a9",
+  "w": 187,
+  "h": 88,
+  "systems": "0/88",
+  "model": "df93deacbbce",
+  "svg": "08073ff5e3ac"
+ },
+ "lessons/1/rhythm-1/g1-rhythm-05-two-four-and-three-four.json#11 @ lg-edit-400": {
+  "src": "53c8386493a9",
   "w": 266,
-  "h": 610,
-  "systems": "0/148,154/148,308/148,462/148",
-  "model": "21f6aa5356c0",
-  "svg": "f4c400f69039"
+  "h": 302,
+  "systems": "0/148,154/148",
+  "model": "e623d9617ff6",
+  "svg": "006308f6d167"
  },
- "lessons/1/rhythm-2/g1-rhythm-06-rests.json#16 @ md-340": {
-  "src": "28668fa04b98",
+ "lessons/1/rhythm-2/g1-rhythm-06-rests.json#14 @ md-340": {
+  "src": "6519a75e2b2f",
   "w": 130.39999999999998,
   "h": 88,
   "systems": "0/88",
-  "model": "4318c5f77d23",
-  "svg": "43264dbb478d"
+  "model": "08bbc5a23aff",
+  "svg": "c8b2f514b335"
  },
- "lessons/1/rhythm-2/g1-rhythm-06-rests.json#16 @ md-700": {
-  "src": "28668fa04b98",
+ "lessons/1/rhythm-2/g1-rhythm-06-rests.json#14 @ md-700": {
+  "src": "6519a75e2b2f",
   "w": 130.39999999999998,
   "h": 88,
   "systems": "0/88",
-  "model": "4318c5f77d23",
-  "svg": "42abfd630ba3"
+  "model": "08bbc5a23aff",
+  "svg": "ff92488c3039"
  },
- "lessons/1/rhythm-2/g1-rhythm-06-rests.json#16 @ lg-edit-400": {
-  "src": "28668fa04b98",
+ "lessons/1/rhythm-2/g1-rhythm-06-rests.json#14 @ lg-edit-400": {
+  "src": "6519a75e2b2f",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "0ef86abb8c86",
-  "svg": "1e2e452077a4"
+  "model": "c1e2423357dd",
+  "svg": "40d7d2f758b6"
  },
- "lessons/1/rhythm-2/g1-rhythm-07-dotted-notes.json#13 @ md-340": {
-  "src": "a651087cffbf",
+ "lessons/1/rhythm-2/g1-rhythm-07-dotted-notes.json#11 @ md-340": {
+  "src": "b251837f9e09",
   "w": 162.79898987322332,
   "h": 88,
   "systems": "0/88",
-  "model": "c200a91138a5",
-  "svg": "e9b31dbf19f8"
+  "model": "04f3891ebeb2",
+  "svg": "04a35094ed1d"
  },
- "lessons/1/rhythm-2/g1-rhythm-07-dotted-notes.json#13 @ md-700": {
-  "src": "a651087cffbf",
+ "lessons/1/rhythm-2/g1-rhythm-07-dotted-notes.json#11 @ md-700": {
+  "src": "b251837f9e09",
   "w": 162.79898987322332,
   "h": 88,
   "systems": "0/88",
-  "model": "c200a91138a5",
-  "svg": "5541edeacfaa"
+  "model": "04f3891ebeb2",
+  "svg": "49f2caf5359e"
  },
- "lessons/1/rhythm-2/g1-rhythm-07-dotted-notes.json#13 @ lg-edit-400": {
-  "src": "a651087cffbf",
+ "lessons/1/rhythm-2/g1-rhythm-07-dotted-notes.json#11 @ lg-edit-400": {
+  "src": "b251837f9e09",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "a7b4d7c8dafc",
-  "svg": "d87f1e85090d"
+  "model": "d7851b717e9c",
+  "svg": "60e9725c820b"
  },
- "lessons/1/rhythm-2/g1-rhythm-08-ties.json#12 @ md-340": {
+ "lessons/1/rhythm-2/g1-rhythm-08-ties.json#10 @ md-340": {
   "src": "d2c2935c4a35",
   "w": 272,
   "h": 182,
   "systems": "0/88,94/88",
   "model": "5f9f9637253a",
-  "svg": "a104e4935d33"
+  "svg": "0e2c54950edf"
  },
- "lessons/1/rhythm-2/g1-rhythm-08-ties.json#12 @ md-700": {
+ "lessons/1/rhythm-2/g1-rhythm-08-ties.json#10 @ md-700": {
   "src": "d2c2935c4a35",
   "w": 560,
   "h": 88,
   "systems": "0/88",
   "model": "0a8a2a5a8b3e",
-  "svg": "d56462965427"
+  "svg": "38d8a50d2cc0"
  },
- "lessons/1/rhythm-2/g1-rhythm-08-ties.json#12 @ lg-edit-400": {
+ "lessons/1/rhythm-2/g1-rhythm-08-ties.json#10 @ lg-edit-400": {
   "src": "d2c2935c4a35",
   "w": 266,
   "h": 610,
   "systems": "0/148,154/148,308/148,462/148",
   "model": "3fd59f383761",
-  "svg": "f29f1280b3a5"
+  "svg": "893b76f33cf4"
  },
  "lessons/1/rhythm-2/g1-rhythm-09-semiquavers.json#6 @ md-340": {
   "src": "6f7e545fa0c4",
@@ -461,7 +461,7 @@
   "h": 88,
   "systems": "0/88",
   "model": "c6bc39719c0c",
-  "svg": "afa0b35e42cb"
+  "svg": "a8b6e9668499"
  },
  "lessons/1/rhythm-2/g1-rhythm-09-semiquavers.json#6 @ md-700": {
   "src": "6f7e545fa0c4",
@@ -469,7 +469,7 @@
   "h": 88,
   "systems": "0/88",
   "model": "3c75417a66b9",
-  "svg": "9f483a7aa109"
+  "svg": "a05a51fe4aa7"
  },
  "lessons/1/rhythm-2/g1-rhythm-09-semiquavers.json#6 @ lg-edit-400": {
   "src": "6f7e545fa0c4",
@@ -477,246 +477,246 @@
   "h": 148,
   "systems": "0/148",
   "model": "bbaa7d728a67",
-  "svg": "97c64a01e8ea"
+  "svg": "bfc4fd7f43ea"
  },
  "lessons/1/rhythm-2/g1-rhythm-10-grouping-notes.json#6 @ md-340": {
-  "src": "f6b36929d904",
-  "w": 130.39999999999998,
+  "src": "862df116622b",
+  "w": 162.79898987322332,
   "h": 88,
   "systems": "0/88",
-  "model": "2649ec8ef2ce",
-  "svg": "e9ebd8562393"
+  "model": "4df480c51757",
+  "svg": "8a68903da689"
  },
  "lessons/1/rhythm-2/g1-rhythm-10-grouping-notes.json#6 @ md-700": {
-  "src": "f6b36929d904",
-  "w": 130.39999999999998,
+  "src": "862df116622b",
+  "w": 162.79898987322332,
   "h": 88,
   "systems": "0/88",
-  "model": "2649ec8ef2ce",
-  "svg": "4823756bf3b3"
+  "model": "4df480c51757",
+  "svg": "b38842eb30f5"
  },
  "lessons/1/rhythm-2/g1-rhythm-10-grouping-notes.json#6 @ lg-edit-400": {
-  "src": "f6b36929d904",
+  "src": "862df116622b",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "b8e6be5204a1",
-  "svg": "96e163f46d69"
+  "model": "c9e94fba110f",
+  "svg": "48c879c95229"
  },
  "lessons/1/rhythm-2/g1-rhythm-10-grouping-notes.json#21 @ md-340": {
-  "src": "56e49a6a5e02",
-  "w": 290.9561423207464,
+  "src": "260b6fc7af34",
+  "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "47df73b6e83a",
-  "svg": "ed561ddf7f63"
+  "model": "e6e9da81c083",
+  "svg": "96e0c676d5e0"
  },
  "lessons/1/rhythm-2/g1-rhythm-10-grouping-notes.json#21 @ md-700": {
-  "src": "56e49a6a5e02",
-  "w": 290.9561423207464,
+  "src": "260b6fc7af34",
+  "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "85534c8501eb",
-  "svg": "5ffb55d9e50b"
+  "model": "e6e9da81c083",
+  "svg": "095debeaeda7"
  },
  "lessons/1/rhythm-2/g1-rhythm-10-grouping-notes.json#21 @ lg-edit-400": {
-  "src": "56e49a6a5e02",
-  "w": 320.9561423207464,
+  "src": "260b6fc7af34",
+  "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "624b47088225",
-  "svg": "ff717b8fae1a"
+  "model": "bf6b2d733145",
+  "svg": "4eae3b65cc9d"
  },
- "lessons/1/scales-1/g1-scales-keys-02-g-major-and-key-signatures.json#0 @ md-340": {
-  "src": "ae2e6618fe37",
+ "lessons/1/scales-1/g1-scales-keys-02-g-major-and-key-signatures.json#2 @ md-340": {
+  "src": "a218d4677665",
   "w": 272,
   "h": 88,
   "systems": "0/88",
-  "model": "f93e366692fb",
-  "svg": "9179750eb301"
+  "model": "a9fb75370dc9",
+  "svg": "cd094e428b0b"
  },
- "lessons/1/scales-1/g1-scales-keys-02-g-major-and-key-signatures.json#0 @ md-700": {
-  "src": "ae2e6618fe37",
-  "w": 223.79999999999995,
+ "lessons/1/scales-1/g1-scales-keys-02-g-major-and-key-signatures.json#2 @ md-700": {
+  "src": "a218d4677665",
+  "w": 243.79999999999995,
   "h": 88,
   "systems": "0/88",
-  "model": "eef2f852a621",
-  "svg": "8f34fc9d7b7b"
+  "model": "512473d61369",
+  "svg": "73a37e19023b"
  },
- "lessons/1/scales-1/g1-scales-keys-02-g-major-and-key-signatures.json#0 @ lg-edit-400": {
-  "src": "ae2e6618fe37",
+ "lessons/1/scales-1/g1-scales-keys-02-g-major-and-key-signatures.json#2 @ lg-edit-400": {
+  "src": "a218d4677665",
   "w": 266,
   "h": 302,
   "systems": "0/148,154/148",
-  "model": "8ae8ce9d3bf2",
-  "svg": "ffa04c1047d1"
+  "model": "09499177334f",
+  "svg": "0096c2fdb0fe"
  },
- "lessons/1/scales-1/g1-scales-keys-03-d-major-and-f-major.json#4 @ md-340": {
-  "src": "b9635bd54fda",
-  "w": 272,
+ "lessons/1/scales-1/g1-scales-keys-03-d-major-and-f-major.json#6 @ md-340": {
+  "src": "f8e12e17d584",
+  "w": 286,
   "h": 88,
   "systems": "0/88",
-  "model": "67c6de38639a",
-  "svg": "9db73161293c"
+  "model": "7499bef353a4",
+  "svg": "4e20b0e07272"
  },
- "lessons/1/scales-1/g1-scales-keys-03-d-major-and-f-major.json#4 @ md-700": {
-  "src": "b9635bd54fda",
-  "w": 254.79999999999995,
+ "lessons/1/scales-1/g1-scales-keys-03-d-major-and-f-major.json#6 @ md-700": {
+  "src": "f8e12e17d584",
+  "w": 285.3020618247419,
   "h": 88,
   "systems": "0/88",
-  "model": "182aee38ee1c",
-  "svg": "2a816f6f2428"
+  "model": "90a4e19c97f8",
+  "svg": "d606b1fcdcca"
  },
- "lessons/1/scales-1/g1-scales-keys-03-d-major-and-f-major.json#4 @ lg-edit-400": {
-  "src": "b9635bd54fda",
+ "lessons/1/scales-1/g1-scales-keys-03-d-major-and-f-major.json#6 @ lg-edit-400": {
+  "src": "f8e12e17d584",
   "w": 266,
   "h": 302,
   "systems": "0/148,154/148",
-  "model": "85b33d1698da",
-  "svg": "87f628937a72"
+  "model": "f50bc6863386",
+  "svg": "ceffaa77892c"
  },
- "lessons/1/terms-1/g1-terms-04-repeats-and-road-signs.json#24 @ md-340": {
-  "src": "a5a971b4e8d3",
-  "w": 272,
-  "h": 93,
-  "systems": "0/93",
-  "model": "5e8ac9ec97cf",
-  "svg": "c4ef8def035d"
+ "lessons/start/keyboard-1/start-pitch-04-finding-c.json#1 @ md-340": {
+  "src": "8344d16eb8b5",
+  "w": 112,
+  "h": 88,
+  "systems": "0/88",
+  "model": "715c2e1deba2",
+  "svg": "ada9c6283d84"
  },
- "lessons/1/terms-1/g1-terms-04-repeats-and-road-signs.json#24 @ md-700": {
-  "src": "a5a971b4e8d3",
-  "w": 223.79999999999995,
-  "h": 93,
-  "systems": "0/93",
-  "model": "295fb71993a2",
-  "svg": "24b6ab695955"
+ "lessons/start/keyboard-1/start-pitch-04-finding-c.json#1 @ md-700": {
+  "src": "8344d16eb8b5",
+  "w": 112,
+  "h": 88,
+  "systems": "0/88",
+  "model": "715c2e1deba2",
+  "svg": "32428be49374"
  },
- "lessons/1/terms-1/g1-terms-04-repeats-and-road-signs.json#24 @ lg-edit-400": {
-  "src": "a5a971b4e8d3",
+ "lessons/start/keyboard-1/start-pitch-04-finding-c.json#1 @ lg-edit-400": {
+  "src": "8344d16eb8b5",
   "w": 266,
-  "h": 302,
-  "systems": "0/148,154/148",
-  "model": "c5463e7792d0",
-  "svg": "19db2ea2ff49"
+  "h": 148,
+  "systems": "0/148",
+  "model": "003629c7e531",
+  "svg": "c71ba1a48355"
  },
- "lessons/start/pulse-1/start-rhythm-02-fast-and-slow.json#5 @ md-340": {
-  "src": "c68f4834dc62",
-  "w": 272,
-  "h": 93,
-  "systems": "0/93",
-  "model": "0fdc78f894de",
-  "svg": "606d56cb4428"
+ "lessons/start/pulse-1/start-rhythm-03-long-and-short.json#0 @ md-340": {
+  "src": "dee8a62ae36f",
+  "w": 125.64924240491749,
+  "h": 88,
+  "systems": "0/88",
+  "model": "046acac2fd09",
+  "svg": "b12631e71fdb"
  },
- "lessons/start/pulse-1/start-rhythm-02-fast-and-slow.json#5 @ md-700": {
-  "src": "c68f4834dc62",
-  "w": 223.79999999999995,
-  "h": 93,
-  "systems": "0/93",
-  "model": "909c5da893fc",
-  "svg": "25e5f87a8e68"
+ "lessons/start/pulse-1/start-rhythm-03-long-and-short.json#0 @ md-700": {
+  "src": "dee8a62ae36f",
+  "w": 125.64924240491749,
+  "h": 88,
+  "systems": "0/88",
+  "model": "046acac2fd09",
+  "svg": "495b2835375c"
  },
- "lessons/start/pulse-1/start-rhythm-02-fast-and-slow.json#5 @ lg-edit-400": {
-  "src": "c68f4834dc62",
+ "lessons/start/pulse-1/start-rhythm-03-long-and-short.json#0 @ lg-edit-400": {
+  "src": "dee8a62ae36f",
   "w": 266,
-  "h": 302,
-  "systems": "0/148,154/148",
-  "model": "07ef13c72027",
-  "svg": "711e3c043340"
+  "h": 148,
+  "systems": "0/148",
+  "model": "278baa2eb86c",
+  "svg": "9e67566e807d"
  },
- "lessons/start/stave-1/start-pitch-06-five-lines.json#11 @ md-340": {
+ "lessons/start/stave-1/start-pitch-06-five-lines.json#13 @ md-340": {
   "src": "e082c9700138",
   "w": 112,
   "h": 88,
   "systems": "0/88",
   "model": "751a6989dd2c",
-  "svg": "ec5de82789ff"
+  "svg": "d82daecf85e3"
  },
- "lessons/start/stave-1/start-pitch-06-five-lines.json#11 @ md-700": {
+ "lessons/start/stave-1/start-pitch-06-five-lines.json#13 @ md-700": {
   "src": "e082c9700138",
   "w": 112,
   "h": 88,
   "systems": "0/88",
   "model": "751a6989dd2c",
-  "svg": "06859ac3efe0"
+  "svg": "43bc64358268"
  },
- "lessons/start/stave-1/start-pitch-06-five-lines.json#11 @ lg-edit-400": {
+ "lessons/start/stave-1/start-pitch-06-five-lines.json#13 @ lg-edit-400": {
   "src": "e082c9700138",
   "w": 266,
   "h": 148,
   "systems": "0/148",
   "model": "7e91adac15b2",
-  "svg": "e744b798dee0"
+  "svg": "df88a34690db"
  },
- "lessons/start/stave-1/start-pitch-06-five-lines.json#26 @ md-340": {
-  "src": "23fb6932d955",
+ "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#0 @ md-340": {
+  "src": "4139e45f522c",
+  "w": 299,
+  "h": 88,
+  "systems": "0/88",
+  "model": "0657f20a8b1f",
+  "svg": "2ec3440b5e89"
+ },
+ "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#0 @ md-700": {
+  "src": "4139e45f522c",
+  "w": 298.79999999999995,
+  "h": 88,
+  "systems": "0/88",
+  "model": "5520f8995e10",
+  "svg": "de098e611c5b"
+ },
+ "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#0 @ lg-edit-400": {
+  "src": "4139e45f522c",
+  "w": 266,
+  "h": 456,
+  "systems": "0/148,154/148,308/148",
+  "model": "24f6e4385516",
+  "svg": "84dc6e6fa2d5"
+ },
+ "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#15 @ md-340": {
+  "src": "c1bbea60a8bb",
   "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "0b3befc17f62",
-  "svg": "91b12258b742"
+  "model": "a8c303508e6d",
+  "svg": "0b6df767f634"
  },
- "lessons/start/stave-1/start-pitch-06-five-lines.json#26 @ md-700": {
-  "src": "23fb6932d955",
+ "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#15 @ md-700": {
+  "src": "c1bbea60a8bb",
   "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "0b3befc17f62",
-  "svg": "7a0f88d2d70d"
+  "model": "a8c303508e6d",
+  "svg": "9e5a4fcb26fe"
  },
- "lessons/start/stave-1/start-pitch-06-five-lines.json#26 @ lg-edit-400": {
-  "src": "23fb6932d955",
+ "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#15 @ lg-edit-400": {
+  "src": "c1bbea60a8bb",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "7751f39e67b9",
-  "svg": "f95c18841079"
+  "model": "c6eb580fa8f4",
+  "svg": "d67a4608ec87"
  },
- "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#13 @ md-340": {
-  "src": "eb7c1b916181",
+ "lessons/start/stave-1/start-pitch-08-the-treble-clef.json#0 @ md-340": {
+  "src": "775102bcfce2",
   "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "0df7acde28a3",
-  "svg": "8d8fc9b9207f"
+  "model": "b48ba9df7a55",
+  "svg": "ccd7f1ab8a52"
  },
- "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#13 @ md-700": {
-  "src": "eb7c1b916181",
+ "lessons/start/stave-1/start-pitch-08-the-treble-clef.json#0 @ md-700": {
+  "src": "775102bcfce2",
   "w": 112,
   "h": 88,
   "systems": "0/88",
-  "model": "0df7acde28a3",
-  "svg": "5727de3503f5"
+  "model": "b48ba9df7a55",
+  "svg": "14e467589b18"
  },
- "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#13 @ lg-edit-400": {
-  "src": "eb7c1b916181",
+ "lessons/start/stave-1/start-pitch-08-the-treble-clef.json#0 @ lg-edit-400": {
+  "src": "775102bcfce2",
   "w": 266,
   "h": 148,
   "systems": "0/148",
-  "model": "db3484cf30a0",
-  "svg": "ff929ba8c84e"
- },
- "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#28 @ md-340": {
-  "src": "6515bf7147b8",
-  "w": 130.39999999999998,
-  "h": 88,
-  "systems": "0/88",
-  "model": "599739e20848",
-  "svg": "a5880556a642"
- },
- "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#28 @ md-700": {
-  "src": "6515bf7147b8",
-  "w": 130.39999999999998,
-  "h": 88,
-  "systems": "0/88",
-  "model": "599739e20848",
-  "svg": "3a99163d02d2"
- },
- "lessons/start/stave-1/start-pitch-07-lines-and-spaces.json#28 @ lg-edit-400": {
-  "src": "6515bf7147b8",
-  "w": 266,
-  "h": 148,
-  "systems": "0/148",
-  "model": "789576b874d7",
-  "svg": "678f7227a852"
+  "model": "07bd1cc994df",
+  "svg": "742909e7bdef"
  }
 }

@@ -1230,250 +1230,6 @@
           }
         },
         {
-          "id": "p2-hear-the-quavers",
-          "type": "by-ear",
-          "skill": "rhythm.note-values.quaver",
-          "prompt": "Listen to clip A and clip B. Which one has [[quaver|quavers]]?",
-          "hint": "Tap a steady beat while you listen. Which clip puts two notes in every tap?",
-          "source": "authored",
-          "payload": {
-            "clips": [
-              {
-                "bpm": 80,
-                "passage": {
-                  "clef": "treble",
-                  "key": {
-                    "tonic": {
-                      "letter": "C",
-                      "accidental": 0
-                    },
-                    "mode": "major"
-                  },
-                  "time": {
-                    "beats": 4,
-                    "beatUnit": 4
-                  },
-                  "bars": [
-                    {
-                      "events": [
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "crotchet",
-                            "dots": 0
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              },
-              {
-                "bpm": 80,
-                "passage": {
-                  "clef": "treble",
-                  "key": {
-                    "tonic": {
-                      "letter": "C",
-                      "accidental": 0
-                    },
-                    "mode": "major"
-                  },
-                  "time": {
-                    "beats": 4,
-                    "beatUnit": 4
-                  },
-                  "bars": [
-                    {
-                      "events": [
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        },
-                        {
-                          "kind": "note",
-                          "pitches": [
-                            {
-                              "letter": "G",
-                              "accidental": 0,
-                              "octave": 4
-                            }
-                          ],
-                          "duration": {
-                            "value": "quaver",
-                            "dots": 0
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ],
-            "options": [
-              {
-                "id": "a",
-                "face": {
-                  "kind": "text",
-                  "text": "Clip A"
-                },
-                "reason": "Clip A is four steady notes of 1 beat each, so those are [[crotchet|crotchets]]. The [[quaver|quavers]] are the quick notes in clip B, two to every beat."
-              },
-              {
-                "id": "b",
-                "face": {
-                  "kind": "text",
-                  "text": "Clip B"
-                }
-              }
-            ],
-            "correct": "b"
-          }
-        },
-        {
           "id": "p3-how-many-fit",
           "type": "multiple-choice",
           "skill": "rhythm.note-values.compare",
@@ -1676,6 +1432,173 @@
               "octave": 4
             },
             "count": 1
+          }
+        },
+        {
+          "id": "p4-fix-the-beams",
+          "type": "fix-beaming",
+          "skill": "rhythm.note-values.quaver",
+          "prompt": "One pair of [[quaver|quavers]] is not joined. Tap between notes to join or split the beams.",
+          "hint": "[[quaver|Quavers]] in the same beat share a [[beam|beam]]. Which pair still has its separate hooks?",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ],
+                  "beams": [
+                    [
+                      0,
+                      1
+                    ]
+                  ]
+                }
+              ]
+            },
+            "barIndex": 1
           }
         },
         {
@@ -2802,6 +2725,173 @@
               }
             ],
             "correct": "a"
+          }
+        },
+        {
+          "id": "c9-fix-the-beams",
+          "type": "fix-beaming",
+          "skill": "rhythm.note-values.quaver",
+          "prompt": "Join the [[quaver|quavers]] that belong together. Tap between notes to join or split.",
+          "hint": "Each beat that holds two [[quaver|quavers]] needs one [[beam|beam]] joining them.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    }
+                  ],
+                  "beams": [
+                    [
+                      4,
+                      5
+                    ]
+                  ]
+                }
+              ]
+            },
+            "barIndex": 1
           }
         }
       ]
