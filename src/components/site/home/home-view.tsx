@@ -19,6 +19,8 @@ import { GAMES } from '../games';
 import { PageContainer } from '../page-container';
 import { ContinueCard } from './continue-card';
 import { FinishedCard } from './finished-card';
+import { LazyLandingDemo } from '../landing-demo/lazy';
+import type { LandingDemoContent } from '../landing-demo/content';
 import { HomeSkeleton } from './home-skeleton';
 import { JourneyCard } from './journey-card';
 import { PracticeCards } from './practice-cards';
@@ -33,7 +35,7 @@ import { WorthAnotherLook } from './worth-another-look';
  * started. Progress is read after mount; until then a skeleton shows, so there
  * is no flash of the wrong one and no hydration mismatch.
  */
-export function HomeView({ lessons }: { lessons: readonly LessonMeta[] }) {
+export function HomeView({ lessons, demo }: { lessons: readonly LessonMeta[]; demo?: LandingDemoContent }) {
   const stored = useStoredProgress();
   const bests = useBests(GAMES);
   const { settings } = useSettings();
@@ -55,7 +57,7 @@ export function HomeView({ lessons }: { lessons: readonly LessonMeta[] }) {
   if (!hasAnyProgress(progress, attempts.length)) {
     return (
       <PageContainer className="gap-6">
-        <Welcome startHref={startHref} />
+        <Welcome startHref={startHref} demo={demo ? <LazyLandingDemo content={demo} startHref={startHref} defaultOpen /> : undefined} />
         <PracticeCards bests={bests} />
       </PageContainer>
     );
@@ -78,6 +80,12 @@ export function HomeView({ lessons }: { lessons: readonly LessonMeta[] }) {
         <WorthAnotherLook skills={weakestSkills(attempts, lessons)} terminology={terminology} />
         <RecentLessons rows={recentlyOpened(lessons, progress, 3)} terminology={terminology} />
       </div>
+      {demo ? (
+        // A returning learner's way back in stays first; the demo is a slim card further down.
+        <div className="lg:col-span-2">
+          <LazyLandingDemo content={demo} startHref={startHref} defaultOpen={false} />
+        </div>
+      ) : null}
       <div className="lg:col-span-2 lg:[&>div]:gap-6">
         <PracticeCards bests={bests} />
       </div>
