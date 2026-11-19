@@ -2,7 +2,7 @@ import { TheoryError } from '@/engine/api';
 import { rhythm } from '@/engine/rhythm';
 import type { Bar, Duration, Rng, Terminology, TimeSignature } from '@/engine/types';
 import type { GeneratedQuestion, QuestionGenerator } from '@/lesson/contracts';
-import { beamGaps, eventStarts, groupsOf, isBeamable, sameJoins, standardJoins } from '@/lesson/questions/fix-beaming/beams';
+import { beamGaps, eventStarts, groupsOf, isAcceptableJoins, isBeamable, standardJoins } from '@/lesson/questions/fix-beaming/beams';
 import { T44, barIsClean, buildBars, dur } from '../shared/bars';
 import { noteLink } from '../shared/terms';
 import { noteCount, stepwiseTune, withPitches } from '../shared/tune';
@@ -33,7 +33,7 @@ function applyFault(fault: BeamFault, bar: Bar, time: TimeSignature, rng: Rng): 
     if (open.length === 0) return null;
     joins[rng.pick(open)] = true;
   }
-  return sameJoins(joins, standard) ? null : joins;
+  return isAcceptableJoins(bar, time, joins) ? null : joins;
 }
 
 /**

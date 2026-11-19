@@ -48,6 +48,8 @@ describe('fix-beaming payloadSchema', () => {
     expect(messages({ passage: passage([standard]), barIndex: 0 }).join()).toMatch(/nothing to fix/);
     // Group order and a single-note group make no difference to what is written.
     expect(messages({ passage: passage([{ events: quavers(8), beams: [[4, 5, 6, 7], [0, 1, 2, 3]] }]), barIndex: 0 }).join()).toMatch(/nothing to fix/);
+    // Beamed one beat at a time is also correct, so it is not a fault either.
+    expect(messages({ passage: passage([{ events: quavers(8), beams: [[0, 1], [2, 3], [4, 5], [6, 7]] }]), barIndex: 0 }).join()).toMatch(/nothing to fix/);
   });
 
   it('rejects a bar that is not full', () => {

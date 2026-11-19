@@ -111,19 +111,28 @@ describe('fix-beaming mark: notes in one beat not joined', () => {
 });
 
 describe('fix-beaming mark: quavers that the standard beams across beats', () => {
-  it('2/4: the whole bar of quavers is one group', () => {
+  // Beaming such a group one beat at a time is equally correct (docs/question-payloads.md 2.11).
+  it('2/4: four quavers as one group or in pairs are both right', () => {
     const p = payloadFor(T24, q(), q(), q(), q());
-    expect(mark(p, { beams: [[0, 1], [2, 3]] }).reason).toBe(`Beats 1 and 2 hold only ${QUAVERS}, so they are beamed together. Join notes 2 and 3.`);
+    expect(mark(p, { beams: [[0, 1, 2, 3]] })).toEqual({ correct: true, score: 1 });
+    expect(mark(p, { beams: [[0, 1], [2, 3]] })).toEqual({ correct: true, score: 1 });
   });
 
-  it('3/4: three beats of quavers are one group', () => {
+  it('3/4: six quavers as one group or in pairs are both right; a mixture is not', () => {
     const p = payloadFor(T34, ...Array.from({ length: 6 }, q));
-    expect(mark(p, { beams: [[0, 1], [2, 3], [4, 5]] }).reason).toBe(`Beats 1 to 3 hold only ${QUAVERS}, so they are beamed together. Join notes 2 and 3.`);
+    expect(mark(p, { beams: [[0, 1, 2, 3, 4, 5]] })).toEqual({ correct: true, score: 1 });
+    expect(mark(p, { beams: [[0, 1], [2, 3], [4, 5]] })).toEqual({ correct: true, score: 1 });
+    expect(mark(p, { beams: [[0, 1, 2, 3], [4, 5]] }).reason).toBe(
+      `Beats 1 to 3 hold only ${QUAVERS}. Beam them all together, or one beat at a time, not a mixture.`,
+    );
   });
 
-  it('4/4: each half of the bar of quavers is one group', () => {
-    expect(mark(eight, { beams: [[0, 1], [2, 3], [4, 5], [6, 7]] }).reason).toBe(`Beats 1 and 2 hold only ${QUAVERS}, so they are beamed together. Join notes 2 and 3.`);
-    expect(mark(eight, { beams: [[0, 1, 2, 3], [4, 5], [6, 7]] }).reason).toBe(`Beats 3 and 4 hold only ${QUAVERS}, so they are beamed together. Join notes 6 and 7.`);
+  it('4/4: each half of the bar as one group or in pairs, chosen separately for each half', () => {
+    expect(mark(eight, { beams: [[0, 1], [2, 3], [4, 5], [6, 7]] })).toEqual({ correct: true, score: 1 });
+    expect(mark(eight, { beams: [[0, 1, 2, 3], [4, 5], [6, 7]] })).toEqual({ correct: true, score: 1 });
+    expect(mark(eight, { beams: [[0, 1, 2, 3], [4, 5, 6, 7]] })).toEqual({ correct: true, score: 1 });
+    // Pairs are fine, but a quaver left on its own in a beat is not.
+    expect(mark(eight, { beams: [[0, 1], [2, 3], [4, 5]] }).reason).toBe('Notes 7 and 8 are in the same beat, so they are beamed together.');
   });
 });
 
@@ -153,7 +162,8 @@ describe('fix-beaming mark: input checks and wording', () => {
   it('every reason is within 40 words and never blames', () => {
     const cases: [FixBeamingPayload, number[][]][] = [
       [eight, [[0, 1, 2, 3, 4, 5, 6, 7]]],
-      [eight, [[0, 1], [2, 3], [4, 5], [6, 7]]],
+      [eight, [[0, 1], [2, 3], [4, 5]]],
+      [payloadFor(T34, ...Array.from({ length: 6 }, q)), [[0, 1, 2, 3], [4, 5]]],
       [payloadFor(T68, ...Array.from({ length: 6 }, q)), []],
       [payloadFor(T34, c(), q(), q(), q(), q()), [[1, 2, 3, 4]]],
     ];

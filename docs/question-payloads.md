@@ -1053,7 +1053,7 @@ export interface FixBeamingAnswer {
 
 Validation: every bar is full; `barIndex` points at a bar; only that bar has
 written `beams`, and it must have them; the bar has at least four notes of
-quaver value or shorter; the written beams are not already the standard
+quaver value or shorter; the written beams are not already an acceptable
 beaming (there must be something to fix).
 
 Component: the passage in read mode, the bar at `barIndex` drawn with the
@@ -1065,7 +1065,14 @@ joined. Each gap is labelled "Join note a and note a+1" and carries
 Check commits.
 
 Marking: the learner's groups are turned into one join per gap and compared
-with `rhythm.beamGroups` for the bar. Equal is correct, score 1 or 0. A group
+with the acceptable beaming nearest to them. That is `rhythm.beamGroups` for the
+bar, except that any standard group spanning more than one beat (four quavers
+across beats 1 and 2 of 4/4, a bar of quavers in 2/4 or 3/4) may instead be
+beamed one beat at a time: both are correct, chosen separately for each such
+group. A mixture inside one group (joining some of its beat crossings but not
+others) is wrong. Equal is correct, score 1 or 0 (`targetJoins` in
+`src/lesson/questions/fix-beaming/beams.ts`; corrected 19 Nov 2026, when beaming
+in pairs had been marked wrong). A group
 of fewer than two notes, a non-consecutive group, a note in two groups or an
 event that cannot be beamed throws `TheoryError`.
 
@@ -1077,11 +1084,11 @@ The reason is about the first gap from the left that differs:
 | Joined across the middle of 4/4 | `A beam should not cross the middle of a 4/4 {bar}, between beats 2 and 3.` | "A beam should not cross the middle of a 4/4 [[bar\|bar]], between beats 2 and 3." |
 | Joined across a beat elsewhere | `Notes {a} and {b} are joined, but a beam should not cross from beat {x} into beat {y}. Beam each beat's {quavers} together.` | "Notes 2 and 3 are joined, but a beam should not cross from beat 1 into beat 2. Beam each beat's [[quaver\|quavers]] together." |
 | Not joined, same beat | `Notes {a} and {b} are in the same beat, so they are beamed together.` | "Notes 5 and 6 are in the same beat, so they are beamed together." |
-| Not joined, but the standard beams a run of beats that hold only quavers | `Beats {x} and {y} hold only {quavers}, so they are beamed together. Join notes {a} and {b}.` | "Beats 1 and 2 hold only [[quaver\|quavers]], so they are beamed together. Join notes 2 and 3." |
+| A mixture inside a group of beats that hold only quavers | `Beats {x} to {y} hold only {quavers}. Beam them all together, or one beat at a time, not a mixture.` | "Beats 1 to 3 hold only [[quaver\|quavers]]. Beam them all together, or one beat at a time, not a mixture." |
 
 The last row is an addition to the design: the engine beams a whole bar of
-plain quavers in 2/4 and 3/4, or each half of 4/4, as one group, so "same beat"
-would be false there. `a` and `b` are 1-based note numbers; a "note" is
+plain quavers in 2/4 and 3/4, or each half of 4/4, as one group, and beaming it
+one beat at a time is also right, so only a mixture is wrong there. `a` and `b` are 1-based note numbers; a "note" is
 an event of the bar, counting rests.
 
 ```json

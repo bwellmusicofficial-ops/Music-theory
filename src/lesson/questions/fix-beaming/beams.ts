@@ -68,3 +68,25 @@ export function beatNumber(start: Fraction, time: TimeSignature): number {
   const beat = feltBeat(time);
   return Math.floor((start.n * beat.d) / (start.d * beat.n)) + 1;
 }
+
+/**
+ * The acceptable beaming nearest to `joins`. The standard beaming (rhythm.beamGroups)
+ * may join several beats into one group, for example four quavers across beats 1
+ * and 2 of 4/4. Beaming that group one beat at a time is equally correct, so for
+ * each standard group the target is the whole group if the learner joined any of
+ * its beat-crossing gaps, and one beam per beat otherwise. Mixing within one group
+ * (joining some of its beat crossings but not others) is not acceptable.
+ */
+export function targetJoins(bar: Bar, time: TimeSignature, joins: readonly boolean[]): boolean[] {
+  const target = standardJoins(bar, time);
+  const starts = eventStarts(bar);
+  for (const group of rhythm.beamGroups(bar, time)) {
+    const crossings = group.slice(0, -1).filter((i) => beatNumber(starts[i]!, time) !== beatNumber(starts[i + 1]!, time));
+    if (crossings.length > 0 && !crossings.some((i) => joins[i])) for (const i of crossings) target[i] = false;
+  }
+  return target;
+}
+
+/** True when `joins` is an acceptable beaming of the bar: the standard one, or its groups beamed one beat at a time. */
+export const isAcceptableJoins = (bar: Bar, time: TimeSignature, joins: readonly boolean[]): boolean =>
+  sameJoins(joins, targetJoins(bar, time, joins));

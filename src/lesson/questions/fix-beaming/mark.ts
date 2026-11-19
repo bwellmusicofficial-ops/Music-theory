@@ -3,7 +3,7 @@ import { rhythm } from '@/engine/rhythm';
 import type { Bar, TimeSignature } from '@/engine/types';
 import type { MarkResult } from '@/lesson/contracts';
 import { BAR, nv, nvs } from '@/lesson/questions/notation/reason-helpers';
-import { beatNumber, eventStarts, isBeamable, joinsOf, sameJoins, standardJoins } from './beams';
+import { beatNumber, eventStarts, isBeamable, joinsOf, sameJoins, targetJoins } from './beams';
 import type { FixBeamingAnswer, FixBeamingPayload } from './types';
 
 function checkBeams(bar: Bar, beams: unknown): number[][] {
@@ -33,7 +33,8 @@ export function mark(payload: FixBeamingPayload, answer: FixBeamingAnswer): Mark
   if (!bar) throw new TheoryError(`fix-beaming: there is no bar ${barIndex}`);
   const { time } = passage;
   const learner = joinsOf(bar, checkBeams(bar, answer?.beams));
-  const standard = standardJoins(bar, time);
+  // The standard beaming, or its multi-beat groups beamed one beat at a time: whichever the learner is nearer.
+  const standard = targetJoins(bar, time, learner);
   if (sameJoins(learner, standard)) return { correct: true, score: 1 };
 
   // The first difference from the left, as a gap between events i and i + 1.
@@ -62,7 +63,8 @@ export function mark(payload: FixBeamingPayload, answer: FixBeamingAnswer): Mark
   const group = rhythm.beamGroups(bar, time).find((g) => g.includes(i) && g.includes(i + 1))!;
   const first = beatNumber(starts[group[0]!]!, time);
   const last = beatNumber(starts[group[group.length - 1]!]!, time);
+  // The learner joined some of this group's beat crossings but not this one.
   return fail(
-    `${beatsText(first, last).replace(/^b/, 'B')} hold only ${nvs({ value: 'quaver', dots: 0 })}, so they are beamed together. Join notes ${a} and ${b}.`,
+    `${beatsText(first, last).replace(/^b/, 'B')} hold only ${nvs({ value: 'quaver', dots: 0 })}. Beam them all together, or one beat at a time, not a mixture.`,
   );
 }

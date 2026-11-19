@@ -201,7 +201,9 @@ with the new `beams`. Gap labels: `Join note 2 and note 3` (aria-pressed shows
 whether joined). A Reset button returns to the payload's beams. Check commits.
 
 Marking: correct when the learner's groups (only groups of 2+) equal the
-standard groups exactly. `score` 1 or 0.
+standard groups, or the standard groups with any multi-beat group beamed one
+beat at a time (both are correct; see `docs/question-payloads.md` 2.11).
+`score` 1 or 0.
 
 Reasons:
 
