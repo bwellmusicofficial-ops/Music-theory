@@ -114,7 +114,7 @@ feedback while tapping, has been built.
 | P1-10 Glossary | Done: 98 entries in `content/glossary/start.json` and `1.json` |
 | P1-11 Games | Done: Note Rush, Tap It, Key Hunt, Term Blitz |
 | P1-12 Mock test | Done: engine plus a 31-question Grade 1 paper (`/mock`) |
-| P1-13 Landing page | Partly: the welcome screen exists. The "playable demo in the first screen with no sign-up" from the spec is NOT built |
+| P1-13 Landing page | Yes (19 Nov): a 30-second three-step demo (by-ear, tap a rhythm, finish card) in the first phone screen for new visitors; a slim "Try a 30-second demo" card for returning learners |
 | P1-14 Accessibility pass | Done; see `docs/accessibility.md` for what remains |
 | P1-15 End-to-end tests | Done, running in CI |
 | P1-16 Data export and deletion, analytics | NOT STARTED. Blocked; the database functions exist |
@@ -256,9 +256,12 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    Remaining gaps: cantabile and dolce are taught in words only; moderato,
    allegretto and lento likewise; lessons 1 and 2 introduce 10 and 12 terms
    (the guide says six at most); there are no terms-strand generators.
-4. **No question type exists for** (design done 18 Nov in `docs/question-types-2.md`, build in progress): placing bar lines, correcting beaming (the
-   stave beams automatically), writing a key signature, or finding a named
-   feature in a passage. Those Grade 1 skills are taught by recognition only.
+4. ~~No question type for bar lines, beaming, writing key signatures or
+   finding a feature.~~ **Done 19 Nov**: `place-bar-lines`, `fix-beaming`,
+   `write-key-signature`, `find-in-passage` and three generators
+   (`docs/question-types-2.md`, `docs/question-payloads.md` 2.10 to 2.13).
+   Adding them to the Grade 1 drafts is task Q3. `Bar.beams` now lets any
+   question show a wrongly beamed bar.
 5. **`g1-pitch-03-middle-c-and-ledger-lines` goes to two ledger lines**, which
    may be beyond Grade 1. The owner has been told and has not ruled.
 6. **Semiquaver tapping may be too hard:** generated rhythms can reach 12
@@ -310,8 +313,14 @@ Nothing here stops the site working. Roughly in order of how much it matters.
     (the test database has one connection). Test it on a real database.
 23. **No real screen reader has been used.** `docs/accessibility.md` has a
     VoiceOver and NVDA script for a person to run.
-24. **A legal check** of the children's data design, a privacy policy and terms
-    of use are all outstanding. The owner has been told this is not legal advice.
+24. **A legal check** of the children's data design is outstanding. Draft
+    `/privacy` and `/terms` pages exist (19 Nov), marked as drafts; their
+    "who we are" contact is a placeholder until the owner names the data
+    controller. Settings can clear everything saved on the device.
+25. **Multiple-choice "Correct answer" chip overlaps the stave** of a passage
+    option at 390 px (found 19 Nov in the landing demo). Notes stay visible.
+26. **Fix-beaming gap markers are busy**: joined gaps show a line and diamond
+    on top of the beam. Readable; could be quieter. The owner has been told this is not legal advice.
 
 ## 8. What to do next
 
@@ -333,16 +342,14 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 
 1. ~~Audio and notation for terms and signs~~ Done 18 Nov (E1 to E4 in
    `docs/expression.md`).
-2. **Missing question types** (backlog 4): place bar lines, write a key
-   signature, fix the grouping. Design (Opus) against `docs/question-payloads.md`
-   and `docs/stave-interaction.md`, then build (Sonnet) and add generators.
-3. **Landing page demo** (P1-13): a playable interaction in the first screen for
-   a new visitor, with no sign-up. Sonnet.
+2. ~~Missing question types~~ Built 19 Nov. Q3 (adding them to the Grade 1
+   drafts) is the follow-up.
+3. ~~Landing page demo (P1-13)~~ Done 19 Nov.
 4. **Rhythm pad start control and continuous metronome** (backlog 9), then
    simplify Tap It. Sonnet.
 5. ~~Small fixes (backlog 12 to 17)~~ Done 17 Nov.
-6. **Privacy policy, terms and cookie notice drafts** as pages, clearly marked
-   as drafts for legal review. Opus to draft from `docs/accounts-and-data.md`.
+6. ~~Privacy policy and terms drafts~~ Done 19 Nov (no cookie notice is needed
+   while the site uses no cookies; revisit when accounts arrive).
 7. **Phase 2 work that needs no database** (see below): the mastery model
    design, Grades 2 and 3 engine extensions and generators, and lesson writing.
 
