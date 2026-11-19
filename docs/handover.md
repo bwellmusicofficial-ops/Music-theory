@@ -260,7 +260,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    finding a feature.~~ **Done 19 Nov**: `place-bar-lines`, `fix-beaming`,
    `write-key-signature`, `find-in-passage` and three generators
    (`docs/question-types-2.md`, `docs/question-payloads.md` 2.10 to 2.13).
-   Adding them to the Grade 1 drafts is task Q3. `Bar.beams` now lets any
+   They are in eight Grade 1 drafts (Q3). `Bar.beams` now lets any
    question show a wrongly beamed bar.
 5. **`g1-pitch-03-middle-c-and-ledger-lines` goes to two ledger lines**, which
    may be beyond Grade 1. The owner has been told and has not ruled.
@@ -331,6 +331,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 | Answers to four questions at the end of `docs/accounts-and-data.md`: lost recovery code, deleting inactive accounts, who sends marketing email and is the data controller, whether teachers will see pupils' progress | Final account build and privacy wording |
 | A listen on his phone to the four terms lessons (rit in lesson 2, accents in lesson 3, staccato, pp) | Tuning the expression numbers in `docs/expression.md` |
 | Whether to keep the terms lessons split in four or merge back | Lesson structure |
+| Confirm the beaming rule now marked: a multi-beat group (four quavers across beats 1 and 2 of 4/4; a bar of quavers in 2/4 or 3/4) may be beamed as one group or one beat at a time, but not a mixture | `fix-beaming` marking |
 | Rulings on backlog items 5, 6 and 7 | Those lessons |
 | Go-ahead on piano samples (item 8) | Real piano sound |
 | Business model (free, subscription after Grade 1, school licences) | Whether payments are built at all |
@@ -340,8 +341,10 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 
 1. ~~Audio and notation for terms and signs~~ Done 18 Nov (E1 to E4 in
    `docs/expression.md`).
-2. ~~Missing question types~~ Built 19 Nov. Q3 (adding them to the Grade 1
-   drafts) is the follow-up.
+2. ~~Missing question types~~ Built 19 Nov, and added to eight Grade 1 drafts
+   (Q3): bar lines in rhythm-02 and 05, beaming in rhythm-04 and 10, find the
+   dotted notes / tied notes in rhythm-07 and 08, writing key signatures in
+   scales-keys-02 and 03.
 3. ~~Landing page demo (P1-13)~~ Done 19 Nov.
 4. **Rhythm pad start control and continuous metronome** (backlog 9), then
    simplify Tap It. Sonnet.
