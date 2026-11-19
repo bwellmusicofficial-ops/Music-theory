@@ -391,24 +391,27 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
     time: TimeSignature,
     bpm: number,
     onBeat?: (beat: number) => void,
-  ): { stop(): void; startTime: number } {
+    options?: { startAt?: number },
+  ): { stop(): void; startTime: number; stopAt(time: number): void } {
     const interval = beatSeconds(bpm);
     const perBar = feltBeatsPerBar(time);
     const Tone = this.ready();
     const clicker = this.clicker;
-    if (!Tone || !clicker) return { stop() {}, startTime: this.now() };
+    if (!Tone || !clicker) return { stop() {}, stopAt() {}, startTime: options?.startAt ?? this.now() };
 
     const ctx = Tone.getContext();
     const draw = Tone.getDraw();
-    const startTime = ctx.currentTime + START_LEAD;
+    const startTime =
+      options?.startAt !== undefined ? Math.max(options.startAt, ctx.currentTime) : ctx.currentTime + START_LEAD;
     let nextTime = startTime;
     let beat = 0;
     let stopped = false;
+    let limit = Infinity;
 
     const pump = () => {
       if (stopped) return;
       const now = ctx.currentTime;
-      while (nextTime < now + HORIZON) {
+      while (nextTime < now + HORIZON && nextTime < limit) {
         const index = beat % perBar;
         const at = nextTime;
         clicker.triggerAttackRelease(index === 0 ? ACCENT_HZ : CLICK_HZ, CLICK_SECONDS, at);
@@ -428,6 +431,9 @@ export class ToneAudioEngine implements AudioEngine, AudioEngineVoice {
       stop: () => {
         stopped = true;
         clearInterval(handle);
+      },
+      stopAt: (time: number) => {
+        limit = Math.min(limit, time);
       },
       startTime,
     };

@@ -155,7 +155,7 @@ src/
     ui/                       buttons, cards, modal, progress bar, feedback banner
     stave/                    interactive stave on VexFlow (read, edit, marks, cursor, NoteSprite)
     keyboard/                 on-screen piano
-    rhythm-pad/               tap pad, scoring, live verdicts, latency calibration
+    rhythm-pad/               tap pad, scoring, live verdicts, latency calibration, shared click (docs/rhythm-pad.md)
     site/                     header, tab bar, dashboard and library pieces, games list
   lesson/
     schema.ts, contracts.ts   CONTRACTS: lesson file shape; question modules, generators, progress
@@ -276,9 +276,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    `salamander`) is about 1.9 MB for the 30 files needed; its README says
    "Licence: CC-by" with a link to CC BY 3.0, author Alexander Holm. Adding it
    needs the owner's go-ahead and an on-site credit.
-9. **The rhythm pad has no way to be started by its parent**, so the Tap It game
-   auto-clicks its Start button and hides parts with CSS, and the metronome
-   restarts for each rhythm instead of running continuously.
+9. ~~The rhythm pad has no way to be started by its parent.~~ **Done 19 Nov 2026**: `ref`/`autoStart`, `chrome="minimal"` and a parent-owned `PadClock` (one unbroken click across rhythms); Tap It uses them, no auto-click or CSS hiding (`docs/rhythm-pad.md`).
 10. **Generator limits:** `interval-place` cannot ask for an octave;
     `same-note-other-clef` has only five usable notes; `play-scale-or-triad`
     takes natural tonics only; `complete-the-bar` and `choose-note-value` need

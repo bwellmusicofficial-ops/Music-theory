@@ -1,6 +1,7 @@
 export { RhythmPad } from './rhythm-pad';
 export { LatencyCalibration, type LatencyCalibrationProps } from './latency-calibration';
-export type { RhythmPadProps, TapResult } from './types';
+export type { RhythmPadHandle, RhythmPadProps, TapResult } from './types';
+export { createPadClock, barLineAtOrAfter, CLOCK_CLAIM_LEAD_S, CLOCK_HANDOVER_LEAD_S, type PadClock } from './pad-clock';
 export { accuracy, calibrationOffset, expectedOnsets, matchTaps, scoreTaps } from './scoring';
 export type { OnsetJudgement, OnsetVerdict, PadPhase } from './types';
 export { createTapMatcher, resultOf, verdictOf, type MatcherOptions, type TapMatcher, type TapOutcome } from './scoring';

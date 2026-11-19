@@ -96,25 +96,6 @@ input:focus-visible + .ti-choice {
   justify-content: center;
 }
 
-/*
- * The rhythm pad brings its own Start button, result block and tap surface. In the game the
- * round starts it for the learner and the game shows its own result, so those two are hidden
- * (the live region stays, so the announcements are kept). The tap surface is made taller.
- */
-.ti-pad section[aria-label='Rhythm pad'] > div > button:not([data-testid='tap-target']),
-.ti-pad section[aria-label='Rhythm pad'] [data-testid='result'] {
-  display: none;
-}
-.ti-pad [data-testid='tap-target'] {
-  min-height: 8.5rem;
-  width: 100%;
-  font-size: 1.75rem;
-  font-weight: 900;
-}
-.ti-pad section[aria-label='Rhythm pad'] {
-  gap: 0.5rem;
-}
-
 .ti-feedback {
   min-height: 2rem;
   font-weight: 900;
