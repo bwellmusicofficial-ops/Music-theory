@@ -20,17 +20,27 @@ const options = (page: Page) => page.getByRole('list', { name: 'Answer options' 
  * leave those two buttons out and check everything else.
  */
 const BELOW_THE_DEMO = ['[data-testid="welcome-actions"]'];
+const clips = (page: Page) => page.getByRole('list', { name: 'Clips to listen to' }).getByRole('button');
+/** Plays both clips to the end in real audio time; only then do the answers open. */
+async function hearBothClips(page: Page): Promise<void> {
+  for (const i of [0, 1]) {
+    await clips(page).nth(i).click();
+    await expect(clips(page).nth(i)).toHaveAttribute('data-heard', 'true', { timeout: 30_000 });
+  }
+  await expect(options(page).first()).toBeEnabled();
+}
 const demo = (page: Page) => page.getByRole('region', { name: /30-second demo/ });
 
 async function open(page: Page, settings: Record<string, unknown> = {}) {
   await seedSettings(page, settings);
   await page.goto('/');
   await waitReady(page);
-  await expect(page.getByRole('heading', { level: 3, name: 'Which note sounds higher?' })).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' })).toBeVisible({ timeout: 20_000 });
 }
 
-/** Answers step 1 (either answer gives feedback and a way on, so a content change cannot break the flow tests). */
+/** Answers step 1 after hearing both clips (either answer gives feedback and a way on, so a content change cannot break the flow tests). */
 async function answerStepOne(page: Page): Promise<void> {
+  await hearBothClips(page);
   await options(page).nth(1).click();
   await expect(demo(page).getByRole('status').filter({ hasText: /Correct|Not quite/ })).toBeVisible();
 }
@@ -45,7 +55,9 @@ test('new visitor: the demo is on the first screen, above the marketing copy', a
   await open(page);
   const viewport = page.viewportSize()!;
   const h1 = await page.getByRole('heading', { level: 1 }).boundingBox();
-  const prompt = await page.getByRole('heading', { level: 3, name: 'Which note sounds higher?' }).boundingBox();
+  const prompt = await page.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' }).boundingBox();
+  await expect(clips(page)).toHaveCount(2);
+  await expect(options(page).first()).toBeDisabled();
   const optionBoxes = await Promise.all([0, 1].map((i) => options(page).nth(i).boundingBox()));
   const copy = await page.getByText(/Short, hands-on lessons/).boundingBox();
   expect(h1!.y).toBeLessThan(prompt!.y);
@@ -88,6 +100,9 @@ test('new visitor: completes the whole demo, with axe at zero at each step, and 
   await expect(page.getByRole('heading', { level: 3, name: /That.s how every lesson works/ })).toBeFocused();
   await expect(page.getByText('Step 3 of 3')).toBeVisible();
   await expectNoAxeViolations(page, 'landing demo finish', { exclude: BELOW_THE_DEMO });
+  // The page's own Start here / I already know buttons step aside, so there is one purple button, not two.
+  await expect(page.getByTestId('welcome-actions')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'I already know some theory' })).toHaveAttribute('href', '/learn#grade-1');
   await expect(page.getByRole('link', { name: 'Browse lessons' })).toHaveAttribute('href', '/learn');
 
   // Nothing about the visitor was stored and nothing left the site.
@@ -96,8 +111,7 @@ test('new visitor: completes the whole demo, with axe at zero at each step, and 
   expect(external, 'requests to other sites').toEqual([]);
   expectNoProblems(problems);
 
-  // It leads to the same first lesson as the page's own "Start here" button.
-  const startHref = await page.getByRole('link', { name: 'Start here', exact: true }).getAttribute('href');
+  const startHref = await page.getByRole('link', { name: /Start the first lesson/ }).getAttribute('href');
   expect(startHref).toMatch(/^\/lessons\/start-/);
   await page.getByRole('link', { name: /Start the first lesson/ }).click();
   await expect(page).toHaveURL(new RegExp(`${startHref}$`));
@@ -110,8 +124,11 @@ test('the finish card can be restarted, and the demo can be skipped and brought 
   await tapStepTwo(page);
   await page.getByRole('button', { name: 'Finish' }).click();
   await page.getByRole('button', { name: 'Try the demo again' }).click();
+  await expect(page.getByTestId('welcome-actions')).toBeVisible();
   await expect(page.getByText('Step 1 of 3')).toBeVisible();
-  await expect(options(page).first()).toBeEnabled();
+  // Fresh: the answers are closed again until both clips are heard.
+  await expect(options(page).first()).toBeDisabled();
+  await expect(clips(page).first()).toHaveAttribute('data-heard', 'false');
   await expect(page.getByRole('status').filter({ hasText: /Correct|Not quite/ })).toHaveCount(0);
   await page.getByRole('button', { name: 'Skip demo' }).click();
   await expect(page.getByRole('heading', { level: 2, name: 'Try a 30-second demo' })).toBeFocused();
@@ -122,16 +139,21 @@ test('the finish card can be restarted, and the demo can be skipped and brought 
 test('the demo works with the keyboard alone, and its controls are big enough to hit', async ({ page }) => {
   await open(page);
   const skip = page.getByRole('button', { name: 'Skip demo' });
-  // Tab from the top reaches the options without a trap; each Tab stop shows a focus ring.
-  const first = options(page).first();
-  await first.focus();
-  await expect(first).toBeFocused();
-  const outline = await first.evaluate((el) => getComputedStyle(el).outlineWidth);
+  const clipA = clips(page).nth(0);
+  await clipA.focus();
+  await expect(clipA).toBeFocused();
+  const outline = await clipA.evaluate((el) => getComputedStyle(el).outlineWidth);
   expect(parseFloat(outline)).toBeGreaterThanOrEqual(2);
-  for (const target of [skip, first, options(page).nth(1)]) {
-    const box = await target.boundingBox();
-    expect(box!.height, 'target height').toBeGreaterThanOrEqual(44);
+  for (const target of [skip, clipA, clips(page).nth(1), options(page).first()]) {
+    expect((await target.boundingBox())!.height, 'target height').toBeGreaterThanOrEqual(44);
   }
+  // Play both clips with Enter, then answer with Enter.
+  await page.keyboard.press('Enter');
+  await expect(clipA).toHaveAttribute('data-heard', 'true', { timeout: 30_000 });
+  await clips(page).nth(1).focus();
+  await page.keyboard.press('Enter');
+  await expect(clips(page).nth(1)).toHaveAttribute('data-heard', 'true', { timeout: 30_000 });
+  await options(page).first().focus();
   await page.keyboard.press('Enter');
   const next = page.getByRole('button', { name: 'Next', exact: true });
   await expect(next).toBeFocused();
@@ -143,20 +165,12 @@ test('the demo works with the keyboard alone, and its controls are big enough to
   expect((await start.boundingBox())!.height).toBeGreaterThanOrEqual(44);
 });
 
-test('UK terms by default', async ({ page }) => {
-  await open(page);
-  await options(page).nth(0).click();
-  const uk = demo(page).getByRole('status').filter({ hasText: /Correct|Not quite/ });
-  await expect(uk).toContainText(/\bstave\b/);
-  await expect(uk).not.toContainText(/\bstaff\b/);
-});
-
-test('US terms with the switch', async ({ page }) => {
+test('a wrong answer says why, and the right one says so, in the same words for UK and US', async ({ page }) => {
   await open(page, { terminology: 'us' });
+  await hearBothClips(page);
   await options(page).nth(0).click();
-  const us = demo(page).getByRole('status').filter({ hasText: /Correct|Not quite/ });
-  await expect(us).toContainText(/\bstaff\b/);
-  await expect(us).not.toContainText(/\bstave\b/);
+  const banner = demo(page).getByRole('status').filter({ hasText: /Yes, that one is higher|Listen for the clip that sounds higher/ });
+  await expect(banner).toBeVisible();
 });
 
 test('with reduced motion nothing in the demo animates for longer than a blink', async ({ page }) => {
@@ -196,10 +210,10 @@ test.describe('returning learner', () => {
     const compact = page.getByRole('heading', { level: 2, name: 'Try a 30-second demo' });
     await expect(compact).toBeVisible({ timeout: 20_000 });
     expect((await cont.boundingBox())!.y).toBeLessThan((await compact.boundingBox())!.y);
-    await expect(page.getByRole('heading', { level: 3, name: 'Which note sounds higher?' })).toHaveCount(0);
+    await expect(page.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' })).toHaveCount(0);
     await expectNoAxeViolations(page, 'dashboard with compact demo card');
     await page.getByRole('button', { name: 'Try it' }).click();
-    await expect(page.getByRole('heading', { level: 3, name: 'Which note sounds higher?' })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' })).toBeVisible();
     await expect(cont).toBeVisible();
     await expectNoAxeViolations(page, 'dashboard with demo open');
   });

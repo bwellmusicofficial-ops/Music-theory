@@ -19,8 +19,23 @@ function PadStandIn({ onAnswer }: QuestionProps<unknown, unknown>) {
     </button>
   );
 }
+/** The by-ear component opens its options only after real playback; this stand-in lists them open and keeps the real marking. */
+function ByEarStandIn({ payload, onAnswer, locked }: QuestionProps<{ options: { id: string }[] }, unknown>) {
+  return (
+    <ul aria-label="Answer options">
+      {payload.options.map((o) => (
+        <li key={o.id}>
+          <button type="button" disabled={locked} aria-pressed={false} onClick={() => onAnswer({ optionId: o.id })}>
+            {`Clip ${o.id.toUpperCase()}`}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
 const stubbed: QuestionTypeRegistry = {
   ...questionTypes,
+  'by-ear': { ...questionTypes['by-ear']!, Component: ByEarStandIn as never },
   'tap-rhythm': { ...questionTypes['tap-rhythm']!, Component: PadStandIn as never, mark: () => ({ correct: true, score: 1 }) },
 };
 
@@ -42,11 +57,11 @@ beforeEach(() => resetBrowserState());
 afterEach(cleanup);
 
 describe('LandingDemo', () => {
-  it('opens on step 1 with three progress dots worth of text, the question and both options', () => {
+  it('opens on step 1 with the progress text, the question and both options', () => {
     setup();
     expect(screen.getByRole('heading', { level: 2, name: /30-second demo/ })).toBeInTheDocument();
     expect(screen.getByText('Step 1 of 3')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 3, name: 'Which note sounds higher?' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' })).toBeInTheDocument();
     expect(options()).toHaveLength(2);
     expect(screen.queryByRole('button', { name: 'Next' })).toBeNull();
     expect(screen.getByRole('button', { name: 'Skip demo' })).toBeInTheDocument();
@@ -57,7 +72,7 @@ describe('LandingDemo', () => {
     fireEvent.click(options()[1 - correctIndex()]!);
     const banner = screen.getByRole('status');
     expect(banner).toHaveTextContent('Not quite');
-    expect(banner).toHaveTextContent(/sounds/i);
+    expect(banner).toHaveTextContent(/Listen for the clip that sounds higher/);
     expect(screen.getByRole('button', { name: 'Next' })).toHaveFocus();
     // Locked: a second tap changes nothing.
     fireEvent.click(options()[correctIndex()]!);
@@ -68,7 +83,7 @@ describe('LandingDemo', () => {
   it('confirms a right answer, then goes through the rhythm step to the finish card', () => {
     setup();
     fireEvent.click(options()[correctIndex()]!);
-    expect(screen.getByRole('status')).toHaveTextContent('Correct');
+    expect(screen.getByRole('status')).toHaveTextContent('Yes, that one is higher.');
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(screen.getByText('Step 2 of 3')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 3 })).toHaveFocus();
@@ -113,7 +128,7 @@ describe('LandingDemo', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Try a 30-second demo' })).not.toHaveFocus();
     expect(screen.queryByRole('list', { name: 'Answer options' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Try it' }));
-    expect(screen.getByRole('heading', { level: 3, name: 'Which note sounds higher?' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' })).toBeInTheDocument();
   });
 
   it('does not take focus when it opens first', () => {
@@ -121,20 +136,46 @@ describe('LandingDemo', () => {
     expect(document.body).toHaveFocus();
   });
 
-  it('uses US terms when the US switch is on', () => {
-    resetBrowserState('us');
-    setup();
-    fireEvent.click(options()[1 - correctIndex()]!);
-    const text = screen.getByRole('status').textContent ?? '';
-    expect(text).toMatch(/\bstaff\b/);
-    expect(text).not.toMatch(/\bstave\b/);
+  it('uses no wording that differs between UK and US (so the US switch has nothing to swap)', () => {
+    const text = JSON.stringify(content.steps.map((st) => [st.prompt, st.rightReason, st.payload])).replace(/"(kind|letter|value|type|clef|mode)":"[^"]*"/g, '');
+    expect(text).not.toMatch(/\b(stave|bar|tone|semitone|crotchet|minim|quaver|pause)\b/i);
   });
 
-  it('says stave, not staff, with the UK default, on a right answer', () => {
+  it('does not use the lesson hint, which only makes sense inside the lesson', () => {
+    expect(JSON.stringify(content)).not.toMatch(/mouse|lion/i);
+  });
+
+  it('hides the page buttons only while the finish card shows', () => {
+    const seen: boolean[] = [];
+    render(
+      <SettingsProvider>
+        <LandingDemo content={content} startHref={START} defaultOpen questionTypes={stubbed} onFinishChange={(f) => seen.push(f)} />
+      </SettingsProvider>,
+    );
+    fireEvent.click(options()[correctIndex()]!);
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Stand-in pad' }));
+    expect(seen.at(-1)).toBe(false);
+    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
+    expect(seen.at(-1)).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: 'Try the demo again' }));
+    expect(seen.at(-1)).toBe(false);
+  });
+
+  it('keeps "I already know some theory" on the finish card as a quiet link', () => {
     setup();
     fireEvent.click(options()[correctIndex()]!);
-    expect(screen.getByRole('status')).toHaveTextContent(/stave/);
-    expect(screen.getByRole('status').textContent).not.toMatch(/staff/);
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Stand-in pad' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
+    expect(screen.getByRole('link', { name: 'I already know some theory' })).toHaveAttribute('href', '/learn#grade-1');
+  });
+
+  it('draws the real by-ear question for step 1: play buttons, options closed until both clips are heard', () => {
+    setup({ registry: questionTypes });
+    expect(screen.getByRole('button', { name: /Play clip A/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Play clip B/ })).toBeInTheDocument();
+    for (const option of options()) expect(option).toBeDisabled();
   });
 
   it('writes nothing to storage and makes no network request while it runs', () => {
@@ -166,7 +207,7 @@ describe('LandingDemo', () => {
   });
 
   it('draws the real rhythm pad for step 2, with its Start button, notation and no listen-first', () => {
-    setup({ registry: questionTypes });
+    setup({ registry: { ...questionTypes, 'by-ear': stubbed['by-ear']! } });
     fireEvent.click(options()[correctIndex()]!);
     fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(screen.getByRole('region', { name: 'Rhythm pad' })).toBeInTheDocument();

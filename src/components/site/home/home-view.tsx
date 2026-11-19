@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useSettings } from '@/settings';
 import {
   buildCourse,
@@ -37,6 +37,8 @@ import { WorthAnotherLook } from './worth-another-look';
  */
 export function HomeView({ lessons, demo }: { lessons: readonly LessonMeta[]; demo?: LandingDemoContent }) {
   const stored = useStoredProgress();
+  // While the demo's finish card shows, the page's own "Start here" buttons would duplicate it, so they step aside.
+  const [demoFinished, setDemoFinished] = useState(false);
   const bests = useBests(GAMES);
   const { settings } = useSettings();
   const course = useMemo(() => buildCourse(lessons), [lessons]);
@@ -57,7 +59,11 @@ export function HomeView({ lessons, demo }: { lessons: readonly LessonMeta[]; de
   if (!hasAnyProgress(progress, attempts.length)) {
     return (
       <PageContainer className="gap-6">
-        <Welcome startHref={startHref} demo={demo ? <LazyLandingDemo content={demo} startHref={startHref} defaultOpen /> : undefined} />
+        <Welcome
+          startHref={startHref}
+          hideActions={demoFinished}
+          demo={demo ? <LazyLandingDemo content={demo} startHref={startHref} defaultOpen onFinishChange={setDemoFinished} /> : undefined}
+        />
         <PracticeCards bests={bests} />
       </PageContainer>
     );

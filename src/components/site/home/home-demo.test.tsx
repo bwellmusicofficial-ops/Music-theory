@@ -20,7 +20,7 @@ describe('home page with the demo', () => {
   it('puts the playable demo straight after the heading and before the marketing copy for a new visitor', async () => {
     renderPage(view());
     const h1 = await screen.findByRole('heading', { level: 1, name: /Music theory that clicks/ });
-    const question = await screen.findByRole('heading', { level: 3, name: 'Which note sounds higher?' }, { timeout: 10_000 });
+    const question = await screen.findByRole('heading', { level: 3, name: 'Which clip sounds higher?' }, { timeout: 10_000 });
     const pitch = screen.getByText(/Short, hands-on lessons/);
     const startHere = screen.getByRole('link', { name: 'Start here' });
     expect(before(h1, question)).toBe(true);

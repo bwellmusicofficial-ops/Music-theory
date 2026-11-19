@@ -27,11 +27,12 @@ describe('landing demo content', () => {
     }
   });
 
-  it('asks which note sounds higher with a correct option that sits higher, and one bar of pulse taps', () => {
+  it('asks which clip sounds higher (two clips, by ear), then one bar of pulse taps', () => {
     const [higher, pulse] = content.steps;
-    expect(higher.type).toBe('multiple-choice');
-    expect(higher.prompt).toMatch(/higher/);
-    expect(higher.rightReason.length).toBeGreaterThan(0);
+    expect(higher.type).toBe('by-ear');
+    expect(higher.prompt).toBe('Which clip sounds higher?');
+    expect((higher.payload as { clips: unknown[] }).clips).toHaveLength(2);
+    expect(higher.rightReason).toBe('Yes, that one is higher.');
     expect(pulse.type).toBe('tap-rhythm');
     const payload = pulse.payload as { bars: unknown[]; listenFirst: boolean; showNotation: boolean };
     expect(payload.bars).toHaveLength(1);
@@ -44,10 +45,8 @@ describe('landing demo content', () => {
     expect(JSON.parse(JSON.stringify(content))).toEqual(content);
   });
 
-  it('ships only the glossary entries its text links to, including stave for the US switch', () => {
-    expect(content.glossary.map((g) => g.id)).toContain('stave');
-    expect(content.glossary.length).toBeLessThan(5);
-    expect(content.glossary.find((g) => g.id === 'stave')?.us).toBe('staff');
+  it('ships no more glossary than its text links to (none today: the demo wording is the same in UK and US)', () => {
+    expect(content.glossary).toEqual([]);
   });
 
   it('fails loudly when a source question is missing', () => {

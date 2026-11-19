@@ -24,6 +24,8 @@ export interface LandingDemoProps {
   defaultOpen: boolean;
   /** The question types to draw with. Default: the app's own; tests pass stand-ins for the audio ones. */
   questionTypes?: QuestionTypeRegistry;
+  /** Called with true while the finish card shows and false otherwise, so the page can hide its own duplicate buttons. */
+  onFinishChange?: (finished: boolean) => void;
 }
 
 function isNarrow(): boolean {
@@ -64,7 +66,7 @@ function Dots({ current }: { current: number }) {
  * components and the audio engine's own unlock (the pad's Start button is the gesture).
  * Nothing is stored or sent anywhere: the state lives in this component.
  */
-export function LandingDemo({ content, startHref, browseHref = '/learn', defaultOpen, questionTypes = defaultQuestionTypes }: LandingDemoProps) {
+export function LandingDemo({ content, startHref, browseHref = '/learn', defaultOpen, questionTypes = defaultQuestionTypes, onFinishChange }: LandingDemoProps) {
   const { settings } = useSettings();
   const terminology = settings.terminology;
   // On a viewport under 320px (a phone at 200% zoom or more) a stave cannot fit beside its answer button,
@@ -79,6 +81,12 @@ export function LandingDemo({ content, startHref, browseHref = '/learn', default
   useEffect(() => {
     if (moved.current) headingRef.current?.focus();
   }, [viewKey]);
+
+  const finished = view.kind === 'finish';
+  useEffect(() => {
+    onFinishChange?.(finished);
+    return () => onFinishChange?.(false);
+  }, [finished, onFinishChange]);
 
   const go = (next: View) => {
     moved.current = true;
@@ -150,6 +158,9 @@ export function LandingDemo({ content, startHref, browseHref = '/learn', default
               </Link>
               <Link href={browseHref} className={buttonClasses('secondary', 'lg', 'w-full')}>
                 Browse lessons
+              </Link>
+              <Link href="/learn#grade-1" className="inline-flex min-h-11 items-center justify-center self-center rounded-md px-3 text-base font-semibold underline underline-offset-4 hover:text-accent-hover">
+                I already know some theory
               </Link>
               <Button variant="ghost" size="md" className="self-center" onClick={() => go({ kind: 'step', index: 0, result: null })}>
                 Try the demo again
