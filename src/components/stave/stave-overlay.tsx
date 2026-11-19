@@ -15,6 +15,11 @@ export interface GhostSpec {
   /** Position is a space (5 unit band) or a line. */
   sign?: string;
   shake?: boolean;
+  /**
+   * Key-signature edit: no notehead, the sign itself is the ghost, drawn as a Bravura glyph
+   * with its baseline on the position's line, centred on `x`.
+   */
+  glyph?: string;
 }
 
 export interface OverlayHandle {
@@ -23,8 +28,20 @@ export interface OverlayHandle {
   shake(): void;
 }
 
+/** One offered gap between events (docs/question-types-2.md 1.3), in units. */
+export interface GapMarker {
+  key: string;
+  x: number;
+  top: number;
+  bottom: number;
+  on: boolean;
+  /** Hovered or focused: off gaps show a faint guide only then. */
+  active: boolean;
+}
+
 export interface StaveOverlayProps {
   uid: string;
+  gaps?: GapMarker[];
   model: LayoutModel;
   marks?: Record<string, StaveMark>;
   cursor?: { bar: number; event: number } | null;
@@ -76,6 +93,7 @@ export function StaveOverlay(p: StaveOverlayProps) {
           head.setAttribute('cy', String(spec.y));
           head.setAttribute('fill', spec.hollow ? 'none' : 'var(--stave-accent)');
           head.setAttribute('stroke', 'var(--stave-accent)');
+          head.setAttribute('visibility', spec.glyph ? 'hidden' : 'visible');
         }
         const band = bandRef.current;
         if (band) {
@@ -109,9 +127,22 @@ export function StaveOverlay(p: StaveOverlayProps) {
         }
         const sign = signRef.current;
         if (sign) {
-          sign.textContent = spec.sign ?? '';
-          sign.setAttribute('x', String(spec.x - 16));
-          sign.setAttribute('y', String(spec.y + 4));
+          if (spec.glyph) {
+            // Key signature: a real glyph, centred on x, baseline on the line (as VexFlow draws it).
+            sign.textContent = spec.glyph;
+            sign.setAttribute('x', String(spec.x));
+            sign.setAttribute('y', String(spec.y));
+            sign.setAttribute('text-anchor', 'middle');
+            sign.setAttribute('font-family', 'Bravura');
+            sign.setAttribute('font-size', '30pt');
+          } else {
+            sign.textContent = spec.sign ?? '';
+            sign.setAttribute('x', String(spec.x - 16));
+            sign.setAttribute('y', String(spec.y + 4));
+            sign.removeAttribute('text-anchor');
+            sign.removeAttribute('font-family');
+            sign.setAttribute('font-size', '14');
+          }
         }
       },
     }),
@@ -202,6 +233,23 @@ export function StaveOverlay(p: StaveOverlayProps) {
     if (ev) {
       out.push(
         <rect key="outline" data-testid="event-outline" x={ev.box.x - 3} y={ev.box.y - 3} width={ev.box.w + 6} height={ev.box.h + 6} rx={4} fill="none" stroke="var(--stave-accent)" strokeWidth={1.5} />,
+      );
+    }
+  }
+
+  // Gap toggles (read mode): an "on" gap is a solid accent line with a diamond cap that reaches past the
+  // stave lines, so it is a shape and not only a colour; hover or focus shows a faint dashed guide.
+  for (const g of p.gaps ?? []) {
+    if (g.on) {
+      out.push(
+        <g key={`gap-${g.key}`} data-testid="gap-marker" data-on="true" className="mtn-gap-marker">
+          <line x1={g.x} x2={g.x} y1={g.top} y2={g.bottom} stroke="var(--stave-accent)" strokeWidth={2.5} strokeLinecap="round" />
+          <path d={`M${g.x} ${g.top - 5}L${g.x + 4} ${g.top - 1}L${g.x} ${g.top + 3}L${g.x - 4} ${g.top - 1}Z`} fill="var(--stave-accent)" />
+        </g>,
+      );
+    } else if (g.active) {
+      out.push(
+        <line key={`gap-${g.key}`} data-testid="gap-guide" x1={g.x} x2={g.x} y1={g.top} y2={g.bottom} stroke="var(--stave-accent)" strokeWidth={1.5} strokeDasharray="3 3" opacity={0.7} />,
       );
     }
   }

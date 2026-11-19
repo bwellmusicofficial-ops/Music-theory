@@ -16,6 +16,9 @@ export const READ_MIN_NOTES_WIDTH = 60;
 export const APPEND_ZONE = 30;
 export const BAR_EXTRA = 10;
 export const MIN_EVENT_PX = 24;
+/** Gap toggles (read mode): wanted width where the gap allows, and the least width ever. */
+export const GAP_TARGET_PX = 44;
+export const GAP_MIN_PX = 24;
 export const MIN_WIDTH_FACTOR = 1.4;
 
 export const CORE_PAD = 3;

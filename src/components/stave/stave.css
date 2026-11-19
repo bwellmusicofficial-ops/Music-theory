@@ -125,9 +125,32 @@
   cursor: pointer;
   touch-action: manipulation;
 }
+.mtn-stave__gap-button {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
 .mtn-stave__event-button:focus-visible {
   outline: 2px solid var(--stave-accent);
   outline-offset: 2px;
+}
+/* A gap toggle is as tall as the stave box, and the scroll box clips what is outside it: draw the ring inside. */
+.mtn-stave__gap-button:focus-visible {
+  outline: 2px solid var(--stave-accent);
+  outline-offset: -2px;
+}
+/* Key-signature edit: the canvas can be narrower than its box, so one ring is drawn inside the surface. */
+.mtn-stave[data-stave-kind='key-signature'] .mtn-stave__canvas:has(.mtn-stave__surface:focus-visible) {
+  outline: none;
+}
+.mtn-stave[data-stave-kind='key-signature'] .mtn-stave__surface:focus-visible {
+  outline: 2px solid var(--stave-accent);
+  outline-offset: -2px;
 }
 
 /* Loupe */

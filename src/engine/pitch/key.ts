@@ -1,5 +1,6 @@
 import { TheoryError } from '../api';
 import type {
+  Clef,
   Degree,
   Interval,
   Key,
@@ -83,6 +84,26 @@ export function signatureAccidentals(signature: KeySignature): PitchClass[] {
     );
   }
   return out;
+}
+
+/**
+ * Stave positions (0 = bottom line) of the signs in a key signature, in written order, for each clef.
+ * Treble is the base pattern; bass sits two positions lower, alto one lower. Tenor has its own
+ * layout (the sharps zigzag 2 6 3 7 4 8 5 so that none rises far above the stave).
+ * `src/components/stave/render/key-signature-positions.test.ts` checks every row against VexFlow.
+ */
+const SIGNATURE_POSITIONS: Record<Clef, { sharps: readonly number[]; flats: readonly number[] }> = {
+  treble: { sharps: [8, 5, 9, 6, 3, 7, 4], flats: [4, 7, 3, 6, 2, 5, 1] },
+  bass: { sharps: [6, 3, 7, 4, 1, 5, 2], flats: [2, 5, 1, 4, 0, 3, -1] },
+  alto: { sharps: [7, 4, 8, 5, 2, 6, 3], flats: [3, 6, 2, 5, 1, 4, 0] },
+  tenor: { sharps: [2, 6, 3, 7, 4, 8, 5], flats: [5, 8, 4, 7, 3, 6, 2] },
+};
+
+export function keySignaturePositions(signature: KeySignature, clef: Clef): number[] {
+  checkSignature(signature);
+  const table = SIGNATURE_POSITIONS[clef];
+  if (!table) throw new TheoryError(`Unknown clef: ${String(clef)}`);
+  return (signature > 0 ? table.sharps : table.flats).slice(0, Math.abs(signature));
 }
 
 export function relativeKey(key: Key): Key {

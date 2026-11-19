@@ -95,6 +95,15 @@ export interface PitchEngine {
   keyFromSignature(signature: KeySignature, mode: Key['mode']): Key;
   /** Sharps or flats in the order they are written: F C G D A E B / B E A D G C F. */
   signatureAccidentals(signature: KeySignature): PitchClass[];
+  /**
+   * Stave positions (pitch.stavePosition numbering: 0 = bottom line) of each
+   * sign in a key signature, in written order, for the standard layout.
+   * Treble sharps F C G D A E B sit at 8 5 9 6 3 7 4; treble flats B E A D G C F
+   * at 4 7 3 6 2 5 1. Bass is the treble pattern two positions lower. Alto and
+   * tenor follow their standard layouts. 0 gives []. Throws on a signature
+   * outside -7..7 or an unknown clef.
+   */
+  keySignaturePositions(signature: KeySignature, clef: Clef): number[];
   relativeKey(key: Key): Key;
   /** "D major", "F♯ minor". */
   keyName(key: Key): string;

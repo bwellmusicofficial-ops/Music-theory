@@ -143,6 +143,13 @@ export interface Bar {
   endBarline?: EndBarline;
   /** A navigation sign written at this bar (docs/expression.md section 4). */
   marker?: BarMarker;
+  /**
+   * Beams as written, overriding the standard beaming. Each group is ascending,
+   * consecutive event indexes of notes of a quaver or shorter, at least two.
+   * Absent: beamed by the standard rule (rhythm.beamGroups). [] means no beams.
+   * Audio ignores it. Editors drop it from a bar they change (indexes would go stale).
+   */
+  beams?: number[][];
 }
 
 /** A single-stave passage. Multi-stave (SATB) arrives in Phase 4. */

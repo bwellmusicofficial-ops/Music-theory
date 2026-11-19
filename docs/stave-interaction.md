@@ -738,6 +738,8 @@ does not group) draw flags and no beams. The call is made on wrong-length bars
 too, with whatever the engine returns. Rests inside a group are skipped, not
 beamed over with stemlets.
 
+Exception (section 15.1): a bar with `beams` set is beamed as written, not by `rhythm.beamGroups`.
+
 ### 4.4 Stem direction
 
 Set explicitly on every `StaveNote`; VexFlow's `autoStem` is not used, so that
@@ -1590,3 +1592,76 @@ in `<span lang="it">`; `describePassageSegments` returns the pieces and `describ
 realistic four-bar one, in read mode at the lesson size. `e2e/expression.spec.ts` opens it at 390x844 and
 1280x800 in both themes: notation drawn, each marking class present, visible, inside the drawing and in the
 stave's colour; dynamics and hairpins do not overlap; axe is clean.
+
+## 15. Support for the new question types (docs/question-types-2.md section 1)
+
+Four additions, all optional: with none of the new props or fields present every stave draws and behaves exactly
+as before (`render/layout-baseline.test.ts` is unchanged and passes).
+
+### 15.1 Written beams (`Bar.beams`)
+
+`Bar.beams?: number[][]` (contract: `src/engine/types.ts`) says how a bar is beamed as written, overriding the
+standard rule. `notation/to-vexflow.ts` `beamIndexGroups` returns `bar.beams` when present, still keeping only
+notes of quaver or shorter and groups of at least two (a rest or long note named in a group is simply not
+beamed); `[]` draws flags and no beams; absent means `rhythm.beamGroups`. Stems follow the groups, as before.
+Validation is in `passageShapeSchema` (`lesson/questions/face-view/face-schema.ts`): every group has two or more
+indexes, consecutive and ascending, each a note of quaver value or shorter, no index in two groups. Audio and
+`rhythm.beamGroups` ignore `beams`; marking compares against the standard rule.
+
+**Editors drop `beams` from a bar they change.** `fromWritten` builds the edited bar fresh and
+`carryEventMarks` carries only pitch-independent marks (articulation, pause, repeat, end bar line, marker), so
+the edited bar loses `beams` (its indexes would be stale after an insert or delete). Untouched bars keep theirs.
+`edit/` has a test for every kind of change, with and without expression on the passage.
+
+### 15.2 Gap toggles (`gaps`, read mode)
+
+`StaveProps.gaps = { offered, on, onToggle, label }` offers places *between* events, each named by the event
+before it (`{ bar, event }`; the event after may be the first of the next bar). Read mode only; ignored with
+`onEventTap` and in edit mode. The root is then not `role="img"` (it holds buttons).
+
+- `stave-gap-buttons.tsx`: one transparent `<button>` per offered gap inside `role="group"` (`ariaLabel`), full
+  system height, centred halfway between the two events' `centreX` (halfway to the bar's right edge when no event
+  follows on that line). Width `GAP_TARGET_PX` (44) where the gap allows, shrinking to the distance to the
+  nearest other gap on the line, never under `GAP_MIN_PX` (24). `aria-label` is `label(at)`;
+  `aria-pressed` is on or off. `gapPlaces(model, offered)` is the pure geometry.
+- One Tab stop (roving tabindex); Left/Right (and Up/Down), Home and End move between gaps; Space and Enter
+  toggle (native button). Focus shows the 2 px accent outline (`.mtn-stave__gap-button:focus-visible`).
+- The overlay draws an *on* gap as a solid 2.5 unit accent line reaching 6 units past the stave lines with a
+  diamond cap, so it is a shape as well as a colour. An off gap draws nothing until hover or focus, then a faint
+  dashed guide line. Nothing here redraws the notation: toggling changes only the overlay and `aria-pressed`.
+- Gap identity is in the passage as drawn. A consumer that moves bar lines (place-bar-lines) re-renders the
+  passage and must map its own gap numbers to the new `{ bar, event }`.
+
+### 15.3 Key-signature edit (`edit.kind: 'key-signature'`)
+
+`Stave` renders `stave-key-signature.tsx` instead of the notation stave. It is self-contained: no reducer, no
+history, no notes. Props: `keySignatureSigns` (what to draw, left to right), `onKeySignatureTap(position)`, and
+`keySignatureArmed` (1 sharp, -1 flat; default 1: it only picks the ghost glyph and the announcement). The
+passage supplies only its clef. The parent owns the signs, and does the undo, clear and the choice of sharp or flat.
+
+- **Drawing** (`render/draw-key-signature.ts`): clef, no time signature, no notes, a single end bar line. The
+  key-signature area is a VexFlow `KeySignature` whose `format` is replaced to lay out the given signs
+  (`convertToGlyph`, line = (8 - position) / 2) with VexFlow's own accidental glyphs and spacing, and whose width
+  is reserved for seven signs (the wider of 7 sharps and 7 flats, measured from real `C#` and `Cb` signatures).
+  Signs at positions -1 to 9 are drawn where `pitch.keySignaturePositions` would put them for a real key
+  (`render/key-signature-positions.test.ts` checks the engine table against VexFlow in all four clefs, -7 to 7).
+  The system box reserves positions -3 to 11.
+- **Tap**: pointer down, drag, up anywhere on the stave (clef included) reports the nearest stave position
+  clamped to -1..9 (`positionAtY` and `snapPosition`, section 2.4, with hysteresis while dragging). Touch dragging
+  shows the loupe and the ghost sign; mouse hover shows the ghost. The ghost is the sign glyph itself, drawn in
+  Bravura on the tapped line at the x where the next sign would go (the overlay's `GhostSpec.glyph`). The area
+  holds seven signs: with seven placed a tap reports nothing and says "The key signature is full".
+- **Keyboard**: the surface is `role="application"`, one Tab stop. Up and Down move a ghost through -1..9
+  (starting on the middle line, so nothing hints at a standard position), Enter places it. Each move announces the
+  position in words and the letter ("Top line, F."); a placement announces "Sharp placed on top line, F.". The
+  letter comes from `pitch.pitchAtStavePosition`. At the ends: "Too high for this stave." / "Too low ...".
+- **Without a keyboard** (section 6.2): a toolbar "Key signature tools" with Move sign up, Move sign down and
+  Place sign here (44 px, roving tabindex) does the same, with the same announcements.
+- **Description**: "Treble clef. Key signature area. 2 signs placed, left to right: sharp on top line, F; ...".
+
+### 15.4 Dev harness
+
+`/dev/question-types-2` (`src/app/(dev)/dev/question-types-2/`, dev routes only) shows three bars with written
+beams (all eight quavers joined, no beams, a beam across a beat), a two-bar passage with gap toggles (some on),
+and the key-signature edit stave for treble and bass with a few signs placed and a sharp/flat/undo/clear
+palette. `e2e/question-types-2.spec.ts` opens it at 390x844 and 1280x800 in both themes.

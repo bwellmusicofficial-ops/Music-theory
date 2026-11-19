@@ -258,3 +258,57 @@ describe('degree', () => {
     expect(() => pitch.degree(K('C', 'major'), 8 as Degree)).toThrow(TheoryError);
   });
 });
+
+describe('keySignaturePositions', () => {
+  const CLEFS = ['treble', 'bass', 'alto', 'tenor'] as const;
+
+  it('gives the treble pattern from the design', () => {
+    expect(pitch.keySignaturePositions(7, 'treble')).toEqual([8, 5, 9, 6, 3, 7, 4]);
+    expect(pitch.keySignaturePositions(-7, 'treble')).toEqual([4, 7, 3, 6, 2, 5, 1]);
+    expect(pitch.keySignaturePositions(2, 'treble')).toEqual([8, 5]);
+    expect(pitch.keySignaturePositions(-1, 'treble')).toEqual([4]);
+  });
+  it('bass is the treble pattern two positions lower', () => {
+    for (let s = -7; s <= 7; s++) {
+      expect(pitch.keySignaturePositions(s, 'bass')).toEqual(pitch.keySignaturePositions(s, 'treble').map((p) => p - 2));
+    }
+  });
+  it('returns [] for no sign and the first n positions as the signature grows', () => {
+    for (const clef of CLEFS) {
+      expect(pitch.keySignaturePositions(0, clef)).toEqual([]);
+      const sharps = pitch.keySignaturePositions(7, clef);
+      const flats = pitch.keySignaturePositions(-7, clef);
+      for (let n = 1; n <= 7; n++) {
+        expect(pitch.keySignaturePositions(n, clef)).toEqual(sharps.slice(0, n));
+        expect(pitch.keySignaturePositions(-n, clef)).toEqual(flats.slice(0, n));
+      }
+    }
+  });
+  it('every position sits on the letter that signatureAccidentals names, in every clef', () => {
+    for (const clef of CLEFS) {
+      for (let s = -7; s <= 7; s++) {
+        const letters = pitch.signatureAccidentals(s).map((a) => a.letter);
+        const atPositions = pitch.keySignaturePositions(s, clef).map((p) => pitch.pitchAtStavePosition(p, clef).letter);
+        expect(atPositions).toEqual(letters);
+      }
+    }
+  });
+  it('signs stay on or near the stave (positions -1 to 9) with no repeats', () => {
+    for (const clef of CLEFS) {
+      for (const s of [7, -7]) {
+        const ps = pitch.keySignaturePositions(s, clef);
+        expect(new Set(ps).size).toBe(7);
+        for (const p of ps) {
+          expect(p).toBeGreaterThanOrEqual(-1);
+          expect(p).toBeLessThanOrEqual(9);
+        }
+      }
+    }
+  });
+  it('rejects signatures outside -7..7 and unknown clefs', () => {
+    expect(() => pitch.keySignaturePositions(8, 'treble')).toThrow(TheoryError);
+    expect(() => pitch.keySignaturePositions(-8, 'bass')).toThrow(TheoryError);
+    expect(() => pitch.keySignaturePositions(1.5, 'bass')).toThrow(TheoryError);
+    expect(() => pitch.keySignaturePositions(1, 'soprano' as never)).toThrow(TheoryError);
+  });
+});
