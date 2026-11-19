@@ -84,7 +84,7 @@ function solve(t: Terminology): number {
     return right[0].i;
   }
   expect(kicker).toBe('What does this stand for?');
-  const abbr = prompt.querySelector('.tb-prompt-abbr')!.textContent!;
+  const abbr = prompt.querySelector('.tb-prompt-abbr span:last-child')!.textContent!;
   const info = infos.find((n) => n.abbreviations.includes(abbr))!;
   return texts.indexOf(termLabel(info, t));
 }

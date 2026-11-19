@@ -145,8 +145,11 @@ test.describe('structure', () => {
     await waitReady(page);
     await page.getByRole('radio', { name: /Italian/ }).check({ force: true });
     await page.getByRole('button', { name: 'Start', exact: true }).click();
-    await expect(page.locator('.tb-prompt-term, .tb-opt-text').first()).toBeVisible();
-    await expect(page.locator('.tb-prompt-term[lang="it"], .tb-opt-text[lang="it"]').first()).toBeVisible();
+    await expect(page.locator('.tb-prompt-term, .tb-prompt-abbr, .tb-opt-text').first()).toBeVisible();
+    // Every card kind marks its Italian text: the term prompt, the options of a meaning card, or the abbreviation.
+    await expect(
+      page.locator('.tb-prompt-term[lang="it"], .tb-opt-text[lang="it"], .tb-prompt-abbr [lang="it"]').first(),
+    ).toBeVisible();
   });
 });
 

@@ -409,8 +409,9 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
             ) : null}
             {cv.promptKind === 'meaning' ? <p className="tb-prompt-meaning">{cv.prompt}</p> : null}
             {cv.promptKind === 'abbreviation' ? (
-              <p className="tb-prompt-abbr" aria-label={`Abbreviation ${cv.prompt}`}>
-                {cv.prompt}
+              <p className="tb-prompt-abbr">
+                <span className="sr-only">Abbreviation </span>
+                <span lang={card ? bank.byId.get(card.entryId)?.language : undefined}>{cv.prompt}</span>
               </p>
             ) : null}
             {cv.language ? <span className="tb-tag">{cv.language}</span> : null}
@@ -438,7 +439,7 @@ export function PlayScreen({ settings, bank, deck, config, seed, onFinished, onE
                     <span className="tb-chip" aria-hidden="true">
                       {mark === 'correct' ? '✓' : mark === 'wrong' ? '✗' : i + 1}
                     </span>
-                    <span className="tb-opt-text" lang={cv.promptKind === 'meaning' ? bank.byId.get(card.options[i])?.language : undefined}>
+                    <span className="tb-opt-text" lang={cv.promptKind !== 'term' ? bank.byId.get(card.options[i])?.language : undefined}>
                       {text}
                     </span>
                     {mark === 'correct' ? <span className="sr-only">(correct answer)</span> : null}
