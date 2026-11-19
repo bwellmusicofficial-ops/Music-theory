@@ -310,7 +310,7 @@ Reasons:
 
 | Wrong answer | Template |
 | --- | --- |
-| Some wrong | `{right} of your {n} choices {is\|are} {feature}. Look again at {bar list of the missed targets}.` (bar list: `bar 2`, `bars 1 and 3`) |
+| Some wrong | `{right} of your {n} choices {is\|are} right. Look again at {bar list of the missed targets}.` (bar list: `bar 2`, `bars 1 and 3`) |
 | None right | `None of those are {feature}. There {is\|are} {n} in {bar list}.` |
 
 Generators: none in this task. Authors write these by hand; a later task can

@@ -43,7 +43,7 @@ export function mark(payload: FindInPassagePayload, answer: FindInPassageAnswer)
       reason: `None of those are ${feature}. There ${targets.length === 1 ? 'is' : 'are'} ${targets.length} in ${barList(targets)}.`,
     };
   }
-  const head = `${right} of your ${n} choices ${right === 1 ? 'is' : 'are'} ${feature}.`;
+  const head = `${right} of your ${n} choices ${right === 1 ? 'is' : 'are'} right.`;
   return {
     correct: false,
     score,

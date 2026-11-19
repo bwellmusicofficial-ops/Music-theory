@@ -39,13 +39,13 @@ describe('find-in-passage mark', () => {
     expect(mark(events, { chosen: [{ bar: 0, event: 0 }, { bar: 2, event: 0 }, { bar: 1, event: 0 }] })).toEqual({
       correct: false,
       score: 2 / 3,
-      reason: '2 of your 3 choices are dotted notes. Look again at [[bar|bar]] 4.',
+      reason: '2 of your 3 choices are right. Look again at [[bar|bar]] 4.',
     });
   });
 
   it('one right uses "is"', () => {
     expect(mark(events, { chosen: [{ bar: 0, event: 0 }, { bar: 1, event: 0 }, { bar: 1, event: 1 }] }).reason).toBe(
-      '1 of your 3 choices is dotted notes. Look again at [[bar|bars]] 3 and 4.',
+      '1 of your 3 choices is right. Look again at [[bar|bars]] 3 and 4.',
     );
   });
 
@@ -57,14 +57,14 @@ describe('find-in-passage mark', () => {
       feature: 'notes shorter than a minim',
     };
     expect(mark(many, { chosen: [{ bar: 2, event: 1 }, { bar: 3, event: 2 }, { bar: 1, event: 2 }, { bar: 0, event: 0 }] }).reason).toBe(
-      '1 of your 4 choices is notes shorter than a minim. Look again at [[bar|bars]] 1, 2 and 4.',
+      '1 of your 4 choices is right. Look again at [[bar|bars]] 1, 2 and 4.',
     );
   });
 
   it('missed targets in one bar give "bar n"', () => {
     const two: FindInPassagePayload = { ...events, targets: [{ bar: 0, event: 0 }, { bar: 0, event: 1 }] };
     expect(mark(two, { chosen: [{ bar: 0, event: 0 }, { bar: 3, event: 2 }] }).reason).toBe(
-      '1 of your 2 choices is dotted notes. Look again at [[bar|bar]] 1.',
+      '1 of your 2 choices is right. Look again at [[bar|bar]] 1.',
     );
   });
 
@@ -79,7 +79,7 @@ describe('find-in-passage mark', () => {
   });
 
   it('bar questions use the same wording with bars', () => {
-    expect(mark(bars, { chosen: [{ bar: 0 }, { bar: 1 }] }).reason).toBe('1 of your 2 choices is the bars without a minim. Look again at [[bar|bar]] 3.');
+    expect(mark(bars, { chosen: [{ bar: 0 }, { bar: 1 }] }).reason).toBe('1 of your 2 choices is right. Look again at [[bar|bar]] 3.');
     expect(mark(bars, { chosen: [{ bar: 0 }, { bar: 3 }] }).reason).toBe('None of those are the bars without a minim. There are 2 in [[bar|bars]] 2 and 3.');
   });
 
@@ -92,7 +92,7 @@ describe('find-in-passage mark', () => {
     const result = mark(events, { chosen: [...events.targets, { bar: 1, event: 0 }] });
     expect(result.correct).toBe(false);
     expect(result.score).toBeCloseTo(3 / 4);
-    expect(result.reason).toBe('3 of your 4 choices are dotted notes. The others are not.');
+    expect(result.reason).toBe('3 of your 4 choices are right. The others are not.');
   });
 
   it('throws for answers the component could never produce', () => {

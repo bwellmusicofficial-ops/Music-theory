@@ -1221,8 +1221,8 @@ as a glossary link):
 | Wrong answer | Template | Example |
 | --- | --- | --- |
 | None right | `None of those are {feature}. There {is\|are} {targets} in {bar list of the targets}.` | "None of those are dotted notes. There are 2 in [[bar\|bars]] 1 and 3." |
-| Some right, some targets missed | `{right} of your {n} choices {is\|are} {feature}. Look again at {bar list of the missed targets}.` | "1 of your 2 choices is dotted notes. Look again at [[bar\|bar]] 3." |
-| All targets found, extras chosen | `{right} of your {n} choices {is\|are} {feature}. The others are not.` | "2 of your 3 choices are dotted notes. The others are not." |
+| Some right, some targets missed | `{right} of your {n} choices {is\|are} right. Look again at {bar list of the missed targets}.` | "1 of your 2 choices is right. Look again at [[bar\|bar]] 3." |
+| All targets found, extras chosen | `{right} of your {n} choices {is\|are} right. The others are not.` | "2 of your 3 choices are right. The others are not." |
 
 Write `feature` so the sentence reads well after "is" or "are": "dotted
 notes", "the bar with no minim".
