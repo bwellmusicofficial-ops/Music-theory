@@ -1410,340 +1410,65 @@
     "practice": {
       "questions": [
         {
-          "id": "p1-fewest-notes-first",
-          "type": "ordering",
+          "id": "p5-biggest-group",
+          "type": "match-up",
           "skill": "rhythm.grouping.beams",
-          "prompt": "Put these [[bar|bars]] in order, fewest notes first.",
-          "hint": "Count the notes, not the beats. Each beamed group tells you how many notes fit in a beat.",
+          "prompt": "Match each time signature with the biggest beamed group of [[quaver|quavers]] allowed in a [[bar|bar]].",
+          "hint": "Count how many [[quaver|quavers]] fill a [[bar|bar]] of each. In 4/4 a beam must not cross the middle.",
           "source": "authored",
           "payload": {
-            "items": [
+            "left": [
               {
-                "id": "four",
+                "id": "four-four",
                 "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 2,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
+                  "kind": "text",
+                  "text": "4/4"
+                },
+                "match": "four-half",
+                "reason": "In 4/4 a beam must not cross the middle of the [[bar|bar]], so the biggest group is 4 [[quaver|quavers]] on beats 1 and 2, or on beats 3 and 4."
               },
               {
-                "id": "one",
+                "id": "two-four",
                 "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 2,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "minim",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
+                  "kind": "text",
+                  "text": "2/4"
+                },
+                "match": "four-whole",
+                "reason": "A [[bar|bar]] of 2/4 holds 4 [[quaver|quavers]], and all 4 may share one beam."
               },
               {
-                "id": "eight",
+                "id": "three-four",
                 "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 2,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "semiquaver",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "id": "two",
-                "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 2,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
+                  "kind": "text",
+                  "text": "3/4"
+                },
+                "match": "six-whole",
+                "reason": "A [[bar|bar]] of 3/4 holds 6 [[quaver|quavers]], and all 6 may share one beam."
               }
             ],
-            "correctOrder": [
-              "one",
-              "two",
-              "four",
-              "eight"
-            ],
-            "ends": {
-              "first": "fewest notes",
-              "last": "most notes"
-            },
-            "reason": "Fewest to most notes: the [[minim|minim]] 1, two [[crotchet|crotchets]] 2, four [[quaver|quavers]] 4, eight [[semiquaver|semiquavers]] 8."
+            "right": [
+              {
+                "id": "six-whole",
+                "face": {
+                  "kind": "text",
+                  "text": "6 [[quaver|quavers]]: the whole [[bar|bar]]"
+                }
+              },
+              {
+                "id": "four-half",
+                "face": {
+                  "kind": "text",
+                  "text": "4 [[quaver|quavers]]: beats 1 and 2, or beats 3 and 4"
+                }
+              },
+              {
+                "id": "four-whole",
+                "face": {
+                  "kind": "text",
+                  "text": "4 [[quaver|quavers]]: the whole [[bar|bar]]"
+                }
+              }
+            ]
           }
         },
         {
@@ -2214,6 +1939,175 @@
           }
         },
         {
+          "id": "p4-fix-the-beams",
+          "type": "fix-beaming",
+          "skill": "rhythm.grouping.beams",
+          "prompt": "One bar is beamed so the beats are hard to see. Tap between notes to join or split the beams.",
+          "hint": "Where is the middle of the [[bar|bar]], after beat 2? Check whether any [[beam|beam]] reaches across it.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ],
+                  "beams": [
+                    [
+                      1,
+                      2,
+                      3,
+                      4
+                    ]
+                  ]
+                }
+              ]
+            },
+            "barIndex": 1
+          }
+        },
+        {
           "id": "p4-tap-the-beamed-rhythm",
           "type": "tap-rhythm",
           "skill": "rhythm.perform.quaver",
@@ -2252,68 +2146,6 @@
               "showNotation": true,
               "listenFirst": true
             }
-          }
-        },
-        {
-          "id": "p5-biggest-group",
-          "type": "match-up",
-          "skill": "rhythm.grouping.beams",
-          "prompt": "Match each time signature with the biggest beamed group of [[quaver|quavers]] allowed in a [[bar|bar]].",
-          "hint": "Count how many [[quaver|quavers]] fill a [[bar|bar]] of each. In 4/4 a beam must not cross the middle.",
-          "source": "authored",
-          "payload": {
-            "left": [
-              {
-                "id": "four-four",
-                "face": {
-                  "kind": "text",
-                  "text": "4/4"
-                },
-                "match": "four-half",
-                "reason": "In 4/4 a beam must not cross the middle of the [[bar|bar]], so the biggest group is 4 [[quaver|quavers]] on beats 1 and 2, or on beats 3 and 4."
-              },
-              {
-                "id": "two-four",
-                "face": {
-                  "kind": "text",
-                  "text": "2/4"
-                },
-                "match": "four-whole",
-                "reason": "A [[bar|bar]] of 2/4 holds 4 [[quaver|quavers]], and all 4 may share one beam."
-              },
-              {
-                "id": "three-four",
-                "face": {
-                  "kind": "text",
-                  "text": "3/4"
-                },
-                "match": "six-whole",
-                "reason": "A [[bar|bar]] of 3/4 holds 6 [[quaver|quavers]], and all 6 may share one beam."
-              }
-            ],
-            "right": [
-              {
-                "id": "six-whole",
-                "face": {
-                  "kind": "text",
-                  "text": "6 [[quaver|quavers]]: the whole [[bar|bar]]"
-                }
-              },
-              {
-                "id": "four-half",
-                "face": {
-                  "kind": "text",
-                  "text": "4 [[quaver|quavers]]: beats 1 and 2, or beats 3 and 4"
-                }
-              },
-              {
-                "id": "four-whole",
-                "face": {
-                  "kind": "text",
-                  "text": "4 [[quaver|quavers]]: the whole [[bar|bar]]"
-                }
-              }
-            ]
           }
         }
       ]
@@ -4093,6 +3925,224 @@
               "bar": 1
             },
             "explanation": "[[bar|Bar]] 2 has a dotted [[crotchet|crotchet]] starting on beat 2. It runs over the middle of the [[bar|bar]]: write it as a [[crotchet|crotchet]] tied to one [[quaver|quaver]]."
+          }
+        },
+        {
+          "id": "c9-fix-the-beams",
+          "type": "fix-beaming",
+          "skill": "rhythm.grouping.beams",
+          "prompt": "Beam the [[quaver|quavers]] correctly: tap between notes to join or split.",
+          "hint": "Each beamed group should start on a beat. In 4/4, a [[beam|beam]] must not cross the middle of the [[bar|bar]].",
+          "source": "generated",
+          "generator": {
+            "id": "fix-beaming",
+            "params": {
+              "faults": [
+                "together",
+                "middle",
+                "beat"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c10-fix-the-beams-in-three",
+          "type": "fix-beaming",
+          "skill": "rhythm.grouping.beams",
+          "prompt": "Beam the [[quaver|quavers]] correctly: tap between notes to join or split.",
+          "hint": "[[quaver|Quavers]] in the same beat share a [[beam|beam]]. Check whether any beam reaches from one beat into the next.",
+          "source": "generated",
+          "generator": {
+            "id": "fix-beaming",
+            "params": {
+              "time": {
+                "beats": 3,
+                "beatUnit": 4
+              },
+              "faults": [
+                "together",
+                "beat"
+              ]
+            }
+          }
+        },
+        {
+          "id": "c11-fix-the-semiquavers",
+          "type": "fix-beaming",
+          "skill": "rhythm.grouping.beams",
+          "prompt": "Beam the [[semiquaver|semiquavers]] correctly: tap between notes to join or split.",
+          "hint": "[[semiquaver|Semiquavers]] are joined in fours, one group to a beat. How many groups does this [[bar|bar]] need?",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 2,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "semiquaver",
+                        "dots": 0
+                      }
+                    }
+                  ],
+                  "beams": [
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      2,
+                      3
+                    ],
+                    [
+                      4,
+                      5
+                    ],
+                    [
+                      6,
+                      7
+                    ]
+                  ]
+                }
+              ]
+            },
+            "barIndex": 1
           }
         }
       ]

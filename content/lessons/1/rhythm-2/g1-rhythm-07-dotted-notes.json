@@ -728,6 +728,232 @@
     "practice": {
       "questions": [
         {
+          "id": "p1-find-the-dotted-notes",
+          "type": "find-in-passage",
+          "skill": "rhythm.note-values.dotted",
+          "prompt": "Three notes in this tune are dotted notes. Tap every one.",
+          "hint": "A dotted note has a small dot just after its head. Look beside the note heads, not above or below.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 1
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 1
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 1
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "quaver",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "select": "event",
+            "targets": [
+              {
+                "bar": 0,
+                "event": 0
+              },
+              {
+                "bar": 2,
+                "event": 0
+              },
+              {
+                "bar": 3,
+                "event": 1
+              }
+            ],
+            "feature": "dotted notes"
+          }
+        },
+        {
           "id": "p1-how-long-is-the-dotted-note",
           "type": "multiple-choice",
           "skill": "rhythm.note-values.dotted",
@@ -1041,207 +1267,6 @@
             },
             "count": 1,
             "checkGrouping": true
-          }
-        },
-        {
-          "id": "p4-five-beats",
-          "type": "spot-mistake",
-          "skill": "rhythm.note-values.dotted",
-          "prompt": "Every [[bar|bar]] here should hold 4 beats. One has too many. Tap it.",
-          "hint": "A dotted [[minim|minim]] is 2 beats plus half of 2. Count each [[bar|bar]].",
-          "source": "authored",
-          "payload": {
-            "passage": {
-              "clef": "treble",
-              "key": {
-                "tonic": {
-                  "letter": "C",
-                  "accidental": 0
-                },
-                "mode": "major"
-              },
-              "time": {
-                "beats": 4,
-                "beatUnit": 4
-              },
-              "bars": [
-                {
-                  "events": [
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "minim",
-                        "dots": 1
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "crotchet",
-                        "dots": 0
-                      }
-                    }
-                  ]
-                },
-                {
-                  "events": [
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "crotchet",
-                        "dots": 1
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "quaver",
-                        "dots": 0
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "minim",
-                        "dots": 0
-                      }
-                    }
-                  ]
-                },
-                {
-                  "events": [
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "minim",
-                        "dots": 1
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "minim",
-                        "dots": 0
-                      }
-                    }
-                  ]
-                },
-                {
-                  "events": [
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "crotchet",
-                        "dots": 0
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "crotchet",
-                        "dots": 0
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "crotchet",
-                        "dots": 1
-                      }
-                    },
-                    {
-                      "kind": "note",
-                      "pitches": [
-                        {
-                          "letter": "B",
-                          "accidental": 0,
-                          "octave": 4
-                        }
-                      ],
-                      "duration": {
-                        "value": "quaver",
-                        "dots": 0
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            "select": "bar",
-            "mistake": {
-              "bar": 2
-            },
-            "explanation": "[[bar|Bar]] 3 has 5 beats: a dotted [[minim|minim]] (3) and a [[minim|minim]] (2). After a dotted [[minim|minim]] only 1 beat is left."
           }
         },
         {

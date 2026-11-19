@@ -11,7 +11,8 @@
     "rhythm.time.read-signature",
     "rhythm.time.identify",
     "rhythm.time.complete-bar",
-    "rhythm.perform.triple-time"
+    "rhythm.perform.triple-time",
+    "rhythm.time.add-bar-lines"
   ],
   "prerequisites": [
     "g1-rhythm-04-quavers"
@@ -1031,31 +1032,20 @@
           }
         },
         {
-          "id": "p5-spot-the-bar",
-          "type": "spot-mistake",
-          "skill": "rhythm.time.complete-bar",
-          "prompt": "Every [[bar|bar]] in 2/4 should hold 2 beats. One does not. Tap it.",
-          "hint": "In 2/4 a [[bar|bar]] needs 2 beats: two [[crotchet|crotchets]], or one [[minim|minim]].",
+          "id": "p5-place-the-bar-lines",
+          "type": "place-bar-lines",
+          "skill": "rhythm.time.add-bar-lines",
+          "prompt": "Tap the gaps where the missing [[bar-line|bar lines]] go.",
+          "hint": "This is 3/4, so count 1, 2, 3. Each time the count reaches 3 beats, the [[bar|bar]] is full and a [[bar-line|bar line]] comes next.",
           "source": "generated",
           "generator": {
-            "id": "spot-the-bar",
+            "id": "place-bar-lines",
             "params": {
               "time": {
-                "beats": 2,
+                "beats": 3,
                 "beatUnit": 4
               },
-              "values": [
-                {
-                  "value": "crotchet",
-                  "dots": 0
-                },
-                {
-                  "value": "minim",
-                  "dots": 0
-                }
-              ],
-              "bars": 3,
-              "fault": "either"
+              "bars": 3
             }
           }
         }
@@ -1732,6 +1722,160 @@
               }
             ],
             "correct": "b"
+          }
+        },
+        {
+          "id": "c9-place-the-bar-lines-in-two",
+          "type": "place-bar-lines",
+          "skill": "rhythm.time.add-bar-lines",
+          "prompt": "Tap the gaps where the missing [[bar-line|bar lines]] go.",
+          "hint": "This is 2/4, so each [[bar|bar]] holds 2 beats. A [[bar-line|bar line]] comes each time the count reaches 2.",
+          "source": "generated",
+          "generator": {
+            "id": "place-bar-lines",
+            "params": {
+              "time": {
+                "beats": 2,
+                "beatUnit": 4
+              },
+              "bars": 3
+            }
+          }
+        },
+        {
+          "id": "c10-place-the-bar-lines-in-three",
+          "type": "place-bar-lines",
+          "skill": "rhythm.time.add-bar-lines",
+          "prompt": "This 3/4 tune has lost its [[bar-line|bar lines]]. Tap the gaps where they belong.",
+          "hint": "Count 1, 2, 3 and start again each time you reach 3 beats. A [[minim|minim]] counts as 2.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 3,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       ]

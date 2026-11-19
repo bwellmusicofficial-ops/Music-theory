@@ -12,7 +12,8 @@
   "skills": [
     "rhythm.time.read-signature",
     "rhythm.time.complete-bar",
-    "rhythm.perform.crotchet-minim"
+    "rhythm.perform.crotchet-minim",
+    "rhythm.time.add-bar-lines"
   ],
   "prerequisites": [
     "g1-rhythm-01-crotchets-and-minims"
@@ -785,31 +786,166 @@
           }
         },
         {
-          "id": "p2-spot-the-bar",
-          "type": "spot-mistake",
-          "skill": "rhythm.time.complete-bar",
-          "prompt": "Every [[bar|bar]] in 4/4 should hold 4 beats. One does not. Tap it.",
-          "hint": "Count each [[bar|bar]]: 1 for every filled-in note, 2 for every hollow one.",
-          "source": "generated",
-          "generator": {
-            "id": "spot-the-bar",
-            "params": {
+          "id": "p2-place-the-bar-lines",
+          "type": "place-bar-lines",
+          "skill": "rhythm.time.add-bar-lines",
+          "prompt": "These notes have lost their [[bar-line|bar lines]]. Each [[bar|bar]] of 4/4 holds 4 beats. Tap each gap where a bar line belongs.",
+          "hint": "Count 1, 2, 3, 4 from the start. When you reach 4 beats the [[bar|bar]] is full, so a [[bar-line|bar line]] comes next.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
               "time": {
                 "beats": 4,
                 "beatUnit": 4
               },
-              "values": [
+              "bars": [
                 {
-                  "value": "crotchet",
-                  "dots": 0
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    }
+                  ]
                 },
                 {
-                  "value": "minim",
-                  "dots": 0
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
                 }
-              ],
-              "bars": 3,
-              "fault": "either"
+              ]
             }
           }
         },
@@ -1808,6 +1944,24 @@
               }
             ],
             "correct": "a"
+          }
+        },
+        {
+          "id": "c9-place-the-bar-lines",
+          "type": "place-bar-lines",
+          "skill": "rhythm.time.add-bar-lines",
+          "prompt": "Tap the gaps where the missing [[bar-line|bar lines]] go.",
+          "hint": "Count 1, 2, 3, 4. A [[bar-line|bar line]] goes after the note that brings the count to 4 beats.",
+          "source": "generated",
+          "generator": {
+            "id": "place-bar-lines",
+            "params": {
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": 3
+            }
           }
         }
       ]

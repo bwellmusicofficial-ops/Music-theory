@@ -843,6 +843,197 @@
     "practice": {
       "questions": [
         {
+          "id": "p1-find-the-tied-notes",
+          "type": "find-in-passage",
+          "skill": "rhythm.ties.read",
+          "prompt": "One tie joins two notes into one long sound. Tap both notes it joins.",
+          "hint": "A [[tie|tie]] is a curved line joining two notes of the same pitch. Look for the curve, not just for two notes side by side.",
+          "source": "authored",
+          "payload": {
+            "passage": {
+              "clef": "treble",
+              "key": {
+                "tonic": {
+                  "letter": "C",
+                  "accidental": 0
+                },
+                "mode": "major"
+              },
+              "time": {
+                "beats": 4,
+                "beatUnit": 4
+              },
+              "bars": [
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      },
+                      "tieToNext": true
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "minim",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                },
+                {
+                  "events": [
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    },
+                    {
+                      "kind": "note",
+                      "pitches": [
+                        {
+                          "letter": "B",
+                          "accidental": 0,
+                          "octave": 4
+                        }
+                      ],
+                      "duration": {
+                        "value": "crotchet",
+                        "dots": 0
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            "select": "event",
+            "targets": [
+              {
+                "bar": 0,
+                "event": 2
+              },
+              {
+                "bar": 1,
+                "event": 0
+              }
+            ],
+            "feature": "tied notes"
+          }
+        },
+        {
           "id": "p1-add-the-tied-notes",
           "type": "multiple-choice",
           "skill": "rhythm.ties.read",
@@ -1120,296 +1311,6 @@
             },
             "count": 1,
             "checkGrouping": true
-          }
-        },
-        {
-          "id": "p4-start-on-beat-two",
-          "type": "multiple-choice",
-          "skill": "rhythm.ties.read",
-          "prompt": "One sound starts on beat 2 and lasts 1½ beats. Which [[bar|bar]] writes it the standard way?",
-          "hint": "Check which [[bar|bars]] make the sound last 1½ beats. Then check which of those keeps the middle of the [[bar|bar]] in view.",
-          "source": "authored",
-          "payload": {
-            "options": [
-              {
-                "id": "a",
-                "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 4,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 1
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "reason": "That dotted [[crotchet|crotchet]] starts on beat 2 and runs over the middle of the [[bar|bar]], hiding beat 3. A tie splits it so beat 3 shows."
-              },
-              {
-                "id": "b",
-                "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 4,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "reason": "There is no tie here, so the second [[crotchet|crotchet]] lasts only 1 beat. The sound stops when beat 3 arrives, so it is not 1½ beats long."
-              },
-              {
-                "id": "c",
-                "face": {
-                  "kind": "passage",
-                  "passage": {
-                    "clef": "treble",
-                    "key": {
-                      "tonic": {
-                        "letter": "C",
-                        "accidental": 0
-                      },
-                      "mode": "major"
-                    },
-                    "time": {
-                      "beats": 4,
-                      "beatUnit": 4
-                    },
-                    "bars": [
-                      {
-                        "events": [
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            },
-                            "tieToNext": true
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "quaver",
-                              "dots": 0
-                            }
-                          },
-                          {
-                            "kind": "note",
-                            "pitches": [
-                              {
-                                "letter": "B",
-                                "accidental": 0,
-                                "octave": 4
-                              }
-                            ],
-                            "duration": {
-                              "value": "crotchet",
-                              "dots": 0
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                }
-              }
-            ],
-            "correct": "c"
           }
         },
         {

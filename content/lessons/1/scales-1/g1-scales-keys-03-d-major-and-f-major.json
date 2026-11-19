@@ -10,7 +10,8 @@
   "skills": [
     "scales-keys.major.d",
     "scales-keys.major.f",
-    "scales-keys.signature.read"
+    "scales-keys.signature.read",
+    "scales-keys.signature.write"
   ],
   "prerequisites": [
     "g1-scales-keys-02-g-major-and-key-signatures"
@@ -912,17 +913,20 @@
           }
         },
         {
-          "id": "p4-name-the-key",
-          "type": "multiple-choice",
-          "skill": "scales-keys.signature.read",
-          "prompt": "Which key has this [[key-signature|key signature]]?",
-          "hint": "Count the signs, and check whether they are sharps or flats.",
-          "source": "generated",
-          "generator": {
-            "id": "key-facts",
-            "params": {
-              "ask": "name-key",
-              "options": 3
+          "id": "p4-write-d-major",
+          "type": "write-key-signature",
+          "skill": "scales-keys.signature.write",
+          "prompt": "Write the [[key-signature|key signature]] of D major. Add each sharp in the right order.",
+          "hint": "D major has two sharps, F♯ then C♯. F♯ sits where it did in G major. For C♯, remember FACE in the space.",
+          "source": "authored",
+          "payload": {
+            "clef": "treble",
+            "key": {
+              "tonic": {
+                "letter": "D",
+                "accidental": 0
+              },
+              "mode": "major"
             }
           }
         },
@@ -1017,17 +1021,41 @@
           }
         },
         {
-          "id": "c5-which-notes-are-altered",
-          "type": "multiple-choice",
-          "skill": "scales-keys.signature.read",
-          "prompt": "Which notes are sharp or flat in this key?",
-          "hint": "Think of the scale. Which notes had to be changed to fit the pattern?",
+          "id": "c5-write-in-the-treble-clef",
+          "type": "write-key-signature",
+          "skill": "scales-keys.signature.write",
+          "prompt": "Write the [[key-signature|key signature]] of the key named.",
+          "hint": "Count the signs first. Then find each note on the [[stave|stave]]: lines are Every Green Bus Drives Fast, spaces are FACE in the space.",
           "source": "generated",
           "generator": {
-            "id": "key-facts",
+            "id": "write-key-signature",
             "params": {
-              "ask": "accidentals",
-              "options": 4
+              "keys": [
+                {
+                  "tonic": {
+                    "letter": "G",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                {
+                  "tonic": {
+                    "letter": "D",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                {
+                  "tonic": {
+                    "letter": "F",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                }
+              ],
+              "clefs": [
+                "treble"
+              ]
             }
           }
         },
@@ -1376,6 +1404,45 @@
               ],
               "clef": "bass",
               "options": 3
+            }
+          }
+        },
+        {
+          "id": "c9-write-in-the-bass-clef",
+          "type": "write-key-signature",
+          "skill": "scales-keys.signature.write",
+          "prompt": "This one is in the bass clef. Write the [[key-signature|key signature]] of the key named.",
+          "hint": "Count the signs first. In the bass clef the lines are Good Birds Don't Fly Away and the spaces are All Cows Eat Grass.",
+          "source": "generated",
+          "generator": {
+            "id": "write-key-signature",
+            "params": {
+              "keys": [
+                {
+                  "tonic": {
+                    "letter": "G",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                {
+                  "tonic": {
+                    "letter": "D",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                },
+                {
+                  "tonic": {
+                    "letter": "F",
+                    "accidental": 0
+                  },
+                  "mode": "major"
+                }
+              ],
+              "clefs": [
+                "bass"
+              ]
             }
           }
         }
