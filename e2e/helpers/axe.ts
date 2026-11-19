@@ -20,6 +20,18 @@ const ACCEPTED: Record<string, string> = {};
 
 /** Runs axe on the current page state. Fails on serious and critical findings and on unaccepted moderate ones. */
 export async function expectNoAxeViolations(page: Page, where: string, opts: { exclude?: string[] } = {}): Promise<void> {
+  // Measure the page at rest: a banner fading in has text at part opacity, which axe
+  // reports as low contrast even though the settled colours pass. Finite animations only.
+  await page
+    .waitForFunction(
+      () =>
+        document
+          .getAnimations()
+          .every((a) => a.playState !== 'running' || a.effect?.getComputedTiming().endTime === Infinity),
+      undefined,
+      { timeout: 3000 },
+    )
+    .catch(() => undefined);
   let builder = new AxeBuilder({ page }).withTags(TAGS);
   for (const sel of opts.exclude ?? []) builder = builder.exclude(sel);
   const results = await builder.analyze();
