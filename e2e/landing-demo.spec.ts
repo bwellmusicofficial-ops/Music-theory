@@ -215,6 +215,9 @@ test.describe('returning learner', () => {
     await page.getByRole('button', { name: 'Try it' }).click();
     await expect(page.getByRole('heading', { level: 3, name: 'Which clip sounds higher?' })).toBeVisible();
     await expect(cont).toBeVisible();
+    // Opening the demo moves focus and scrolls; axe then counts whatever sits half under the sticky
+    // header as an undersized target, which depends on where the scroll lands. Check from the top.
+    await page.evaluate(() => window.scrollTo(0, 0));
     await expectNoAxeViolations(page, 'dashboard with demo open');
   });
 });
