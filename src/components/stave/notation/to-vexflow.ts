@@ -42,13 +42,20 @@ export function accidentalType(sign: Accidental): string {
 
 const SHORT = new Set<NoteValue>(['quaver', 'semiquaver', 'demisemiquaver']);
 
-/** Beam groups, restricted to notes of quaver or shorter, at least two each. Errors give no beams. */
+/**
+ * Beam groups, restricted to notes of quaver or shorter, at least two each. Errors give no beams.
+ * `bar.beams`, when present, is what is written and replaces the standard grouping ([] draws no beams).
+ */
 export function beamIndexGroups(e: Engines, bar: Bar, time: TimeSignature): number[][] {
   let groups: number[][];
-  try {
-    groups = e.rhythm.beamGroups(bar, time);
-  } catch {
-    return [];
+  if (bar.beams) {
+    groups = bar.beams;
+  } else {
+    try {
+      groups = e.rhythm.beamGroups(bar, time);
+    } catch {
+      return [];
+    }
   }
   return groups
     .map((g) => g.filter((i) => bar.events[i]?.kind === 'note' && SHORT.has(bar.events[i].duration.value)))

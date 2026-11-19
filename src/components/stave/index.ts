@@ -1,7 +1,10 @@
 export { Stave } from './stave';
 export { NOTE_SPRITE_HEAD_X, NoteSprite, staveMetrics, type NoteSpriteProps, type StaveMetrics } from './note-sprite';
 export type {
+  KeySignatureSign,
   StaveEditOptions,
+  StaveGapRef,
+  StaveGaps,
   StaveMark,
   StavePalette,
   StaveProps,

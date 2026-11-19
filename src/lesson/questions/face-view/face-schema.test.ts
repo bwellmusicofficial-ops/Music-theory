@@ -198,3 +198,51 @@ describe('passageSchema: expression (docs/expression.md)', () => {
     ]);
   });
 });
+
+describe('passageSchema: written beams (Bar.beams)', () => {
+  const q = (n = 4) => Array.from({ length: n }, () => note('quaver'));
+  const withBeams = (beams: number[][], events: ScoreEvent[] = [...q(4), note('minim')]) => passage([{ events, beams }]);
+  const issues = (p: unknown) => {
+    const r = passageSchema.safeParse(p);
+    return r.success ? [] : r.error.issues.map((i) => i.message);
+  };
+
+  it('accepts bars with no beams field (existing lessons are unchanged)', () => {
+    expect(passageSchema.safeParse(passage([{ events: [...q(4), note('minim')] }])).success).toBe(true);
+  });
+  it('accepts [] (no beams) and groups of consecutive quavers', () => {
+    expect(passageSchema.safeParse(withBeams([])).success).toBe(true);
+    expect(passageSchema.safeParse(withBeams([[0, 1, 2, 3]])).success).toBe(true);
+    expect(passageSchema.safeParse(withBeams([[0, 1], [2, 3]])).success).toBe(true);
+    expect(passageSchema.safeParse(withBeams([[1, 2]])).success).toBe(true);
+  });
+  it('accepts semiquavers and a mixed quaver and semiquaver group', () => {
+    const semi = (): ScoreEvent => ({ kind: 'note', pitches: [pitch()], duration: { value: 'semiquaver', dots: 0 } });
+    // 1/8 + 1/16 + 1/16 + 1/4 + 1/2 = 1
+    const events: ScoreEvent[] = [note('quaver'), semi(), semi(), note('crotchet'), note('minim')];
+    expect(passageSchema.safeParse(withBeams([[0, 1, 2]], events)).success).toBe(true);
+  });
+  it('rejects a group of fewer than two', () => {
+    expect(issues(withBeams([[0]])).join()).toMatch(/at least two/);
+    expect(issues(withBeams([[]])).join()).toMatch(/at least two/);
+  });
+  it('rejects groups that are not consecutive and ascending', () => {
+    expect(issues(withBeams([[0, 2]])).join()).toMatch(/consecutive ascending/);
+    expect(issues(withBeams([[1, 0]])).join()).toMatch(/consecutive ascending/);
+    expect(issues(withBeams([[0, 0]])).join()).toMatch(/consecutive ascending|two beam groups/);
+  });
+  it('rejects an index in two groups', () => {
+    expect(issues(withBeams([[0, 1], [1, 2]])).join()).toMatch(/in two beam groups/);
+  });
+  it('rejects an index that is not an event, a rest, or a note longer than a quaver', () => {
+    expect(issues(withBeams([[3, 4]])).join()).toMatch(/not a note of quaver or shorter/); // 4 is the minim
+    expect(issues(withBeams([[3, 9]])).join()).toMatch(/does not exist|consecutive/);
+    const withRest: ScoreEvent[] = [note('quaver'), { kind: 'rest', duration: { value: 'quaver', dots: 0 } }, note('quaver'), note('quaver'), note('minim')];
+    expect(issues(withBeams([[0, 1]], withRest)).join()).toMatch(/not a note of quaver or shorter/);
+    expect(issues(withBeams([[0, 1, 2, 3, 4]])).join()).toMatch(/not a note of quaver or shorter/);
+  });
+  it('rejects negative and fractional indexes', () => {
+    expect(passageSchema.safeParse(withBeams([[-1, 0]])).success).toBe(false);
+    expect(passageSchema.safeParse(withBeams([[0.5, 1.5]])).success).toBe(false);
+  });
+});

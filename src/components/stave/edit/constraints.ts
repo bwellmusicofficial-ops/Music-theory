@@ -60,7 +60,8 @@ export function buildConstraints(e: Engines, props: Pick<StaveProps, 'passage' |
   const values: NoteValue[] = (palette.durations ?? []).map((d) => d.value);
   const acc = palette.accidentals;
   const signs = acc === 'double' ? SIGN_SETS.double : acc ? SIGN_SETS.single : [];
-  const kind = edit.kind ?? 'free';
+  // 'key-signature' has its own component and never reaches the reducer.
+  const kind = edit.kind === 'single-note' ? 'single-note' : 'free';
   const source: { bar: number; lockedPrefix?: number; lockedSuffix?: number }[] =
     edit.editable ?? passage.bars.map((_, bar) => ({ bar }));
   const editable = source

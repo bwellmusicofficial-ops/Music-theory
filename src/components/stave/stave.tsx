@@ -25,6 +25,8 @@ import { decorate } from './render/decorate';
 import { draw, type DrawOutput } from './render/draw';
 import './stave.css';
 import { StaveEventButtons } from './stave-event-buttons';
+import { gapKey, gapPlaces, StaveGapButtons } from './stave-gap-buttons';
+import { StaveKeySignature } from './stave-key-signature';
 import { StaveLoupe } from './stave-loupe';
 import { StaveOverlay, type OverlayHandle } from './stave-overlay';
 import { StavePalette } from './stave-palette';
@@ -39,10 +41,16 @@ import { fontsReady, loadVexFlow, type VexFlowModule } from './vexflow-loader';
 const engines: Engines = { pitch, rhythm };
 const FALLBACK_WIDTH_PX = 640;
 
-type Callbacks = { onChange?: StaveProps['onChange']; onEventTap?: StaveProps['onEventTap'] };
-type InnerProps = Omit<StaveProps, 'onChange' | 'onEventTap'> & {
+type Callbacks = {
+  onChange?: StaveProps['onChange'];
+  onEventTap?: StaveProps['onEventTap'];
+  onGapToggle?: NonNullable<StaveProps['gaps']>['onToggle'];
+};
+type InnerProps = Omit<StaveProps, 'onChange' | 'onEventTap' | 'gaps' | 'keySignatureSigns' | 'onKeySignatureTap' | 'keySignatureArmed'> & {
   callbacks: RefObject<Callbacks>;
   hasTap: boolean;
+  /** Read mode gaps with their spoken labels resolved (the label function is not a dependency of the draw). */
+  gapData?: { offered: NonNullable<StaveProps['gaps']>['offered']; on: string[]; labels: string[] };
 };
 
 const REDUCE_QUERY = '(prefers-reduced-motion: reduce)';
@@ -83,7 +91,8 @@ function areEqual(a: InnerProps, b: InnerProps): boolean {
     json(a.palette) === json(b.palette) &&
     json(a.edit) === json(b.edit) &&
     json(a.range) === json(b.range) &&
-    json(a.show) === json(b.show)
+    json(a.show) === json(b.show) &&
+    json(a.gapData) === json(b.gapData)
   );
 }
 
@@ -92,12 +101,27 @@ function areEqual(a: InnerProps, b: InnerProps): boolean {
  * callbacks in a ref so that a new function identity never redraws anything.
  */
 export function Stave(props: StaveProps) {
-  const { onChange, onEventTap, ...rest } = props;
-  const callbacks = useRef<Callbacks>({ onChange, onEventTap });
+  // Key-signature edit is its own, self-contained stave (no notes, no reducer).
+  if (props.edit?.kind === 'key-signature') return <StaveKeySignature {...props} />;
+  return <NotationStave {...props} />;
+}
+
+function NotationStave(props: StaveProps) {
+  const { onChange, onEventTap, gaps, keySignatureSigns, onKeySignatureTap, keySignatureArmed, ...rest } = props;
+  void keySignatureSigns;
+  void onKeySignatureTap;
+  void keySignatureArmed;
+  const onGapToggle = gaps?.onToggle;
+  const callbacks = useRef<Callbacks>({ onChange, onEventTap, onGapToggle });
   useLayoutEffect(() => {
-    callbacks.current = { onChange, onEventTap };
+    callbacks.current = { onChange, onEventTap, onGapToggle };
   });
-  return <StaveInner {...rest} callbacks={callbacks} hasTap={onEventTap !== undefined} />;
+  // Gaps are for read mode alone, and not with onEventTap (docs/question-types-2.md 1.3).
+  const gapData =
+    gaps && props.mode === 'read' && onEventTap === undefined
+      ? { offered: gaps.offered, on: gaps.on.map(gapKey), labels: gaps.offered.map((g) => gaps.label(g)) }
+      : undefined;
+  return <StaveInner {...rest} callbacks={callbacks} hasTap={onEventTap !== undefined} gapData={gapData} />;
 }
 
 const StaveInner = memo(StaveImpl, areEqual);
@@ -115,6 +139,7 @@ function StaveImpl(props: InnerProps) {
     show,
     callbacks,
     hasTap,
+    gapData,
   } = props;
   const terminology = props.terminology ?? 'uk';
   const pitchSpeech = props.pitchSpeech ?? 'names';
@@ -142,6 +167,7 @@ function StaveImpl(props: InnerProps) {
   const [layout, setLayout] = useState<DrawOutput | null>(null);
   const [outline, setOutline] = useState<{ bar: number; event: number } | null>(null);
   const [loupe, setLoupe] = useState<{ gx: number; gy: number } | null>(null);
+  const [activeGap, setActiveGap] = useState<string | null>(null);
 
   // --- constraints -----------------------------------------------------------
   const constraintsKey = JSON.stringify({ palette, edit: editOpts, range, clef: passage.clef, bars: passage.bars.length });
@@ -429,7 +455,19 @@ function StaveImpl(props: InnerProps) {
 
   const model = layout?.model;
   const placeholderHeight = (isEdit ? 148 : 88) * baseScale;
-  const readImg = !isEdit && !hasTap;
+  const hasGaps = !isEdit && !hasTap && gapData !== undefined;
+  const readImg = !isEdit && !hasTap && !hasGaps;
+  const gapOn = useMemo(() => new Set(gapData?.on ?? []), [gapData]);
+  const gapMarkers = useMemo(
+    () =>
+      model && gapData
+        ? gapPlaces(model, gapData.offered).map((p) => {
+            const key = gapKey(p.at);
+            return { key, x: p.x, top: p.top, bottom: p.bottom, on: gapOn.has(key), active: activeGap === key };
+          })
+        : undefined,
+    [model, gapData, gapOn, activeGap],
+  );
 
   return (
     <div
@@ -477,6 +515,7 @@ function StaveImpl(props: InnerProps) {
               lockedBars={lockedBars}
               editableBars={restricted ? new Set(editableBars) : undefined}
               outline={outline}
+              gaps={gapMarkers}
               handleRef={overlayRef}
             />
           ) : null}
@@ -507,6 +546,17 @@ function StaveImpl(props: InnerProps) {
                   );
                 })}
             </div>
+          ) : null}
+          {model && hasGaps && gapData ? (
+            <StaveGapButtons
+              model={model}
+              offered={gapData.offered}
+              on={gapOn}
+              labels={gapData.labels}
+              onToggle={(at) => callbacks.current?.onGapToggle?.(at)}
+              onActive={setActiveGap}
+              ariaLabel={ariaLabel}
+            />
           ) : null}
           {model && !isEdit && hasTap ? (
             <StaveEventButtons

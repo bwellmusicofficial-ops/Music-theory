@@ -30,8 +30,12 @@ export interface StavePalette {
 }
 
 export interface StaveEditOptions {
-  /** 'single-note': the editable bar holds one note of palette.durations[0]; a tap sets its pitch. Default 'free'. */
-  kind?: 'free' | 'single-note';
+  /**
+   * 'single-note': the editable bar holds one note of palette.durations[0]; a tap sets its pitch.
+   * 'key-signature': no notes; the learner places key-signature signs (see `keySignatureSigns`).
+   * Default 'free'.
+   */
+  kind?: 'free' | 'single-note' | 'key-signature';
   /**
    * Bars the learner may change. Default: every bar, nothing locked.
    * The first `lockedPrefix` and last `lockedSuffix` events of a listed bar are fixed.
@@ -51,6 +55,29 @@ export interface StaveRange {
   high: Pitch;
 }
 
+/** A place between two consecutive events, named by the event before it (docs/question-types-2.md 1.3). */
+export interface StaveGapRef {
+  bar: number;
+  event: number;
+}
+
+/** Toggleable places between events. Read mode only; not with `onEventTap`, not in edit mode. */
+export interface StaveGaps {
+  /** Which gaps are offered. A gap is identified by the event before it; the event after may start the next bar. */
+  offered: StaveGapRef[];
+  /** Which offered gaps are currently on. */
+  on: StaveGapRef[];
+  onToggle: (at: StaveGapRef) => void;
+  /** Spoken name of one gap, e.g. "Bar line after note 3". */
+  label: (at: StaveGapRef) => string;
+}
+
+/** One key-signature sign: 1 sharp, -1 flat, at a stave position (0 = bottom line). */
+export interface KeySignatureSign {
+  sign: 1 | -1;
+  position: number;
+}
+
 export interface StaveProps {
   passage: Passage;
   /** 'read' shows notation only; 'edit' accepts input as designed in docs/stave-interaction.md. */
@@ -65,6 +92,17 @@ export interface StaveProps {
   marks?: Record<string, StaveMark>;
   /** Tapping an event in read mode, for "tap the mistake" and playback. */
   onEventTap?: (bar: number, event: number) => void;
+  /** Read mode only. Toggleable places between consecutive events (bar lines, beam joins). */
+  gaps?: StaveGaps;
+  /** With edit.kind 'key-signature': the signs drawn instead of the passage's key signature, left to right. */
+  keySignatureSigns?: KeySignatureSign[];
+  /** With edit.kind 'key-signature': the learner tapped (or pressed Enter on) this stave position, -1 to 9. */
+  onKeySignatureTap?: (position: number) => void;
+  /**
+   * With edit.kind 'key-signature': the sign the next tap will place. Only the ghost and the announcement use it.
+   * Default 1 (sharp).
+   */
+  keySignatureArmed?: 1 | -1;
   /** Playback cursor position, or null. */
   cursor?: { bar: number; event: number } | null;
   ariaLabel: string;

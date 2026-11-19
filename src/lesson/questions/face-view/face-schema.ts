@@ -81,6 +81,7 @@ export const barSchema = z.strictObject({
   repeatStart: z.boolean().optional(),
   endBarline: endBarlineSchema.optional(),
   marker: barMarkerSchema.optional(),
+  beams: z.array(z.array(z.number().int().min(0))).optional(),
 });
 
 // Expression (docs/expression.md). Shape only: the rules (refs point at events, ranges, overlaps,
@@ -114,6 +115,8 @@ export const expressionSchema = z.strictObject({
     )
     .optional(),
 });
+
+const BEAMABLE_VALUES = new Set(['quaver', 'semiquaver', 'demisemiquaver']);
 
 function samePitches(a: ScoreEvent & { kind: 'note' }, b: ScoreEvent & { kind: 'note' }): boolean {
   const names = (event: ScoreEvent & { kind: 'note' }) => event.pitches.map((p) => pitch.formatPitch(p)).sort();
@@ -149,6 +152,33 @@ export const passageShapeSchema: z.ZodType<Passage> = z
           message: `Tied note ${index + 1} must be followed by a note with the same pitches`,
         });
       }
+    });
+
+    // Written beams (docs/question-types-2.md 1.1): groups of 2+ consecutive ascending notes of quaver or shorter.
+    passage.bars.forEach((bar, index) => {
+      if (!bar.beams) return;
+      const used = new Set<number>();
+      bar.beams.forEach((group, g) => {
+        const where = ['bars', index, 'beams', g];
+        if (group.length < 2) {
+          ctx.addIssue({ code: 'custom', path: where, message: `Bar ${index + 1}: a beam group needs at least two notes` });
+        }
+        group.forEach((i, k) => {
+          if (k > 0 && i !== group[k - 1] + 1) {
+            ctx.addIssue({ code: 'custom', path: where, message: `Bar ${index + 1}: beam group ${g + 1} must be consecutive ascending event indexes` });
+          }
+          const event = bar.events[i];
+          if (!event) {
+            ctx.addIssue({ code: 'custom', path: where, message: `Bar ${index + 1}: beam group ${g + 1} names event ${i}, which does not exist` });
+          } else if (event.kind !== 'note' || !BEAMABLE_VALUES.has(event.duration.value)) {
+            ctx.addIssue({ code: 'custom', path: where, message: `Bar ${index + 1}: beam group ${g + 1} includes event ${i}, which is not a note of quaver or shorter` });
+          }
+          if (used.has(i)) {
+            ctx.addIssue({ code: 'custom', path: where, message: `Bar ${index + 1}: event ${i} is in two beam groups` });
+          }
+          used.add(i);
+        });
+      });
     });
 
     passage.bars.forEach((bar, index) => {
