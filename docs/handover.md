@@ -64,6 +64,9 @@ These are settled. Do not reopen them without a reason.
   doesn't jeopardise the project".
 
 **Music rulings (he is the music specialist)**
+- Writing key signatures is marked strictly: each sharp or flat must sit at its
+  standard position (F♯ on the top line in treble, not the bottom space). Ruled
+  19 Nov 2026.
 - In 4/4, a silent first half or second half of a bar is ONE minim rest. Two
   crotchet rests there are wrong. Silence on beats 2 and 3 is two separate
   crotchet rests. The rhythm engine enforces this, and the same rule applies in

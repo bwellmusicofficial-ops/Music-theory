@@ -261,9 +261,9 @@ order, e.g. `F♯ and C♯`; signs written as `[[sharp|sharps]]`/`[[flat|flats]]
 | Wrong letter | `The {ordinal} {sign} is {where(pos)}, which is {L}. In {K} it should be {want[i]}.` |
 | Right letter, wrong octave (standard only) | `{want[i]} is right, but in a key signature it goes {where(wantPos[i])}, not {where(pos)}.` |
 
-**Owner ruling needed:** whether Grade 1 marks the octave strictly
-(`'standard'`, as an examiner would) or accepts any octave. Default `'standard'`
-until he rules; lesson authors can set `'any-octave'` per question.
+**Owner ruling (19 Nov 2026): strict.** A sign in the wrong octave is wrong,
+as an examiner would mark it. `'standard'` is the default; `'any-octave'` stays
+available but should be used only with the owner's agreement.
 
 Generator `write-key-signature`: keys from the grade's list (Grade 1: G, D and F
 major; treble and bass clefs), never C major. Grade 2 adds A, B♭, E♭ major and
