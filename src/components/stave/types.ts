@@ -92,6 +92,12 @@ export interface StaveProps {
   marks?: Record<string, StaveMark>;
   /** Tapping an event in read mode, for "tap the mistake" and playback. */
   onEventTap?: (bar: number, event: number) => void;
+  /**
+   * With `onEventTap`: places that are switched on, as toggles. Keys are "bar:event", or "bar" for every event of a
+   * bar. Every event button then has `aria-pressed` (true for the listed places, false for the rest). Absent: the
+   * buttons are plain buttons without `aria-pressed`, as before. Draw the outline with `marks`.
+   */
+  pressed?: string[];
   /** Read mode only. Toggleable places between consecutive events (bar lines, beam joins). */
   gaps?: StaveGaps;
   /** With edit.kind 'key-signature': the signs drawn instead of the passage's key signature, left to right. */

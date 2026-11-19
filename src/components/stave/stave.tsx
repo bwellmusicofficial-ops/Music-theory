@@ -92,7 +92,8 @@ function areEqual(a: InnerProps, b: InnerProps): boolean {
     json(a.edit) === json(b.edit) &&
     json(a.range) === json(b.range) &&
     json(a.show) === json(b.show) &&
-    json(a.gapData) === json(b.gapData)
+    json(a.gapData) === json(b.gapData) &&
+    json(a.pressed) === json(b.pressed)
   );
 }
 
@@ -140,6 +141,7 @@ function StaveImpl(props: InnerProps) {
     callbacks,
     hasTap,
     gapData,
+    pressed,
   } = props;
   const terminology = props.terminology ?? 'uk';
   const pitchSpeech = props.pitchSpeech ?? 'names';
@@ -565,6 +567,7 @@ function StaveImpl(props: InnerProps) {
               ariaLabel={ariaLabel}
               onTap={(b, e) => callbacks.current?.onEventTap?.(b, e)}
               onOutline={setOutline}
+              pressed={pressed ? new Set(pressed) : undefined}
             />
           ) : null}
         </div>

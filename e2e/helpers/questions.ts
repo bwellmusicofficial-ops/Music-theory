@@ -3,22 +3,28 @@ import { pitch } from '@/engine/pitch';
 import type { Passage, Pitch } from '@/engine/types';
 import type { MarkResult } from '@/lesson/contracts';
 import { mark as markCompleteBar } from '@/lesson/questions/complete-bar/mark';
+import { mark as markFindInPassage } from '@/lesson/questions/find-in-passage/mark';
+import { beamGaps, groupsOf, joinsOf } from '@/lesson/questions/fix-beaming/beams';
+import { mark as markFixBeaming } from '@/lesson/questions/fix-beaming/mark';
 import { mark as markByEar } from '@/lesson/questions/by-ear/mark';
 import { mark as markMatchUp } from '@/lesson/questions/match-up/mark';
 import { mark as markMultipleChoice } from '@/lesson/questions/multiple-choice/mark';
 import { mark as markNoteOnStave } from '@/lesson/questions/note-on-stave/mark';
 import { mark as markOrdering } from '@/lesson/questions/ordering/mark';
+import { mark as markPlaceBarLines } from '@/lesson/questions/place-bar-lines/mark';
 import { mark as markPlayKeyboard } from '@/lesson/questions/play-keyboard/mark';
 import { mark as markSpotMistake } from '@/lesson/questions/spot-mistake/mark';
+import { mark as markWriteKeySignature } from '@/lesson/questions/write-key-signature/mark';
+import { rhythm } from '@/engine/rhythm';
 import { stripRichText } from '@/lesson/player/rich-text';
 import { expectGlyphDrawn, expectKeyboardDrawn, expectNotationDrawn } from './notation';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Payload = any;
 
-export const QUESTION_TYPES = ['note-on-stave', 'play-keyboard', 'tap-rhythm', 'by-ear', 'complete-bar', 'spot-mistake', 'ordering', 'multiple-choice', 'match-up'] as const;
+export const QUESTION_TYPES = ['note-on-stave', 'play-keyboard', 'tap-rhythm', 'by-ear', 'complete-bar', 'spot-mistake', 'ordering', 'multiple-choice', 'match-up', 'place-bar-lines', 'fix-beaming', 'write-key-signature', 'find-in-passage'] as const;
 /** Types whose correct and wrong answers can be derived from the payload and driven through the UI. */
-export const ANSWERABLE = new Set(['multiple-choice', 'match-up', 'ordering', 'play-keyboard', 'spot-mistake', 'note-on-stave']);
+export const ANSWERABLE = new Set(['multiple-choice', 'match-up', 'ordering', 'play-keyboard', 'spot-mistake', 'note-on-stave', 'place-bar-lines', 'fix-beaming', 'write-key-signature', 'find-in-passage']);
 
 interface Face {
   kind: 'text' | 'glyph' | 'passage';
@@ -52,6 +58,10 @@ export function expectedStaves(type: string, p: Payload): number {
     case 'complete-bar':
     case 'spot-mistake':
     case 'note-on-stave':
+    case 'place-bar-lines':
+    case 'fix-beaming':
+    case 'write-key-signature':
+    case 'find-in-passage':
       return 1;
     default:
       return faces;
@@ -156,6 +166,16 @@ export async function fillBar(root: Locator, glyphs: Glyph[]): Promise<void> {
     if ((await dot.count()) > 0 && ((await dot.getAttribute('aria-pressed')) === 'true') !== g.duration.dots > 0) await dot.click();
     await root.getByRole('button', { name: 'Add note', exact: true }).click();
   }
+}
+
+/** Taps a key-signature stave at a stave position (0 = bottom line), using where the staff lines are drawn. */
+export async function tapStavePosition(page: Page, root: Locator, position: number): Promise<void> {
+  const stave = root.locator('.mtn-stave').first();
+  const ys = await stave.locator('.mtn-stave__notation .vf-stave path').evaluateAll((els) => els.map((e) => e.getBoundingClientRect().top + e.getBoundingClientRect().height / 2));
+  const bottom = Math.max(...ys);
+  const top = Math.min(...ys);
+  const box = (await stave.locator('.mtn-stave__notation svg').boundingBox())!;
+  await page.mouse.click(box.x + box.width * 0.55, bottom - (position * (bottom - top)) / 8);
 }
 
 /** The answer for `how`, with its expected marking, or null when the payload has no wrong answer to give. */
@@ -303,6 +323,101 @@ export function plan(type: string, p: Payload, how: How): Plan | null {
             await root.getByRole('group', { name: 'Sign' }).getByRole('button', { name: label, exact: true }).click();
           }
           await root.getByRole('group', { name: 'Note name' }).getByRole('button', { name: name.letter, exact: true }).click();
+        },
+      };
+    }
+    case 'place-bar-lines': {
+      const passage: Passage = p.passage;
+      const sizes = passage.bars.map((b) => b.events.length);
+      const total = sizes.reduce((a, b) => a + b, 0);
+      const rightAfter = sizes.slice(0, -1).map((_, i) => sizes.slice(0, i + 1).reduce((a, b) => a + b, 0) - 1);
+      let after = rightAfter;
+      if (how === 'wrong') {
+        const tries = [[0], [1], [total - 2], [0, 1], rightAfter.map((x) => x + 1), rightAfter.map((x) => x - 1)];
+        const found = tries.find((t) => t.every((x) => x >= 0 && x <= total - 2) && t.length > 0 && !markPlaceBarLines(p, { after: t }).correct);
+        if (!found) return null;
+        after = found;
+      }
+      const answer = { after };
+      return {
+        answer,
+        mark: markPlaceBarLines(p, answer),
+        perform: async (_page, root) => {
+          // The passage is drawn again after each bar line, so each gap button is looked up afresh.
+          for (const i of after) {
+            await root.getByRole('button', { name: new RegExp(`^Bar line after (note|rest) ${i + 1}$`) }).click();
+            await expect(root.getByRole('button', { name: new RegExp(`^Bar line after (note|rest) ${i + 1}$`) })).toHaveAttribute('aria-pressed', 'true');
+          }
+          await clickCheck(root);
+        },
+      };
+    }
+    case 'fix-beaming': {
+      const passage: Passage = p.passage;
+      const bar = passage.bars[p.barIndex];
+      const standard = groupsOf(joinsOf(bar, rhythm.beamGroups(bar, passage.time)));
+      const gaps = beamGaps(bar);
+      let beams = standard;
+      if (how === 'wrong') {
+        const flipped = joinsOf(bar, standard).map((j, i) => (i === gaps[0] ? !j : j));
+        beams = groupsOf(flipped);
+      }
+      const answer = { beams };
+      const want = joinsOf(bar, beams);
+      const start = joinsOf(bar, bar.beams ?? []);
+      return {
+        answer,
+        mark: markFixBeaming(p, answer),
+        perform: async (_page, root) => {
+          for (const i of gaps) {
+            if (want[i] === start[i]) continue;
+            const gap = root.getByRole('button', { name: `Join note ${i + 1} and note ${i + 2}`, exact: true });
+            await gap.click();
+            await expect(gap).toHaveAttribute('aria-pressed', String(want[i]));
+          }
+          await clickCheck(root);
+        },
+      };
+    }
+    case 'write-key-signature': {
+      const signature = pitch.keySignature(p.key);
+      const kind = signature > 0 ? 1 : -1;
+      const positions = pitch.keySignaturePositions(signature, p.clef);
+      const placed = how === 'correct' ? kind : -kind;
+      const answer = { signs: positions.map((position) => ({ sign: placed, position })) };
+      return {
+        answer,
+        mark: markWriteKeySignature(p, answer as never),
+        perform: async (page, root) => {
+          const palette = root.getByRole('group', { name: 'Sign to place' });
+          await palette.getByRole('button', { name: placed === 1 ? 'Sharp' : 'Flat', exact: true }).click();
+          for (const position of positions) await tapStavePosition(page, root, position);
+          await expect(root.locator('.vf-keysignature text')).toHaveCount(positions.length);
+          await clickCheck(root);
+        },
+      };
+    }
+    case 'find-in-passage': {
+      const passage: Passage = p.passage;
+      const targets: { bar: number; event?: number }[] = p.targets;
+      const flat = passage.bars.flatMap((b, bar) => b.events.map((_, event) => ({ bar, event })));
+      const isTarget = (x: { bar: number; event: number }) => targets.some((t) => t.bar === x.bar && (p.select === 'bar' || t.event === x.event));
+      let chosen: { bar: number; event?: number }[] = targets;
+      if (how === 'wrong') {
+        const others = p.select === 'bar' ? [...new Set(flat.filter((x) => !isTarget(x)).map((x) => x.bar))].map((bar) => ({ bar })) : flat.filter((x) => !isTarget(x));
+        if (others.length < targets.length) return null;
+        chosen = others.slice(0, targets.length);
+      }
+      const answer = { chosen };
+      return {
+        answer,
+        mark: markFindInPassage(p, answer),
+        perform: async (_page, root) => {
+          for (const c of chosen) {
+            const index = flat.findIndex((x) => x.bar === c.bar && (p.select === 'bar' || x.event === c.event));
+            await root.locator('.mtn-stave__event-button').nth(index).click();
+          }
+          await clickCheck(root);
         },
       };
     }

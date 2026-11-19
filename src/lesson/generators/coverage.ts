@@ -62,6 +62,15 @@ export const GENERATOR_SKILLS: Readonly<Record<string, readonly string[]>> = {
     'rhythm.time.read-signature',
     'rhythm.time.complete-bar',
   ],
+  'place-bar-lines': [
+    'rhythm.time.add-bar-lines',
+  ],
+  'fix-beaming': [
+    'rhythm.grouping.beams',
+  ],
+  'write-key-signature': [
+    'scales-keys.signature.write',
+  ],
   'tap-rests-and-ties': [
     'rhythm.perform.rests',
     'rhythm.perform.ties',

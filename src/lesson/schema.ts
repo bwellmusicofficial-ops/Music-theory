@@ -49,6 +49,10 @@ export const QUESTION_TYPES = [
   'ordering',
   'multiple-choice',
   'match-up',
+  'place-bar-lines',
+  'fix-beaming',
+  'write-key-signature',
+  'find-in-passage',
 ] as const;
 export const questionTypeSchema = z.enum(QUESTION_TYPES);
 export type QuestionTypeId = z.infer<typeof questionTypeSchema>;

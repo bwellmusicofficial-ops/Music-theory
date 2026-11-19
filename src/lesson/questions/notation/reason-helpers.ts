@@ -7,6 +7,7 @@
 
 import { TheoryError } from '@/engine/api';
 import { pitch } from '@/engine/pitch';
+import { rhythm } from '@/engine/rhythm';
 import type { Duration, Fraction, PitchClass, TimeSignature } from '@/engine/types';
 
 /** `[[bar|bar]]` and `[[bar|Bar]]`. */
@@ -78,4 +79,23 @@ export function beats(len: Fraction, time: TimeSignature): string {
     text = count.toFixed(2);
   }
   return `${text} ${count <= 1 ? 'beat' : 'beats'}`;
+}
+
+/** 1st, 2nd, 3rd, 4th ... */
+export function ordinal(n: number): string {
+  const tens = n % 100;
+  if (tens >= 11 && tens <= 13) return `${n}th`;
+  return `${n}${({ 1: 'st', 2: 'nd', 3: 'rd' } as Record<number, string>)[n % 10] ?? 'th'}`;
+}
+
+/** "a", "a and b", "a, b and c". */
+export function joinList(items: string[]): string {
+  if (items.length <= 1) return items.join('');
+  return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
+}
+
+/** The difference between two lengths, always positive. */
+export function absDiff(a: Fraction, b: Fraction): Fraction {
+  const [hi, lo] = rhythm.compareFractions(a, b) >= 0 ? [a, b] : [b, a];
+  return rhythm.addFractions(hi, { n: -lo.n, d: lo.d });
 }

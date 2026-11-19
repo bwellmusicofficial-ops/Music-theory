@@ -9,12 +9,14 @@ export interface StaveEventButtonsProps {
   onTap: (bar: number, event: number) => void;
   onOutline: (at: { bar: number; event: number } | null) => void;
   ariaLabel: string;
+  /** Toggled-on places ("bar:event" or "bar"). When given, every button carries aria-pressed. */
+  pressed?: ReadonlySet<string>;
 }
 
 const MIN_PX = 24;
 
 /** Read + tap: one transparent button per event, roving tabindex (5.3). */
-export function StaveEventButtons({ model, labels, onTap, onOutline, ariaLabel }: StaveEventButtonsProps) {
+export function StaveEventButtons({ model, labels, onTap, onOutline, ariaLabel, pressed }: StaveEventButtonsProps) {
   const flat = model.bars.flatMap((b) => b.events.map((e) => ({ bar: b.bar, event: e.event })));
   const [active, setActive] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -60,6 +62,7 @@ export function StaveEventButtons({ model, labels, onTap, onOutline, ariaLabel }
               className="mtn-stave__event-button"
               tabIndex={i === active ? 0 : -1}
               aria-label={labels[b.bar]?.[ev.event]}
+              aria-pressed={pressed ? pressed.has(`${b.bar}:${ev.event}`) || pressed.has(String(b.bar)) : undefined}
               style={{ left: leftPx, top: sys.top * model.scale, width: widthPx, height: sys.height * model.scale }}
               onClick={() => onTap(b.bar, ev.event)}
               onKeyDown={(e) => onKey(e, i)}

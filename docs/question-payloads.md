@@ -5,7 +5,7 @@ code and this document disagree, this document wins until the orchestrator
 changes it.
 
 `src/lesson/schema.ts` leaves each question's `payload` as `unknown`. This
-document fixes, for each of the nine question types:
+document fixes, for each of the thirteen question types:
 
 - the `Payload` type (what a lesson file or a generator supplies),
 - the `Answer` type (what the component passes to `onAnswer`),
@@ -175,7 +175,7 @@ renderer as lesson text. Every reason follows these rules.
 In the templates, `{...}` is a value to insert. Bar and note numbers shown to
 the learner are 1-based; all indexes in payloads and answers are 0-based.
 
-## 2. The nine types
+## 2. The thirteen types
 
 ### 2.1 `multiple-choice`
 
@@ -939,6 +939,339 @@ Reasons:
 }
 ```
 
+### 2.10 `place-bar-lines`
+
+A passage is shown with its bar lines taken out: one long run of notes and
+rests under the time signature. The learner taps the gaps where the bar lines
+belong.
+
+```ts
+export interface PlaceBarLinesPayload {
+  /** The passage as it should be barred. Every bar full. 2 to 4 bars, 4 to 12 events in total. */
+  passage: Passage;
+}
+
+export interface PlaceBarLinesAnswer {
+  /** Bar lines the learner placed, as indexes into the flat event list: a bar line after event i. */
+  after: number[];
+}
+```
+
+Validation: 2 to 4 bars and 4 to 12 notes and rests in all; every bar is full
+(`rhythm.checkBarLength`); no ties, no `expression`, no repeat bar lines, no
+navigation `marker` and no written `beams` (moving a bar line would move or
+break them); every pitch is what the key signature gives, so that moving a bar
+line never changes which accidentals show; the key has a key signature of up
+to seven sharps or flats.
+
+Component: the passage is drawn with the bar lines removed, every note beamed
+by the engine's standard beaming for the bar the learner has made so far. The
+stave's gap toggles (`gaps`, docs/stave-interaction.md 15.2) sit after every
+event except the last. A tap puts a bar line there or takes it away (`aria-pressed`
+shows which). When the learner changes the lines, the passage is re-split at
+them and the beams are redrawn, so a gap's `{ bar, event }` identity refers to
+the passage as drawn; the component maps it back to the flat event number before
+it reports the answer. A status line says "N bar lines placed". Check is
+disabled until one line is placed. After the result, each bar the learner made
+is marked right or wrong by `rhythm.checkBarLength`.
+
+Marking: the events are split after the learner's lines into bars. With every
+bar complete (`rhythm.checkBarLength`) the answer is correct, even if the
+lines differ from the passage's own (two different splits that both fill every
+bar are both right). `score` is 1 or 0. An `after` index outside `0` to
+`events - 2`, or repeated, throws `TheoryError`.
+
+The reason is about the first bar, from the left, that does not hold a full
+bar, with the beats counted by `beats(..., time)`:
+
+| Wrong answer | Template | Example |
+| --- | --- | --- |
+| First wrong bar is too long | `{Bar} {n} holds {total}, but each {bar} holds {full}. It needs a bar line {diff} sooner.` | "[[bar\|Bar]] 2 holds 5 beats, but each [[bar\|bar]] holds 4 beats. It needs a bar line 1 beat sooner." |
+| First wrong bar is too short | `{Bar} {n} holds only {total}, but each {bar} holds {full}. Its bar line comes {diff} too soon.` | "[[bar\|Bar]] 1 holds only 3 beats, but each [[bar\|bar]] holds 4 beats. Its bar line comes 1 beat too soon." |
+
+`{Bar}` and `{bar}` are glossary links, so US learners read "measure".
+`{diff}` is the difference between the bar's length and a full bar.
+
+```json
+{
+  "passage": {
+    "clef": "treble",
+    "key": {
+      "tonic": {"letter": "C", "accidental": 0},
+      "mode": "major"
+    },
+    "time": {
+      "beats": 4,
+      "beatUnit": 4
+    },
+    "bars": [
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "F", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "G", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}}
+        ]
+      },
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "C", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "rest", "duration": {"value": "crotchet", "dots": 0}}
+        ]
+      },
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "F", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "G", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "A", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 0}}
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 2.11 `fix-beaming`
+
+One bar of a passage is beamed wrongly. The learner joins and splits the
+beams until the bar is beamed the way it is normally written.
+
+```ts
+export interface FixBeamingPayload {
+  /** One bar is beamed wrongly with `bars[barIndex].beams`; others are beamed normally. */
+  passage: Passage;
+  barIndex: number;
+}
+
+export interface FixBeamingAnswer {
+  /** The learner's beam groups for the bar, in the same form as Bar.beams. */
+  beams: number[][];
+}
+```
+
+Validation: every bar is full; `barIndex` points at a bar; only that bar has
+written `beams`, and it must have them; the bar has at least four notes of
+quaver value or shorter; the written beams are not already the standard
+beaming (there must be something to fix).
+
+Component: the passage in read mode, the bar at `barIndex` drawn with the
+learner's current beams (`Bar.beams`, docs/stave-interaction.md 15.1). The
+stave's gap toggles sit only between two neighbouring notes that can be beamed
+(quaver value or shorter, no rests); a gap is "on" when the two notes are
+joined. Each gap is labelled "Join note a and note a+1" and carries
+`aria-pressed`. A Reset button puts back the beams the question started with.
+Check commits.
+
+Marking: the learner's groups are turned into one join per gap and compared
+with `rhythm.beamGroups` for the bar. Equal is correct, score 1 or 0. A group
+of fewer than two notes, a non-consecutive group, a note in two groups or an
+event that cannot be beamed throws `TheoryError`.
+
+The reason is about the first gap from the left that differs:
+
+| Wrong answer | Template | Example |
+| --- | --- | --- |
+| Compound time (6/8, 9/8, 12/8) | `In {time} the {quavers} are grouped in threes, one group for each {dotted crotchet} beat.` | "In 6/8 the [[quaver\|quavers]] are grouped in threes, one group for each dotted [[crotchet\|crotchet]] beat." |
+| Joined across the middle of 4/4 | `A beam should not cross the middle of a 4/4 {bar}, between beats 2 and 3.` | "A beam should not cross the middle of a 4/4 [[bar\|bar]], between beats 2 and 3." |
+| Joined across a beat elsewhere | `Notes {a} and {b} are joined, but a beam should not cross from beat {x} into beat {y}. Beam each beat's {quavers} together.` | "Notes 2 and 3 are joined, but a beam should not cross from beat 1 into beat 2. Beam each beat's [[quaver\|quavers]] together." |
+| Not joined, same beat | `Notes {a} and {b} are in the same beat, so they are beamed together.` | "Notes 5 and 6 are in the same beat, so they are beamed together." |
+| Not joined, but the standard beams a run of beats that hold only quavers | `Beats {x} and {y} hold only {quavers}, so they are beamed together. Join notes {a} and {b}.` | "Beats 1 and 2 hold only [[quaver\|quavers]], so they are beamed together. Join notes 2 and 3." |
+
+The last row is an addition to the design: the engine beams a whole bar of
+plain quavers in 2/4 and 3/4, or each half of 4/4, as one group, so "same beat"
+would be false there. `a` and `b` are 1-based note numbers; a "note" is
+an event of the bar, counting rests.
+
+```json
+{
+  "passage": {
+    "clef": "treble",
+    "key": {
+      "tonic": {"letter": "C", "accidental": 0},
+      "mode": "major"
+    },
+    "time": {
+      "beats": 4,
+      "beatUnit": 4
+    },
+    "bars": [
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 0}}
+        ]
+      },
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "C", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "F", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "G", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "F", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}}
+        ],
+        "beams": [[0, 1, 2, 3, 4, 5, 6, 7]]
+      }
+    ]
+  },
+  "barIndex": 1
+}
+```
+
+### 2.12 `write-key-signature`
+
+The learner writes the key signature of a named key on an empty stave.
+
+```ts
+export interface WriteKeySignaturePayload {
+  clef: Clef;
+  /** Must have 1 to 7 sharps or flats (not C major or A minor). */
+  key: Key;
+  /** 'standard' (default): each sign must sit at its standard position. 'any-octave': the right letter at any position. */
+  placement?: 'standard' | 'any-octave';
+}
+
+export interface WriteKeySignatureAnswer {
+  /** Signs left to right. */
+  signs: { sign: 1 | -1; position: number }[];
+}
+```
+
+Validation: `key` has 1 to 7 sharps or flats (`pitch.keySignature`); `placement`
+defaults to `'standard'`. Key signatures are marked strictly: the owner's ruling
+is that a sign in the wrong octave is wrong in a lesson that has not said
+otherwise.
+
+Component: a Sharp / Flat palette (`aria-pressed`), the stave's key-signature
+edit mode (docs/stave-interaction.md 15.3: a tap at a stave position places the
+chosen sign next in order, or the Place sign here button does), and Undo, Clear
+and Check. The stave announces when the signature is full (seven signs).
+
+Marking: with `want = pitch.signatureAccidentals(pitch.keySignature(key))` and
+`pitch.keySignaturePositions(signature, clef)`, the checks run in this order
+and the first failure is the reason. `score` is 1 or 0. A sign other than 1 or
+-1, a position outside -1 to 9, a list longer than seven or a non-list throws
+`TheoryError`.
+
+| Check | Template | Example |
+| --- | --- | --- |
+| Wrong kind of sign | `{Key} has {sharps\|flats}, not {flats\|sharps}. Its key signature is {list}.` | "D major has [[sharp\|sharps]], not [[flat\|flats]]. Its key signature is F♯ and C♯." |
+| Wrong count | `That is {n} {sign}. {Key} has {m}: {list}.` | "That is 1 [[sharp\|sharp]]. D major has 2: F♯ and C♯." |
+| Right letters, wrong order | `Those are the right {signs}, but key signatures are written in a fixed order: {list}.` | "Those are the right [[sharp\|sharps]], but key signatures are written in a fixed order: F♯ and C♯." |
+| A wrong letter | `The {ordinal} {sign} is {where}, which is {name}. In {Key} it should be {right name}.` | "The 2nd [[sharp\|sharp]] is on the fourth line, which is D♯. In D major it should be C♯." |
+| Right letter, wrong octave (`standard` only) | `{Name} is right, but in a key signature it goes {where}, not {where}.` | "F♯ is right, but in a key signature it goes on the top line, not in the bottom space." |
+
+`{list}` is the signature's pitch classes in order, "F♯ and C♯" or "B♭, E♭ and
+A♭". With `placement: 'any-octave'` the last check is skipped.
+
+```json
+{
+  "clef": "treble",
+  "key": {"tonic": {"letter": "D", "accidental": 0}, "mode": "major"}
+}
+```
+
+### 2.13 `find-in-passage`
+
+The learner finds every note, rest or bar of a given kind in a passage and
+taps each one.
+
+```ts
+export interface FindInPassagePayload {
+  passage: Passage;
+  /** What the learner taps: single notes and rests, or whole bars. */
+  select: 'event' | 'bar';
+  /** Every correct place. 1 to 6. `event` is present exactly when `select` is 'event'. */
+  targets: { bar: number; event?: number }[];
+  /** What the learner is looking for, as a short noun phrase for the reason text: "dotted notes". */
+  feature: RichText;
+}
+
+export interface FindInPassageAnswer {
+  /** Places the learner chose, sorted by bar then event. */
+  chosen: { bar: number; event?: number }[];
+}
+```
+
+Validation: 1 to 6 targets; each points at a bar (and, with `select: 'event'`,
+an event) that exists; `event` is required exactly when `select` is
+`'event'`; no two targets are the same place; `feature` is 8 words at most.
+The passage follows the usual passage rules (section 1.3).
+
+Component: the passage in read mode. With `select: 'event'` a tap on a note or
+rest toggles it (`onEventTap`, drawn with the stave's `pressed` highlight,
+docs/stave-interaction.md 15.5); with `'bar'` a tap anywhere in a bar toggles
+that bar. A counter says "{n} of {targets} chosen" (the number of targets is
+shown, never which they are). Check is enabled once something is chosen. After
+the result, correct choices are marked right, wrong ones wrong, and targets the
+learner missed are outlined.
+
+Marking: correct when the chosen places are exactly the targets, `score` 1.
+Otherwise `score` is `right / max(targets, chosen)`, so extra choices cost as
+much as misses. A place outside the passage, a `bar` question with an `event`,
+an `event` question without one, or a place chosen twice throws `TheoryError`.
+
+Reasons ("bar list" is `bar 2`, `bars 1 and 3`, `bars 1, 2 and 4`, with `bar`
+as a glossary link):
+
+| Wrong answer | Template | Example |
+| --- | --- | --- |
+| None right | `None of those are {feature}. There {is\|are} {targets} in {bar list of the targets}.` | "None of those are dotted notes. There are 2 in [[bar\|bars]] 1 and 3." |
+| Some right, some targets missed | `{right} of your {n} choices {is\|are} right. Look again at {bar list of the missed targets}.` | "1 of your 2 choices is right. Look again at [[bar\|bar]] 3." |
+| All targets found, extras chosen | `{right} of your {n} choices {is\|are} right. The others are not.` | "2 of your 3 choices are right. The others are not." |
+
+Write `feature` so the sentence reads well after "is" or "are": "dotted
+notes", "the bar with no minim".
+
+```json
+{
+  "passage": {
+    "clef": "treble",
+    "key": {
+      "tonic": {"letter": "C", "accidental": 0},
+      "mode": "major"
+    },
+    "time": {
+      "beats": 4,
+      "beatUnit": 4
+    },
+    "bars": [
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 1}},
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}}
+        ]
+      },
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "C", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 0}}
+        ]
+      },
+      {
+        "events": [
+          {"kind": "note", "pitches": [{"letter": "F", "accidental": 0, "octave": 5}], "duration": {"value": "crotchet", "dots": 1}},
+          {"kind": "note", "pitches": [{"letter": "E", "accidental": 0, "octave": 5}], "duration": {"value": "quaver", "dots": 0}},
+          {"kind": "note", "pitches": [{"letter": "D", "accidental": 0, "octave": 5}], "duration": {"value": "minim", "dots": 0}}
+        ]
+      }
+    ]
+  },
+  "select": "event",
+  "targets": [
+    {"bar": 0, "event": 0},
+    {"bar": 2, "event": 0}
+  ],
+  "feature": "dotted notes"
+}
+```
+
+
 ## 3. Generators
 
 A generator turns `params` from a lesson file into a payload, using only the
@@ -1134,3 +1467,7 @@ minim, crotchet is never produced.
 | `by-ear` | listens, picks one option | `{ optionId }` | 0 or 1 | author, per wrong option |
 | `complete-bar` | adds notes or rests | `{ added }` | 0 or 1 | template |
 | `spot-mistake` | taps a bar or note | `{ bar, event? }` | 0 or 1 | template plus author's explanation |
+| `place-bar-lines` | taps the gaps for bar lines | `{ after }` | 0 or 1 | template |
+| `fix-beaming` | joins and splits beams | `{ beams }` | 0 or 1 | template |
+| `write-key-signature` | places sharps or flats | `{ signs }` | 0 or 1 | template |
+| `find-in-passage` | taps every note or bar of a kind | `{ chosen }` | fraction of choices | template |
