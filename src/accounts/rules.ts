@@ -123,7 +123,9 @@ export function formatRecoveryCode(code: string): string {
  * Returns null unless the result is exactly 12 symbols from the alphabet.
  */
 export function normaliseRecoveryCode(input: string): string | null {
-  const s = input.toUpperCase().replace(/[\s-]/g, '');
+  // Dashes of every kind are ignored: phones and Macs can turn a typed hyphen into a
+  // dash (U+2010 to U+2015) or a minus sign (U+2212). Spaces of every kind too.
+  const s = input.normalize('NFKC').toUpperCase().replace(/[\s\-\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]/g, '');
   if (s.length !== RECOVERY_LENGTH) return null;
   for (const ch of s) if (!RECOVERY_ALPHABET.includes(ch)) return null;
   return s;

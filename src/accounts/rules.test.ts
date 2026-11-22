@@ -92,6 +92,10 @@ describe('recovery codes', () => {
   });
   it('are refused when the wrong length or using a symbol outside the alphabet', () => {
     expect(normaliseRecoveryCode('')).toBeNull();
+    // Typographic dashes and minus signs a phone or Mac may substitute for a hyphen.
+    expect(normaliseRecoveryCode('AVEF\u20132NF6\u2014392R')).toBe('AVEF2NF6392R');
+    expect(normaliseRecoveryCode('avef\u2212 2nf6\u2011392r')).toBe('AVEF2NF6392R');
+    expect(normaliseRecoveryCode('\uFF21VEF-2NF6-392R')).toBe('AVEF2NF6392R');
     expect(normaliseRecoveryCode('ABCD-EFGH-JKM')).toBeNull();
     expect(normaliseRecoveryCode('ABCD-EFGH-JKMNP')).toBeNull();
     expect(normaliseRecoveryCode('ABCD-EFGH-JKM0')).toBeNull();

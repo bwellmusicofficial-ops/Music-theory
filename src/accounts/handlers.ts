@@ -186,6 +186,7 @@ export function handleRecover(req: Request, load: LoadDeps): Promise<Response> {
 
     // A malformed code is counted and answered exactly like a wrong one.
     const code = normaliseRecoveryCode(typed);
+    if (!code) console.warn(`[accounts] recover refused: code is not 12 valid symbols (typed ${typed.length} characters)`);
     const r = code ? await backend.recover({ codeName, recoveryCode: code, newPassword }, jar) : ({ ok: false } as const);
     if (!r.ok) {
       const after = [

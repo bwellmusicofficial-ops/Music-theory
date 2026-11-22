@@ -131,12 +131,23 @@ export class SupabaseAccountBackend implements AccountBackend {
   async recover(input: { codeName: string; recoveryCode: string; newPassword: string }, jar: CookieJar): Promise<RecoverResult> {
     const { admin } = this.deps;
     const profile = await this.profileByName(input.codeName);
-    if (!profile) return { ok: false };
+    // Reasons are logged on the server only (never the code name or the code), so a refusal can be diagnosed.
+    if (!profile) {
+      console.warn('[accounts] recover refused: no account with that code name');
+      return { ok: false };
+    }
     const secret = must<{ recovery_code_hash: string } | null>(
       'account_secrets lookup',
       await admin.from('account_secrets').select('recovery_code_hash').eq('user_id', profile.user_id).maybeSingle(),
     );
-    if (!secret || !(await bcrypt.compare(input.recoveryCode, secret.recovery_code_hash))) return { ok: false };
+    if (!secret) {
+      console.warn('[accounts] recover refused: account has no stored recovery code');
+      return { ok: false };
+    }
+    if (!(await bcrypt.compare(input.recoveryCode, secret.recovery_code_hash))) {
+      console.warn(`[accounts] recover refused: code does not match the stored hash (${secret.recovery_code_hash.slice(0, 4)})`);
+      return { ok: false };
+    }
 
     const email = await this.syntheticEmail(profile.user_id);
     if (!email) throw new Error('recover: user has no address');
