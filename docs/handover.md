@@ -102,7 +102,7 @@ feedback while tapping, has been built.
 
 | Task | State |
 | --- | --- |
-| P1-01 Database schema and security | Designed (`docs/accounts-and-data.md`) and written (`supabase/migrations/0001_init.sql`) with 206 tests against an in-process Postgres (`src/db`). NOT applied to any real database |
+| P1-01 Database schema and security | Designed (`docs/accounts-and-data.md`), written (`supabase/migrations/0001_init.sql`, 206 tests in `src/db`) and APPLIED to the real project on 22 Nov 2026 by the owner through the SQL Editor, with the starter blocked-names seed. Checked: all eight tables present with row level security on |
 | P1-02 Sign-in | NOT STARTED. Blocked on a Supabase project |
 | P1-03 Progress saved to accounts | NOT STARTED. Blocked. The `ProgressSink` interface exists; only a localStorage implementation is built |
 | P1-04 Grade 1 question generators | Done: 20 generators, documented in `docs/generators-grade-1.md` |
