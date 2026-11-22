@@ -14,9 +14,13 @@
     "e2e:sweep": "playwright test"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.2",
+    "bcryptjs": "^3.0.3",
     "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "server-only": "^0.0.1",
     "tone": "^15.1.22",
     "vexflow": "^5.0.0",
     "zod": "^4.6.7"

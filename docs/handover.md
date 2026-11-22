@@ -103,8 +103,8 @@ feedback while tapping, has been built.
 | Task | State |
 | --- | --- |
 | P1-01 Database schema and security | Designed (`docs/accounts-and-data.md`), written (`supabase/migrations/0001_init.sql`, 206 tests in `src/db`) and APPLIED to the real project on 22 Nov 2026 by the owner through the SQL Editor, with the starter blocked-names seed. Checked: all eight tables present with row level security on |
-| P1-02 Sign-in | NOT STARTED. Blocked on a Supabase project |
-| P1-03 Progress saved to accounts | NOT STARTED. Blocked. The `ProgressSink` interface exists; only a localStorage implementation is built |
+| P1-02 Sign-in | BUILT (22 Nov 2026), switched OFF. Code-name accounts: sign-up with recovery code, sign-in, recovery, sign-out, rate limiting (needs `0002_auth_throttle.sql` applied). Behind `NEXT_PUBLIC_ACCOUNTS_ENABLED=1`; tested on an in-memory backend and on the real SQL in PGlite, **not yet against the real Supabase**. See `docs/accounts-build.md` for how to enable it on Preview. Adult email accounts not built |
+| P1-03 Progress saved to accounts | NOT STARTED. Unblocked once P1-02 is tested on Preview. The `ProgressSink` interface exists; only a localStorage implementation is built |
 | P1-04 Grade 1 question generators | Done: 20 generators, documented in `docs/generators-grade-1.md` |
 | P1-05 Dashboard | Done (`/`) |
 | P1-06 Course map and unit pages | Done (`/learn`, `/learn/[grade]/[unit]`) |
@@ -143,11 +143,12 @@ docs/
   generators-grade-1.md       every generator, with a quick-reference table for lesson authors
   lesson-authoring-guide.md   how to write a lesson; skill ids; lesson lists; checklist
   accounts-and-data.md        account and data design (the specification for the database)
+  accounts-build.md           how code-name accounts are built, the switch, the fake backend, testing on Preview
   accessibility.md            what was tested, what remains, manual screen-reader script
   briefs/lesson-author.md     the brief given to every lesson-writing agent (reuse it)
 e2e/                          Playwright tests; e2e/sweep is the exhaustive per-question run
 scripts/generate-skills.mjs   builds src/lesson/skills.ts from the authoring guide tables
-supabase/                     migration, seed list of blocked names, README (nothing applied)
+supabase/                     migrations 0001 (applied) and 0002 (to apply), seed list of blocked names, README
 src/
   engine/                     pure music theory: types.ts, api.ts (contracts), pitch/, rhythm/, rng.ts
   audio/                      Tone.js wrapper: unlock on gesture, piano voice, playback, metronome
@@ -170,7 +171,8 @@ src/
   games/<game>/               note-rush, tap-it, key-hunt, term-blitz
   progress-view/              pure functions deriving dashboard and course-map data
   settings/                   learner settings store (theme, sound, terminology, motion, latency)
-  db/                         test harness and tests for the SQL migration (PGlite)
+  db/                         test harness and tests for the SQL migrations (PGlite)
+  accounts/                   code-name accounts (P1-02): rules, backends (Supabase, memory), route handlers, forms
   app/(site)/                 pages with the site navigation
   app/lessons/[id]/           lesson pages (own header, no site nav)
   app/(dev)/                  test-only harness routes, absent from production builds
@@ -301,6 +303,15 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 18. **Dependency audit warnings** from `npm ci` have not been looked at.
 
 **Before real users sign up**
+
+0. **Apply `supabase/migrations/0002_auth_throttle.sql`** in the SQL Editor (see "Apply 0002" in
+   `supabase/README.md`), then **turn accounts on in Vercel's Preview environment only** to test:
+   `NEXT_PUBLIC_ACCOUNTS_ENABLED=1` (read at build time, so redeploy the preview). Steps and a test
+   checklist are in `docs/accounts-build.md`. Never set it on Production before item 24 is done. Open
+   points from P1-02: the real Supabase has not been exercised (error codes, `@supabase/ssr` cookies,
+   `signOut(..., 'others')`); the session cookie holds the synthetic address (httpOnly; see the doc); the
+   per-IP failure limit is 20, not 5, because schools share addresses; privacy page must mention the
+   session cookie.
 19. ~~Supabase's public sign-up must be switched off~~ **Done 22 Nov 2026** by
     the owner (Authentication, Sign In / Providers). All accounts are created by
     our own server routes with the secret key.
@@ -357,11 +368,10 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 
 ### When Supabase exists
 
-1. Apply `supabase/migrations/0001_init.sql` and the blocked-names seed; follow
-   `supabase/README.md`; switch off public sign-up.
-2. P1-02: server routes for code-name sign-up, sign-in and recovery (rate
-   limited, service role on the server only), adult email sign-in, the sign-up
-   screens with generated code-name suggestions. Opus to review; Sonnet to build.
+1. ~~Apply `supabase/migrations/0001_init.sql` and the blocked-names seed; switch off public sign-up.~~ Done
+   22 Nov. Still to apply: `0002_auth_throttle.sql`.
+2. P1-02: DONE for code names (see section 4 and `docs/accounts-build.md`); still to do: adult email
+   sign-in and the marketing box, after the owner has tested code names on Preview.
 3. P1-03: a Supabase `ProgressSink` with an offline queue, and guest progress
    merged on sign-up through `merge_guest_progress`.
 4. P1-16: export and delete in Settings; privacy-friendly analytics.

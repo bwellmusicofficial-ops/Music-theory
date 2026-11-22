@@ -1,0 +1,28 @@
+// After `npm run build` WITHOUT NEXT_PUBLIC_ACCOUNTS_ENABLED: proves no account UI or account route is in the build.
+// Usage: node scripts/check-no-account-ui.mjs   (exits 1 and lists the files that contain account code)
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+
+const MARKERS = ['/api/account/', "Don't use your real name", 'Make my account', "I've written it down", 'Signed in as', 'recovery code'];
+const hits = [];
+function walk(dir) {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    const st = statSync(p);
+    if (st.isDirectory()) walk(p);
+    else if (/\.(js|html|rsc|json|txt|map)$/.test(name) && !name.endsWith('.nft.json')) {
+      const text = readFileSync(p, 'utf8');
+      for (const m of MARKERS) if (text.includes(m)) hits.push(`${p}: ${m}`);
+    }
+  }
+}
+for (const d of ['.next/static', '.next/server/app', '.next/server/chunks']) {
+  try { walk(d); } catch { /* directory absent */ }
+}
+const routes = readFileSync('.next/app-path-routes-manifest.json', 'utf8');
+if (/\/account|\/api\/account/.test(routes)) hits.push('.next/app-path-routes-manifest.json lists an account route');
+if (hits.length) {
+  console.error('Account code found in a build made without the switch:\n' + hits.join('\n'));
+  process.exit(1);
+}
+console.log('OK: no account UI or routes in this build.');

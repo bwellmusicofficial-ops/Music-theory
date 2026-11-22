@@ -15,6 +15,7 @@ import { PGlite } from '@electric-sql/pglite';
 
 const ROOT = join(__dirname, '..', '..');
 export const MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0001_init.sql');
+export const THROTTLE_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0002_auth_throttle.sql');
 export const SEED_PATH = join(ROOT, 'supabase', 'seed', 'blocked_names.sql');
 
 /** What Supabase gives the migration before it runs (roles, auth schema, default privileges). */
@@ -123,11 +124,12 @@ function makeSession(db: PGlite): Session {
 }
 
 /** Boot PGlite, build the Supabase-shaped environment, apply the migration file as written. */
-export async function createHarness(options: { migrationSql?: string; seed?: boolean } = {}): Promise<Harness> {
+export async function createHarness(options: { migrationSql?: string; seed?: boolean; throttle?: boolean } = {}): Promise<Harness> {
   const db = new PGlite();
   await db.waitReady;
   await db.exec(SUPABASE_SHAPE);
   await db.exec(options.migrationSql ?? readFileSync(MIGRATION_PATH, 'utf8'));
+  if (options.throttle) await db.exec(readFileSync(THROTTLE_MIGRATION_PATH, 'utf8'));
   if (options.seed) await db.exec(readFileSync(SEED_PATH, 'utf8'));
 
   // One connection: serialise role switches so callbacks never interleave.
