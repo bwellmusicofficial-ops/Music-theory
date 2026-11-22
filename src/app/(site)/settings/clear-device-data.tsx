@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button, Card } from '@/components/ui';
+import { ClearDataAccountNote } from '@/sync/mount';
 
 /** Every key this site writes to browser storage starts with this. */
 export const STORAGE_PREFIX = 'mtn:';
@@ -45,6 +46,7 @@ export function ClearDeviceData() {
           Your progress, answers, best scores, mock test results and settings are saved only in this browser on this
           device. Clearing them cannot be undone.
         </p>
+        <ClearDataAccountNote />
       </div>
       <div className="flex flex-wrap gap-3" aria-live="polite">
         {stage === 'idle' ? (

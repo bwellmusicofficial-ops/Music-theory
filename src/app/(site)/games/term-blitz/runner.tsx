@@ -5,6 +5,7 @@ import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import { BEST_SCORES_KEY, parseBestScores, TermBlitz, type GameResult } from '@/games/term-blitz';
 import type { GlossaryEntry } from '@/lesson/schema';
 import { useSettings } from '@/settings';
+import { syncGameBest } from '@/sync';
 
 const listeners = new Set<() => void>();
 
@@ -41,6 +42,7 @@ export function TermBlitzRunner({ entries }: { entries: GlossaryEntry[] }) {
     } catch {
       // Storage unavailable: the best score lasts for this page only.
     }
+    syncGameBest('term-blitz', deckId, result.score);
     for (const listener of listeners) listener();
   }, []);
 

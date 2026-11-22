@@ -34,7 +34,10 @@ function Entry({ entry, sink }: { entry: MockListEntry; sink: MockResultSink }) 
           <p className="text-sm" data-testid={`best-${entry.id}`}>
             {best ? (
               <>
-                Best: <strong>{marks(best.score * best.total)} out of {best.total} ({percent(best.score)})</strong>{' '}
+                Best:{' '}
+                <strong>
+                  {best.total > 0 ? `${marks(best.score * best.total)} out of ${best.total} (${percent(best.score)})` : percent(best.score)}
+                </strong>{' '}
                 <Badge tone={best.band === 'not-yet' ? 'warning' : 'success'}>{BAND_LABEL[best.band]}</Badge>{' '}
                 <span className="text-muted">{shortDate(best.at)}</span>
               </>

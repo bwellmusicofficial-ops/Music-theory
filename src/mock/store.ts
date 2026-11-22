@@ -28,6 +28,7 @@ export const mockAttemptSchema = z.object({
   /** Marks gained / marks available, 0..1. */
   score: z.number().min(0).max(1),
   correct: z.number().min(0),
+  /** Marks available. 0 means unknown: a result brought over from the account, which keeps only the score. */
   total: z.number().min(0),
   band: z.enum(['distinction', 'merit', 'pass', 'not-yet']),
   timedOut: z.boolean(),

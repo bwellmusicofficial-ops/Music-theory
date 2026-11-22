@@ -91,6 +91,7 @@ export interface Bests {
 /** Personal bests for the games and the mock tests, read after mount. */
 export function useBests(games: readonly GameInfo[], mockSink?: MockResultSink): Bests {
   const [state, setState] = useState<Bests>({ loaded: false, games: {}, mock: null });
+  const tick = useReloadTick();
   useEffect(() => {
     let cancelled = false;
     const found: Record<string, number | undefined> = {};
@@ -107,6 +108,6 @@ export function useBests(games: readonly GameInfo[], mockSink?: MockResultSink):
     return () => {
       cancelled = true;
     };
-  }, [games, mockSink]);
+  }, [games, mockSink, tick]);
   return state;
 }

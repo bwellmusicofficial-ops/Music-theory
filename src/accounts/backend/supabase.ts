@@ -1,6 +1,8 @@
 import 'server-only';
 import bcrypt from 'bcryptjs';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseProgressStore } from '../progress/supabase';
+import type { ProgressStore } from '../progress/types';
 import { formatRecoveryCode, generateRecoveryCode, normaliseCodeName } from '../rules';
 import type {
   AccountBackend, AccountUser, AgeBand, CookieJar, RecoverResult, SignInResult, SignUpResult, Throttle,
@@ -191,6 +193,14 @@ export class SupabaseAccountBackend implements AccountBackend {
           .map((c) => ({ name: c.name, value: '', options: { maxAge: 0, path: '/' } })),
       );
     }
+  }
+
+  async progress(jar: CookieJar): Promise<ProgressStore | null> {
+    // The user's own session client (publishable key + their cookie): row level security does the rest.
+    const client = this.deps.sessionClient(jar);
+    const r = await client.auth.getUser();
+    if (r.error || !r.data.user) return null;
+    return new SupabaseProgressStore(client, r.data.user.id);
   }
 
   async currentUser(jar: CookieJar): Promise<AccountUser | null> {

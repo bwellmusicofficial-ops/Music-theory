@@ -2,6 +2,7 @@
 
 import { useEffect, useSyncExternalStore } from 'react';
 import type { AccountUser } from '../backend/types';
+import { getEngine } from '@/sync/engine';
 import { accountApi } from './api';
 
 /**
@@ -10,7 +11,8 @@ import { accountApi } from './api';
  */
 export type AccountState =
   | { status: 'unknown' }
-  | { status: 'signed-out' }
+  /** `unreachable`: the check itself failed (offline), so nobody has said the person is signed out. */
+  | { status: 'signed-out'; unreachable?: boolean }
   | { status: 'signed-in'; user: AccountUser };
 
 const UNKNOWN: AccountState = { status: 'unknown' };
@@ -34,7 +36,11 @@ export const accountStore = {
     // Do not overwrite an answer that arrived while we waited (a sign-in finishing first).
     if (state.status !== 'unknown') return;
     // A failed check (offline, 404) reads as signed out: the page still works.
-    set(r.ok && r.data.user ? { status: 'signed-in', user: r.data.user } : { status: 'signed-out' });
+    set(
+      r.ok && r.data.user
+        ? { status: 'signed-in', user: r.data.user }
+        : { status: 'signed-out', ...(r.ok ? {} : { unreachable: true }) },
+    );
   },
   /** For tests. */
   reset() {
@@ -58,9 +64,20 @@ export function useAccount(): AccountState {
   return s;
 }
 
-/** Signs out on the server, then forgets locally. Returns false when the server could not be reached. */
-export async function signOutNow(): Promise<boolean> {
+export type SignOutResult = 'ok' | 'failed' | 'unsaved';
+
+/**
+ * Signs out. First tries to send any progress still waiting to be saved: if some cannot be sent (offline), it
+ * stops and says so (`unsaved`), because signing out removes the account's progress from this device. Pass
+ * `force` to sign out anyway. On success the server session is ended, the account's cached progress is wiped
+ * from this device (settings stay), and the state becomes signed out. `failed`: the server could not be reached.
+ */
+export async function signOutNow(options: { force?: boolean } = {}): Promise<SignOutResult> {
+  const engine = getEngine();
+  if (!options.force && (await engine.prepareSignOut()) > 0) return 'unsaved';
   const r = await accountApi.signOut();
-  if (r.ok) accountStore.setSignedOut();
-  return r.ok;
+  if (!r.ok) return 'failed';
+  engine.afterSignOut();
+  accountStore.setSignedOut();
+  return 'ok';
 }

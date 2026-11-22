@@ -104,7 +104,7 @@ feedback while tapping, has been built.
 | --- | --- |
 | P1-01 Database schema and security | Designed (`docs/accounts-and-data.md`), written (`supabase/migrations/0001_init.sql`, 206 tests in `src/db`) and APPLIED to the real project on 22 Nov 2026 by the owner through the SQL Editor, with the starter blocked-names seed. Checked: all eight tables present with row level security on |
 | P1-02 Sign-in | BUILT (22 Nov 2026), switched OFF. Code-name accounts: sign-up with recovery code, sign-in, recovery, sign-out, rate limiting (needs `0002_auth_throttle.sql` applied). Behind `NEXT_PUBLIC_ACCOUNTS_ENABLED=1`; tested on an in-memory backend and on the real SQL in PGlite, **not yet against the real Supabase**. See `docs/accounts-build.md` for how to enable it on Preview. Adult email accounts not built |
-| P1-03 Progress saved to accounts | NOT STARTED. Unblocked once P1-02 is tested on Preview. The `ProgressSink` interface exists; only a localStorage implementation is built |
+| P1-03 Progress saved to accounts | BUILT (22 Nov 2026), switched OFF with accounts. Signed in: progress saves to the account and follows the learner. Offline-first (localStorage plus a persistent outbox with retry), idempotent, never lowers a best score or a completed lesson; guest progress is offered once ("Add this device's progress to your account?", merged only on Add, set aside on Not now); signing out wipes the account's cache from the device and keeps settings; Settings shows "Saved to your account" / "Waiting to save, will retry". Uses existing tables, **no new migration**. Tested on the memory backend and on the real SQL in PGlite as the signed-in user, **not yet on the real Supabase**. **Known gaps:** attempts at four question types (`place-bar-lines`, `fix-beaming`, `write-key-signature`, `find-in-passage`) are not in 0001's `question_type` enum, so they stay on the device until a migration adds them (owner decision); mock results sync as score and grade only. Owner's Preview test (two devices, offline, guest merge, shared device): `docs/accounts-build.md`, "How the owner tests P1-03 on Preview" |
 | P1-04 Grade 1 question generators | Done: 20 generators, documented in `docs/generators-grade-1.md` |
 | P1-05 Dashboard | Done (`/`) |
 | P1-06 Course map and unit pages | Done (`/learn`, `/learn/[grade]/[unit]`) |
@@ -172,7 +172,9 @@ src/
   progress-view/              pure functions deriving dashboard and course-map data
   settings/                   learner settings store (theme, sound, terminology, motion, latency)
   db/                         test harness and tests for the SQL migrations (PGlite)
-  accounts/                   code-name accounts (P1-02): rules, backends (Supabase, memory), route handlers, forms
+  accounts/                   code-name accounts (P1-02): rules, backends (Supabase, memory), route handlers, forms;
+                              progress/ (P1-03): the server-side progress stores and their routes' handlers
+  sync/                       saving progress to an account (P1-03): outbox, sender, merge rules, device cache, engine, prompt
   app/(site)/                 pages with the site navigation
   app/lessons/[id]/           lesson pages (own header, no site nav)
   app/(dev)/                  test-only harness routes, absent from production builds
@@ -372,8 +374,8 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    22 Nov. Still to apply: `0002_auth_throttle.sql`.
 2. P1-02: DONE for code names (see section 4 and `docs/accounts-build.md`); still to do: adult email
    sign-in and the marketing box, after the owner has tested code names on Preview.
-3. P1-03: a Supabase `ProgressSink` with an offline queue, and guest progress
-   merged on sign-up through `merge_guest_progress`.
+3. P1-03: DONE (see section 4 and `docs/accounts-build.md`); still to do: the owner's Preview test, and a
+   migration `0003` adding the four missing `question_type` values if attempts at those types should be stored.
 4. P1-16: export and delete in Settings; privacy-friendly analytics.
 5. Run the concurrency test for code names on the real database.
 6. P1-17: security review (Opus), performance check, release.

@@ -11,6 +11,7 @@ import type { GlossaryEntry } from '@/lesson/schema';
 import '@/lesson/setup';
 import { buildPaper, createMockTest, type Clock, type LessonRef, type MockTest, systemClock } from '../engine';
 import { configQuestionCount, type MockConfig } from '../schema';
+import { withAccountSyncMock } from '@/sync';
 import { createLocalMockResultSink, toAttempt, type MockResultSink } from '../store';
 import { IntroScreen } from './intro-screen';
 import { QuestionPanels } from './question-panels';
@@ -49,7 +50,7 @@ export function MockRunner(props: MockRunnerProps) {
     clock = systemClock,
     makeSeed = () => Math.floor(clock.now() % 2_147_483_647),
   } = props;
-  const [defaultSink] = useState(() => createLocalMockResultSink());
+  const [defaultSink] = useState(() => withAccountSyncMock(createLocalMockResultSink()));
   const sink = props.sink ?? defaultSink;
   const [test, setTest] = useState<MockTest | null>(null);
   const [runs, setRuns] = useState(0);

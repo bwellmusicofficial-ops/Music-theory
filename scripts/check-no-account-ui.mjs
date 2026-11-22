@@ -3,7 +3,11 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-const MARKERS = ['/api/account/', "Don't use your real name", 'Make my account', "I've written it down", 'Signed in as', 'recovery code'];
+const MARKERS = [
+  '/api/account/', "Don't use your real name", 'Make my account', "I've written it down", 'Signed in as', 'recovery code',
+  // P1-03: saving progress to an account (the sync engine, its storage keys and its words).
+  'Saved to your account', 'Waiting to save', 'also in your account', "Add this device's progress", 'mtn:v1:outbox', 'mtn:v1:sync-owner', 'mtn:v1:guest-stash',
+];
 const hits = [];
 function walk(dir) {
   for (const name of readdirSync(dir)) {

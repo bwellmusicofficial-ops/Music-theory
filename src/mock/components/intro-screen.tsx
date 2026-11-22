@@ -77,7 +77,7 @@ export function IntroScreen({ config, untimed, best, questionCount, onStart }: I
         <p className="text-fg-secondary" data-testid="mock-best">
           Your best so far:{' '}
           <strong className="text-fg">
-            {marks(best.score * best.total)} out of {best.total} ({percent(best.score)})
+            {best.total > 0 ? `${marks(best.score * best.total)} out of ${best.total} (${percent(best.score)})` : percent(best.score)}
           </strong>{' '}
           <Badge tone={best.band === 'not-yet' ? 'warning' : 'success'}>{BAND_LABEL[best.band]}</Badge>{' '}
           <span className="text-sm">on {shortDate(best.at)}</span>

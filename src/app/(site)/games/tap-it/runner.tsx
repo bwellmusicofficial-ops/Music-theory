@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import { TapIt, type GameResult } from '@/games/tap-it';
 import { useSettings } from '@/settings';
+import { syncGameBest } from '@/sync';
 
 /** One entry per round length: `{ "60": 340, "120": 910 }`. */
 export const BEST_SCORE_KEY = 'mtn:v1:tap-it-best';
@@ -53,6 +54,7 @@ export function TapItRunner() {
     } catch {
       // Storage unavailable: the best score lasts for this page only.
     }
+    syncGameBest('tap-it', variant, result.score);
     for (const listener of listeners) listener();
   }, []);
 

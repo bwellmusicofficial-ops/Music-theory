@@ -332,12 +332,13 @@ describe('header and settings state', () => {
     expect(await fake.backend.currentUser(fake.jar)).toBeNull();
   });
 
-  it('Settings shows the same state, and does not pretend progress is saved to the account', async () => {
+  it('Settings shows the same state, and says plainly where progress is kept', async () => {
     const user = userEvent.setup();
     await fake.backend.signUp({ codeName: 'SwiftCello42', password: PASSWORD, ageBand: 'under_18' }, fake.jar);
     render(<AccountSettingsInner />);
     expect(await screen.findByTestId('account-code-name')).toHaveTextContent('SwiftCello42');
-    expect(screen.getByText(/still saved on this device only/)).toBeInTheDocument();
+    expect(screen.getByTestId('sync-status')).toHaveTextContent(/Getting ready to save|Saved to your account/);
+    expect(screen.getByText(/Signing out takes your account's progress off this device/)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Sign out' }));
     expect(await screen.findByRole('link', { name: 'Make an account' })).toHaveAttribute('href', '/account/sign-up');
   });

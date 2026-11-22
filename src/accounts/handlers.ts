@@ -24,14 +24,14 @@ export type LoadDeps = () => Promise<Deps>;
 const MAX_BODY_CHARS = 4096;
 const MAX_FIELD_CHARS = 200;
 
-function json(body: unknown, status = 200, extra: Record<string, string> = {}): Response {
+export function json(body: unknown, status = 200, extra: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(body), {
     status,
     headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...extra },
   });
 }
 
-const fail = (status: number, error: string, extra: Record<string, unknown> = {}) => json({ error, ...extra }, status);
+export const fail = (status: number, error: string, extra: Record<string, unknown> = {}) => json({ error, ...extra }, status);
 
 function rateLimited(seconds: number): Response {
   return json({ error: 'rate-limited', retryAfterSeconds: seconds }, 429, { 'retry-after': String(seconds) });
@@ -52,7 +52,7 @@ const nameKey = (kind: string, codeName: string) => `${kind}:name:${normaliseCod
 const ipKey = (kind: string, req: Request) => `${kind}:ip:${clientKey(req)}`;
 
 /** Cross-site requests are refused: a browser always sends Origin on a cross-site POST. */
-function sameSite(req: Request): boolean {
+export function sameSite(req: Request): boolean {
   const origin = req.headers.get('origin');
   if (!origin) return true;
   let host: string;
@@ -65,13 +65,13 @@ function sameSite(req: Request): boolean {
   return allowed.includes(host);
 }
 
-type Body = Record<string, unknown>;
+export type Body = Record<string, unknown>;
 
 /** Reads a small JSON object body. Returns a Response when the request is not acceptable. */
-async function readBody(req: Request): Promise<Body | Response> {
+export async function readBody(req: Request, maxChars: number = MAX_BODY_CHARS): Promise<Body | Response> {
   if (!(req.headers.get('content-type') ?? '').toLowerCase().startsWith('application/json')) return fail(415, 'bad-request');
   const text = await req.text();
-  if (text.length > MAX_BODY_CHARS) return fail(413, 'bad-request');
+  if (text.length > maxChars) return fail(413, 'bad-request');
   try {
     const v: unknown = JSON.parse(text);
     return v && typeof v === 'object' && !Array.isArray(v) ? (v as Body) : fail(400, 'bad-request');
