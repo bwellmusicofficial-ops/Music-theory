@@ -51,7 +51,9 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 300_000,
-    env: { NEXT_PUBLIC_ENABLE_DEV_ROUTES: '1' },
+    // Accounts (P1-02) are switched on, with the in-memory backend, for the test server ONLY.
+    // The memory backend is refused unless NEXT_PUBLIC_ENABLE_DEV_ROUTES=1 (see src/accounts/backend/index.ts).
+    env: { NEXT_PUBLIC_ENABLE_DEV_ROUTES: '1', NEXT_PUBLIC_ACCOUNTS_ENABLED: '1', ACCOUNTS_FAKE_BACKEND: '1' },
     stdout: 'ignore',
     stderr: 'pipe',
   },

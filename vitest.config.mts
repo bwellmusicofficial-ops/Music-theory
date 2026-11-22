@@ -7,6 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // `server-only` throws outside Next's server build; tests run server modules directly.
+      'server-only': fileURLToPath(new URL('./src/test/server-only-stub.ts', import.meta.url)),
     },
   },
   test: {

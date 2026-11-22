@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { ComponentType, SVGProps } from 'react';
+import { AccountStatus } from '@/accounts/ui/account-status';
 import { cn } from '@/components/ui/cn';
 import { IconGames, IconLearn, IconLibrary, IconMock, IconSettings } from './icons';
 import { isCurrent, isImmersive, NAV_ITEMS, type NavItem } from './nav-items';
@@ -24,7 +25,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   return (
     <header className="sticky top-0 z-30 border-b border-border-subtle bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-4 px-4">
+      <div className="mx-auto flex min-h-14 w-full max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-1">
         <Link
           href="/"
           aria-current={pathname === '/' ? 'page' : undefined}
@@ -38,26 +39,29 @@ export function SiteHeader() {
           </span>
           Music Theory Now
         </Link>
-        <nav aria-label="Site" className="hidden items-center gap-1 md:flex">
-          {NAV_ITEMS.map((item) => {
-            const current = isCurrent(pathname, item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={current ? 'page' : undefined}
-                className={cn(
-                  'inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-4 font-semibold',
-                  current
-                    ? 'bg-accent text-on-accent'
-                    : 'text-fg-secondary hover:bg-surface-raised hover:text-fg',
-                )}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+        <div className="ml-auto flex min-w-0 items-center gap-2">
+          <nav aria-label="Site" className="hidden items-center gap-1 md:flex">
+            {NAV_ITEMS.map((item) => {
+              const current = isCurrent(pathname, item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={current ? 'page' : undefined}
+                  className={cn(
+                    'inline-flex min-h-11 items-center whitespace-nowrap rounded-full px-4 font-semibold',
+                    current
+                      ? 'bg-accent text-on-accent'
+                      : 'text-fg-secondary hover:bg-surface-raised hover:text-fg',
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+          <AccountStatus />
+        </div>
       </div>
     </header>
   );

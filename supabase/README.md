@@ -5,18 +5,17 @@
 (enabled and forced), triggers, and the six functions. `seed/blocked_names.sql`
 is a **starter** blocked-name list for the product owner to review and extend.
 
-Nothing in this folder has been applied to a real project. The rules are proved
-by the tests in `src/db/` (`npm test`), which run the migration unmodified in an
-in-process Postgres (PGlite).
+The rules are proved by the tests in `src/db/` (`npm test`), which run the
+migrations unmodified in an in-process Postgres (PGlite). 0001 and the blocked-name seed
+were applied to the real project on 22 Nov 2026; **0002 (below) still has to be applied.**
 
 ## Not part of this task
 
-The server routes for **code-name sign-up, sign-in and recovery are NOT
-implemented here.** They are Next.js route handlers using the service role (see
-"Sign-in mechanics" in the design) and belong to a later task. This folder only
-provides what they will call: `code_name_available()`, the `profiles` and
-`account_secrets` tables, and the sign-up trigger described below. There is also
-no client code, no environment file and no key in this repository.
+The server routes for code-name sign-up, sign-in and recovery live in
+`src/app/api/account/` and `src/accounts/` (P1-02, see `docs/accounts-build.md`). This folder
+provides what they call: `code_name_available()`, the `profiles` and `account_secrets` tables,
+the sign-up trigger described below, and (0002) the rate-limit counters. No key is in this
+repository; `.env.example` lists the variable names.
 
 ## Applying the migration to a new Supabase project
 
@@ -50,6 +49,22 @@ sql_paths` in `supabase/config.toml` if you want it loaded on reset.
 
 Both files are safe to run twice. Later changes go in new numbered migrations;
 re-running 0001 never alters the shape of an existing table.
+
+## Apply 0002 (sign-in rate limiting)
+
+`migrations/0002_auth_throttle.sql` adds one table, `auth_throttle`, and three functions
+(`auth_throttle_check`, `auth_throttle_fail`, `auth_throttle_clear`) that the sign-in, recovery and
+sign-up routes use to slow down password guessing. They work across serverless instances because the
+counters are in the database. Only the server's secret key can touch them.
+
+1. Open the project, SQL Editor, New query.
+2. Paste the whole of `supabase/migrations/0002_auth_throttle.sql` and run it. It needs 0001 to be applied
+   first and must run as `postgres` (the SQL Editor does); it stops with a clear message otherwise.
+3. Check: Table Editor shows `auth_throttle` with the lock icon (row level security on, no policies).
+   Safe to run twice. It stores only a key (a hash of the IP address, or the normalised code name), a count and
+   times; rows idle for a day are deleted.
+
+Until 0002 is applied the account routes answer "server error" (they fail closed rather than run without a limit).
 
 ## What the migration does that you might not expect
 
