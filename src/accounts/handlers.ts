@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { createHmac } from 'node:crypto';
 import { accountsEnabled } from './enabled';
 import type { AccountBackend, AgeBand, CookieJar } from './backend/types';
 import {
@@ -37,10 +37,15 @@ function rateLimited(seconds: number): Response {
   return json({ error: 'rate-limited', retryAfterSeconds: seconds }, 429, { 'retry-after': String(seconds) });
 }
 
-/** The address as the platform reports it. Hashed before it is used as a key, so no address is stored. */
+/**
+ * The address as the platform reports it, keyed-hashed before it is used, so no address is stored.
+ * A plain hash of an IPv4 address can be reversed by trying all four billion; keying it with the
+ * server secret prevents that.
+ */
 export function clientKey(req: Request): string {
   const ip = req.headers.get('x-real-ip') ?? req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  return createHash('sha256').update(ip).digest('hex').slice(0, 32);
+  const pepper = process.env.SUPABASE_SECRET_KEY ?? 'local-development-only';
+  return createHmac('sha256', pepper).update(ip).digest('hex').slice(0, 32);
 }
 
 const nameKey = (kind: string, codeName: string) => `${kind}:name:${normaliseCodeName(codeName).slice(0, 40)}`;
