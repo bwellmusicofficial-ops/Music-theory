@@ -353,8 +353,10 @@ Nothing here stops the site working. Roughly in order of how much it matters.
   Preview), `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (added 22 Nov, Production and
   Preview), `SUPABASE_SECRET_KEY` (Production and Preview),
   `NEXT_PUBLIC_ACCOUNTS_ENABLED=1` (Preview only). 0001 and 0002 applied.
-- P1-03 (progress saved to accounts) is being built on branch
-  `claude/p1-03-progress-sync`.
+- P1-03 (progress saved to accounts) is merged (behind the switch); owner to
+  test on Preview per `docs/accounts-build.md`. Migration 0003 (four new
+  question types in the enum) is written; once the owner has run it, add the
+  four values to `DB_QUESTION_TYPES` in `src/sync/wire.ts`.
 
 ### Waiting on the owner
 
