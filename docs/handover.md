@@ -334,6 +334,26 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 
 ## 8. What to do next
 
+### State at 22 Nov 2026, evening
+
+- Accounts (P1-02) are live on **Preview only** (branch `accounts-preview`; the
+  Preview build reached by Vercel, Deployments, newest Preview, Visit; long
+  branch URLs are shortened by Vercel, so do not guess them). Production has the
+  switch unset and shows no account UI.
+- Owner's Preview test: sign-up WORKED against the real database (account
+  `Test32`). Recovery with the code was refused as "don't match"; cause not yet
+  known. Commit 010dacb makes the recovery code accept any dash character and
+  logs the refusal reason server-side (Vercel, Logs, search `recover refused`).
+  Next: ask the owner whether password sign-in works, run the diagnostic SQL
+  (profiles join account_secrets for `test32`: created_at, updated_at, hash
+  prefix), check the logs, and consider look-alike characters (2/Z, 6/G).
+- Vercel env vars confirmed: `NEXT_PUBLIC_SUPABASE_URL` (Production and
+  Preview), `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (added 22 Nov, Production and
+  Preview), `SUPABASE_SECRET_KEY` (Production and Preview),
+  `NEXT_PUBLIC_ACCOUNTS_ENABLED=1` (Preview only). 0001 and 0002 applied.
+- P1-03 (progress saved to accounts) is being built on branch
+  `claude/p1-03-progress-sync`.
+
 ### Waiting on the owner
 
 | Needed | Unblocks |
