@@ -16,6 +16,7 @@ import { PGlite } from '@electric-sql/pglite';
 const ROOT = join(__dirname, '..', '..');
 export const MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0001_init.sql');
 export const THROTTLE_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0002_auth_throttle.sql');
+export const QUESTION_TYPES_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0003_question_types.sql');
 export const SEED_PATH = join(ROOT, 'supabase', 'seed', 'blocked_names.sql');
 
 /** What Supabase gives the migration before it runs (roles, auth schema, default privileges). */

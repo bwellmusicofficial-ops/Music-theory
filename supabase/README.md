@@ -141,3 +141,12 @@ merged, skipped and duplicated.
 - Add the production project's SMTP and rate limits before launch; Supabase's
   defaults are for testing.
 - Queue and review LEGAL items in the design document before real users sign up.
+
+## Apply 0003 (question types)
+
+`migrations/0003_question_types.sql` adds the four question types from 19 Nov
+(place bar lines, fix beaming, write key signature, find in passage) to the
+`question_type` enum, so attempts at them can be saved to an account. Run it
+once in the SQL Editor (safe to run twice). Then add the four values to
+`DB_QUESTION_TYPES` in `src/sync/wire.ts`; until that change ships, the app
+keeps those attempts on the device and syncs everything else.
