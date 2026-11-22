@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useSyncExternalStore } from 'react';
 import { NoteRush, type GameResult } from '@/games/note-rush';
 import { useSettings } from '@/settings';
+import { syncGameBest } from '@/sync';
 
 export const BEST_SCORE_KEY = 'mtn:v1:note-rush-best';
 
@@ -40,6 +41,7 @@ export function NoteRushRunner() {
     } catch {
       // Storage unavailable: the best score lasts for this page only.
     }
+    syncGameBest('note-rush', null, result.score);
     for (const listener of listeners) listener();
   }, []);
 

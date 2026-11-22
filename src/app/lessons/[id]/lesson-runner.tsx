@@ -9,6 +9,7 @@ import { questionTypes } from '@/lesson/questions';
 import { passageExhibitRenderer } from '@/lesson/questions/notation';
 import type { GlossaryEntry, Lesson } from '@/lesson/schema';
 import '@/lesson/setup';
+import { withAccountSync } from '@/sync';
 import { useSettings } from '@/settings';
 
 const exhibitRenderers = { passage: passageExhibitRenderer };
@@ -16,7 +17,7 @@ const exhibitRenderers = { passage: passageExhibitRenderer };
 export function LessonRunner({ lesson, glossary }: { lesson: Lesson; glossary: GlossaryEntry[] }) {
   const router = useRouter();
   const { settings, loaded } = useSettings();
-  const [progress] = useState(() => createLocalProgressSink());
+  const [progress] = useState(() => withAccountSync(createLocalProgressSink()));
 
   if (!loaded) {
     return (

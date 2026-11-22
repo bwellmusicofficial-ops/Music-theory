@@ -10,6 +10,8 @@
  * `<random-id>@accounts.invalid` address; it never leaves the backend.
  */
 
+import type { ProgressStore } from '../progress/types';
+
 export type AgeBand = 'under_18' | 'adult';
 
 /** What anyone is told about the signed-in person: nothing else. */
@@ -60,4 +62,9 @@ export interface AccountBackend {
   recover(input: { codeName: string; recoveryCode: string; newPassword: string }, jar: CookieJar): Promise<RecoverResult>;
   signOut(jar: CookieJar): Promise<void>;
   currentUser(jar: CookieJar): Promise<AccountUser | null>;
+  /**
+   * Saved progress for whoever the cookies say is signed in, or null when nobody is (P1-03). The store is
+   * bound to that one user. The Supabase implementation uses the user's own session, so row level security applies.
+   */
+  progress(jar: CookieJar): Promise<ProgressStore | null>;
 }

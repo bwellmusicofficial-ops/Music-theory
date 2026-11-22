@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { NO_FLASH_SCRIPT, SettingsProvider } from '@/settings';
+import { SyncMount } from '@/sync/mount';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
         <SettingsProvider>
           {children}
+          <SyncMount />
         </SettingsProvider>
       </body>
     </html>

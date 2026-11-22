@@ -9,6 +9,7 @@ import bcrypt from 'bcryptjs';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Harness } from '@/db/test-harness';
 import type { CookieJar } from '../backend/types';
+import { userClient } from './fake-user-client';
 
 const COOKIE = 'sb-fake-auth-token';
 const TABLES = new Set(['profiles', 'account_secrets']);
@@ -130,7 +131,16 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
 
   const sessionClient = (jar: CookieJar) => {
     const token = () => jar.getAll().find((c) => c.name === COOKIE)?.value;
+    // Data calls run as the signed-in user (role `authenticated`), so row level security applies.
+    const asUser = () => {
+      const t = token();
+      const uid = t ? sessions.get(t) : undefined;
+      if (!uid) throw new Error('fake supabase: no signed-in user for a data call');
+      return userClient(h, uid);
+    };
     return {
+      from: (table: string) => asUser().from(table),
+      rpc: (name: string, args: Record<string, unknown>) => asUser().rpc(name, args),
       auth: {
         signInWithPassword: async ({ email, password }: { email: string; password: string }) => {
           const u = await userByEmail(email);

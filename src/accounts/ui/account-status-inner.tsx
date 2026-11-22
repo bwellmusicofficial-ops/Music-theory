@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { signOutNow, useAccount } from './store';
 
 /** The header's account state (see account-status.tsx for the switch that loads it). */
 export default function AccountStatusInner() {
   const account = useAccount();
+  const router = useRouter();
   const [failed, setFailed] = useState(false);
   if (account.status === 'unknown') return null;
   if (account.status === 'signed-out') {
@@ -32,7 +34,12 @@ export default function AccountStatusInner() {
       </Link>
       <button
         type="button"
-        onClick={async () => setFailed(!(await signOutNow()))}
+        onClick={async () => {
+          const result = await signOutNow();
+          setFailed(result === 'failed');
+          // Progress that has not saved yet: Settings explains and offers the choice.
+          if (result === 'unsaved') router.push('/settings#account-heading');
+        }}
         className="inline-flex min-h-11 cursor-pointer items-center whitespace-nowrap rounded-full border border-border px-3 font-semibold text-fg hover:bg-surface-raised"
       >
         Sign out

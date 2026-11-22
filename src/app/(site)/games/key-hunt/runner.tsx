@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import { KeyHunt, type GameResult } from '@/games/key-hunt';
 import { useSettings } from '@/settings';
+import { syncGameBest } from '@/sync';
 
 /** One entry per variant, e.g. `{ "grade-1:sig-to-key:timed": 340 }` (see `variantOf`). */
 export const BEST_SCORE_KEY = 'mtn:v1:key-hunt-best';
@@ -53,6 +54,7 @@ export function KeyHuntRunner() {
     } catch {
       // Storage unavailable: the best score lasts for this page only.
     }
+    syncGameBest('key-hunt', variant, result.score);
     for (const listener of listeners) listener();
   }, []);
 

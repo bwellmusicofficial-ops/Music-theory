@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import bcrypt from 'bcryptjs';
+import { MemoryProgressStore } from '../progress/memory';
+import type { ProgressStore } from '../progress/types';
 import { codeNameFormatOk, formatRecoveryCode, generateRecoveryCode, normaliseCodeName } from '../rules';
 import { throttleDelaySeconds, WINDOW_SECONDS } from '../throttle';
 import type {
@@ -42,6 +44,7 @@ export class MemoryAccountBackend implements AccountBackend {
   private readonly users = new Map<string, Row>(); // by id
   private readonly byNorm = new Map<string, string>(); // norm -> id
   private readonly sessions = new Map<string, string>(); // token -> id
+  private readonly progressStores = new Map<string, MemoryProgressStore>(); // user id -> progress
   private readonly blocked: { word: string; match: 'exact' | 'contains' }[];
   private readonly rounds: number;
   private readonly now: () => number;
@@ -140,6 +143,15 @@ export class MemoryAccountBackend implements AccountBackend {
     const token = jar.getAll().find((c) => c.name === MEMORY_SESSION_COOKIE)?.value;
     if (token) this.sessions.delete(token);
     jar.setAll([{ name: MEMORY_SESSION_COOKIE, value: '', options: { httpOnly: true, sameSite: 'lax', path: '/', maxAge: 0 } }]);
+  }
+
+  async progress(jar: CookieJar): Promise<ProgressStore | null> {
+    const token = jar.getAll().find((c) => c.name === MEMORY_SESSION_COOKIE)?.value;
+    const id = token ? this.sessions.get(token) : undefined;
+    if (!id || !this.users.has(id)) return null;
+    let store = this.progressStores.get(id);
+    if (!store) this.progressStores.set(id, (store = new MemoryProgressStore(this.now)));
+    return store;
   }
 
   async currentUser(jar: CookieJar): Promise<AccountUser | null> {
