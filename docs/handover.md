@@ -301,8 +301,9 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 18. **Dependency audit warnings** from `npm ci` have not been looked at.
 
 **Before real users sign up**
-19. **Supabase's public sign-up must be switched off**; all accounts are created
-    by our own server routes, or anyone could skip the age question.
+19. ~~Supabase's public sign-up must be switched off~~ **Done 22 Nov 2026** by
+    the owner (Authentication, Sign In / Providers). All accounts are created by
+    our own server routes with the secret key.
 20. **Scores are reported by the browser and can be forged.** This matters
     before any leaderboard exists.
 21. **Only `attempts` has a rate cap** in the database; game scores, mock
