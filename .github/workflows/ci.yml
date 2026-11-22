@@ -29,6 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_ENABLE_DEV_ROUTES: '1'
+      # Accounts are tested with the in-memory backend only; production builds never set these.
+      NEXT_PUBLIC_ACCOUNTS_ENABLED: '1'
+      ACCOUNTS_FAKE_BACKEND: '1'
       E2E_SKIP_BUILD: '1'
     steps:
       - uses: actions/checkout@v4
@@ -61,6 +64,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_ENABLE_DEV_ROUTES: '1'
+      # Accounts are tested with the in-memory backend only; production builds never set these.
+      NEXT_PUBLIC_ACCOUNTS_ENABLED: '1'
+      ACCOUNTS_FAKE_BACKEND: '1'
       E2E_SKIP_BUILD: '1'
     steps:
       - uses: actions/checkout@v4
