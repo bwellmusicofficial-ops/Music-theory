@@ -269,6 +269,116 @@ Prerequisite: the P1-02 Preview test above, with accounts switched on for Previe
 5. In Supabase, Table Editor: `lesson_progress`, `attempts`, `game_scores` and `mock_results` should hold rows for the
    test user and no one else's.
 
+## Export and delete (P1-16)
+
+Task P1-16. Specification: `docs/accounts-and-data.md`, "Privacy operations" ("Export and delete are in Settings and act
+immediately") and acceptance tests 8 and 9. Same switch as everything else: with `NEXT_PUBLIC_ACCOUNTS_ENABLED` not `1`
+none of it is in the build (`scripts/check-no-account-ui.mjs` now also looks for its words and the file name).
+**No migration**: `export_my_data()` and `delete_my_account()` from 0001 are used as they are.
+
+### Pieces
+
+| Piece | Where | What it does |
+| --- | --- | --- |
+| Routes | `POST /api/account/export`, `POST /api/account/delete` (`src/app/api/account/{export,delete}/route.account.ts`, logic in `src/accounts/privacy-handlers.ts`) | 404 when the switch is off, cross-site posts refused (403), signed out is 401. Both are POST on purpose, so a link on another site cannot trigger them. Who acts comes only from the session cookie; no body names a user |
+| The file | `src/accounts/export-file.ts` | Builds the download from what `export_my_data()` returned. See "What is in the file" |
+| Backend | `AccountBackend.accountId`, `exportData`, `deleteAccount` (Supabase and Memory) | `exportData` calls `export_my_data()` **as the signed-in user** (their cookie and the publishable key), so `auth.uid()` and row level security apply. `deleteAccount` follows the order below |
+| Rate limits | existing throttle (`auth_throttle`), keys `export:user:<id>` and `delete:user:<id>`; thresholds in `src/accounts/throttle.ts` | Export: five downloads go through, the sixth is refused for 30 s, each further try while over the limit lengthens the wait (cap 15 min), an hour with no requests starts again. A request that is refused while waiting does not lengthen its own wait. Delete: only wrong typed confirmations count (five, then the wait), because a right one ends the account |
+| UI | `src/accounts/ui/account-privacy.tsx`, used by `account-settings-inner.tsx` | "Your data" (Download my data) and "Delete my account" in the account card; the deleted confirmation lives in `account-settings-inner.tsx` |
+| Device clean-up | `deleteAccountNow` in `src/accounts/ui/store.ts` | After a successful delete: `engine.afterSignOut()` (the account's cached progress and the outbox are wiped, set-aside guest progress comes back, settings stay) and the state becomes signed out. Nothing waiting in the outbox is sent first: the account no longer exists |
+
+### What is in the file
+
+`music-theory-now-data-YYYY-MM-DD.json` (UTC date), indented JSON. It starts with a `README` object in plain English
+that explains each part, then `exported_at`, `account`, `profile`, `adult_contact`, `account_secrets`, `lesson_progress`,
+`attempts`, `game_scores`, `mock_results`. Settings stored on the device are not part of the account and are not in
+the file; the UI says so.
+
+The route does not trust the database function. `buildExportFile` is a second lock: only those known sections are kept
+(anything else, for instance a throttle table, is dropped); `account` keeps `user_id`, `email` and `created_at`, and the
+email is dropped when it is an `@accounts.invalid` address; `account_secrets` keeps only "a recovery code exists" and two
+dates (no hash, no failure counters); any key that looks like a credential (hash, password, secret, token, throttle,
+encrypted) is removed from every row; any string that still contains the made-up address becomes null. A test feeds it a
+poisoned result and checks all of that, and a PGlite test fails if `export_my_data()` ever returns a section the file does
+not know, so a new table forces the file and its README to be updated.
+
+### Delete: the order, and why
+
+1. **Look, change nothing.** Resolve the signed-in user from the session, read the profile's code name (to check the typed
+   confirmation, and to know which rate-limit rows name it). A wrong confirmation stops here (400 `confirm-mismatch`).
+   If the profile is already missing (an earlier delete got part-way) the check is skipped so the job can be finished.
+2. **`delete_my_account()` as the user.** The one irreversible step. It deletes the `auth.users` row in one database
+   transaction and every table cascades from it, so the login and all the data go together or not at all. If it fails,
+   nothing changed: the learner is still signed in with everything and can try again.
+3. **Admin delete of the auth user** with the secret key. Normally the user is already gone ("not found" counts as
+   success); this is a second route to the same result in case the function ever stops removing the login. If it fails and
+   the user still exists, the route answers 500, **the session is kept** and a retry finishes the job (step 1 skips the
+   confirmation when the profile is gone). If it fails but the user is gone, it is a success.
+4. **Forget the rate-limit rows** that name the account (`signin:name:`, `recover:name:`, `export:user:`, `delete:user:`).
+   Best effort: they are counters, and the database removes any left after a day.
+5. **End the device's session last** (cookies cleared), so a failure anywhere above leaves a session that can retry. Then
+   the browser cleans the device as a sign-out does and shows "Your account and everything in it has been deleted."
+
+Why this order: the data and the login are removed by one statement, so there is no moment with a signed-in session and no
+data, nor with data and no way to sign in. Code-name sign-in goes through the profile, so even a login left behind could not
+be used by anyone: nobody can find it by name, and the made-up address is never shown. The worst case of a fault between
+steps 2 and 3 is an orphan row in Supabase Authentication, Users with no data, which the owner would see there; it holds
+only the made-up address.
+
+**The code name is free again** after deletion. The specification says deleting the auth user cascades to every table, the
+name lives only in the profile, and acceptance test 8 plus `functions.test.ts` already check that `code_name_available()`
+says yes afterwards. So someone else may take the name. Nothing of the old account follows it.
+
+### Tests
+
+| Where | What |
+| --- | --- |
+| `src/accounts/export-file.test.ts` | the file: README, sections kept, the address, hashes, tokens, counters and unknown sections stripped, odd input, the file name |
+| `src/accounts/privacy-handlers.test.ts` | both routes over BOTH backends (the Supabase one on the real SQL under the fake Supabase Auth): 404, 403, 401, headers, contents, only the caller's rows, export limit, fixed server error, a poisoned backend result still gives a clean file, wrong or someone else's name, five wrong tries, a successful delete (signed out, cannot sign in, name free, other learner untouched, second delete is 401, name reusable), no user id taken from a body; on the real tables: every table, `auth.users` and the rate-limit rows are empty for the account and unchanged for another; three part-way failures (the function fails; the admin call fails after the account is gone; data gone but login left, then a retry finishes) |
+| `src/db/privacy-sql.test.ts` | what the routes assume about the two functions, as the signed-in user in PGlite: known sections only, no address or hash, the adult's own email and name kept, delete removes the login and everything, repeating it is harmless, **it does not clear rate-limit rows** (so the route must), neither works for `anon` |
+| `src/accounts/ui/account-privacy.test.tsx` | the download (name, announced, too often, offline) and the two-step delete (closed by default, focus on the safe choice, the button off until the name matches, Enter, success and device clean-up, failure keeps everything, errors cleared on typing) |
+| `e2e/account-privacy.spec.ts` | phone and desktop in a real browser: sign up, finish a lesson, download and read the file (the lesson is in it), delete with the two steps, deleted screen, signed out, device cleaned and settings kept, no export afterwards, sign-in with the name fails, the name is free again; keyboard-only focus; axe at zero in both themes for the card, both steps and the deleted screen; the routes refuse cross-site and signed-out |
+
+`src/accounts/test-support/fake-supabase.ts` changed to behave like the real service in two more ways: `admin.deleteUser`
+of a user that is not there is a 404 error (the backend must treat that as success), and `getUser()` for a session whose
+user was deleted says there is no session.
+
+### What only the real Supabase can prove
+
+That the user's session cookie really authorises `rpc('export_my_data')` and `rpc('delete_my_account')` from a route handler
+through PostgREST; that `delete from auth.users` inside the function really cascades through Supabase's own auth tables
+(sessions, identities, refresh tokens) with no leftover; that `admin.deleteUser` on the already-removed user answers 404
+(`user_not_found`) as assumed; that `auth.signOut({ scope: 'local' })` for a deleted user is harmless; that a large export
+returns within the database's statement time limit.
+
+### How the owner tests P1-16 on Preview
+
+Prerequisite: accounts switched on for Preview (the P1-02 steps). No migration to run.
+
+1. **Download.** Sign in as a test account that has some progress. Settings, "Download my data". A file named
+   `music-theory-now-data-<today>.json` is saved. Open it in a text editor: the plain-English `README` comes first, then your
+   code name, your lessons and answers. Check it contains no `accounts.invalid`, no `$2` text (a password or code hash) and no
+   `throttle`. Press the button six times in a row: the sixth should say to wait 30 seconds.
+2. **Delete.** Make a separate throwaway account and do a little progress. Note its code name. Settings, "Delete my account",
+   "Carry on", type the name, "Delete everything". You should see "Your account and everything in it has been deleted." and be
+   signed out. Try signing in with that name: it must fail.
+3. **Prove nothing remains.** In Supabase, Authentication, Users: the throwaway user must be gone. Then in the SQL Editor
+   (replace `thename` with the name in lower case, with no dashes or underscores):
+
+   ```sql
+   select
+     (select count(*) from public.profiles       where code_name_norm = 'thename') as profiles,
+     (select count(*) from public.auth_throttle  where key like '%:name:thename')  as throttle_by_name;
+   ```
+
+   Both must be 0. To check every table for one user, note their id from Authentication, Users before deleting, then after:
+   `select count(*) from public.lesson_progress where user_id = '<id>'` (and the same for `attempts`, `game_scores`,
+   `mock_results`, `account_secrets`, `adult_contacts`, `profiles`, and `auth_throttle` with `key like '%<id>%'`): all 0.
+4. Make a new account with the same code name: it should be accepted (a deleted name is free again) and start empty.
+5. If delete shows an error: look at Vercel's function log for `[accounts] delete failed`. Nothing is half-deleted from the
+   learner's side: pressing the button again finishes it. A user left in Authentication, Users with no profile is the
+   one case to report.
+
 ## Where the next tasks plug in
 
 - **P1-03 saving progress:** built, see "Saving progress to an account (P1-03)" above.
@@ -276,6 +386,6 @@ Prerequisite: the P1-02 Preview test above, with accounts switched on for Previe
   and a branch in the sign-up flow after the age question for adults (`sign-up-flow.tsx`, step `'details'`).
   Marketing opt-in is a separate, unticked box calling `set_marketing()`. `AccountUser` gains a field only if the
   UI needs it; the synthetic-address rule applies to code-name users only.
-- **Export and delete (P1-16):** the buttons go in `account-settings-inner.tsx`; the database functions exist.
+- **Export and delete (P1-16):** built, see "Export and delete (P1-16)" above.
 - **Cookie notice:** the session cookie is strictly necessary and set only after sign-in, but the privacy page
   must mention it before the switch goes on in production.

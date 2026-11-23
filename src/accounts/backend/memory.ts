@@ -5,7 +5,7 @@ import type { ProgressStore } from '../progress/types';
 import { codeNameFormatOk, formatRecoveryCode, generateRecoveryCode, normaliseCodeName } from '../rules';
 import { throttleDelaySeconds, WINDOW_SECONDS } from '../throttle';
 import type {
-  AccountBackend, AccountUser, AgeBand, CookieJar, RecoverResult, SignInResult, SignUpResult, Throttle,
+  AccountBackend, AccountUser, AgeBand, CookieJar, DeleteResult, RecoverResult, SignInResult, SignUpResult, Throttle,
 } from './types';
 
 export const MEMORY_SESSION_COOKIE = 'mtn-fake-session';
@@ -29,6 +29,7 @@ interface Row {
   ageBand: AgeBand;
   passwordHash: string;
   recoveryHash: string;
+  createdAt: string;
 }
 
 export interface MemoryBackendOptions {
@@ -106,6 +107,7 @@ export class MemoryAccountBackend implements AccountBackend {
       ageBand: input.ageBand,
       passwordHash: await bcrypt.hash(input.password, this.rounds),
       recoveryHash: await bcrypt.hash(code, this.rounds),
+      createdAt: new Date(this.now()).toISOString(),
     };
     // Re-check after the awaits: the map, like the unique index, decides a race.
     if (this.byNorm.has(row.norm)) return { ok: false, reason: 'unavailable' };
@@ -152,6 +154,48 @@ export class MemoryAccountBackend implements AccountBackend {
     let store = this.progressStores.get(id);
     if (!store) this.progressStores.set(id, (store = new MemoryProgressStore(this.now)));
     return store;
+  }
+
+  private sessionUserId(jar: CookieJar): string | null {
+    const token = jar.getAll().find((c) => c.name === MEMORY_SESSION_COOKIE)?.value;
+    const id = token ? this.sessions.get(token) : undefined;
+    return id && this.users.has(id) ? id : null;
+  }
+
+  async accountId(jar: CookieJar): Promise<string | null> {
+    return this.sessionUserId(jar);
+  }
+
+  async exportData(jar: CookieJar): Promise<unknown | null> {
+    const id = this.sessionUserId(jar);
+    const row = id ? this.users.get(id) : undefined;
+    if (!id || !row) return null;
+    // The same shape export_my_data() returns, including the parts the route must strip.
+    const store = this.progressStores.get(id);
+    return {
+      exported_at: new Date(this.now()).toISOString(),
+      account: { user_id: id, email: row.syntheticEmail, created_at: row.createdAt },
+      profile: {
+        user_id: id, code_name: row.codeName, code_name_norm: row.norm, age_band: row.ageBand,
+        adult_confirmed_at: row.ageBand === 'adult' ? row.createdAt : null, settings: {}, created_at: row.createdAt, updated_at: row.createdAt,
+      },
+      adult_contact: null,
+      account_secrets: { has_recovery_code: true, failed_attempts: 0, last_failed_at: null, locked_until: null, created_at: row.createdAt, updated_at: row.createdAt },
+      ...(store ? store.exportRows(id) : { lesson_progress: [], attempts: [], game_scores: [], mock_results: [] }),
+    };
+  }
+
+  async deleteAccount(jar: CookieJar, confirmCodeName: string): Promise<DeleteResult> {
+    const id = this.sessionUserId(jar);
+    const row = id ? this.users.get(id) : undefined;
+    if (!id || !row) return { status: 'not-signed-in' };
+    if (normaliseCodeName(confirmCodeName) !== row.norm) return { status: 'name-mismatch' };
+    this.users.delete(id);
+    this.byNorm.delete(row.norm);
+    this.progressStores.delete(id);
+    for (const [token, uid] of this.sessions) if (uid === id) this.sessions.delete(token);
+    jar.setAll([{ name: MEMORY_SESSION_COOKIE, value: '', options: { httpOnly: true, sameSite: 'lax', path: '/', maxAge: 0 } }]);
+    return { status: 'deleted', userId: id, codeNameNorm: row.norm };
   }
 
   async currentUser(jar: CookieJar): Promise<AccountUser | null> {

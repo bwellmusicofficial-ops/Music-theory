@@ -81,3 +81,19 @@ export async function signOutNow(options: { force?: boolean } = {}): Promise<Sig
   accountStore.setSignedOut();
   return 'ok';
 }
+
+export type DeleteOutcome = { ok: true } | { ok: false; error: string; retryAfterSeconds?: number };
+
+/**
+ * Deletes the account on the server. On success the device is cleaned exactly as a sign-out cleans it (the
+ * account's cached progress and the outbox go, guest progress that was set aside comes back, settings stay)
+ * and the state becomes signed out. Nothing waiting to be saved is sent first: the account no longer exists.
+ * If the server says nobody is signed in, the session is already gone, so the device is cleaned the same way.
+ */
+export async function deleteAccountNow(confirmCodeName: string): Promise<DeleteOutcome> {
+  const r = await accountApi.deleteAccount(confirmCodeName);
+  if (!r.ok && r.error !== 'not-signed-in') return r;
+  getEngine().afterSignOut();
+  accountStore.setSignedOut();
+  return r.ok ? { ok: true } : r;
+}

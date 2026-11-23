@@ -2,6 +2,7 @@ import { MemoryAccountBackend } from '../backend/memory';
 import {
   handleAvailability, handleMe, handleRecover, handleSignIn, handleSignOut, handleSignUp, type LoadDeps,
 } from '../handlers';
+import { handleDelete, handleExport } from '../privacy-handlers';
 import { TestJar } from './jar';
 
 /**
@@ -19,6 +20,8 @@ export function createFakeFetch(backend = new MemoryAccountBackend()) {
     '/api/account/recover': handleRecover,
     '/api/account/sign-out': handleSignOut,
     '/api/account/me': handleMe,
+    '/api/account/export': handleExport,
+    '/api/account/delete': handleDelete,
   };
   const fetchFn = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const path = String(input);

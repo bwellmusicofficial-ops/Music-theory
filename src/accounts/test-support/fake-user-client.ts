@@ -105,7 +105,7 @@ class UserQuery implements PromiseLike<Result> {
 export function userClient(h: Harness, uid: string) {
   return {
     from: (table: string) => new UserQuery(h, uid, table),
-    rpc: async (name: string, args: Record<string, unknown>): Promise<Result> => {
+    rpc: async (name: string, args: Record<string, unknown> = {}): Promise<Result> => {
       const vals = Object.values(args).map((v) => asParam(v));
       const sql = `select public.${ident(name)}(${vals.map(([, cast], i) => `$${i + 1}${cast}`).join(', ')}) as r`;
       try {

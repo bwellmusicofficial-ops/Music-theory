@@ -5,7 +5,7 @@ import { SupabaseProgressStore } from '../progress/supabase';
 import type { ProgressStore } from '../progress/types';
 import { formatRecoveryCode, generateRecoveryCode, normaliseCodeName } from '../rules';
 import type {
-  AccountBackend, AccountUser, AgeBand, CookieJar, RecoverResult, SignInResult, SignUpResult, Throttle,
+  AccountBackend, AccountUser, AgeBand, CookieJar, DeleteResult, RecoverResult, SignInResult, SignUpResult, Throttle,
 } from './types';
 
 if (typeof window !== 'undefined') {
@@ -33,6 +33,8 @@ function must<T = unknown>(what: string, r: { data: unknown; error: { message: s
   if (r.error) throw new Error(`${what}: ${r.error.message}`);
   return r.data as T;
 }
+
+const isNotFound = (e: { status?: number; code?: string }) => e.status === 404 || e.code === 'user_not_found';
 
 /**
  * Code-name accounts on Supabase Auth. Each account is an auth user with a synthetic
@@ -210,6 +212,64 @@ export class SupabaseAccountBackend implements AccountBackend {
     const r = await client.auth.getUser();
     if (r.error || !r.data.user) return null;
     return new SupabaseProgressStore(client, r.data.user.id);
+  }
+
+  async accountId(jar: CookieJar): Promise<string | null> {
+    const r = await this.deps.sessionClient(jar).auth.getUser();
+    return r.error || !r.data.user ? null : r.data.user.id;
+  }
+
+  async exportData(jar: CookieJar): Promise<unknown | null> {
+    // As the signed-in user (their cookie, the publishable key): export_my_data() is granted to `authenticated`
+    // only and uses auth.uid(), so it can return nobody else's rows.
+    const client = this.deps.sessionClient(jar);
+    const who = await client.auth.getUser();
+    if (who.error || !who.data.user) return null;
+    return must('export_my_data', await client.rpc('export_my_data'));
+  }
+
+  async deleteAccount(jar: CookieJar, confirmCodeName: string): Promise<DeleteResult> {
+    const { admin } = this.deps;
+    const client = this.deps.sessionClient(jar);
+    const who = await client.auth.getUser();
+    if (who.error || !who.data.user) return { status: 'not-signed-in' };
+    const userId = who.data.user.id;
+
+    // 1. Nothing is changed yet. Read the code name (to check the confirmation and to forget its rate-limit rows).
+    //    A missing profile means an earlier delete got part-way: skip the check and finish the job.
+    const profile = must<{ code_name: string | null } | null>(
+      'profiles lookup',
+      await admin.from('profiles').select('code_name').eq('user_id', userId).maybeSingle(),
+    );
+    const codeNameNorm = profile?.code_name ? normaliseCodeName(profile.code_name) : null;
+    if (codeNameNorm !== null && normaliseCodeName(confirmCodeName) !== codeNameNorm) return { status: 'name-mismatch' };
+
+    // 2. The one irreversible step, as the user. delete_my_account() deletes the auth user in ONE database
+    //    transaction and every table cascades from it, so it either all happens or none of it does. If this
+    //    throws, the person is still signed in with all their data and can try again.
+    must('delete_my_account', await client.rpc('delete_my_account'));
+
+    // 3. Belt and braces: make sure the auth user is gone through the official admin route too.
+    await this.removeAuthUser(userId);
+
+    // 4. Last, end the device's session. Only now, so any failure above leaves a session that can retry.
+    try {
+      await this.signOut(jar);
+    } catch {
+      /* the cookies are cleared in signOut's finally block whatever Supabase said */
+    }
+    return { status: 'deleted', userId, codeNameNorm };
+  }
+
+  /** Removes the auth user with the secret key. "Not found" is success: delete_my_account() normally got there first. */
+  private async removeAuthUser(userId: string): Promise<void> {
+    const { admin } = this.deps;
+    const r = await admin.auth.admin.deleteUser(userId);
+    if (!r.error || isNotFound(r.error)) return;
+    // Some other error. Ask whether the user is still there: if it is, the account is NOT fully deleted.
+    const check = await admin.auth.admin.getUserById(userId);
+    if (check.data?.user) throw new Error(`deleteUser: ${r.error.message}; the auth user still exists`);
+    console.warn('[accounts] delete: could not confirm the auth user is gone through the admin API');
   }
 
   async currentUser(jar: CookieJar): Promise<AccountUser | null> {

@@ -121,6 +121,8 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
           return { data: { user: { id } }, error: null };
         },
         deleteUser: async (id: string) => {
+          // Like the real admin API: a user that is not there is a 404, not a success.
+          if (!(await userById(id))) return { data: { user: null }, error: { message: 'User not found', status: 404, code: 'user_not_found' } };
           await h.asOwner((s) => s.run(`delete from auth.users where id = $1`, [id]));
           passwords.delete(id);
           return { data: null, error: null };
@@ -145,7 +147,7 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
     };
     return {
       from: (table: string) => asUser().from(table),
-      rpc: (name: string, args: Record<string, unknown>) => asUser().rpc(name, args),
+      rpc: (name: string, args: Record<string, unknown> = {}) => asUser().rpc(name, args),
       auth: {
         signInWithPassword: async ({ email, password }: { email: string; password: string }) => {
           const u = await userByEmail(email);
@@ -165,7 +167,10 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
         getUser: async () => {
           const t = token();
           const uid = t ? sessions.get(t) : undefined;
-          return uid ? { data: { user: { id: uid } }, error: null } : { data: { user: null }, error: { message: 'no session' } };
+          // Like the real auth server, a session whose user has been deleted is no session at all.
+          return uid && (await userById(uid))
+            ? { data: { user: { id: uid } }, error: null }
+            : { data: { user: null }, error: { message: 'no session' } };
         },
         signOut: async () => {
           const t = token();

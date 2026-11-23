@@ -30,3 +30,12 @@ export function throttleDelaySeconds(failures: number, threshold: number): numbe
   if (failures < threshold) return 0;
   return Math.min(MAX_DELAY_SECONDS, BASE_DELAY_SECONDS * 2 ** Math.min(failures - threshold, 5));
 }
+
+/**
+ * Data downloads per signed-in learner (P1-16). The count of requests at which the wait starts: the first five
+ * downloads in a stretch go through, the sixth is refused for 30 seconds, and each further try while over the
+ * limit lengthens the wait (up to 15 minutes). An hour with no requests starts again.
+ */
+export const EXPORT_THRESHOLD = 6;
+/** Wrong typed confirmations when deleting an account, per signed-in learner, before the wait starts. */
+export const DELETE_MISMATCH_THRESHOLD = 5;
