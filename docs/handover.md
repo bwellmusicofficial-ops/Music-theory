@@ -336,27 +336,24 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 
 ## 8. What to do next
 
-### State at 22 Nov 2026, evening
+### State at 23 Nov 2026
 
-- Accounts (P1-02) are live on **Preview only** (branch `accounts-preview`; the
-  Preview build reached by Vercel, Deployments, newest Preview, Visit; long
-  branch URLs are shortened by Vercel, so do not guess them). Production has the
-  switch unset and shows no account UI.
-- Owner's Preview test: sign-up WORKED against the real database (account
-  `Test32`). Recovery with the code was refused as "don't match"; cause not yet
-  known. Commit 010dacb makes the recovery code accept any dash character and
-  logs the refusal reason server-side (Vercel, Logs, search `recover refused`).
-  Next: ask the owner whether password sign-in works, run the diagnostic SQL
-  (profiles join account_secrets for `test32`: created_at, updated_at, hash
-  prefix), check the logs, and consider look-alike characters (2/Z, 6/G).
-- Vercel env vars confirmed: `NEXT_PUBLIC_SUPABASE_URL` (Production and
-  Preview), `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (added 22 Nov, Production and
-  Preview), `SUPABASE_SECRET_KEY` (Production and Preview),
-  `NEXT_PUBLIC_ACCOUNTS_ENABLED=1` (Preview only). 0001 and 0002 applied.
-- P1-03 (progress saved to accounts) is merged (behind the switch); owner to
-  test on Preview per `docs/accounts-build.md`. Migration 0003 (four new
-  question types in the enum) is written; once the owner has run it, add the
-  four values to `DB_QUESTION_TYPES` in `src/sync/wire.ts`.
+- Accounts (P1-02) VERIFIED by the owner on Preview against the real Supabase
+  project: under-18 and adult sign-up, sign-out, sign-in, recovery with the code
+  (new password and new code issued). Production still has the switch unset.
+- Bug found and fixed on the real project: Supabase Auth writes app_metadata
+  after inserting the user, so 0001's trigger saw none (profiles had no code
+  name and the default age band). Migration 0004 copies it across on update and
+  repaired the two existing accounts; sign-up now checks the name landed. The
+  fake Supabase in tests now inserts then updates, like the real service.
+- Migrations applied to the real project: 0001, blocked-names seed, 0002, 0003,
+  0004. `DB_QUESTION_TYPES` includes all thirteen question types.
+- Preview is reached through Vercel, Deployments, newest Preview, Visit (long
+  branch URLs are shortened by Vercel; do not guess them). Pushing main to the
+  `accounts-preview` branch (force) rebuilds it.
+- Still to test on Preview: P1-03 progress saved to the account (two devices,
+  offline then online, guest merge, sign-out on a shared device), per
+  `docs/accounts-build.md`.
 
 ### Waiting on the owner
 
