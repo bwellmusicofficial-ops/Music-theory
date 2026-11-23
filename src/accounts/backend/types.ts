@@ -48,6 +48,16 @@ export interface Throttle {
   clear(key: string): Promise<void>;
 }
 
+/**
+ * What `deleteAccount` did. `deleted` carries the normalised code name (or null) so the route can forget the
+ * throttle rows keyed by it. `name-mismatch`: the typed confirmation was not this account's code name, nothing
+ * was changed.
+ */
+export type DeleteResult =
+  | { status: 'deleted'; userId: string; codeNameNorm: string | null }
+  | { status: 'name-mismatch' }
+  | { status: 'not-signed-in' };
+
 export interface AccountBackend {
   readonly throttle: Throttle;
   /** Yes or no only. Applies the format rules, the blocked list and uniqueness. */
@@ -67,4 +77,22 @@ export interface AccountBackend {
    * bound to that one user. The Supabase implementation uses the user's own session, so row level security applies.
    */
   progress(jar: CookieJar): Promise<ProgressStore | null>;
+  /**
+   * An opaque id for whoever is signed in, or null. It exists only to key rate limits (P1-16) and must never be
+   * sent to the browser. Works for an account whose profile is already gone (a half-finished delete).
+   */
+  accountId(jar: CookieJar): Promise<string | null>;
+  /**
+   * Everything the account holds, exactly as `export_my_data()` returns it (the Supabase backend calls it as the
+   * signed-in user, so row level security applies), or null when nobody is signed in. The route cleans it (see
+   * `../export-file.ts`) before it leaves the server.
+   */
+  exportData(jar: CookieJar): Promise<unknown | null>;
+  /**
+   * Deletes the signed-in person's account and everything in it (P1-16). `confirmCodeName` must be the account's
+   * own code name (compared without case or separators). Order and failure behaviour are documented in
+   * docs/accounts-build.md ("Export and delete"). Throws when the deletion could not be completed; the person
+   * is then still signed in and may try again. On success the device's session cookies are cleared.
+   */
+  deleteAccount(jar: CookieJar, confirmCodeName: string): Promise<DeleteResult>;
 }

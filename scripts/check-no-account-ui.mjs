@@ -7,6 +7,8 @@ const MARKERS = [
   '/api/account/', "Don't use your real name", 'Make my account', "I've written it down", 'Signed in as', 'recovery code',
   // P1-03: saving progress to an account (the sync engine, its storage keys and its words).
   'Saved to your account', 'Waiting to save', 'also in your account', "Add this device's progress", 'mtn:v1:outbox', 'mtn:v1:sync-owner', 'mtn:v1:guest-stash',
+  // P1-16: export and delete (their words, the download's file name and the confirmation).
+  'Download my data', 'Delete my account', 'Type your code name to confirm', 'Your account and everything in it has been deleted', 'music-theory-now-data-',
 ];
 const hits = [];
 function walk(dir) {

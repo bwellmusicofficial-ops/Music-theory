@@ -28,3 +28,35 @@ export function errorText(error: string, retryAfterSeconds?: number): string {
       return 'Something went wrong on our side. Please try again in a minute.';
   }
 }
+
+const waitText = (seconds = 30) => (seconds >= 90 ? `${Math.ceil(seconds / 60)} minutes` : `${seconds} seconds`);
+
+/** Words for a failed "Download my data". */
+export function exportErrorText(error: string, retryAfterSeconds?: number): string {
+  switch (error) {
+    case 'rate-limited':
+      return `You've already downloaded your data a few times. Please wait ${waitText(retryAfterSeconds)}, then try again.`;
+    case 'not-signed-in':
+      return "You've been signed out. Sign in again, then try again.";
+    case 'network':
+      return "Couldn't reach the site. Check your internet and try again.";
+    default:
+      return "Couldn't make your file. Please try again in a minute.";
+  }
+}
+
+/** Words for a failed "Delete my account". Never says the account is safe or gone unless that is certain. */
+export function deleteErrorText(error: string, retryAfterSeconds?: number): string {
+  switch (error) {
+    case 'confirm-mismatch':
+      return "That isn't your code name. Check it and try again.";
+    case 'rate-limited':
+      return `Too many tries. Please wait ${waitText(retryAfterSeconds)}, then try again.`;
+    case 'not-signed-in':
+      return "You've been signed out, so we can't delete the account from here. Sign in and try again.";
+    case 'network':
+      return "Couldn't reach the site. Nothing was deleted. Check your internet and try again.";
+    default:
+      return 'Something went wrong on our side, so your account was not fully deleted. Please try again in a minute.';
+  }
+}

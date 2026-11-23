@@ -38,6 +38,30 @@ export class MemoryProgressStore implements ProgressStore {
     };
   }
 
+  /** The rows `export_my_data()` would return for this user (same column names), for the memory backend's export. */
+  exportRows(userId: string) {
+    const stamp = (iso: string) => new Date(iso).toISOString();
+    return {
+      lesson_progress: [...this.lessons.values()]
+        .sort((a, b) => a.lessonId.localeCompare(b.lessonId))
+        .map((l) => ({
+          user_id: userId, lesson_id: l.lessonId, state: l.state, step: l.step, question_index: l.questionIndex,
+          best_score: l.bestScore, created_at: l.updatedAt, updated_at: l.updatedAt,
+        })),
+      attempts: [...this.attempts.values()].map((a, i) => ({
+        id: i + 1, user_id: userId, lesson_id: a.lessonId, step: a.step, question_id: a.questionId, skill: a.skill, type: a.type,
+        correct: a.correct, score: a.score, ms_taken: a.msTaken, seed: a.seed ?? null, source: 'authored',
+        occurred_at: stamp(a.at), merged: false, created_at: stamp(a.at),
+      })),
+      game_scores: [...this.games].map(([gameId, score], i) => ({
+        id: i + 1, user_id: userId, game_id: gameId, score, summary: {}, created_at: new Date(this.now()).toISOString(),
+      })),
+      mock_results: this.mocks.map((m, i) => ({
+        id: i + 1, user_id: userId, grade: m.grade, score: m.score, breakdown: m.breakdown, created_at: m.at,
+      })),
+    };
+  }
+
   private mergeLesson(l: LessonWire): void {
     const old = this.lessons.get(l.lessonId);
     const updatedAt = new Date(this.now()).toISOString();

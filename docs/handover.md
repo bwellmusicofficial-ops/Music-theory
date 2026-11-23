@@ -117,7 +117,7 @@ feedback while tapping, has been built.
 | P1-13 Landing page | Yes (19 Nov): a 30-second three-step demo (by-ear, tap a rhythm, finish card) in the first phone screen for new visitors; a slim "Try a 30-second demo" card for returning learners |
 | P1-14 Accessibility pass | Done; see `docs/accessibility.md` for what remains |
 | P1-15 End-to-end tests | Done, running in CI |
-| P1-16 Data export and deletion, analytics | NOT STARTED. Blocked; the database functions exist |
+| P1-16 Data export and deletion | BUILT (23 Nov 2026), switched OFF with accounts; **no new migration**. Signed in, Settings has "Download my data" (a dated JSON file with a plain-English README, from `export_my_data()` called as the user, cleaned on the server so the made-up address, hashes and rate-limit rows can never be in it; at most five downloads in a stretch) and "Delete my account" (two steps in the page: what goes, then type the code name; then `delete_my_account()` as the user, the admin delete of the auth user, the account's rate-limit rows forgotten, the device signed out and cleaned like a sign-out, "Your account and everything in it has been deleted."). A deleted code name is free again. Tested on the memory backend and on the real SQL in PGlite under a fake Supabase Auth, plus phone and desktop e2e; **not yet on the real Supabase**. Order of the steps, failure behaviour and the owner's Preview test: `docs/accounts-build.md`, "Export and delete (P1-16)". Privacy-friendly analytics is still NOT STARTED |
 | P1-17 Security review and release | NOT STARTED |
 
 The Phase 1 gate in the plan: twenty learners complete Grade 1 and most pass the
@@ -354,6 +354,10 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 - Still to test on Preview: P1-03 progress saved to the account (two devices,
   offline then online, guest merge, sign-out on a shared device), per
   `docs/accounts-build.md`.
+- P1-16 (export and delete) is built and waiting for its Preview test: download a
+  file and read it; delete a test account and check Supabase Authentication,
+  Users and a SQL count that nothing remains. Steps in `docs/accounts-build.md`,
+  "How the owner tests P1-16 on Preview".
 
 ### Waiting on the owner
 
@@ -395,7 +399,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    sign-in and the marketing box, after the owner has tested code names on Preview.
 3. P1-03: DONE (see section 4 and `docs/accounts-build.md`); still to do: the owner's Preview test, and a
    migration `0003` adding the four missing `question_type` values if attempts at those types should be stored.
-4. P1-16: export and delete in Settings; privacy-friendly analytics.
+4. P1-16: export and delete in Settings DONE (see section 4 and `docs/accounts-build.md`; still to do: the owner's Preview test); privacy-friendly analytics still to do.
 5. Run the concurrency test for code names on the real database.
 6. P1-17: security review (Opus), performance check, release.
 

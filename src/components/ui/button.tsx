@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import { BUTTON_BASE, BUTTON_SIZES, BUTTON_VARIANTS, type ButtonSize, type ButtonVariant } from './button-styles';
 import { cn } from './cn';
 
@@ -8,6 +8,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Shows a spinner, sets aria-busy and blocks activation. */
   loading?: boolean;
   children?: ReactNode;
+  /** React 19 passes `ref` as a prop; it reaches the <button> through the rest props. */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export function Button({

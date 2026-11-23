@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { buttonClasses } from '@/components/site/button-link';
 import { Button, Card } from '@/components/ui';
 import { SyncStatusLine } from '@/sync/ui/sync-status-line';
+import { AccountPrivacy } from './account-privacy';
 import { signOutNow, useAccount } from './store';
 
 /** The account card in Settings (see account-settings.tsx for the switch that loads it). */
@@ -12,7 +13,12 @@ export default function AccountSettingsInner() {
   const account = useAccount();
   const [message, setMessage] = useState('');
   const [unsaved, setUnsaved] = useState(false);
-  if (account.status === 'unknown') return null;
+  const [deleted, setDeleted] = useState(false);
+  const deletedHeading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (deleted) deletedHeading.current?.focus();
+  }, [deleted]);
+  if (account.status === 'unknown' && !deleted) return null;
 
   async function signOut(force = false) {
     const result = await signOutNow({ force });
@@ -24,7 +30,27 @@ export default function AccountSettingsInner() {
       <h2 id="account-heading" className="text-xl font-bold">
         Your account
       </h2>
-      {account.status === 'signed-in' ? (
+      {deleted ? (
+        <div className="flex flex-col gap-3" data-testid="account-deleted">
+          <h3 ref={deletedHeading} tabIndex={-1} className="text-lg font-bold outline-offset-4">
+            Account deleted
+          </h3>
+          <p role="status" className="text-lg font-semibold">
+            Your account and everything in it has been deleted.
+          </p>
+          <p className="text-fg-secondary">
+            You can still use the lessons and games. Without an account your progress stays on this device only.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/learn" className={buttonClasses('primary')}>
+              Back to the lessons
+            </Link>
+            <Link href="/account/sign-up" className={buttonClasses('secondary')}>
+              Make a new account
+            </Link>
+          </div>
+        </div>
+      ) : account.status === 'signed-in' ? (
         <>
           <p>
             Signed in as <strong data-testid="account-code-name">{account.user.codeName}</strong>.
@@ -60,6 +86,7 @@ export default function AccountSettingsInner() {
           <p role="status" className="font-semibold">
             {message}
           </p>
+          <AccountPrivacy codeName={account.user.codeName} onDeleted={() => setDeleted(true)} />
         </>
       ) : (
         <>
