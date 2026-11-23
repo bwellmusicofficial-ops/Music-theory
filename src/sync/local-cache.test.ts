@@ -45,7 +45,8 @@ describe('what is sent', () => {
   it('turns an attempt into the wire shape, clamps the time, and refuses what the database cannot hold', () => {
     expect(attemptToWire(attemptEvent(1, { msTaken: 9_999_999 }))?.msTaken).toBe(3_600_000);
     expect(attemptToWire(attemptEvent(1, { seed: 12 }))?.seed).toBe(12);
-    expect(attemptToWire(attemptEvent(1, { type: 'find-in-passage' }))).toBeNull();
+    // Every question type is storable since migration 0003.
+    expect(attemptToWire(attemptEvent(1, { type: 'find-in-passage' }))?.type).toBe('find-in-passage');
     expect(attemptToWire(attemptEvent(1, { questionId: 'Has Spaces' }))).toBeNull();
     expect(attemptToWire(attemptEvent(1, { at: '2001-01-01T00:00:00Z' }))).toBeNull();
   });
@@ -53,7 +54,7 @@ describe('what is sent', () => {
   it('builds the guest payload from the device, leaving out what cannot be stored', () => {
     const s = new MemoryStorage();
     put(s, PROGRESS_KEY, { 'g1-rhythm-01': lessonProgress() });
-    put(s, ATTEMPTS_KEY, [attemptEvent(1), attemptEvent(2, { type: 'fix-beaming' })]);
+    put(s, ATTEMPTS_KEY, [attemptEvent(1), attemptEvent(2, { questionId: 'Has Spaces' })]);
     put(s, 'mtn:v1:note-rush-best', '9');
     const p = guestPayload(s);
     expect(p.lessons).toEqual([{ lessonId: 'g1-rhythm-01', state: 'in-progress', step: 'practice', questionIndex: 2, bestScore: null }]);

@@ -36,10 +36,10 @@ describe('the database enums and the app agree', () => {
     expect(rows.map((r) => r.v)).toEqual([...DB_QUESTION_TYPES]);
   });
 
-  it('every stored type is a real app type; the app types the database cannot hold are listed here so they are not forgotten', () => {
-    for (const t of DB_QUESTION_TYPES) expect(QUESTION_TYPES).toContain(t);
-    const missing = QUESTION_TYPES.filter((t) => !(DB_QUESTION_TYPES as readonly string[]).includes(t));
-    expect(missing).toEqual(['place-bar-lines', 'fix-beaming', 'write-key-signature', 'find-in-passage']);
+  it('the app syncs every question type, and the database (0001 plus 0003) holds exactly those', async () => {
+    expect([...DB_QUESTION_TYPES].sort()).toEqual([...QUESTION_TYPES].sort());
+    const r = await h.asOwner((s) => s.q<{ v: string }>('select unnest(enum_range(null::public.question_type))::text as v'));
+    expect(r.map((x) => x.v).sort()).toEqual([...QUESTION_TYPES].sort());
   });
 
   it('lesson_state, lesson_step and grade match the app', async () => {

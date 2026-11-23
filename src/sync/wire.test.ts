@@ -72,7 +72,7 @@ describe('validators mirror the database checks', () => {
     const a = { lessonId: 'l-1', step: 'practice', questionId: 'q-1', skill: 'a.b', type: 'ordering', correct: true, score: 1, msTaken: 10, at: '2026-06-01T11:00:00.123Z' };
     expect(schema.safeParse(a).success).toBe(true);
     expect(schema.safeParse({ ...a, seed: 123 }).success).toBe(true);
-    for (const bad of [{ at: '2019-12-31T23:59:59Z' }, { at: '2026-06-03T00:00:00Z' }, { at: 'yesterday' }, { at: '2026-06-01T11:00:00' }, { seed: 1e15 }, { seed: 1.5 }, { msTaken: 3_600_001 }, { skill: 'single' }, { type: 'fix-beaming' }]) {
+    for (const bad of [{ at: '2019-12-31T23:59:59Z' }, { at: '2026-06-03T00:00:00Z' }, { at: 'yesterday' }, { at: '2026-06-01T11:00:00' }, { seed: 1e15 }, { seed: 1.5 }, { msTaken: 3_600_001 }, { skill: 'single' }, { type: 'not-a-question-type' }]) {
       expect(schema.safeParse({ ...a, ...bad }).success, JSON.stringify(bad)).toBe(false);
     }
     expect(schema.safeParse({ ...a, at: '2026-06-02T11:00:00Z' }).success).toBe(true); // within the day of slack

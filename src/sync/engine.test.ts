@@ -207,16 +207,14 @@ describe('saving while signed in', () => {
     expect(d.storage.getItem(OUTBOX_KEY)).toBeNull();
   });
 
-  it('keeps attempts of a type the database cannot hold on the device only', async () => {
+  it('saves attempts at the four question types added by migration 0003', async () => {
     const server = createServer();
     const d = createDevice(server);
     d.engine.signedIn(await d.signUp());
-    await d.sink.recordAttempt(attemptEvent(1, { type: 'fix-beaming' }));
-    d.engine.enqueueAttempt(attemptEvent(1, { type: 'fix-beaming' }));
-    d.engine.enqueueAttempt(attemptEvent(2));
+    const types = ['place-bar-lines', 'fix-beaming', 'write-key-signature', 'find-in-passage'] as const;
+    types.forEach((type, i) => d.engine.enqueueAttempt(attemptEvent(i + 1, { type })));
     await flush();
-    expect((await remote(server, d)).attempts.map((a) => a.questionId)).toEqual(['q-2']);
-    expect(await d.sink.loadAttempts()).toHaveLength(1);
+    expect((await remote(server, d)).attempts.map((a) => a.questionId).sort()).toEqual(['q-1', 'q-2', 'q-3', 'q-4']);
   });
 
   it('syncs game bests and mock results, and a second device gets them under the keys the games read', async () => {

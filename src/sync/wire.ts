@@ -10,10 +10,9 @@ import { GRADES, STEP_ORDER } from '@/lesson/schema';
 export const LESSON_STATES = ['not-started', 'in-progress', 'complete', 'mastered'] as const;
 
 /**
- * The question types the database `question_type` enum holds (0001). The app has four more
- * (place-bar-lines, fix-beaming, write-key-signature, find-in-passage): attempts at those cannot be
- * stored until a later migration adds them, so they are skipped on the way to the account and kept on
- * the device. `src/db/progress-sql.test.ts` fails if the enum and this list ever disagree.
+ * The question types the database `question_type` enum holds: 0001's nine plus the four that 0003
+ * added (applied to the real project by the owner on 23 Nov 2026). `src/db/progress-sql.test.ts`
+ * fails if the enum and this list ever disagree.
  */
 export const DB_QUESTION_TYPES = [
   'note-on-stave',
@@ -25,6 +24,10 @@ export const DB_QUESTION_TYPES = [
   'ordering',
   'multiple-choice',
   'match-up',
+  'place-bar-lines',
+  'fix-beaming',
+  'write-key-signature',
+  'find-in-passage',
 ] as const;
 
 /** Per-request bounds. The sync route takes small batches; guest merge takes what the database function allows. */

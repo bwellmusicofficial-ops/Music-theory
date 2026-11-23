@@ -130,6 +130,8 @@ export async function createHarness(options: { migrationSql?: string; seed?: boo
   await db.waitReady;
   await db.exec(SUPABASE_SHAPE);
   await db.exec(options.migrationSql ?? readFileSync(MIGRATION_PATH, 'utf8'));
+  // 0003 (question types) is applied to the real project, so the harness always mirrors it.
+  if (options.migrationSql === undefined) await db.exec(readFileSync(QUESTION_TYPES_MIGRATION_PATH, 'utf8'));
   if (options.throttle) await db.exec(readFileSync(THROTTLE_MIGRATION_PATH, 'utf8'));
   if (options.seed) await db.exec(readFileSync(SEED_PATH, 'utf8'));
 
