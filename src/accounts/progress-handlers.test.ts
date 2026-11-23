@@ -117,7 +117,7 @@ describe('sync', () => {
       await handleProgressSync(
         post('/sync', {
           lessons: [lesson, { ...lesson, lessonId: 'Not Kebab' }, { ...lesson, state: 'finished' }, { ...lesson, lessonId: 'g1-b', bestScore: 1.5 }],
-          attempts: [attempt(1), { ...attempt(2), type: 'place-bar-lines' }, { ...attempt(3), at: '1999-01-01T00:00:00Z' }, { ...attempt(4), msTaken: -1 }, { ...attempt(5), skill: 'nodots' }],
+          attempts: [attempt(1), { ...attempt(2), type: 'not-a-question-type' }, { ...attempt(3), at: '1999-01-01T00:00:00Z' }, { ...attempt(4), msTaken: -1 }, { ...attempt(5), skill: 'nodots' }],
           games: [{ gameId: 'note-rush', score: 5 }, { gameId: 'Bad Id', score: 5 }, { gameId: 'x', score: 2_000_000 }],
           mocks: [{ grade: '9', score: 0.5, breakdown: {} }, { grade: '1', score: 0.5, breakdown: { 'Bad Key': 1 } }],
         }),
