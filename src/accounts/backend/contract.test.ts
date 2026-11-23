@@ -183,7 +183,11 @@ describe('supabase backend specifics', () => {
     // Make the secrets insert fail, and check the half-made user is removed.
     const broken = new SupabaseAccountBackend({
       admin: new Proxy(fake.admin, {
-        get: (t, p, r) => (p === 'from' ? () => ({ insert: async () => ({ data: null, error: { message: 'boom' } }) }) : Reflect.get(t, p, r)),
+        get: (t, p, r) =>
+          p === 'from'
+            ? (table: string) =>
+                table === 'account_secrets' ? { insert: async () => ({ data: null, error: { message: 'boom' } }) } : fake.admin.from(table)
+            : Reflect.get(t, p, r),
       }),
       sessionClient: fake.sessionClient,
     });

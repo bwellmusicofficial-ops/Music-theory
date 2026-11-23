@@ -17,6 +17,7 @@ const ROOT = join(__dirname, '..', '..');
 export const MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0001_init.sql');
 export const THROTTLE_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0002_auth_throttle.sql');
 export const QUESTION_TYPES_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0003_question_types.sql');
+export const PROFILE_METADATA_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0004_profile_from_metadata.sql');
 export const SEED_PATH = join(ROOT, 'supabase', 'seed', 'blocked_names.sql');
 
 /** What Supabase gives the migration before it runs (roles, auth schema, default privileges). */
@@ -125,13 +126,16 @@ function makeSession(db: PGlite): Session {
 }
 
 /** Boot PGlite, build the Supabase-shaped environment, apply the migration file as written. */
-export async function createHarness(options: { migrationSql?: string; seed?: boolean; throttle?: boolean } = {}): Promise<Harness> {
+export async function createHarness(options: { migrationSql?: string; seed?: boolean; throttle?: boolean; profileMetadata?: boolean } = {}): Promise<Harness> {
   const db = new PGlite();
   await db.waitReady;
   await db.exec(SUPABASE_SHAPE);
   await db.exec(options.migrationSql ?? readFileSync(MIGRATION_PATH, 'utf8'));
   // 0003 (question types) is applied to the real project, so the harness always mirrors it.
-  if (options.migrationSql === undefined) await db.exec(readFileSync(QUESTION_TYPES_MIGRATION_PATH, 'utf8'));
+  if (options.migrationSql === undefined) {
+    await db.exec(readFileSync(QUESTION_TYPES_MIGRATION_PATH, 'utf8'));
+    if (options.profileMetadata !== false) await db.exec(readFileSync(PROFILE_METADATA_MIGRATION_PATH, 'utf8'));
+  }
   if (options.throttle) await db.exec(readFileSync(THROTTLE_MIGRATION_PATH, 'utf8'));
   if (options.seed) await db.exec(readFileSync(SEED_PATH, 'utf8'));
 

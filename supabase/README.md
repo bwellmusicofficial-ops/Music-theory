@@ -150,3 +150,12 @@ merged, skipped and duplicated.
 once in the SQL Editor (safe to run twice). Then add the four values to
 `DB_QUESTION_TYPES` in `src/sync/wire.ts`; until that change ships, the app
 keeps those attempts on the device and syncs everything else.
+
+## Apply 0004 (profile from metadata)
+
+`migrations/0004_profile_from_metadata.sql` fixes sign-up on the real project:
+Supabase Auth writes a new account's app metadata after inserting the user, so
+0001's trigger created profiles with no code name and the default age band. 0004
+copies the code name and age band across when the metadata arrives, and repairs
+existing profiles. Sign-up refuses to finish (and undoes the account) until it
+is applied. Safe to run twice.

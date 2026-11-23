@@ -103,6 +103,16 @@ export class SupabaseAccountBackend implements AccountBackend {
     }
     const userId = created.data.user.id;
 
+    // The profile must carry the name before anything else happens. Supabase writes the metadata after
+    // inserting the user (migration 0004 copies it across); if the profile still has no name, or the name
+    // belongs to someone else, undo the account rather than leave one that can never be signed in to.
+    const named = await this.profileByName(input.codeName);
+    if (!named || named.user_id !== userId) {
+      await admin.auth.admin.deleteUser(userId);
+      if (!(await this.codeNameAvailable(input.codeName))) return { ok: false, reason: 'unavailable' };
+      throw new Error('sign-up: the profile did not receive its code name (is migration 0004 applied?)');
+    }
+
     const secret = await admin.from('account_secrets').insert({ user_id: userId, recovery_code_hash: recoveryHash });
     if (secret.error) {
       // Never leave an account whose recovery code was not stored.
@@ -110,8 +120,7 @@ export class SupabaseAccountBackend implements AccountBackend {
       throw new Error(`account_secrets insert: ${secret.error.message}`);
     }
 
-    const profile = await this.profileByName(input.codeName);
-    const user: AccountUser = { codeName: profile?.code_name ?? input.codeName, ageBand: profile?.age_band ?? input.ageBand };
+    const user: AccountUser = { codeName: named.code_name ?? input.codeName, ageBand: named.age_band ?? input.ageBand };
     let signedIn = false;
     try {
       signedIn = (await this.openSession(email, input.password, jar)) === 'ok';

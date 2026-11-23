@@ -96,8 +96,13 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
         createUser: async (a: { email: string; password: string; email_confirm?: boolean; app_metadata?: Record<string, unknown> }) => {
           const id = randomUUID();
           try {
+            // Like real Supabase Auth: the user row is inserted with only the provider metadata, and the
+            // custom app_metadata is written by a later UPDATE (found on the real project, 23 Nov 2026).
             await h.asOwner((s) =>
-              s.run(`insert into auth.users (id, email, email_confirmed_at, raw_app_meta_data) values ($1, $2, now(), $3::jsonb)`, [id, a.email, JSON.stringify(a.app_metadata ?? {})]),
+              s.run(`insert into auth.users (id, email, email_confirmed_at, raw_app_meta_data) values ($1, $2, now(), '{"provider":"email","providers":["email"]}'::jsonb)`, [id, a.email]),
+            );
+            await h.asOwner((s) =>
+              s.run(`update auth.users set raw_app_meta_data = raw_app_meta_data || $2::jsonb where id = $1`, [id, JSON.stringify(a.app_metadata ?? {})]),
             );
           } catch {
             // Supabase hides the trigger's reason behind this generic message.
