@@ -7,7 +7,7 @@ is a **starter** blocked-name list for the product owner to review and extend.
 
 The rules are proved by the tests in `src/db/` (`npm test`), which run the
 migrations unmodified in an in-process Postgres (PGlite). 0001 and the blocked-name seed
-were applied to the real project on 22 Nov 2026; **0002 (below) still has to be applied.**
+were applied to the real project on 22 Nov 2026; 0002 to 0004 were applied on 23 Nov 2026; **0005 ("Apply 0005" below) still has to be applied.**
 
 ## Not part of this task
 
@@ -159,3 +159,36 @@ Supabase Auth writes a new account's app metadata after inserting the user, so
 copies the code name and age band across when the metadata arrives, and repairs
 existing profiles. Sign-up refuses to finish (and undoes the account) until it
 is applied. Safe to run twice.
+
+## Apply 0005 (security hardening, from the P1-17 review)
+
+`migrations/0005_security_hardening.sql` closes the holes the independent security review found. **Until it is
+applied, with accounts switched on, sign-in, recovery and saving progress are refused** (the server logs
+"migration 0005_security_hardening.sql has not been applied") rather than run without these limits. Accounts are off
+in production, so nothing the public sees changes until the switch is turned on.
+
+What it adds (all secret-key only or invisible to the API):
+
+- `auth_throttle_hit(key, threshold)`: counts a sign-in or recovery attempt and says "go ahead" or "wait" in one
+  step, before the password is tried, so many guesses at once cannot all get through. It adds one column,
+  `window_started_at`, to `auth_throttle`.
+- `revoke_user_sessions(user)`: signs a user out everywhere (deletes their rows in `auth.sessions` and
+  `auth.refresh_tokens`). Recovery uses it so whoever held the old password is out.
+- `auth_user_id_by_synthetic_email(email)`: lets sign-up delete a half-made user.
+- Limits per learner, enforced in the database (a learner's own token cannot get round them): lesson progress at
+  most 1000 rows and 1500 writes an hour; game scores the best 10 per game kept, 1000 rows, 200 inserts an hour;
+  practice-test results 500 rows, 30 an hour; attempts 5000 an hour and 30000 a day (merge included). Over a limit
+  the database answers "try later" (error 53400) or "limit reached" (54000). One small table,
+  `private.user_write_counters`, holds the counts (no learner content; removed with the user).
+- The guest-merge size limit goes from 3 MiB to 2 MiB.
+
+To apply:
+
+1. Open the project, SQL Editor, New query.
+2. Paste the whole of `supabase/migrations/0005_security_hardening.sql` and run it. It needs 0001 and 0002 first
+   and must run as `postgres` (the SQL Editor does); it stops with a clear message otherwise.
+3. Check: it finishes with "Success. No rows returned". Running it again is safe.
+
+If it stops with an error mentioning `auth.sessions` or `auth.refresh_tokens`, tell the developer: those are
+Supabase's own tables and the function that signs people out is the one part that could only be proved against the
+real project.

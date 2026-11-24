@@ -33,7 +33,7 @@ describe('buildExportFile', () => {
     const out = buildExportFile(raw(), NOW);
     expect(out.exported_at).toBe('2026-11-23T09:59:00Z');
     expect((out.profile as { code_name: string }).code_name).toBe('SwiftCello42');
-    expect(out.lesson_progress).toEqual([{ user_id: UID, lesson_id: 'g1-rhythm-01', state: 'complete', best_score: 1 }]);
+    expect(out.lesson_progress).toEqual([{ lesson_id: 'g1-rhythm-01', state: 'complete', best_score: 1 }]);
     expect(out.attempts).toHaveLength(1);
   });
 
@@ -87,9 +87,10 @@ describe('buildExportFile', () => {
     expect(exportFilename(new Date('2026-01-05T23:59:59Z'))).toBe('music-theory-now-data-2026-01-05.json');
   });
 
-  it('is readable JSON that parses back', () => {
+  it('is compact JSON, one row per line, that parses back', () => {
     const text = exportFileText(raw(), NOW);
-    expect(text).toContain('\n  "README"');
+    expect(text).not.toContain('\n  ');
+    expect(text.endsWith('}\n')).toBe(true);
     expect(JSON.parse(text)).toEqual(buildExportFile(raw(), NOW));
   });
 });

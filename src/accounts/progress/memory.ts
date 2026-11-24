@@ -23,7 +23,7 @@ export class MemoryProgressStore implements ProgressStore {
   private readonly games = new Map<string, number>();
   private readonly mocks: StoredMock[] = [];
 
-  constructor(private readonly now: () => number = Date.now) {}
+  constructor(private readonly now: () => number = Date.now, readonly userId: string = 'memory-user') {}
 
   async snapshot(): Promise<SnapshotWire> {
     const attempts = [...this.attempts.values()]

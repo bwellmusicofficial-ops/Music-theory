@@ -91,15 +91,16 @@ describe('SignUpFlow', () => {
     expect(fake.calls.filter((c) => c.path.endsWith('available'))).toHaveLength(1);
   });
 
-  it('explains a weak password before anything is sent', async () => {
+  it('explains a common password (the list is on the server, so the server says so)', async () => {
     const user = userEvent.setup();
     await toDetails(user, /No/);
     await user.type(screen.getByLabelText('Code name'), 'SwiftCello42');
     await user.type(screen.getByLabelText('Password'), 'password');
     await user.click(screen.getByRole('button', { name: 'Make my account' }));
-    expect(screen.getByText('That password is too easy to guess. Try a few words together.')).toBeInTheDocument();
-    expect(fake.calls.filter((c) => c.path.endsWith('sign-up'))).toHaveLength(0);
+    expect(await screen.findByText('That password is too easy to guess. Try a few words together.')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toHaveFocus();
+    // No account was made.
+    expect(await fake.backend.codeNameAvailable('SwiftCello42')).toBe(true);
   });
 
   it('shows and hides the password', async () => {
@@ -231,7 +232,7 @@ describe('SignInForm', () => {
     const user = userEvent.setup();
     render(<SignInForm />);
     await user.type(screen.getByLabelText('Code name'), 'SwiftCello42');
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       await user.clear(screen.getByLabelText('Password'));
       await user.type(screen.getByLabelText('Password'), `wrong password ${i}`);
       await user.click(screen.getByRole('button', { name: 'Sign in' }));

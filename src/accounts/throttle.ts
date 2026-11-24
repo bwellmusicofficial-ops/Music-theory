@@ -7,18 +7,28 @@
  * TypeScript for the memory backend; `src/db/auth-throttle.test.ts` proves the two agree.
  */
 
-/** Failures a single code name may make before the delay starts. */
-export const NAME_THRESHOLD = 5;
 /**
- * Failures one IP address may make across all names. Higher than the per-name figure on
- * purpose: a school shares one address between a whole class, and five slips in a room
- * of thirty must not lock everyone out.
+ * Sign-in and recovery guesses, counted BEFORE the password or code is tried (atomic `hit`, so parallel guesses
+ * cannot slip past), in a fixed one-hour window per key:
+ *  - per (code name + IP address): the first 5 attempts in an hour are tried, then 30 s, 60 s ... 15 min waits;
+ *  - per code name alone: 50 an hour, a ceiling for guessing spread over many addresses. It is high on purpose: one
+ *    guess every 15 minutes (4 an hour) from a classmate never reaches it, so a pupil cannot lock another out.
+ * A successful sign-in clears both.
  */
-export const IP_THRESHOLD = 20;
+export const NAME_PAIR_THRESHOLD = 5;
+export const NAME_THRESHOLD = 50;
+/**
+ * Failed sign-ins or recoveries one IP address (an IPv6 address by its /64) may make across all names, per hour of
+ * quiet. A school shares one address between a whole class, so this is a ceiling for a script, not for slips.
+ */
+export const IP_THRESHOLD = 200;
 /** Availability checks (live typing check) per IP before the delay starts. */
 export const AVAILABILITY_THRESHOLD = 300;
-/** Account creations per IP before the delay starts. */
-export const SIGN_UP_THRESHOLD = 30;
+/** Accounts created per IP (a school class, 60 an hour) before the delay starts. Only successful creations count. */
+export const SIGN_UP_THRESHOLD = 60;
+/** Progress sync requests per signed-in learner per hour (one every two seconds, round the clock), and guest merges. */
+export const SYNC_REQUESTS_PER_HOUR = 1800;
+export const MERGE_REQUESTS_PER_HOUR = 10;
 
 export const BASE_DELAY_SECONDS = 30;
 export const MAX_DELAY_SECONDS = 900;
@@ -39,3 +49,4 @@ export function throttleDelaySeconds(failures: number, threshold: number): numbe
 export const EXPORT_THRESHOLD = 6;
 /** Wrong typed confirmations when deleting an account, per signed-in learner, before the wait starts. */
 export const DELETE_MISMATCH_THRESHOLD = 5;
+

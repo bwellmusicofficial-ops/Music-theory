@@ -24,6 +24,8 @@ export class RateLimitedError extends Error {
 }
 
 export interface ProgressStore {
+  /** The signed-in user's id. Only for keying rate limits; never sent to the browser. */
+  readonly userId: string;
   /** Everything held for this user, bounded (newest attempts only). */
   snapshot(): Promise<SnapshotWire>;
   /** Keeps the more advanced state, the greater best score and the further position per lesson. Never regresses. */

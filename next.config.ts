@@ -19,7 +19,25 @@ if (process.env.ACCOUNTS_FAKE_BACKEND === '1' && !devRoutes) {
   throw new Error('ACCOUNTS_FAKE_BACKEND=1 requires NEXT_PUBLIC_ENABLE_DEV_ROUTES=1 (tests only).');
 }
 
+/**
+ * Headers for every route (P1-17). No script CSP yet: that is a separate task. `frame-ancestors 'none'` and
+ * X-Frame-Options stop the site being framed (clickjacking); camera, microphone and location are denied
+ * because nothing here uses them (the audio is Web Audio output only).
+ */
+const securityHeaders = [
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [{ source: '/:path*', headers: securityHeaders }];
+  },
+  // The progress routes check lesson ids against content/lessons at run time, so the files must travel with them.
+  outputFileTracingIncludes: { '/api/account/progress/**': ['./content/lessons/**/*'] },
   reactStrictMode: true,
   // Always defined, so the bundler replaces `process.env.NEXT_PUBLIC_ENABLE_DEV_ROUTES` with a
   // literal ('0' in production) and drops the test hooks (`__mockPaper`, `data-test-correct`).

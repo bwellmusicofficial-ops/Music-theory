@@ -34,6 +34,14 @@ function must<T = unknown>(what: string, r: { data: unknown; error: { message: s
   return r.data as T;
 }
 
+/** Text of the log line (and the thrown error) when a 0005 function is missing: the request is refused, not run without it. */
+const MIGRATION_0005_MISSING = (fn: string) =>
+  `migration 0005_security_hardening.sql has not been applied (function ${fn} is missing); refusing the request`;
+
+/** Postgres 42883 / PostgREST PGRST202: the function does not exist. */
+const isMissingFunction = (e: { message: string; code?: string }) =>
+  e.code === '42883' || e.code === 'PGRST202' || /could not find the function|does not exist/i.test(e.message);
+
 const isNotFound = (e: { status?: number; code?: string }) => e.status === 404 || e.code === 'user_not_found';
 
 /**
@@ -51,6 +59,14 @@ export class SupabaseAccountBackend implements AccountBackend {
       check: async (key) => Number(must('auth_throttle_check', await admin.rpc('auth_throttle_check', { p_key: key }))),
       fail: async (key, threshold) =>
         Number(must('auth_throttle_fail', await admin.rpc('auth_throttle_fail', { p_key: key, p_threshold: threshold }))),
+      hit: async (key, threshold) => {
+        const r = await admin.rpc('auth_throttle_hit', { p_key: key, p_threshold: threshold });
+        if (r.error && isMissingFunction(r.error)) {
+          console.error(`[accounts] ${MIGRATION_0005_MISSING('auth_throttle_hit')}`);
+          throw new Error(MIGRATION_0005_MISSING('auth_throttle_hit'));
+        }
+        return Number(must('auth_throttle_hit', r));
+      },
       clear: async (key) => {
         must('auth_throttle_clear', await admin.rpc('auth_throttle_clear', { p_key: key }));
       },
@@ -91,6 +107,9 @@ export class SupabaseAccountBackend implements AccountBackend {
     const recoveryHash = await bcrypt.hash(recovery, RECOVERY_BCRYPT_ROUNDS);
     const email = `${crypto.randomUUID()}@accounts.invalid`;
 
+    // Ask first: a refused name must not leave an auth user behind for the trigger to reject.
+    if (!(await this.codeNameAvailable(input.codeName))) return { ok: false, reason: 'unavailable' };
+
     const created = await admin.auth.admin.createUser({
       email,
       password: input.password,
@@ -99,7 +118,8 @@ export class SupabaseAccountBackend implements AccountBackend {
     });
     if (created.error || !created.data.user) {
       // The trigger refuses a taken, blocked or badly formed name, and Supabase reports that as a
-      // generic failure. If the name is no longer available that was the cause; otherwise it is a fault.
+      // generic failure; the user row may still exist (it is inserted before the metadata update). Remove it.
+      await this.removeHalfMadeUser(email);
       if (!(await this.codeNameAvailable(input.codeName))) return { ok: false, reason: 'unavailable' };
       throw new Error(`createUser: ${created.error?.message ?? 'no user returned'}`);
     }
@@ -132,6 +152,30 @@ export class SupabaseAccountBackend implements AccountBackend {
     return { ok: true, user, recoveryCode: formatRecoveryCode(recovery), signedIn };
   }
 
+  /** Best effort: find a user by the made-up address we just tried to create and delete it. Never throws. */
+  private async removeHalfMadeUser(email: string): Promise<void> {
+    const { admin } = this.deps;
+    try {
+      const r = await admin.rpc('auth_user_id_by_synthetic_email', { p_email: email });
+      if (r.error) {
+        console.warn(`[accounts] sign-up cleanup: could not look the half-made user up (${isMissingFunction(r.error) ? 'is migration 0005 applied?' : 'database error'})`);
+        return;
+      }
+      if (typeof r.data === 'string' && r.data) await admin.auth.admin.deleteUser(r.data);
+    } catch {
+      console.warn('[accounts] sign-up cleanup failed');
+    }
+  }
+
+  /** Ends every session and refresh token of the user. Throws (so the caller refuses) when it cannot, including when 0005 is missing. */
+  private async revokeSessions(userId: string): Promise<void> {
+    const r = await this.deps.admin.rpc('revoke_user_sessions', { p_user: userId });
+    if (r.error) {
+      if (isMissingFunction(r.error)) console.error(`[accounts] ${MIGRATION_0005_MISSING('revoke_user_sessions')}`);
+      throw new Error(`revoke_user_sessions: ${r.error.message}`);
+    }
+  }
+
   async signIn(input: { codeName: string; password: string }, jar: CookieJar): Promise<SignInResult> {
     const profile = await this.profileByName(input.codeName);
     if (!profile) return { ok: false };
@@ -158,7 +202,7 @@ export class SupabaseAccountBackend implements AccountBackend {
       return { ok: false };
     }
     if (!(await bcrypt.compare(input.recoveryCode, secret.recovery_code_hash))) {
-      console.warn(`[accounts] recover refused: code does not match the stored hash (${secret.recovery_code_hash.slice(0, 4)})`);
+      console.warn('[accounts] recover refused: code does not match the stored hash');
       return { ok: false };
     }
 
@@ -167,19 +211,20 @@ export class SupabaseAccountBackend implements AccountBackend {
     const next = generateRecoveryCode();
     const nextHash = await bcrypt.hash(next, RECOVERY_BCRYPT_ROUNDS);
 
-    // Password first: if the second write fails the old code still works, so nothing is lost.
+    // 1. Sign everyone out BEFORE anything changes. It also proves revoke_user_sessions exists (fail closed),
+    //    so a missing 0005 refuses the request while the old password and code still work.
+    await this.revokeSessions(profile.user_id);
+    // 2. Password next: if a later step fails the old code still works, so nothing is lost.
     must('updateUserById', await admin.auth.admin.updateUserById(profile.user_id, { password: input.newPassword }));
+    // 3. Sign out again: a session opened with the old password in the moments since step 1 dies too. Always
+    //    done, whether or not the new sign-in below succeeds, so an attacker is never left signed in.
+    await this.revokeSessions(profile.user_id);
     must('account_secrets update', await admin.from('account_secrets').update({ recovery_code_hash: nextHash }).eq('user_id', profile.user_id));
 
+    // 4. Only now the new session.
     let signedIn = false;
     try {
       signedIn = (await this.openSession(email, input.newPassword, jar)) === 'ok';
-      if (signedIn) {
-        // End every other session for this account: whoever held the old password is out.
-        const session = await this.deps.sessionClient(jar).auth.getSession();
-        const token = session.data.session?.access_token;
-        if (token) await admin.auth.admin.signOut(token, 'others');
-      }
     } catch {
       /* the password and code are already changed; the code must still be shown */
     }

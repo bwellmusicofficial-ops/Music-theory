@@ -68,7 +68,14 @@ export interface FakeSupabase {
   sessionClient(jar: CookieJar): SupabaseClient;
 }
 
-export function createFakeSupabase(h: Harness): FakeSupabase {
+export interface FakeSupabaseOptions {
+  /** Functions to behave as if migration 0005 was not applied (PostgREST's "could not find the function"). */
+  missingRpcs?: string[];
+  /** Called with the email on every password sign-in attempt that reaches Supabase Auth (to count guesses). */
+  onSignInAttempt?: (email: string) => void;
+}
+
+export function createFakeSupabase(h: Harness, options: FakeSupabaseOptions = {}): FakeSupabase {
   const passwords = new Map<string, string>(); // user id -> bcrypt hash
   const sessions = new Map<string, string>(); // token -> user id
 
@@ -77,10 +84,18 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
   const userById = async (id: string) =>
     (await h.asOwner((s) => s.q<{ id: string; email: string }>(`select id, email from auth.users where id = $1`, [id])))[0] ?? null;
 
-  const rpcNames = new Set(['code_name_available', 'auth_throttle_check', 'auth_throttle_fail', 'auth_throttle_clear']);
+  const sessionAlive = async (t: string) =>
+    (await h.asOwner((q) => q.q(`select 1 from auth.sessions where id = $1`, [t]))).length > 0;
+
+  const rpcNames = new Set([
+    'code_name_available', 'auth_throttle_check', 'auth_throttle_fail', 'auth_throttle_clear',
+    'auth_throttle_hit', 'revoke_user_sessions', 'auth_user_id_by_synthetic_email',
+  ]);
+  const missing = new Set(options.missingRpcs ?? []);
   const admin = {
     rpc: async (name: string, args: Record<string, unknown>) => {
       if (!rpcNames.has(name)) throw new Error(`fake supabase: rpc ${name} not supported`);
+      if (missing.has(name)) return { data: null, error: { message: `Could not find the function public.${name} in the schema cache`, code: 'PGRST202' } };
       const vals = Object.values(args);
       const sql = `select public.${name}(${vals.map((_, i) => `$${i + 1}`).join(', ')}) as r`;
       try {
@@ -150,6 +165,7 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
       rpc: (name: string, args: Record<string, unknown> = {}) => asUser().rpc(name, args),
       auth: {
         signInWithPassword: async ({ email, password }: { email: string; password: string }) => {
+          options.onSignInAttempt?.(email);
           const u = await userByEmail(email);
           const hash = u ? passwords.get(u.id) : undefined;
           if (!u || !hash || !(await bcrypt.compare(password, hash))) {
@@ -157,18 +173,20 @@ export function createFakeSupabase(h: Harness): FakeSupabase {
           }
           const t = randomUUID();
           sessions.set(t, u.id);
+          // Like Supabase Auth, a session is a row in auth.sessions: revoke_user_sessions() deletes it.
+          await h.asOwner((q) => q.run(`insert into auth.sessions (id, user_id) values ($1, $2)`, [t, u.id]));
           jar.setAll([{ name: COOKIE, value: t, options: { httpOnly: true, path: '/' } }]);
           return { data: { session: { access_token: t } }, error: null };
         },
         getSession: async () => {
           const t = token();
-          return { data: { session: t && sessions.has(t) ? { access_token: t } : null }, error: null };
+          return { data: { session: t && sessions.has(t) && (await sessionAlive(t)) ? { access_token: t } : null }, error: null };
         },
         getUser: async () => {
           const t = token();
           const uid = t ? sessions.get(t) : undefined;
-          // Like the real auth server, a session whose user has been deleted is no session at all.
-          return uid && (await userById(uid))
+          // Like the real auth server, a session that was revoked, or whose user has been deleted, is no session at all.
+          return t && uid && (await sessionAlive(t)) && (await userById(uid))
             ? { data: { user: { id: uid } }, error: null }
             : { data: { user: null }, error: { message: 'no session' } };
         },

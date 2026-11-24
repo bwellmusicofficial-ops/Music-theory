@@ -1,6 +1,6 @@
 import { accountsEnabled } from './enabled';
-import { exportFileText, exportFilename } from './export-file';
-import { fail, json, readBody, sameSite, type Body, type LoadDeps } from './handlers';
+import { exportFileChunks, exportFilename } from './export-file';
+import { fail, json, nameKey, readBody, sameSite, type Body, type LoadDeps } from './handlers';
 import { normaliseCodeName } from './rules';
 import { DELETE_MISMATCH_THRESHOLD, EXPORT_THRESHOLD } from './throttle';
 
@@ -50,7 +50,17 @@ export async function handleExport(req: Request, load: LoadDeps, now: () => Date
     const raw = await backend.exportData(jar);
     if (raw === null) return fail(401, 'not-signed-in');
     const date = now();
-    return new Response(exportFileText(raw, date), {
+    // Streamed piece by piece (a big file must not be one 4.5 MB response body).
+    const pieces = exportFileChunks(raw, date);
+    const encoder = new TextEncoder();
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        const next = pieces.next();
+        if (next.done) controller.close();
+        else controller.enqueue(encoder.encode(next.value));
+      },
+    });
+    return new Response(body, {
       status: 200,
       headers: {
         'content-type': 'application/json; charset=utf-8',
@@ -95,8 +105,8 @@ export async function handleDelete(req: Request, load: LoadDeps): Promise<Respon
     // left behind are removed by the database after a day of no use).
     const keys = [exportKey(r.userId), deleteKey(r.userId)];
     if (r.codeNameNorm) {
-      const name = normaliseCodeName(r.codeNameNorm).slice(0, 40);
-      keys.push(`signin:name:${name}`, `recover:name:${name}`);
+      const name = normaliseCodeName(r.codeNameNorm);
+      keys.push(nameKey('signin', name), nameKey('recover', name));
     }
     for (const key of keys) {
       try {

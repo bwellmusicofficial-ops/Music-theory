@@ -18,6 +18,7 @@ export const MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0001_init.sq
 export const THROTTLE_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0002_auth_throttle.sql');
 export const QUESTION_TYPES_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0003_question_types.sql');
 export const PROFILE_METADATA_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0004_profile_from_metadata.sql');
+export const SECURITY_HARDENING_MIGRATION_PATH = join(ROOT, 'supabase', 'migrations', '0005_security_hardening.sql');
 export const SEED_PATH = join(ROOT, 'supabase', 'seed', 'blocked_names.sql');
 
 /** What Supabase gives the migration before it runs (roles, auth schema, default privileges). */
@@ -34,6 +35,19 @@ const SUPABASE_SHAPE = `
     raw_app_meta_data jsonb not null default '{}'::jsonb,
     raw_user_meta_data jsonb not null default '{}'::jsonb,
     created_at timestamptz not null default now()
+  );
+  -- The columns of Supabase's auth.sessions and auth.refresh_tokens that 0005 uses (user_id is text in refresh_tokens).
+  create table auth.sessions (
+    id uuid primary key default gen_random_uuid(),
+    user_id uuid not null references auth.users (id) on delete cascade,
+    created_at timestamptz not null default now()
+  );
+  create table auth.refresh_tokens (
+    id bigint generated always as identity primary key,
+    token text,
+    user_id varchar(255),
+    session_id uuid references auth.sessions (id) on delete cascade,
+    revoked boolean
   );
   create function auth.uid() returns uuid language sql stable as $$
     select nullif(pg_catalog.current_setting('request.jwt.claim.sub', true), '')::uuid
@@ -136,7 +150,14 @@ export async function createHarness(options: { migrationSql?: string; seed?: boo
     await db.exec(readFileSync(QUESTION_TYPES_MIGRATION_PATH, 'utf8'));
     if (options.profileMetadata !== false) await db.exec(readFileSync(PROFILE_METADATA_MIGRATION_PATH, 'utf8'));
   }
-  if (options.throttle) await db.exec(readFileSync(THROTTLE_MIGRATION_PATH, 'utf8'));
+  if (options.migrationSql === undefined) {
+    // 0002 and 0005 are applied to (or about to be applied to) the real project, so the harness always mirrors them.
+    // `throttle: false` keeps the database as it was before 0002, for the tests of 0002 itself.
+    if (options.throttle !== false) {
+      await db.exec(readFileSync(THROTTLE_MIGRATION_PATH, 'utf8'));
+      await db.exec(readFileSync(SECURITY_HARDENING_MIGRATION_PATH, 'utf8'));
+    }
+  } else if (options.throttle) await db.exec(readFileSync(THROTTLE_MIGRATION_PATH, 'utf8'));
   if (options.seed) await db.exec(readFileSync(SEED_PATH, 'utf8'));
 
   // One connection: serialise role switches so callbacks never interleave.

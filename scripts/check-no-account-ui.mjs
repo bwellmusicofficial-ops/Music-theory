@@ -25,6 +25,25 @@ function walk(dir) {
 for (const d of ['.next/static', '.next/server/app', '.next/server/chunks']) {
   try { walk(d); } catch { /* directory absent */ }
 }
+// P1-17: the common-password list is server side only. Distinctive entries must not be in anything the browser downloads,
+// whether or not accounts are switched on.
+const LIST_MARKERS = ['trustno1', 'mustang1', 'starwars1', 'whatever1', 'michelle1', 'jennifer1'];
+const listHits = [];
+function walkStatic(dir) {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) walkStatic(p);
+    else if (/\.(js|html|json|txt|map)$/.test(name)) {
+      const text = readFileSync(p, 'utf8');
+      for (const m of LIST_MARKERS) if (text.includes(`'${m}'`) || text.includes(`"${m}"`)) listHits.push(`${p}: ${m}`);
+    }
+  }
+}
+try { walkStatic('.next/static'); } catch { /* directory absent */ }
+if (listHits.length) {
+  console.error('The common-password list is in the browser bundle:\n' + listHits.join('\n'));
+  process.exit(1);
+}
 const routes = readFileSync('.next/app-path-routes-manifest.json', 'utf8');
 if (/\/account|\/api\/account/.test(routes)) hits.push('.next/app-path-routes-manifest.json lists an account route');
 if (hits.length) {

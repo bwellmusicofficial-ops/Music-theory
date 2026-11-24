@@ -42,6 +42,13 @@ function scrub(v: unknown): Json {
   return null;
 }
 
+function withoutUserId(row: Json): Json {
+  if (row === null || typeof row !== 'object' || Array.isArray(row)) return row;
+  const { user_id: _omit, ...rest } = row;
+  void _omit;
+  return rest;
+}
+
 export const README = {
   what_is_this:
     'This file has everything Music Theory Now keeps in your account. It belongs to you. You can open it in any text editor, keep it, or show it to a grown-up.',
@@ -91,11 +98,41 @@ export function buildExportFile(raw: unknown, now: Date): Record<string, Json> {
     ? { has_recovery_code: true, created_at: scrub(secrets.created_at), updated_at: scrub(secrets.updated_at) }
     : null;
 
-  for (const k of LIST_SECTIONS) out[k] = Array.isArray(src[k]) ? src[k].map(scrub) : [];
+  // The account's id is in `account` once; repeating it in every row of a large file only adds size.
+  for (const k of LIST_SECTIONS) out[k] = Array.isArray(src[k]) ? src[k].map(scrub).map(withoutUserId) : [];
   return out;
 }
 
-/** The text of the file: readable (indented) JSON. */
+/** Rows are written this many to a piece, so a big file is produced and sent piece by piece. */
+const ROWS_PER_CHUNK = 500;
+
+/**
+ * The file as pieces of text, in order. Compact JSON (no indentation) with each row of a list on its own line, so it
+ * is small and still readable. Joined, the pieces are one valid JSON document ending in a newline. The route streams
+ * the pieces: a file of ten thousand answers is a couple of megabytes, over Vercel's 4.5 MB limit for a response
+ * that is not streamed once it grows.
+ */
+export function* exportFileChunks(raw: unknown, now: Date): Generator<string> {
+  const file = buildExportFile(raw, now);
+  const entries = Object.entries(file);
+  yield '{\n';
+  for (const [i, [key, value]] of entries.entries()) {
+    const last = i === entries.length - 1;
+    if (Array.isArray(value) && value.length > 0) {
+      yield `${JSON.stringify(key)}:[\n`;
+      for (let at = 0; at < value.length; at += ROWS_PER_CHUNK) {
+        const rows = value.slice(at, at + ROWS_PER_CHUNK).map((r) => JSON.stringify(r)).join(',\n');
+        yield at + ROWS_PER_CHUNK < value.length ? `${rows},\n` : rows;
+      }
+      yield last ? '\n]\n' : '\n],\n';
+    } else {
+      yield `${JSON.stringify(key)}:${JSON.stringify(value)}${last ? '\n' : ',\n'}`;
+    }
+  }
+  yield '}\n';
+}
+
+/** The whole file as one string (the pieces joined). */
 export function exportFileText(raw: unknown, now: Date): string {
-  return JSON.stringify(buildExportFile(raw, now), null, 2) + '\n';
+  return [...exportFileChunks(raw, now)].join('');
 }
