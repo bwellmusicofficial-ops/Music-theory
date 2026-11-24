@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import { FORMAT_BAD, FORMAT_OK } from './test-support/code-name-cases';
 import {
-  codeNameFormatOk, codeNameProblem, formatRecoveryCode, generateRecoveryCode, isCommonPassword, normaliseCodeName,
+  codeNameFormatOk, codeNameProblem, formatRecoveryCode, generateRecoveryCode, normaliseCodeName,
   normaliseRecoveryCode, passwordProblem, RECOVERY_ALPHABET, RECOVERY_LENGTH,
 } from './rules';
-import { COMMON_PASSWORDS } from './common-passwords';
 
 describe('code names', () => {
   it.each(FORMAT_OK)('%s is a good format', (t) => expect(codeNameFormatOk(t)).toBe(true));
@@ -36,19 +35,8 @@ describe('passwords', () => {
     expect(passwordProblem('onlylowercaseletters')).toBeNull();
     expect(passwordProblem('12 4 56 78 9 00')).toBeNull();
   });
-  it('refuses the common ones, whatever the case', () => {
-    expect(passwordProblem('password')).toBe('common');
-    expect(passwordProblem('PassWord123')).toBe('common');
-    expect(passwordProblem('12345678')).toBe('common');
-    expect(passwordProblem('qwertyuiop')).toBe('common');
-    expect(isCommonPassword('iloveyou')).toBe(true);
-  });
-  it('every entry of the list is 8 or more characters and lower case', () => {
-    for (const p of COMMON_PASSWORDS) {
-      expect(p.length).toBeGreaterThanOrEqual(8);
-      expect(p).toBe(p.toLowerCase());
-    }
-    expect(COMMON_PASSWORDS.length).toBeGreaterThan(80);
+  it('does not carry the common-password list (that is server side only, see password-policy.server.test.ts)', () => {
+    expect(passwordProblem('password')).toBeNull();
   });
   it('refuses a password that is the code name', () => {
     expect(passwordProblem('Swift_Cello42', 'SwiftCello42')).toBe('same-as-name');

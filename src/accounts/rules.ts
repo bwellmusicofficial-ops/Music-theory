@@ -8,8 +8,6 @@
  * (`test-support/code-name-cases.ts`, `src/db/code-name-parity.test.ts`).
  * The blocked-word list lives only in the database.
  */
-import { COMMON_PASSWORDS } from './common-passwords';
-
 export const CODE_NAME_MIN = 3;
 export const CODE_NAME_MAX = 20;
 
@@ -53,7 +51,8 @@ export function codeNameProblemText(p: CodeNameProblem): string {
 }
 
 // ---------------------------------------------------------------------------
-// Passwords: 8 or more characters, not on the common list, no composition rules.
+// Passwords: 8 or more characters, not on the common list, no composition rules. The common list is
+// server-side only (`password-policy.server.ts`); `passwordProblem` here is what the browser can check.
 // ---------------------------------------------------------------------------
 export const PASSWORD_MIN = 8;
 /** bcrypt, which Supabase uses, ignores everything after 72 bytes; refuse rather than silently truncate. */
@@ -64,7 +63,6 @@ export type PasswordProblem = 'too-short' | 'too-long' | 'common' | 'same-as-nam
 export function passwordProblem(password: string, codeName?: string): PasswordProblem | null {
   if (password.length < PASSWORD_MIN) return 'too-short';
   if (new TextEncoder().encode(password).length > PASSWORD_MAX) return 'too-long';
-  if (isCommonPassword(password)) return 'common';
   if (codeName && normaliseCodeName(codeName) !== '' && password.toLowerCase().replace(/[^a-z0-9]/g, '') === normaliseCodeName(codeName)) {
     return 'same-as-name';
   }
@@ -82,11 +80,6 @@ export function passwordProblemText(p: PasswordProblem): string {
     case 'same-as-name':
       return "Your password can't be the same as your code name.";
   }
-}
-
-const COMMON = new Set(COMMON_PASSWORDS);
-export function isCommonPassword(password: string): boolean {
-  return COMMON.has(password.toLowerCase());
 }
 
 // ---------------------------------------------------------------------------

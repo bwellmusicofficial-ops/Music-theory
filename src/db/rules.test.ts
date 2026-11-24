@@ -445,7 +445,8 @@ describe('structure: FORCE RLS, policies, privileges, function grants', () => {
         `select relname, relrowsecurity, relforcerowsecurity from pg_class c join pg_namespace n on n.oid = c.relnamespace
          where n.nspname = 'public' and c.relkind = 'r' order by 1`),
     );
-    expect(rows.map((r) => r.relname).sort()).toEqual([...ALL_TABLES].sort());
+    // auth_throttle comes from 0002, which the harness always applies (0005 needs it).
+    expect(rows.map((r) => r.relname).sort()).toEqual([...ALL_TABLES, 'auth_throttle'].sort());
     for (const r of rows) {
       expect(r.relrowsecurity, r.relname).toBe(true);
       expect(r.relforcerowsecurity, r.relname).toBe(true);
@@ -604,7 +605,8 @@ describe('structure: FORCE RLS, policies, privileges, function grants', () => {
         `select c.conrelid::regclass::text as t, c.confdeltype as del from pg_constraint c
          where c.contype = 'f' and c.confrelid = 'auth.users'::regclass`),
     );
-    const byTable = new Set(rows.map((r) => r.t.replace('public.', '')));
+    // Only public tables: auth.sessions (the harness's copy of Supabase's) and 0005's private counters cascade too.
+    const byTable = new Set(rows.filter((r) => !r.t.startsWith('auth.') && !r.t.startsWith('private.')).map((r) => r.t.replace('public.', '')));
     expect([...byTable].sort()).toEqual(ALL_TABLES.filter((t) => t !== 'blocked_names').sort());
     for (const r of rows) expect(r.del, r.t).toBe('c');
   });

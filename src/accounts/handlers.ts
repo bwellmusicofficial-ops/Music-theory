@@ -1,11 +1,11 @@
 import { createHmac } from 'node:crypto';
 import { accountsEnabled } from './enabled';
+import { passwordProblem } from './password-policy.server';
 import type { AccountBackend, AgeBand, CookieJar } from './backend/types';
 import {
-  codeNameProblem, normaliseCodeName, normaliseRecoveryCode, passwordProblem,
-  type PasswordProblem,
+  codeNameProblem, normaliseCodeName, normaliseRecoveryCode, type PasswordProblem,
 } from './rules';
-import { AVAILABILITY_THRESHOLD, IP_THRESHOLD, NAME_THRESHOLD, SIGN_UP_THRESHOLD } from './throttle';
+import { AVAILABILITY_THRESHOLD, IP_THRESHOLD, NAME_PAIR_THRESHOLD, NAME_THRESHOLD, SIGN_UP_THRESHOLD } from './throttle';
 
 /**
  * Request handling for /api/account/*, separate from Next so it can be tested with plain
@@ -33,23 +33,70 @@ export function json(body: unknown, status = 200, extra: Record<string, string> 
 
 export const fail = (status: number, error: string, extra: Record<string, unknown> = {}) => json({ error, ...extra }, status);
 
-function rateLimited(seconds: number): Response {
+export function rateLimited(seconds: number): Response {
   return json({ error: 'rate-limited', retryAfterSeconds: seconds }, 429, { 'retry-after': String(seconds) });
 }
 
 /**
- * The address as the platform reports it, keyed-hashed before it is used, so no address is stored.
- * A plain hash of an IPv4 address can be reversed by trying all four billion; keying it with the
+ * An IP address as one rate-limit bucket: an IPv4 address as it is; an IPv6 address by its /64 (the block a single
+ * home or school network is given, so one machine cannot dodge a limit by rotating through its own addresses);
+ * an IPv4-mapped IPv6 address as the IPv4 address inside it.
+ */
+export function ipBucket(ip: string): string {
+  const v = ip.trim().toLowerCase().replace(/^\[|\]$/g, '').split('%')[0]!;
+  if (!v.includes(':')) return v;
+  const mapped = /^(?:0{0,4}:){2,5}(?:ffff:)?(\d{1,3}(?:\.\d{1,3}){3})$/.exec(v);
+  if (mapped) return mapped[1]!;
+  const [head = '', tail] = v.split('::');
+  const h = head === '' ? [] : head.split(':');
+  const t = tail === undefined || tail === '' ? [] : tail.split(':');
+  const groups = tail === undefined ? h : [...h, ...Array(Math.max(0, 8 - h.length - t.length)).fill('0'), ...t];
+  const first4 = groups.slice(0, 4).map((g) => (g || '0').padStart(4, '0'));
+  while (first4.length < 4) first4.push('0000');
+  return first4.join(':') + '::/64';
+}
+
+const keyed = (domain: string, value: string): string =>
+  createHmac('sha256', process.env.SUPABASE_SECRET_KEY ?? 'local-development-only').update(`${domain}:${value}`).digest('hex').slice(0, 32);
+
+/**
+ * The address as the platform reports it, bucketed (IPv6 by /64) and keyed-hashed before it is used, so no address is
+ * stored. A plain hash of an IPv4 address can be reversed by trying all four billion; keying it with the
  * server secret prevents that.
  */
 export function clientKey(req: Request): string {
   const ip = req.headers.get('x-real-ip') ?? req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-  const pepper = process.env.SUPABASE_SECRET_KEY ?? 'local-development-only';
-  return createHmac('sha256', pepper).update(ip).digest('hex').slice(0, 32);
+  return keyed('ip', ipBucket(ip));
 }
 
-const nameKey = (kind: string, codeName: string) => `${kind}:name:${normaliseCodeName(codeName).slice(0, 40)}`;
+/** A typed code name as a rate-limit key part: normalised, then keyed-hashed. A typed name is never stored. */
+export const nameHash = (codeName: string) => keyed('name', normaliseCodeName(codeName).slice(0, 40));
+
+/** Throttle keys for one code name, shared with account deletion (which forgets them). */
+export const nameKey = (kind: string, codeName: string) => `${kind}:name:${nameHash(codeName)}`;
+const pairKey = (kind: string, codeName: string, req: Request) => `${kind}:pair:${nameHash(codeName).slice(0, 24)}:${clientKey(req).slice(0, 24)}`;
 const ipKey = (kind: string, req: Request) => `${kind}:ip:${clientKey(req)}`;
+
+/**
+ * Guess limiting for sign-in and recovery. Counts the attempt BEFORE it is tried (atomic, so parallel guesses
+ * cannot slip through) against the name on its own and the name from this address; returns the wait, 0 to go ahead.
+ * The per-address ceiling on FAILURES (`ipKey`) is checked first and counted by `recordFailure`.
+ */
+async function admitGuess(kind: string, codeName: string, req: Request, backend: AccountBackend): Promise<number> {
+  const ipWait = await backend.throttle.check(ipKey(kind, req));
+  if (ipWait > 0) return ipWait;
+  const waits = await Promise.all([
+    backend.throttle.hit(pairKey(kind, codeName, req), NAME_PAIR_THRESHOLD),
+    backend.throttle.hit(nameKey(kind, codeName), NAME_THRESHOLD),
+  ]);
+  return Math.max(...waits);
+}
+const recordFailure = (kind: string, req: Request, backend: AccountBackend) => backend.throttle.fail(ipKey(kind, req), IP_THRESHOLD);
+async function forgiveGuesses(kind: string, codeName: string, req: Request, backend: AccountBackend) {
+  // Both counters of THIS name: only someone who knows the password or code reaches here. The address's failure
+  // counter is not touched, so an account of one's own cannot reset it between guesses at others.
+  await Promise.all([backend.throttle.clear(pairKey(kind, codeName, req)), backend.throttle.clear(nameKey(kind, codeName))]);
+}
 
 /** Cross-site requests are refused: a browser always sends Origin on a cross-site POST. */
 export function sameSite(req: Request): boolean {
@@ -70,6 +117,9 @@ export type Body = Record<string, unknown>;
 /** Reads a small JSON object body. Returns a Response when the request is not acceptable. */
 export async function readBody(req: Request, maxChars: number = MAX_BODY_CHARS): Promise<Body | Response> {
   if (!(req.headers.get('content-type') ?? '').toLowerCase().startsWith('application/json')) return fail(415, 'bad-request');
+  // A declared size far over the limit is refused before the body is read (a UTF-8 character is up to 4 bytes).
+  const declared = Number(req.headers.get('content-length'));
+  if (Number.isFinite(declared) && declared > maxChars * 4) return fail(413, 'bad-request');
   const text = await req.text();
   if (text.length > maxChars) return fail(413, 'bad-request');
   try {
@@ -135,11 +185,14 @@ export function handleSignUp(req: Request, load: LoadDeps): Promise<Response> {
     const pw = passwordProblem(password, codeName);
     if (pw) return fail(400, PASSWORD_ERROR[pw]);
 
-    const wait = await backend.throttle.fail(ipKey('signup', req), SIGN_UP_THRESHOLD);
-    if (wait > 0) return rateLimited(wait);
+    // Look first; only an account that was really made counts toward the address's volume (a refused name,
+    // or a slip, does not use up the class's allowance).
+    const waiting = await backend.throttle.check(ipKey('signup', req));
+    if (waiting > 0) return rateLimited(waiting);
 
     const r = await backend.signUp({ codeName, password, ageBand: ageBand as AgeBand }, jar);
     if (!r.ok) return fail(409, 'code-name-unavailable');
+    await backend.throttle.fail(ipKey('signup', req), SIGN_UP_THRESHOLD);
     return json({ user: r.user, recoveryCode: r.recoveryCode, signedIn: r.signedIn });
   });
 }
@@ -150,22 +203,15 @@ export function handleSignIn(req: Request, load: LoadDeps): Promise<Response> {
     const codeName = str(body.codeName);
     const password = str(body.password);
     if (codeName === null || password === null) return fail(400, 'bad-request');
-    const keys = [nameKey('signin', codeName), ipKey('signin', req)];
-
-    const waits = await Promise.all(keys.map((k) => backend.throttle.check(k)));
-    if (Math.max(...waits) > 0) return rateLimited(Math.max(...waits));
+    const wait = await admitGuess('signin', codeName, req, backend);
+    if (wait > 0) return rateLimited(wait);
 
     const r = await backend.signIn({ codeName, password }, jar);
     if (!r.ok) {
-      const after = [
-        await backend.throttle.fail(keys[0]!, NAME_THRESHOLD),
-        await backend.throttle.fail(keys[1]!, IP_THRESHOLD),
-      ];
-      return Math.max(...after) > 0 ? rateLimited(Math.max(...after)) : fail(401, 'invalid-credentials');
+      const after = await recordFailure('signin', req, backend);
+      return after > 0 ? rateLimited(after) : fail(401, 'invalid-credentials');
     }
-    // Only the name's counter is cleared: someone with an account of their own must not be able to
-    // reset the address's counter by signing in between guesses.
-    await backend.throttle.clear(keys[0]!);
+    await forgiveGuesses('signin', codeName, req, backend);
     return json({ user: r.user });
   });
 }
@@ -179,23 +225,18 @@ export function handleRecover(req: Request, load: LoadDeps): Promise<Response> {
     if (codeName === null || typed === null || newPassword === null) return fail(400, 'bad-request');
     const pw = passwordProblem(newPassword, codeName);
     if (pw) return fail(400, PASSWORD_ERROR[pw]);
-    const keys = [nameKey('recover', codeName), ipKey('recover', req)];
-
-    const waits = await Promise.all(keys.map((k) => backend.throttle.check(k)));
-    if (Math.max(...waits) > 0) return rateLimited(Math.max(...waits));
+    const wait = await admitGuess('recover', codeName, req, backend);
+    if (wait > 0) return rateLimited(wait);
 
     // A malformed code is counted and answered exactly like a wrong one.
     const code = normaliseRecoveryCode(typed);
     if (!code) console.warn(`[accounts] recover refused: code is not 12 valid symbols (typed ${typed.length} characters)`);
     const r = code ? await backend.recover({ codeName, recoveryCode: code, newPassword }, jar) : ({ ok: false } as const);
     if (!r.ok) {
-      const after = [
-        await backend.throttle.fail(keys[0]!, NAME_THRESHOLD),
-        await backend.throttle.fail(keys[1]!, IP_THRESHOLD),
-      ];
-      return Math.max(...after) > 0 ? rateLimited(Math.max(...after)) : fail(401, 'invalid-recovery');
+      const after = await recordFailure('recover', req, backend);
+      return after > 0 ? rateLimited(after) : fail(401, 'invalid-recovery');
     }
-    await backend.throttle.clear(keys[0]!);
+    await forgiveGuesses('recover', codeName, req, backend);
     return json({ user: r.user, recoveryCode: r.recoveryCode, signedIn: r.signedIn });
   });
 }

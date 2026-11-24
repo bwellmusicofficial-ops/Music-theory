@@ -160,7 +160,7 @@ describe('sync', () => {
   it('answers 429 with the wait when the store says it is rate limited', async () => {
     const limited = { saveLessons: async () => ({ skipped: 0 }), saveGameBests: async () => ({ saved: 0 }), saveMockResults: async () => ({ saved: 0 }),
       recordAttempts: async () => { throw new RateLimitedError(60); } } as unknown as ProgressStore;
-    const fake = { progress: async () => limited } as unknown as MemoryAccountBackend;
+    const fake = { progress: async () => limited, throttle: { hit: async () => 0 } } as unknown as MemoryAccountBackend;
     const r = await handleProgressSync(post('/sync', { attempts: [attempt(1)] }), async () => ({ backend: fake, jar: new TestJar() }));
     expect(r.status).toBe(429);
     expect(r.headers.get('retry-after')).toBe('60');

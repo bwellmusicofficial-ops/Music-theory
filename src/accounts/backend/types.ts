@@ -45,6 +45,13 @@ export interface Throttle {
   /** Seconds to wait before this key may try again; 0 when it may. */
   check(key: string): Promise<number>;
   fail(key: string, threshold: number): Promise<number>;
+  /**
+   * ATOMIC: counts one attempt on `key` in a fixed one-hour window and says whether it may go ahead: 0 to try it, or
+   * the seconds to wait. The first `threshold` attempts go ahead; the threshold-th starts a wait (30 s, 60 s ...
+   * 15 min) for the next. Attempts refused during a wait are not counted. Call it before trying a password or
+   * code, so concurrent guesses cannot all pass a check: only the attempts it lets through are tried.
+   */
+  hit(key: string, threshold: number): Promise<number>;
   clear(key: string): Promise<void>;
 }
 

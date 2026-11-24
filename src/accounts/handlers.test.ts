@@ -131,12 +131,12 @@ describe('sign-up', () => {
     }
   });
 
-  it('is rate limited per IP (30 accounts, then a delay)', async () => {
+  it('is rate limited per IP: a school can make 60 accounts, the 61st waits', async () => {
     const codes: number[] = [];
-    for (let i = 0; i < 31; i++) codes.push((await signUp(`Quaver${String(i).padStart(2, '0')}x`)).status);
-    expect(codes.slice(0, 29).every((c) => c === 200)).toBe(true);
-    expect(codes[29]).toBe(429);
-    expect(codes[30]).toBe(429);
+    for (let i = 0; i < 62; i++) codes.push((await signUp(`Quaver${String(i).padStart(2, '0')}x`)).status);
+    expect(codes.slice(0, 60).every((c) => c === 200)).toBe(true);
+    expect(codes[60]).toBe(429);
+    expect(codes[61]).toBe(429);
   });
 });
 
@@ -163,7 +163,7 @@ describe('sign-in', () => {
   it('after 5 wrong tries for one name, locks that name: even the right password waits', async () => {
     const statuses: number[] = [];
     for (let i = 0; i < 5; i++) statuses.push((await handleSignIn(post({ codeName: 'SwiftCello42', password: `wrong password ${i}` }), load)).status);
-    expect(statuses).toEqual([401, 401, 401, 401, 429]);
+    expect(statuses).toEqual([401, 401, 401, 401, 401]); // five tries are made; the sixth waits
     const locked = await handleSignIn(post({ codeName: 'SwiftCello42', password: PW }), load);
     expect(locked.status).toBe(429);
     const body = (await locked.json()) as { retryAfterSeconds: number };
@@ -180,11 +180,13 @@ describe('sign-in', () => {
     backend = new MemoryAccountBackend({ now: () => now });
     await signUp();
     const t = async () => (await read(await handleSignIn(post({ codeName: 'SwiftCello42', password: 'wrong password' }), load))).body.retryAfterSeconds as number | undefined;
-    for (let i = 0; i < 4; i++) await t();
+    for (let i = 0; i < 5; i++) await t(); // five tries are made (the fifth starts the wait)
     expect(await t()).toBe(30);
     now += 31_000;
+    expect(await t()).toBeUndefined(); // the wait is over: this one is tried (and fails)
     expect(await t()).toBe(60);
     now += 61_000;
+    expect(await t()).toBeUndefined();
     expect(await t()).toBe(120);
     now += 121_000;
     expect((await handleSignIn(post({ codeName: 'SwiftCello42', password: PW }), load)).status).toBe(200);
@@ -196,9 +198,9 @@ describe('sign-in', () => {
     for (let i = 0; i < 4; i++) expect((await handleSignIn(post({ codeName: 'SwiftCello42', password: 'wrong password' }), load)).status).toBe(401);
   });
 
-  it('limits one IP across many names (20 failures), but not a different IP', async () => {
+  it('limits one IP across many names (200 failures), but not a different IP', async () => {
     let last = 0;
-    for (let i = 0; i < 20; i++) last = (await handleSignIn(post({ codeName: `Nobody${i}x`, password: PW }), load)).status;
+    for (let i = 0; i < 200; i++) last = (await handleSignIn(post({ codeName: `Nobody${i}x`, password: PW }), load)).status;
     expect(last).toBe(429);
     expect((await handleSignIn(post({ codeName: 'SwiftCello42', password: PW }), load)).status).toBe(429);
     expect((await handleSignIn(post({ codeName: 'SwiftCello42', password: PW }, { 'x-forwarded-for': '198.51.100.9' }), load)).status).toBe(200);
@@ -206,8 +208,8 @@ describe('sign-in', () => {
 
   it('an unknown name is throttled too, so existence cannot be probed by lock-out', async () => {
     const s: number[] = [];
-    for (let i = 0; i < 6; i++) s.push((await handleSignIn(post({ codeName: 'NobodyHere99', password: PW }), load)).status);
-    expect(s).toEqual([401, 401, 401, 401, 429, 429]);
+    for (let i = 0; i < 7; i++) s.push((await handleSignIn(post({ codeName: 'NobodyHere99', password: PW }), load)).status);
+    expect(s).toEqual([401, 401, 401, 401, 401, 429, 429]);
   });
 
   it('rejects malformed bodies', async () => {
@@ -254,10 +256,10 @@ describe('recovery', () => {
     expect((await recover()).status).toBe(200);
   });
 
-  it('is rate limited per name: guessing codes locks after 5', async () => {
+  it('is rate limited per name: guessing codes locks after 5 tries', async () => {
     const s: number[] = [];
-    for (let i = 0; i < 6; i++) s.push((await recover({ recoveryCode: 'ABCDEFGHJKMN' })).status);
-    expect(s).toEqual([401, 401, 401, 401, 429, 429]);
+    for (let i = 0; i < 7; i++) s.push((await recover({ recoveryCode: 'ABCDEFGHJKMN' })).status);
+    expect(s).toEqual([401, 401, 401, 401, 401, 429, 429]);
     expect((await recover()).status).toBe(429);
   });
 

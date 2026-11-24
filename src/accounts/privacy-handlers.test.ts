@@ -11,7 +11,7 @@ import type { AttemptWire } from '@/sync/wire';
 import { MemoryAccountBackend } from './backend/memory';
 import { SupabaseAccountBackend } from './backend/supabase';
 import type { AccountBackend, CookieJar } from './backend/types';
-import { handleMe, handleSignIn, type Deps, type LoadDeps } from './handlers';
+import { handleMe, handleSignIn, nameHash, type Deps, type LoadDeps } from './handlers';
 import { handleDelete, handleExport } from './privacy-handlers';
 import { createFakeSupabase, type FakeSupabase } from './test-support/fake-supabase';
 import { TestJar } from './test-support/jar';
@@ -268,15 +268,17 @@ describe('supabase backend: delete leaves nothing', () => {
     const aId = await idOf(a.codeName);
     const bId = await idOf(b.codeName);
     // Leave rate-limit rows that name this account: failed sign-ins, and a download.
-    const norm = a.codeName.toLowerCase();
+    // Keys carry a keyed hash of the name, never the typed name. The name's own keys are forgotten on delete; the
+    // (name + address) key expires by itself within a day.
+    const hashed = nameHash(a.codeName);
     for (let i = 0; i < 2; i++) {
       await handleSignIn(post('/api/account/sign-in', { codeName: a.codeName, password: 'wrong horse!' }), loader(backend, new TestJar()));
     }
     await handleExport(exportReq(), loader(backend, a.jar), NOW);
-    await h.asService((s) => s.run(`select public.auth_throttle_fail($1, 5)`, [`recover:name:${norm}`]));
+    await h.asService((s) => s.run(`select public.auth_throttle_fail($1, 5)`, [`recover:name:${hashed}`]));
     const throttleRows = (like: string) =>
       h.asOwner((s) => s.scalar<string>(`select count(*) from public.auth_throttle where key like $1`, [like])).then(Number);
-    expect(await throttleRows(`%${norm}%`)).toBeGreaterThanOrEqual(2);
+    expect(await throttleRows(`%:name:${hashed}`)).toBe(2);
     expect(await throttleRows(`%${aId}%`)).toBe(1);
 
     const before: Record<string, number> = {};
@@ -290,7 +292,7 @@ describe('supabase backend: delete leaves nothing', () => {
 
     for (const t of USER_TABLES) expect(await rows(t, aId), t).toBe(0);
     expect(Number(await h.asOwner((s) => s.scalar<string>(`select count(*) from auth.users where id = $1`, [aId])))).toBe(0);
-    expect(await throttleRows(`%${norm}%`)).toBe(0);
+    expect(await throttleRows(`%:name:${hashed}`)).toBe(0);
     expect(await throttleRows(`%${aId}%`)).toBe(0);
     for (const t of USER_TABLES) expect(await rows(t, bId), `${t} (other)`).toBe(before[t]);
     expect(Number(await h.asOwner((s) => s.scalar<string>(`select count(*) from auth.users where id = $1`, [bId])))).toBe(1);
@@ -399,4 +401,42 @@ describe('supabase backend: delete leaves nothing', () => {
     expect(JSON.stringify(raw)).not.toMatch(/\$2[aby]\$/);
     expect(await backend.exportData(new TestJar())).toBeNull();
   });
+});
+
+describe('finding 5: a large export stays under the 4.5 MB response cap', () => {
+  it('10,000 attempts: compact, no repeated user id, streamed, and under 4.5 MB', async () => {
+    const { backend } = makers.memory!();
+    const { jar } = await learner(backend, 'BigExport');
+    const store = (await backend.progress(jar))!;
+    const base = Date.now() - 3_600_000;
+    const attempts = Array.from({ length: 10_000 }, (_, i): AttemptWire => ({
+      lessonId: 'g1-rhythm-01', step: 'practice', questionId: `question-${i}`, skill: 'rhythm.note.value', type: 'multiple-choice',
+      correct: i % 2 === 0, score: 1, msTaken: 1234, seed: 123456789 + i, at: new Date(base + i * 100).toISOString(),
+    }));
+    await store.recordAttempts(attempts);
+    const res = await handleExport(exportReq(), loader(backend, jar), NOW);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-length')).toBeNull(); // streamed, not one sized body
+    const reader = res.body!.getReader();
+    let bytes = 0;
+    let pieces = 0;
+    let text = '';
+    const decoder = new TextDecoder();
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      pieces++;
+      bytes += value.length;
+      text += decoder.decode(value, { stream: true });
+    }
+    expect(pieces).toBeGreaterThan(5);
+    // Under the cap even if it were one body (about 3.1 MB); because it is streamed, a bigger file is not limited by it.
+    expect(bytes).toBeLessThan(4.5 * 1024 * 1024);
+    const parsed = JSON.parse(text);
+    expect(parsed.attempts.length).toBeGreaterThanOrEqual(10_000);
+    expect(parsed.attempts[0]).not.toHaveProperty('user_id');
+    expect(text).not.toContain('\n  ');
+    // The account id appears in `account` and `profile`, and in no list row.
+    expect(text.split(parsed.account.user_id).length - 1).toBe(2);
+  }, 60_000);
 });

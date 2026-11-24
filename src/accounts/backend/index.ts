@@ -13,6 +13,32 @@ export function sessionCookieOptions(): Record<string, unknown> {
   return { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/' };
 }
 
+/**
+ * The options a session cookie is finally set with. SESSION cookies: no `maxAge` and no `expires`, so the browser
+ * forgets them when it closes (`@supabase/ssr` would otherwise give them 400 days). The one exception is removal
+ * (an empty value or a zero/negative maxAge), which must keep its `maxAge: 0` to delete the cookie.
+ */
+export function finalCookieOptions(value: string, options: Record<string, unknown> | undefined): Record<string, unknown> {
+  const merged: Record<string, unknown> = { ...options, ...sessionCookieOptions() };
+  const removing = value === '' || (typeof options?.maxAge === 'number' && options.maxAge <= 0);
+  delete merged.expires;
+  if (removing) merged.maxAge = 0;
+  else delete merged.maxAge;
+  return merged;
+}
+
+/** The request's session as a Supabase client: reads the cookies, and writes them back as session cookies. */
+export function createSessionClient(url: string, publishable: string, jar: CookieJar, global?: { fetch?: typeof fetch }) {
+  return createServerClient(url, publishable, {
+    cookieOptions: sessionCookieOptions(),
+    ...(global ? { global } : {}),
+    cookies: {
+      getAll: () => jar.getAll(),
+      setAll: (list) => jar.setAll(list.map((c) => ({ name: c.name, value: c.value, options: finalCookieOptions(c.value, c.options) }))),
+    },
+  });
+}
+
 function createSupabaseBackend(): AccountBackend {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const publishable = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -23,15 +49,7 @@ function createSupabaseBackend(): AccountBackend {
   const admin = createClient(url, secret, { auth: { autoRefreshToken: false, persistSession: false } });
   return new SupabaseAccountBackend({
     admin,
-    sessionClient: (jar: CookieJar) =>
-      createServerClient(url, publishable, {
-        cookieOptions: sessionCookieOptions(),
-        cookies: {
-          getAll: () => jar.getAll(),
-          setAll: (list) =>
-            jar.setAll(list.map((c) => ({ name: c.name, value: c.value, options: { ...c.options, ...sessionCookieOptions() } }))),
-        },
-      }),
+    sessionClient: (jar: CookieJar) => createSessionClient(url, publishable, jar),
   });
 }
 

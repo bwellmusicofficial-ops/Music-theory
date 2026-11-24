@@ -50,6 +50,7 @@ export class MemoryAccountBackend implements AccountBackend {
   private readonly rounds: number;
   private readonly now: () => number;
   private readonly counters = new Map<string, { failures: number; lastFailedAt: number; lockedUntil: number }>();
+  private readonly windows = new Map<string, { count: number; startedAt: number; lockedUntil: number }>();
 
   constructor(options: MemoryBackendOptions = {}) {
     this.blocked = (options.blocked ?? DEFAULT_BLOCKED).map((b) => ({ ...b, word: normaliseCodeName(b.word) }));
@@ -65,14 +66,26 @@ export class MemoryAccountBackend implements AccountBackend {
         this.counters.set(key, { failures, lastFailedAt: t, lockedUntil: delay > 0 ? t + delay * 1000 : 0 });
         return delay;
       },
+      // Synchronous from the read to the write (no await between), so it is atomic like the database's row lock.
+      hit: async (key, threshold) => {
+        const t = this.now();
+        const w = this.windows.get(key);
+        if (w && w.lockedUntil > t) return Math.ceil((w.lockedUntil - t) / 1000); // refused, not counted
+        const fresh = !w || t - w.startedAt >= WINDOW_SECONDS * 1000;
+        const count = fresh ? 1 : w.count + 1;
+        const delay = throttleDelaySeconds(count, threshold);
+        this.windows.set(key, { count, startedAt: fresh ? t : w.startedAt, lockedUntil: delay > 0 ? t + delay * 1000 : 0 });
+        return 0;
+      },
       clear: async (key) => {
         this.counters.delete(key);
+        this.windows.delete(key);
       },
     };
   }
 
   private waitFor(key: string): number {
-    const c = this.counters.get(key);
+    const c = this.counters.get(key) ?? this.windows.get(key);
     if (!c || c.lockedUntil <= this.now()) return 0;
     return Math.ceil((c.lockedUntil - this.now()) / 1000);
   }
@@ -152,7 +165,7 @@ export class MemoryAccountBackend implements AccountBackend {
     const id = token ? this.sessions.get(token) : undefined;
     if (!id || !this.users.has(id)) return null;
     let store = this.progressStores.get(id);
-    if (!store) this.progressStores.set(id, (store = new MemoryProgressStore(this.now)));
+    if (!store) this.progressStores.set(id, (store = new MemoryProgressStore(this.now, id)));
     return store;
   }
 

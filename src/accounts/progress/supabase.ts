@@ -29,7 +29,7 @@ export class SupabaseProgressStore implements ProgressStore {
   constructor(
     private readonly client: SupabaseClient,
     /** The signed-in user's id, as the auth server confirmed it. Rows are written with it; RLS checks it again. */
-    private readonly userId: string,
+    readonly userId: string,
   ) {}
 
   async snapshot(): Promise<SnapshotWire> {

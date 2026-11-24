@@ -62,36 +62,106 @@ read it, but the address is visible to the person in their own browser's cookie 
 personal and cannot receive mail. If this matters, a Supabase "custom access token hook" can strip the claim; not
 done.
 
-Session cookies are `httpOnly`, `sameSite=lax`, `secure` in production. No `proxy.ts` (middleware) is used:
+Session cookies are `httpOnly`, `sameSite=lax`, `secure` in production, and end when the browser closes. No `proxy.ts` (middleware) is used:
 `getUser()` in the "who am I" route refreshes the session when needed and writes the cookies back.
 
-## Rate limiting
+## Security fixes from the P1-17 review
 
-Counters live in Postgres (`supabase/migrations/0002_auth_throttle.sql`) so they work on serverless. Rules, in
-`src/accounts/throttle.ts` and mirrored in SQL (a test proves the schedule agrees):
+An independent review of the accounts code found nine problems; all are fixed here and in migration
+`supabase/migrations/0005_security_hardening.sql` (the owner applies it; see `supabase/README.md`, "Apply 0005").
+Until it is applied the server **fails closed**: sign-in, recovery and progress saving answer "server error" and log
+`migration 0005_security_hardening.sql has not been applied (function ... is missing)`.
 
-| What | Key | Threshold |
-| --- | --- | --- |
-| Wrong sign-in password | per code name | 5 |
-| Wrong sign-in password | per IP address (all names) | 20 |
-| Wrong recovery code | per code name, per IP (separate from sign-in) | 5 and 20 |
-| Account creation | per IP | 30 |
-| Availability checks | per IP | 300 |
+### Sessions end when the browser closes
 
-After the threshold: wait 30, 60, 120, 240, 480, then 900 seconds (the cap). A key with no failure for an hour
-starts again. A success clears the name's counter but not the IP's. Unknown names are counted too. The IP
-threshold is higher than the design's "5" on purpose: a school shares one address between a class. IPs are
-hashed (SHA-256) before use; rows idle for a day are deleted. The IP comes from `x-real-ip`, then the first
-`x-forwarded-for` entry (Vercel sets both); behind any other proxy check that the header cannot be spoofed.
+`@supabase/ssr` gives auth cookies a 400-day life unless told otherwise. `finalCookieOptions` in
+`src/accounts/backend/index.ts` removes `maxAge` and `expires` from every cookie the session client writes (sign-in,
+refresh), so they are session cookies; a removal keeps `maxAge: 0`. `httpOnly`, `sameSite=lax`, `path=/` and `secure`
+(production) are kept. There is deliberately no "keep me signed in". Test: `src/accounts/backend/session-cookies.test.ts`
+reads the real Set-Cookie text. The Supabase dashboard's own session limits (below) are a second layer.
 
-Side effect to know: anyone can lock a named account for up to 15 minutes by failing on purpose. That is the
-usual price of a per-name limit; the delay is capped for that reason.
+### Rate limiting
 
-## Other protections
+Counters live in Postgres (`0002_auth_throttle.sql` and `0005`) so they work on serverless. Rules are in
+`src/accounts/throttle.ts` (the schedule is mirrored in SQL and a test proves the two agree).
 
-- Cross-site POSTs are refused (an `Origin` that is not this host gets 403); bodies must be small JSON.
-- Responses are `Cache-Control: no-store`. Server errors are a fixed `{ "error": "server-error" }`.
-- `server-only` plus a runtime `window` check keep the secret-key code out of the browser.
+| What | Key | Limit | Why |
+| --- | --- | --- | --- |
+| Sign-in and recovery attempts | code name + IP | first 5 attempts in an hour are tried, then 30 s, 60 s ... 15 min | stops quick guessing of one name from one place |
+| Sign-in and recovery attempts | code name alone | 50 an hour | a ceiling for guessing spread over many addresses. Far above what one classmate can reach (one guess every 15 minutes is 4 an hour), so a pupil cannot lock another out |
+| Failed sign-ins and recoveries | IP, all names | 200 failures | a ceiling for a script. A school shares one address between a class, so 20 slips must not lock everyone out (the review's first finding) |
+| Account creation | IP | 60 an hour | a class. Checked before the account is made; only accounts really made count (a taken name, a typo or a weak password does not use the allowance) |
+| Availability checks | IP | 300 | the live "is this name free" check |
+| Progress sync requests | learner | 1800 an hour | counted before the body is read, so empty, duplicate and invalid requests cost the same |
+| Guest merge requests | learner | 10 an hour | same |
+| Data downloads, delete confirmations | learner | 6 and 5 | P1-16 |
+
+How the guess limit works: `throttle.hit` (SQL `auth_throttle_hit`) counts the attempt and answers in one step,
+BEFORE the password or code is tried, under the row's lock, so 100 parallel guesses get 5 tries, not 100 (the review's
+check-then-record race; tests in `src/accounts/security.test.ts` run 100 at once on both backends). Windows are fixed
+(an hour from the first attempt), so a slow trickle cannot build up. Attempts refused during a wait are not counted,
+so they cannot lengthen their own wait. A successful sign-in or recovery clears that name's two counters, but never the
+address's failure counter (an account of one's own cannot reset it between guesses at others).
+
+Keys never hold a typed name or an address: both are keyed-hashed (HMAC-SHA-256 with `SUPABASE_SECRET_KEY`) and
+shortened. An IPv6 address is counted by its /64 (one network), an IPv4-mapped address as its IPv4 address. The address
+comes from `x-real-ip`, then the first `x-forwarded-for` entry (Vercel sets both; behind any other proxy check the
+header cannot be spoofed). Rows idle for a day are deleted. Deleting an account forgets its name key; its
+name-and-address key expires within a day.
+
+### Progress writes
+
+- `/progress/sync` and `/progress/merge` keep only lesson ids that are real lessons (read from `content/lessons`; the
+  route traces those files, see `outputFileTracingIncludes` in `next.config.ts`) and game ids that are a registered
+  game (`src/components/site/games.ts`) plus its variant. Others count as skipped. If the lesson list comes back empty
+  (content not deployed) the request fails rather than silently dropping everything.
+- Bodies: sync 512 KB, merge 2 MiB (5000 attempts and 500 lessons are about 1.3 MB); a declared size far above the
+  limit is refused before reading; the database refuses a merge over 2 MiB too.
+- Database caps (0005, triggers like 0001's `attempts_rate_cap`), so a learner's own token cannot fill the tables:
+  lesson progress 1000 rows (a lesson count above about 900 would need a new migration) and 1500 writes an hour;
+  game scores the best 10 per game id kept, 1000 rows, 200 inserts an hour; mock results 500 rows, 30 an hour;
+  attempts 5000 an hour direct and 30000 a day including merge (merge counts 250 rows at a time, because updating one
+  counter 5000 times in one transaction is slow). A real learner is far below all of these; the numbers are functions
+  named `private.cap_*` in 0005. An over-limit write inside merge is counted as skipped (merge never fails on one
+  row); elsewhere the route answers 429 "try later".
+
+### Export
+
+The download is compact JSON (each row of a list on its own line, no indentation), the account id is not repeated in
+every row, and the response is streamed (`exportFileChunks`), so a file of ten thousand answers (about 3 MB) cannot hit
+Vercel's 4.5 MB response limit. Test: 10,000 attempts in `privacy-handlers.test.ts`.
+
+### Recovery signs everyone out
+
+After a correct code, recovery calls `revoke_user_sessions` (deletes the user's `auth.sessions` and refresh tokens)
+BEFORE changing anything (this also proves 0005 is there, so a missing 0005 refuses recovery while the old password and
+code still work), changes the password, calls it again (a session opened with the old password in between dies too),
+rotates the code, and only then opens the new session. It no longer depends on the new sign-in succeeding. The server
+asks the auth server about the session on every request (`getUser`), so a deleted session stops working at once.
+
+### Smaller fixes
+
+- Sign-up asks `code_name_available` before `createUser` (no orphan auth user for a refused name). If `createUser`
+  fails, the half-made user is found by its made-up address (`auth_user_id_by_synthetic_email`) and deleted.
+- The recovery log no longer includes any part of the stored hash.
+- Security headers on every route (`next.config.ts`): `X-Frame-Options: DENY`, `Content-Security-Policy:
+  frame-ancestors 'none'`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Content-Type-Options: nosniff`,
+  `Permissions-Policy: camera=(), microphone=(), geolocation=()` (nothing in the site uses them; a test greps for it).
+  There is no script CSP yet.
+- Common passwords: the 10,000 most common passwords from SecLists
+  (`Passwords/Common-Credentials/10k-most-common.txt`, https://github.com/danielmiessler/SecLists, MIT licence,
+  Copyright (c) 2018 Daniel Miessler), the 2,000 of them with 8 or more characters, plus the project's earlier short list
+  (2,139 in all), in `src/accounts/common-passwords.server.ts`. It is `server-only`: the browser form checks length and
+  "same as your code name"; the common-list check runs in the route (`password-policy.server.ts`), so a weak password
+  is explained after the request is sent. The build was checked for the list (`scripts/check-no-account-ui.mjs`).
+
+### What only the real Supabase can prove
+
+- That `postgres` may delete from `auth.sessions` and `auth.refresh_tokens` (it normally can in Supabase). Recovery
+  shows "server error" and logs the SQL error if not; the old password and code still work then.
+- That a deleted session stops the access token being accepted by `getUser()` (documented Supabase behaviour; the fake
+  mimics it).
+- The dashboard settings in `docs/handover.md` ("Dashboard settings to check").
 
 ## The fake backend
 

@@ -1,5 +1,7 @@
 import { accountsEnabled } from './enabled';
-import { fail, json, readBody, sameSite, type LoadDeps } from './handlers';
+import { fail, json, rateLimited, readBody, sameSite, type LoadDeps } from './handlers';
+import { isKnownGameId, knownLessonIds } from './known-ids.server';
+import { MERGE_REQUESTS_PER_HOUR, SYNC_REQUESTS_PER_HOUR } from './throttle';
 import { RateLimitedError, type ProgressStore } from './progress/types';
 import {
   LIMITS, attemptWireSchema, gameWireSchema, keepValid, lessonWireSchema, mockWireSchema, type SkippedCounts,
@@ -14,7 +16,8 @@ import {
  */
 
 const SYNC_BODY_CHARS = 512 * 1024;
-const MERGE_BODY_CHARS = 2.5 * 1024 * 1024;
+/** 5000 attempts are about 1.3 MB of JSON; the database refuses a merge over 2 MiB (0005), so refuse earlier here. */
+const MERGE_BODY_CHARS = 2 * 1024 * 1024;
 
 const notSignedIn = () => fail(401, 'not-signed-in');
 
@@ -23,12 +26,19 @@ async function withStore(
   req: Request,
   load: LoadDeps,
   run: (store: ProgressStore) => Promise<Response>,
+  /** Writes are limited per learner: the request is counted BEFORE its body is read, so a flood of junk, duplicates
+   *  or invalid items costs the same as real work. `GET` passes none. */
+  limit?: { kind: 'sync' | 'merge'; perHour: number },
 ): Promise<Response> {
   if (!accountsEnabled()) return new Response(null, { status: 404 });
   try {
     const { backend, jar } = await load();
     const store = await backend.progress(jar);
     if (!store) return notSignedIn();
+    if (limit) {
+      const wait = await backend.throttle.hit(`${limit.kind}:user:${store.userId}`, limit.perHour);
+      if (wait > 0) return rateLimited(wait);
+    }
     return await run(store);
   } catch (err) {
     if (err instanceof RateLimitedError) {
@@ -40,6 +50,14 @@ async function withStore(
 }
 
 type Section = 'lessons' | 'attempts' | 'games' | 'mocks';
+
+/** Keeps lessons whose id is a real lesson; the rest count as skipped. */
+function onlyKnownLessons<T extends { lessonId: string }>(r: { ok: T[]; skipped: number }): { ok: T[]; skipped: number } {
+  const known = knownLessonIds();
+  const ok = r.ok.filter((l) => known.has(l.lessonId));
+  return { ok, skipped: r.skipped + (r.ok.length - ok.length) };
+}
+const onlyKnownAttempts = onlyKnownLessons;
 
 /** A section that may be absent, must be an array, and must fit the limit. Null means the request is malformed. */
 function section(body: Record<string, unknown>, key: Section, max: number): unknown[] | null {
@@ -71,9 +89,12 @@ export function handleProgressSync(req: Request, load: LoadDeps): Promise<Respon
     };
     if (Object.values(raw).some((v) => v === null)) return fail(400, 'bad-request');
 
-    const lessons = keepValid(lessonWireSchema, raw.lessons!);
-    const attempts = keepValid(attemptWireSchema(), raw.attempts!);
+    const lessons = onlyKnownLessons(keepValid(lessonWireSchema, raw.lessons!));
+    const attempts = onlyKnownAttempts(keepValid(attemptWireSchema(), raw.attempts!));
     const games = keepValid(gameWireSchema, raw.games!);
+    const knownGames = games.ok.filter((g) => isKnownGameId(g.gameId));
+    games.skipped += games.ok.length - knownGames.length;
+    games.ok = knownGames;
     const mocks = keepValid(mockWireSchema, raw.mocks!);
 
     // Lessons first (they matter most), attempts last (the only writes with a rate cap).
@@ -88,7 +109,7 @@ export function handleProgressSync(req: Request, load: LoadDeps): Promise<Respon
       mocks: mocks.skipped,
     };
     return json({ ok: true, skipped });
-  });
+  }, { kind: 'sync', perHour: SYNC_REQUESTS_PER_HOUR });
 }
 
 /** POST /api/account/progress/merge  { lessons, attempts } -> merge_guest_progress's counts */
@@ -101,13 +122,13 @@ export function handleProgressMerge(req: Request, load: LoadDeps): Promise<Respo
     const lessonsRaw = section(body, 'lessons', LIMITS.mergeLessons);
     const attemptsRaw = section(body, 'attempts', LIMITS.mergeAttempts);
     if (!lessonsRaw || !attemptsRaw) return fail(400, 'bad-request');
-    const lessons = keepValid(lessonWireSchema, lessonsRaw);
-    const attempts = keepValid(attemptWireSchema(), attemptsRaw);
+    const lessons = onlyKnownLessons(keepValid(lessonWireSchema, lessonsRaw));
+    const attempts = onlyKnownAttempts(keepValid(attemptWireSchema(), attemptsRaw));
     const counts = await store.mergeGuest({ lessons: lessons.ok, attempts: attempts.ok });
     return json({
       ...counts,
       lessons_skipped: counts.lessons_skipped + lessons.skipped,
       attempts_skipped: counts.attempts_skipped + attempts.skipped,
     });
-  });
+  }, { kind: 'merge', perHour: MERGE_REQUESTS_PER_HOUR });
 }

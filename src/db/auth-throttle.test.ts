@@ -78,7 +78,7 @@ describe('schedule', () => {
 
   it('stores no more than the key, a count and times', async () => {
     const cols = await h.asOwner((s) => s.q<{ column_name: string }>(`select column_name from information_schema.columns where table_name = 'auth_throttle' order by ordinal_position`));
-    expect(cols.map((c) => c.column_name)).toEqual(['key', 'failures', 'last_failed_at', 'locked_until', 'updated_at']);
+    expect(cols.map((c) => c.column_name)).toEqual(['key', 'failures', 'last_failed_at', 'locked_until', 'updated_at', 'window_started_at']);
   });
 });
 

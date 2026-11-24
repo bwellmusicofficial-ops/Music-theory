@@ -118,7 +118,7 @@ feedback while tapping, has been built.
 | P1-14 Accessibility pass | Done; see `docs/accessibility.md` for what remains |
 | P1-15 End-to-end tests | Done, running in CI |
 | P1-16 Data export and deletion | BUILT (23 Nov 2026), switched OFF with accounts; **no new migration**. Signed in, Settings has "Download my data" (a dated JSON file with a plain-English README, from `export_my_data()` called as the user, cleaned on the server so the made-up address, hashes and rate-limit rows can never be in it; at most five downloads in a stretch) and "Delete my account" (two steps in the page: what goes, then type the code name; then `delete_my_account()` as the user, the admin delete of the auth user, the account's rate-limit rows forgotten, the device signed out and cleaned like a sign-out, "Your account and everything in it has been deleted."). A deleted code name is free again. Tested on the memory backend and on the real SQL in PGlite under a fake Supabase Auth, plus phone and desktop e2e; **not yet on the real Supabase**. Order of the steps, failure behaviour and the owner's Preview test: `docs/accounts-build.md`, "Export and delete (P1-16)". Privacy-friendly analytics is still NOT STARTED |
-| P1-17 Security review and release | NOT STARTED |
+| P1-17 Security review and release | Review DONE (23-24 Nov 2026): nine findings, all fixed on branch `claude/p1-17-security-fixes`; **migration 0005 must be applied by the owner**, and the dashboard settings below checked. Detail: `docs/accounts-build.md`, "Security fixes from the P1-17 review". Performance check and release NOT STARTED |
 
 The Phase 1 gate in the plan: twenty learners complete Grade 1 and most pass the
 mock test.
@@ -351,6 +351,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 - Preview is reached through Vercel, Deployments, newest Preview, Visit (long
   branch URLs are shortened by Vercel; do not guess them). Pushing main to the
   `accounts-preview` branch (force) rebuilds it.
+- P1-17 security fixes are built (not merged by this task); see the next section for what the owner must do.
 - Still to test on Preview: P1-03 progress saved to the account (two devices,
   offline then online, guest merge, sign-out on a shared device), per
   `docs/accounts-build.md`.
@@ -358,6 +359,24 @@ Nothing here stops the site working. Roughly in order of how much it matters.
   file and read it; delete a test account and check Supabase Authentication,
   Users and a SQL count that nothing remains. Steps in `docs/accounts-build.md`,
   "How the owner tests P1-16 on Preview".
+
+### 0005 to apply, and dashboard settings to check (P1-17)
+
+- **Apply `supabase/migrations/0005_security_hardening.sql`** in the SQL Editor (steps: `supabase/README.md`, "Apply 0005"),
+  after merging the fixes. Until then, with accounts on, sign-in, recovery and saving progress are refused (fail closed).
+  Production is unaffected: accounts are off there.
+- Dashboard settings that code cannot set (check each on the real project; some depend on the plan):
+  1. Authentication, Rate Limits: keep Supabase's limits on; they sit under ours. Our routes call Supabase from Vercel
+     servers, so every request looks like one address to Supabase; if "Sb-Forwarded-For" support is offered for the secret
+     key, pass the learner's address there so Supabase's per-address limits are not shared by the whole site.
+  2. Authentication, Sessions: set a time-box (for example 30 days) and an inactivity timeout (for example 7 days) if the plan
+     allows (it may be Pro only). Our cookies already end when the browser closes.
+  3. Authentication, Passwords: turn on leaked-password protection if the plan allows (our own list covers the commonest).
+  4. Authentication, Sign In / Providers: **anonymous sign-ins OFF**; email sign-up is only used through our server.
+  5. Authentication, Emails: **secure email change ON** (for the later adult email accounts).
+  6. Vercel, Settings, Deployment Protection: **on for Previews**, so account Preview builds are not open to the public.
+- Open question for the real project: confirm `postgres` can delete from `auth.sessions` and `auth.refresh_tokens` (0005's
+  recovery function); do a recovery on Preview with a second browser signed in and check that browser is signed out.
 
 ### Waiting on the owner
 

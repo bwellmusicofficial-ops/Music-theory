@@ -122,6 +122,11 @@ test('sign up under 18: the whole flow, with the recovery code gate, then header
   await page.getByLabel('Password', { exact: true }).fill('password');
   await page.getByRole('button', { name: 'Make my account' }).click();
   await expect(page.getByText('That password is too easy to guess. Try a few words together.')).toBeVisible();
+  // The list of common passwords is on the server only (P1-17), so this refusal is the server's 400 answer, which the
+  // browser logs. It is expected here; drop it so the "no problems" check at the end still covers everything else.
+  for (const list of [problems.consoleErrors, problems.failedRequests]) {
+    for (let i = list.length - 1; i >= 0; i--) if (/\/api\/account\/sign-up/.test(list[i]!)) list.splice(i, 1);
+  }
   await page.getByLabel('Password', { exact: true }).fill(PASSWORD);
   await page.getByRole('button', { name: 'Show' }).click();
   await expect(page.getByLabel('Password', { exact: true })).toHaveAttribute('type', 'text');
@@ -229,7 +234,7 @@ test('sign in: an unknown name gets the same message as a wrong password', async
   await expect(formError(page)).toContainText("That code name and password don't match.");
 });
 
-test('five wrong tries, then a wait', async ({ page }) => {
+test('five tries are made, the sixth waits', async ({ page }) => {
   await ownIp(page);
   const name = uniqueName(page);
   await signUpViaUi(page, name);
@@ -237,7 +242,7 @@ test('five wrong tries, then a wait', async ({ page }) => {
   await page.goto('/account/sign-in');
   await waitReady(page);
   await page.getByLabel('Code name').fill(name);
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     await page.getByLabel('Password', { exact: true }).fill(`wrong password ${i}`);
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
     await expect(formError(page)).not.toBeEmpty();
