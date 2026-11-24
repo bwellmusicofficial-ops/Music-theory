@@ -32,6 +32,10 @@ export async function expectNoAxeViolations(page: Page, where: string, opts: { e
       { timeout: 3000 },
     )
     .catch(() => undefined);
+  // Measure from the top of the page. axe's target-size rule counts whatever sits partly under the
+  // sticky header as undersized, and that depends on where an earlier step left the scroll, which made
+  // results differ between machines. At the top the header covers nothing.
+  await page.evaluate(() => window.scrollTo(0, 0));
   let builder = new AxeBuilder({ page }).withTags(TAGS);
   for (const sel of opts.exclude ?? []) builder = builder.exclude(sel);
   const results = await builder.analyze();
