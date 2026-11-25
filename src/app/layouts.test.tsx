@@ -1,7 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import SiteLayout from './(site)/layout';
 import LessonsLayout from './lessons/layout';
+
+// The header's links warm routes through the router, which only exists inside the running app.
+vi.mock('next/navigation', () => ({ usePathname: () => '/', useRouter: () => ({ prefetch: vi.fn(), push: vi.fn() }) }));
 
 describe('layouts', () => {
   it('site pages get the site header', () => {
