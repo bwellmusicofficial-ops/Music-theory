@@ -8,6 +8,13 @@ import { cn } from '@/components/ui/cn';
 import { IconGames, IconLearn, IconLibrary, IconMock, IconSettings } from './icons';
 import { isCurrent, isImmersive, NAV_ITEMS, type NavItem } from './nav-items';
 
+/**
+ * The navigation links do not prefetch. On a production build `<Link>` fetches the code of every route it points
+ * to as soon as it is on screen, and the bar is on every page: a visitor reading the privacy page was downloading
+ * the home page's lesson player, the library and the games (about 160 KB gzipped) before tapping anything. The
+ * code is fetched when a link is tapped instead; it is static, cached for a year and about 100 KB gzipped per
+ * route. Links in a page's own content (start a lesson, continue) still prefetch.
+ */
 const ICONS: Record<NavItem['icon'], ComponentType<SVGProps<SVGSVGElement>>> = {
   learn: IconLearn,
   library: IconLibrary,
@@ -27,6 +34,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-30 border-b border-border-subtle bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
       <div className="mx-auto flex min-h-14 w-full max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-1">
         <Link
+          prefetch={false}
           href="/"
           aria-current={pathname === '/' ? 'page' : undefined}
           className="flex items-center gap-2 rounded-md text-lg font-extrabold tracking-tight text-fg"
@@ -45,6 +53,7 @@ export function SiteHeader() {
               const current = isCurrent(pathname, item.href);
               return (
                 <Link
+                  prefetch={false}
                   key={item.href}
                   href={item.href}
                   aria-current={current ? 'page' : undefined}
@@ -88,6 +97,7 @@ export function BottomTabBar() {
           return (
             <li key={item.href}>
               <Link
+                prefetch={false}
                 href={item.href}
                 aria-current={current ? 'page' : undefined}
                 className={cn(

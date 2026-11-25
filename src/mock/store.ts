@@ -9,34 +9,68 @@
  * keeps working in memory for the rest of the page's life.
  */
 
-import { z } from 'zod';
 import type { MockBand, MockResult } from './engine';
 
 export const MOCK_RESULTS_KEY = 'mtn:v1:mock-results';
 export const MAX_MOCK_ATTEMPTS = 200;
 
-const tallySchema = z.object({
-  correct: z.number().min(0),
-  total: z.number().min(0),
-});
+interface Tally {
+  correct: number;
+  total: number;
+}
 
-export const mockAttemptSchema = z.object({
-  configId: z.string().min(1),
+export interface MockAttempt {
+  configId: string;
   /** ISO 8601. */
-  at: z.string().min(1),
-  seed: z.number(),
+  at: string;
+  seed: number;
   /** Marks gained / marks available, 0..1. */
-  score: z.number().min(0).max(1),
-  correct: z.number().min(0),
+  score: number;
+  correct: number;
   /** Marks available. 0 means unknown: a result brought over from the account, which keeps only the score. */
-  total: z.number().min(0),
-  band: z.enum(['distinction', 'merit', 'pass', 'not-yet']),
-  timedOut: z.boolean(),
-  elapsedMs: z.number().min(0),
-  sections: z.array(tallySchema.extend({ id: z.string() })),
-  skills: z.array(tallySchema.extend({ skill: z.string() })),
-});
-export type MockAttempt = z.infer<typeof mockAttemptSchema>;
+  total: number;
+  band: MockBand;
+  timedOut: boolean;
+  elapsedMs: number;
+  sections: (Tally & { id: string })[];
+  skills: (Tally & { skill: string })[];
+}
+
+const BANDS: readonly string[] = ['distinction', 'merit', 'pass', 'not-yet'];
+
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+const isNonEmptyString = (v: unknown): v is string => typeof v === 'string' && v.length > 0;
+const isCount = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+
+function parseTallies<K extends 'id' | 'skill'>(rows: unknown, key: K): (Tally & Record<K, string>)[] | null {
+  if (!Array.isArray(rows)) return null;
+  const out: (Tally & Record<K, string>)[] = [];
+  for (const r of rows) {
+    if (!isRecord(r) || typeof r[key] !== 'string' || !isCount(r.correct) || !isCount(r.total)) return null;
+    out.push({ correct: r.correct, total: r.total, [key]: r[key] } as unknown as Tally & Record<K, string>);
+  }
+  return out;
+}
+
+/**
+ * Checks one stored row and returns a clean copy (unknown fields dropped), or null if it is malformed. A small
+ * hand-written check rather than zod, so the dashboard, course map and games do not download zod just to read
+ * their own saved results. `mock/attempt-schema.ts` holds the zod version of the same rules, and a test keeps the
+ * two in agreement.
+ */
+export function parseMockAttempt(row: unknown): MockAttempt | null {
+  if (!isRecord(row)) return null;
+  const { configId, at, seed, score, correct, total, band, timedOut, elapsedMs } = row;
+  if (!isNonEmptyString(configId) || !isNonEmptyString(at)) return null;
+  if (typeof seed !== 'number' || !Number.isFinite(seed)) return null;
+  if (typeof score !== 'number' || !Number.isFinite(score) || score < 0 || score > 1) return null;
+  if (!isCount(correct) || !isCount(total) || !isCount(elapsedMs)) return null;
+  if (typeof band !== 'string' || !BANDS.includes(band) || typeof timedOut !== 'boolean') return null;
+  const sections = parseTallies(row.sections, 'id');
+  const skills = parseTallies(row.skills, 'skill');
+  if (!sections || !skills) return null;
+  return { configId, at, seed, score, correct, total, band: band as MockBand, timedOut, elapsedMs, sections, skills };
+}
 
 export interface MockResultSink {
   /** Stores one finished attempt. */
@@ -116,8 +150,8 @@ export function createLocalMockResultSink(storage?: Storage): MockResultSink {
       if (!Array.isArray(parsed)) return [];
       const out: MockAttempt[] = [];
       for (const row of parsed) {
-        const ok = mockAttemptSchema.safeParse(row);
-        if (ok.success) out.push(ok.data);
+        const ok = parseMockAttempt(row);
+        if (ok) out.push(ok);
       }
       return out;
     } catch {

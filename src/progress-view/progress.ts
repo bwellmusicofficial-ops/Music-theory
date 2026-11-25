@@ -1,5 +1,5 @@
 import type { LessonProgress, LessonState } from '@/lesson/contracts';
-import { STEP_ORDER, STRANDS, type StepId, type Strand } from '@/lesson/schema';
+import { STEP_ORDER, STRANDS, type StepId, type Strand } from '@/lesson/vocab';
 import { INCLUDE_DRAFTS_IN_PATH } from './config';
 import type { CourseGrade, CourseUnit, LessonMeta } from './course';
 

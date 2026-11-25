@@ -6,7 +6,7 @@ import { strandColour } from '../strand-colour';
 import { STRAND_NAMES } from '@/components/ui';
 import type { Terminology } from '@/engine/types';
 import { STEP_LABELS, lessonHref, lessonTitle, unitTitle, type NextLesson } from '@/progress-view';
-import { STEP_ORDER } from '@/lesson/schema';
+import { STEP_ORDER } from '@/lesson/vocab';
 
 /** The big card at the top of the dashboard: the next lesson, with a bar across its six steps when it is under way. */
 export function ContinueCard({ next, terminology }: { next: NextLesson; terminology: Terminology }) {

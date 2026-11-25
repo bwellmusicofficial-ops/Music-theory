@@ -10,7 +10,7 @@
  * no glossary file has no entries, so it never appears.
  */
 import type { GlossaryEntry } from '@/lesson/schema';
-import { GRADES } from '@/lesson/schema';
+import { GRADES } from '@/lesson/vocab';
 import type { Bank } from './bank';
 import { CURATED_DECKS, MIN_DECK_CARDS, type CuratedDeckId } from './deck-data';
 import { playableIds } from './engine';

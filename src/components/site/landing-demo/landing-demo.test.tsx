@@ -178,6 +178,17 @@ describe('LandingDemo', () => {
     for (const option of options()) expect(option).toBeDisabled();
   });
 
+  it('has its own two question types by default, enough for both of its steps', () => {
+    render(
+      <SettingsProvider>
+        <LandingDemo content={content} startHref={START} defaultOpen />
+      </SettingsProvider>,
+    );
+    // Step 1 is the real by-ear question, drawn without any registry being passed in.
+    expect(screen.getByRole('button', { name: /Play clip A/ })).toBeInTheDocument();
+    for (const step of content.steps) expect(['by-ear', 'tap-rhythm']).toContain(step.type);
+  });
+
   it('writes nothing to storage and makes no network request while it runs', () => {
     const fetchSpy = vi.fn();
     vi.stubGlobal('fetch', fetchSpy);
