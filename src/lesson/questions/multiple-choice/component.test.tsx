@@ -1,6 +1,7 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import type { Passage } from '@/engine/types';
 import type { MarkResult } from '@/lesson/contracts';
 import { MultipleChoice } from './component';
 import type { MultipleChoiceAnswer, MultipleChoicePayload } from './types';
@@ -137,5 +138,38 @@ describe('MultipleChoice exhibit', () => {
       <MultipleChoice payload={payload} terminology="uk" locked={false} result={null} onAnswer={() => {}} />,
     );
     expect(container.querySelector('[data-question-exhibit]')).toBeNull();
+  });
+});
+
+describe('MultipleChoice result labels with passage options', () => {
+  const g4 = { letter: 'G' as const, accidental: 0 as const, octave: 4 };
+  const passage: Passage = {
+    clef: 'treble',
+    key: { tonic: { letter: 'C', accidental: 0 }, mode: 'major' },
+    time: { beats: 4, beatUnit: 4 },
+    bars: [{ events: [{ kind: 'note', pitches: [g4], duration: { value: 'semibreve', dots: 0 } }] }],
+  };
+  const passages: MultipleChoicePayload = {
+    options: [
+      { id: 'a', face: { kind: 'passage', passage } },
+      { id: 'b', face: { kind: 'passage', passage } },
+    ],
+    correct: 'b',
+  };
+
+  it('puts the label on its own line under the stave (not beside it), and keeps it beside a short text face', () => {
+    render(
+      <MultipleChoice payload={passages} terminology="uk" locked result={{ correct: false, score: 0 }} initialAnswer={{ optionId: 'a' }} onAnswer={() => {}} />,
+    );
+    const [a, b] = screen.getAllByRole('button');
+    const markA = a!.querySelector('[data-option-mark]')!;
+    expect(within(markA as HTMLElement).getByText('Your answer')).toBeInTheDocument();
+    expect(markA.className).toContain('basis-full');
+    expect(within(b!.querySelector('[data-option-mark]') as HTMLElement).getByText('Correct answer')).toBeInTheDocument();
+    expect(b!.querySelector('[data-option-mark]')!.className).toContain('basis-full');
+
+    cleanup();
+    renderQuestion({ locked: true, result: { correct: true, score: 1 } });
+    expect(screen.getByRole('button', { name: /Crotchet/ }).querySelector('[data-option-mark]')!.className).not.toContain('basis-full');
   });
 });

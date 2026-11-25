@@ -123,7 +123,7 @@ describe('written beams: editors drop them from a bar they change', () => {
 const twoBars = () => passage([bar(note('C5'), note('D5'), note('E5'), note('F5')), bar(note('G5'), note('F5'), note('E5'), note('D5'))]);
 const allGaps = (p: Passage): StaveGapRef[] => p.bars.flatMap((b, bi) => b.events.map((_, ei) => ({ bar: bi, event: ei }))).slice(0, -1);
 
-function Gaps(props: { on?: StaveGapRef[]; onToggle?: (a: StaveGapRef) => void; offered?: StaveGapRef[]; extra?: Partial<StaveProps> }) {
+function Gaps(props: { quiet?: boolean; on?: StaveGapRef[]; onToggle?: (a: StaveGapRef) => void; offered?: StaveGapRef[]; extra?: Partial<StaveProps> }) {
   const p = twoBars();
   return (
     <Stave
@@ -135,6 +135,7 @@ function Gaps(props: { on?: StaveGapRef[]; onToggle?: (a: StaveGapRef) => void; 
         on: props.on ?? [{ bar: 0, event: 1 }],
         onToggle: props.onToggle ?? (() => {}),
         label: (at) => `Bar line after note ${at.bar * 4 + at.event + 1}`,
+        quiet: props.quiet,
       }}
       {...props.extra}
     />
@@ -168,6 +169,30 @@ describe('gaps (read mode)', () => {
     await waitFor(() => expect(container.querySelectorAll('[data-testid="gap-guide"]')).toHaveLength(1));
     fireEvent.pointerLeave(buttons[3]);
     await waitFor(() => expect(container.querySelectorAll('[data-testid="gap-guide"]')).toHaveLength(0));
+  });
+  it('quiet: an on gap draws no marker at rest, a thin solid line on hover or focus, and aria-pressed still says on', async () => {
+    const { container } = render(<Gaps quiet on={[{ bar: 0, event: 1 }]} />);
+    await drawn(container);
+    const buttons = await screen.findAllByRole('button');
+    expect(container.querySelectorAll('[data-testid="gap-marker"]')).toHaveLength(0);
+    expect(container.querySelectorAll('[data-testid="gap-guide"]')).toHaveLength(0);
+    expect(buttons[1]).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.pointerEnter(buttons[1]);
+    await waitFor(() => expect(container.querySelectorAll('[data-testid="gap-guide"][data-on="true"]')).toHaveLength(1));
+    // The hover line of an on gap is solid; an off gap's is dashed.
+    expect(container.querySelector('[data-testid="gap-guide"]')).not.toHaveAttribute('stroke-dasharray');
+    fireEvent.pointerLeave(buttons[1]);
+    await waitFor(() => expect(container.querySelectorAll('[data-testid="gap-guide"]')).toHaveLength(0));
+    fireEvent.pointerEnter(buttons[3]);
+    await waitFor(() => expect(container.querySelector('[data-testid="gap-guide"]')).toHaveAttribute('stroke-dasharray'));
+  });
+  it('not quiet (default): an on gap keeps its line and diamond marker', async () => {
+    const { container } = render(<Gaps on={[{ bar: 0, event: 1 }]} />);
+    await drawn(container);
+    await screen.findAllByRole('button');
+    const m = container.querySelector('[data-testid="gap-marker"]')!;
+    expect(m.querySelector('line')).not.toBeNull();
+    expect(m.querySelector('path')).not.toBeNull();
   });
   it('clicking a gap calls onToggle with the gap', async () => {
     const onToggle = vi.fn();

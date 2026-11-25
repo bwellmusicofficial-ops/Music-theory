@@ -50,7 +50,9 @@ describe('privacy and terms pages', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Privacy' })).toBeInTheDocument();
     expect(screen.getByRole('note')).toHaveTextContent(/Draft/);
     expect(screen.getByRole('link', { name: 'Settings' })).toHaveAttribute('href', '/settings#clear-data');
-    expect(document.body.textContent).toMatch(/We do not use cookies/);
+    expect(document.body.textContent).toMatch(/We don.t use cookies for tracking or adverts/);
+    expect(document.body.textContent).toMatch(/If you sign in, one small cookie keeps you signed in until you close your browser/);
+    expect(document.body.textContent).not.toMatch(/We do not use cookies/);
   });
 
   it('terms are marked as a draft and say the site is not approved by an exam board', () => {

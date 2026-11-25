@@ -302,7 +302,18 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 16. **Done (17 Nov).** **The dashboard is a sparse single column on a desktop screen.**
 17. **Done (17 Nov).** **Test hooks** (`__mockPaper`, `data-test-correct`) remain as inert strings
     in production bundles.
-18. **Dependency audit warnings** from `npm ci` have not been looked at.
+18. **Dependency audit. Done 25 Nov 2026.** `npm ci` printed "7 moderate severity vulnerabilities" (and
+    the deprecation notice `eslint@9.39.5 ... no longer supported`). All seven were one advisory chain:
+    minimatch 7.0.0 to 11.0.0 (GHSA-g3hv-75wg-m249, denial of service by pattern amplification) reached through
+    `typescript-eslint` 8.72.2 (via `eslint-config-next`) and its `@typescript-eslint/*` packages. **None of it
+    ships**: it is lint tooling only, never in the site's bundle, and minimatch ran only on our own lint patterns.
+    Fixed with plain `npm audit fix` (no `--force`): `typescript-eslint` and `@typescript-eslint/*` 8.72.2 to
+    8.74.0, which uses minimatch 11.0.9, plus patch bumps of two of its helper packages (`brace-expansion`,
+    `ignore`). `package.json` is unchanged; only `package-lock.json` moved. `npm audit` now reports 0
+    vulnerabilities. No pinned major (Next 16, React 19, VexFlow 5, Tone 15, Zod 4, Vitest, Playwright) changed.
+    **Remains:** the `eslint@9.39.5` deprecation notice (ESLint 9 is out of support). Moving to ESLint 10 is a
+    major upgrade that `eslint-config-next` must support first, so it is a later decision, not a vulnerability:
+    it affects only the developer's lint run. Re-run `npm audit` after any dependency change.
 
 **Before real users sign up**
 
@@ -312,8 +323,8 @@ Nothing here stops the site working. Roughly in order of how much it matters.
    checklist are in `docs/accounts-build.md`. Never set it on Production before item 24 is done. Open
    points from P1-02: the real Supabase has not been exercised (error codes, `@supabase/ssr` cookies,
    `signOut(..., 'others')`); the session cookie holds the synthetic address (httpOnly; see the doc); the
-   per-IP failure limit is 20, not 5, because schools share addresses; privacy page must mention the
-   session cookie.
+   per-IP failure limit is 20, not 5, because schools share addresses; the privacy page mentions the
+   session cookie (done 25 Nov 2026: "Cookies" section, true with accounts off and on).
 19. ~~Supabase's public sign-up must be switched off~~ **Done 22 Nov 2026** by
     the owner (Authentication, Sign In / Providers). All accounts are created by
     our own server routes with the secret key.
@@ -329,10 +340,16 @@ Nothing here stops the site working. Roughly in order of how much it matters.
     `/privacy` and `/terms` pages exist (19 Nov), marked as drafts; their
     "who we are" contact is a placeholder until the owner names the data
     controller. Settings can clear everything saved on the device.
-25. **Multiple-choice "Correct answer" chip overlaps the stave** of a passage
-    option at 390 px (found 19 Nov in the landing demo). Notes stay visible.
-26. **Fix-beaming gap markers are busy**: joined gaps show a line and diamond
-    on top of the beam. Readable; could be quieter. The owner has been told this is not legal advice.
+25. **Done 25 Nov 2026.** ~~Multiple-choice "Correct answer" chip overlaps the stave~~ of a passage
+    option at 390 px (found 19 Nov in the landing demo). Fixed in `multiple-choice/component.tsx`: the result
+    label ("Your choice", "Your answer", "Correct answer") of a passage option now sits on its own line under the
+    stave, indented to line up with it; text and glyph options keep it on the right. The label text, icon and
+    colour are unchanged (text still carries the meaning). `e2e/answer-chip-layout.spec.ts` measures the chip
+    against every drawn stave shape and the stave area at 320, 390 and 430 px in both themes.
+26. **Done 25 Nov 2026.** ~~Fix-beaming gap markers are busy~~: joined gaps no longer draw a line and
+    diamond on the beam. Fix-beaming passes `gaps.quiet` (`docs/stave-interaction.md` 15.2): the beam is the
+    marker, `aria-pressed` still says joined, and hover or focus shows a thin solid line (split gaps show a dashed
+    one). place-bar-lines is unchanged. The owner has been told this is not legal advice.
 
 ## 8. What to do next
 

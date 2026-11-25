@@ -1628,7 +1628,11 @@ before it (`{ bar, event }`; the event after may be the first of the next bar). 
 - One Tab stop (roving tabindex); Left/Right (and Up/Down), Home and End move between gaps; Space and Enter
   toggle (native button). Focus shows the 2 px accent outline (`.mtn-stave__gap-button:focus-visible`).
 - The overlay draws an *on* gap as a solid 2.5 unit accent line reaching 6 units past the stave lines with a
-  diamond cap, so it is a shape as well as a colour. An off gap draws nothing until hover or focus, then a faint
+  diamond cap, so it is a shape as well as a colour. **`gaps.quiet: true`** (fix-beaming) is for gaps whose *on*
+  state the notation already shows (a beam joins the notes): an on gap then draws nothing at rest, and on hover or
+  focus a thin solid 1.5 unit line (`data-testid="gap-guide"`, `data-on="true"`; an off gap's guide is dashed, so
+  the two differ by shape as well as by position). `aria-pressed` is unchanged, and so is the button's focus ring.
+  place-bar-lines does not set `quiet`: its on marker sits on the bar line and is the only cue for it. An off gap draws nothing until hover or focus, then a faint
   dashed guide line. Nothing here redraws the notation: toggling changes only the overlay and `aria-pressed`.
 - Gap identity is in the passage as drawn. A consumer that moves bar lines (place-bar-lines) re-renders the
   passage and must map its own gap numbers to the new `{ bar, event }`.

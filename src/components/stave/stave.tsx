@@ -50,7 +50,7 @@ type InnerProps = Omit<StaveProps, 'onChange' | 'onEventTap' | 'gaps' | 'keySign
   callbacks: RefObject<Callbacks>;
   hasTap: boolean;
   /** Read mode gaps with their spoken labels resolved (the label function is not a dependency of the draw). */
-  gapData?: { offered: NonNullable<StaveProps['gaps']>['offered']; on: string[]; labels: string[] };
+  gapData?: { offered: NonNullable<StaveProps['gaps']>['offered']; on: string[]; labels: string[]; quiet: boolean };
 };
 
 const REDUCE_QUERY = '(prefers-reduced-motion: reduce)';
@@ -120,7 +120,7 @@ function NotationStave(props: StaveProps) {
   // Gaps are for read mode alone, and not with onEventTap (docs/question-types-2.md 1.3).
   const gapData =
     gaps && props.mode === 'read' && onEventTap === undefined
-      ? { offered: gaps.offered, on: gaps.on.map(gapKey), labels: gaps.offered.map((g) => gaps.label(g)) }
+      ? { offered: gaps.offered, on: gaps.on.map(gapKey), labels: gaps.offered.map((g) => gaps.label(g)), quiet: gaps.quiet === true }
       : undefined;
   return <StaveInner {...rest} callbacks={callbacks} hasTap={onEventTap !== undefined} gapData={gapData} />;
 }
@@ -465,7 +465,7 @@ function StaveImpl(props: InnerProps) {
       model && gapData
         ? gapPlaces(model, gapData.offered).map((p) => {
             const key = gapKey(p.at);
-            return { key, x: p.x, top: p.top, bottom: p.bottom, on: gapOn.has(key), active: activeGap === key };
+            return { key, x: p.x, top: p.top, bottom: p.bottom, on: gapOn.has(key), active: activeGap === key, quiet: gapData.quiet };
           })
         : undefined,
     [model, gapData, gapOn, activeGap],

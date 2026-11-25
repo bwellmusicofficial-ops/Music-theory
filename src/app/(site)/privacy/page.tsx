@@ -36,7 +36,7 @@ export default function PrivacyPage() {
         <ul className="list-disc space-y-1 pl-6">
           <li>You don&rsquo;t need an account. We don&rsquo;t ask for your name, email or age.</li>
           <li>Your progress is saved only on your own device, in your browser. We never receive it.</li>
-          <li>There are no adverts, no trackers and no chat.</li>
+          <li>There are no adverts, no trackers and no chat. No tracking cookies.</li>
           <li>
             You can clear everything at any time in{' '}
             <Link href="/settings#clear-data" className={link}>
@@ -56,7 +56,15 @@ export default function PrivacyPage() {
         </ul>
         <p>
           This stays on your device. It is not sent to us or to anyone else. Someone else using the same browser could
-          see it. We do not use cookies.
+          see it.
+        </p>
+      </Section>
+
+      <Section id="p-cookies" title="Cookies">
+        <p>
+          We don&rsquo;t use cookies for tracking or adverts. If you sign in, one small cookie keeps you signed in until
+          you close your browser. It is needed for signing in to work, and it is deleted when you sign out or close your
+          browser. If you never sign in, we set no cookies.
         </p>
       </Section>
 
@@ -70,7 +78,7 @@ export default function PrivacyPage() {
       </Section>
 
       <Section id="p-accounts" title="When accounts arrive">
-        <p>We plan to add optional accounts so you can keep your progress across devices. The plan is:</p>
+        <p>Accounts are not open yet. We plan to add optional accounts so you can keep your progress across devices. The plan is:</p>
         <ul className="list-disc space-y-1 pl-6">
           <li>Under 18: you choose a code name and a password. We will not ask for your real name or email.</li>
           <li>18 or over: the same, or you can give your name and email if you want to. We would only send you news if you tick a separate box.</li>
