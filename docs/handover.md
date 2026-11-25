@@ -352,9 +352,14 @@ Nothing here stops the site working. Roughly in order of how much it matters.
   branch URLs are shortened by Vercel; do not guess them). Pushing main to the
   `accounts-preview` branch (force) rebuilds it.
 - P1-17 security fixes are built (not merged by this task); see the next section for what the owner must do.
-- Still to test on Preview: P1-03 progress saved to the account (two devices,
-  offline then online, guest merge, sign-out on a shared device), per
-  `docs/accounts-build.md`.
+- 25 Nov 2026: owner applied 0005 and checked the dashboard settings (Vercel
+  Deployment Protection on for Previews, Standard Protection). Verified on
+  Preview against the real project: sign-in with 0005, the guest-merge prompt
+  and progress following the account to a second browser (P1-03), and recovery
+  signing out the other browser (0005's revoke_user_sessions works on the real
+  auth tables). Migrations applied: 0001 to 0005 plus the blocked-names seed.
+- Accounts are ready to switch on for everyone once the owner answers the four
+  account questions and the privacy pages have had their legal check (A2, A4).
 - P1-16 (export and delete) is built and waiting for its Preview test: download a
   file and read it; delete a test account and check Supabase Authentication,
   Users and a SQL count that nothing remains. Steps in `docs/accounts-build.md`,
