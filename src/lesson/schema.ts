@@ -19,23 +19,16 @@
  */
 
 import { z } from 'zod';
+import { GRADES, STEP_ORDER, STRANDS } from './vocab';
+
+// The three id lists live in ./vocab (no zod), so pages that only need the lists do not ship zod. Re-exported here.
+export { GRADES, STEP_ORDER, STRANDS };
 
 // --- shared ids -------------------------------------------------------------
 
-export const STRANDS = [
-  'rhythm',
-  'pitch',
-  'scales-keys',
-  'intervals',
-  'harmony',
-  'composition',
-  'terms',
-  'score-reading',
-] as const;
 export const strandSchema = z.enum(STRANDS);
 export type Strand = z.infer<typeof strandSchema>;
 
-export const GRADES = ['start', '1', '2', '3', '4', '5', '6', '7', '8'] as const;
 export const gradeSchema = z.enum(GRADES);
 export type Grade = z.infer<typeof gradeSchema>;
 
@@ -254,7 +247,6 @@ export const lessonSchema = z.object({
 });
 export type Lesson = z.infer<typeof lessonSchema>;
 
-export const STEP_ORDER = ['hook', 'explore', 'name', 'practice', 'challenge', 'recap'] as const;
 export type StepId = (typeof STEP_ORDER)[number];
 
 // --- glossary -------------------------------------------------------------------

@@ -1,9 +1,10 @@
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { BottomTabBar, SiteHeader } from './site-header';
 
 let path = '/';
-vi.mock('next/navigation', () => ({ usePathname: () => path }));
+const { prefetch } = vi.hoisted(() => ({ prefetch: vi.fn() }));
+vi.mock('next/navigation', () => ({ usePathname: () => path, useRouter: () => ({ prefetch }) }));
 afterEach(cleanup);
 
 describe('bottom tab bar', () => {
@@ -66,3 +67,18 @@ describe('top bar', () => {
     expect(nav.className).toContain('md:flex');
   });
 });
+
+describe('navigation links load on intent, not on sight', () => {
+  it('warms a route when a link is touched, hovered or focused', () => {
+    path = '/';
+    prefetch.mockClear();
+    render(<SiteHeader />);
+    expect(prefetch).not.toHaveBeenCalled();
+    const games = screen.getAllByRole('link', { name: /games/i })[0]!;
+    fireEvent.pointerDown(games);
+    fireEvent.mouseEnter(games);
+    fireEvent.focus(games);
+    expect(prefetch).toHaveBeenCalledWith('/games');
+  });
+});
+

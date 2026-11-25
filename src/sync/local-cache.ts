@@ -7,8 +7,9 @@
 import { GAMES } from '@/components/site/games';
 import type { AttemptEvent, LessonProgress } from '@/lesson/contracts';
 import { ATTEMPTS_KEY, MAX_ATTEMPTS, PROGRESS_KEY } from '@/lesson/progress/local';
-import { STEP_ORDER } from '@/lesson/schema';
-import { MAX_MOCK_ATTEMPTS, MOCK_RESULTS_KEY, mockAttemptSchema, type MockAttempt } from '@/mock/store';
+import { STEP_ORDER } from '@/lesson/vocab';
+import { mockAttemptSchema } from '@/mock/attempt-schema';
+import { MAX_MOCK_ATTEMPTS, MOCK_RESULTS_KEY, type MockAttempt } from '@/mock/store';
 import { lessonAheadOf, mergeAttempts, mergeBests, mergeLessonLists } from './merge';
 import {
   LESSON_STATES, LIMITS, attemptWireSchema, decodeGameId, encodeGameId, gameWireSchema, gradeOfMockConfig,

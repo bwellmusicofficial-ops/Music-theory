@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "check:budget": "node scripts/check-bundle-budget.mjs",
     "e2e": "playwright test --project=phone --project=desktop",
     "e2e:sweep": "playwright test"
   },

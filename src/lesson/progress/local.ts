@@ -11,7 +11,7 @@
  */
 
 import type { AttemptEvent, LessonProgress, ProgressSink } from '../contracts';
-import { STEP_ORDER } from '../schema';
+import { STEP_ORDER } from '../vocab';
 
 export const PROGRESS_KEY = 'mtn:v1:progress';
 export const ATTEMPTS_KEY = 'mtn:v1:attempts';

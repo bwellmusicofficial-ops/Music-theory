@@ -59,7 +59,7 @@ export function CourseMap({ lessons }: { lessons: readonly LessonMeta[] }) {
             ) : null}
           </div>
         ) : (
-          <Skeleton className="h-28" />
+          <Skeleton className="h-[8.625rem]" />
         )}
         <p role="note" className="rounded-2xl border-2 border-warning bg-surface p-3 text-sm text-fg-secondary" data-testid="draft-note">
           Lessons marked <strong>Draft</strong> have not yet been checked by a music specialist. You can try them, but they

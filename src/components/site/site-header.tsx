@@ -1,13 +1,44 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import type { ComponentType, SVGProps } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import type { ComponentProps, ComponentType, SVGProps } from 'react';
 import { AccountStatus } from '@/accounts/ui/account-status';
 import { cn } from '@/components/ui/cn';
 import { IconGames, IconLearn, IconLibrary, IconMock, IconSettings } from './icons';
 import { isCurrent, isImmersive, NAV_ITEMS, type NavItem } from './nav-items';
 
+/**
+ * The navigation links do not prefetch. On a production build `<Link>` fetches the code of every route it points
+ * to as soon as it is on screen, and the bar is on every page: a visitor reading the privacy page was downloading
+ * the home page's lesson player, the library and the games (about 160 KB gzipped) before tapping anything. The
+ * code is fetched when the learner shows intent instead: on touch start, hover or keyboard focus, so by the time
+ * the tap or click completes the route is usually already loading. It is static, cached for a year and about
+ * 100 KB gzipped per route. Links in a page's own content (start a lesson, continue) still prefetch.
+ */
+function NavLink({ href, onPointerDown, onMouseEnter, onFocus, ...rest }: ComponentProps<typeof Link> & { href: string }) {
+  const router = useRouter();
+  const warm = () => router.prefetch(href);
+  return (
+    <Link
+      {...rest}
+      href={href}
+      prefetch={false}
+      onPointerDown={(e) => {
+        warm();
+        onPointerDown?.(e);
+      }}
+      onMouseEnter={(e) => {
+        warm();
+        onMouseEnter?.(e);
+      }}
+      onFocus={(e) => {
+        warm();
+        onFocus?.(e);
+      }}
+    />
+  );
+}
 const ICONS: Record<NavItem['icon'], ComponentType<SVGProps<SVGSVGElement>>> = {
   learn: IconLearn,
   library: IconLibrary,
@@ -26,7 +57,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border-subtle bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
       <div className="mx-auto flex min-h-14 w-full max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-1">
-        <Link
+        <NavLink
           href="/"
           aria-current={pathname === '/' ? 'page' : undefined}
           className="flex items-center gap-2 rounded-md text-lg font-extrabold tracking-tight text-fg"
@@ -38,13 +69,13 @@ export function SiteHeader() {
             <span className="h-5 w-1 rounded-full bg-accent" />
           </span>
           Music Theory Now
-        </Link>
+        </NavLink>
         <div className="ml-auto flex min-w-0 items-center gap-2">
           <nav aria-label="Site" className="hidden items-center gap-1 md:flex">
             {NAV_ITEMS.map((item) => {
               const current = isCurrent(pathname, item.href);
               return (
-                <Link
+                <NavLink
                   key={item.href}
                   href={item.href}
                   aria-current={current ? 'page' : undefined}
@@ -56,7 +87,7 @@ export function SiteHeader() {
                   )}
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               );
             })}
           </nav>
@@ -87,7 +118,7 @@ export function BottomTabBar() {
           const Icon = ICONS[item.icon];
           return (
             <li key={item.href}>
-              <Link
+              <NavLink
                 href={item.href}
                 aria-current={current ? 'page' : undefined}
                 className={cn(
@@ -105,7 +136,7 @@ export function BottomTabBar() {
                   <Icon width={22} height={22} strokeWidth={current ? 2.5 : 2} />
                 </span>
                 <span className="max-w-full truncate">{item.label}</span>
-              </Link>
+              </NavLink>
             </li>
           );
         })}

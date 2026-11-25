@@ -1,4 +1,5 @@
-import { GRADES, type Grade, type Lesson, type Strand } from '@/lesson/schema';
+import type { Lesson } from '@/lesson/schema';
+import { GRADES, type Grade, type Strand } from '@/lesson/vocab';
 import type { Terminology } from '@/engine/types';
 import { GRADE_SUMMARIES, GRADE_TITLES, unitTitle } from './titles';
 

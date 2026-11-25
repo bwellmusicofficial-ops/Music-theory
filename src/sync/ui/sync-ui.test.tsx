@@ -9,7 +9,7 @@ import { SyncStatusLine } from './sync-status-line';
 import { SyncEngineProvider } from './use-engine';
 
 let pathname = '/';
-vi.mock('next/navigation', () => ({ usePathname: () => pathname, useRouter: () => ({ push: vi.fn() }) }));
+vi.mock('next/navigation', () => ({ usePathname: () => pathname, useRouter: () => ({ push: vi.fn(), prefetch: vi.fn() }) }));
 
 let server: Server;
 let device: Device;

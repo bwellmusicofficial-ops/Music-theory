@@ -21,6 +21,8 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      # First-load JavaScript per route, and VexFlow/Tone kept out of pages that do not need them (docs/architecture.md, Performance budget).
+      - run: npm run check:budget
 
   # Real-browser tests: every route, lesson and question is drawn, the games and the mock test
   # are played, and the accessibility checks run. The build enables the dev-only question

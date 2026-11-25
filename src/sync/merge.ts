@@ -7,7 +7,7 @@
  *  - A game's best is the larger number. Nothing ever lowers it.
  */
 import type { AttemptEvent, LessonProgress } from '@/lesson/contracts';
-import { STEP_ORDER } from '@/lesson/schema';
+import { STEP_ORDER } from '@/lesson/vocab';
 import { LESSON_STATES } from './wire';
 
 const rank = (s: LessonProgress['state']) => LESSON_STATES.indexOf(s);

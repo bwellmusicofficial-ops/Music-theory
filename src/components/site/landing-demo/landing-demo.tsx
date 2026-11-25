@@ -7,7 +7,8 @@ import { cn } from '@/components/ui/cn';
 import type { MarkResult } from '@/lesson/contracts';
 import { LessonContextProvider, RichTextView } from '@/lesson/player';
 import type { QuestionTypeRegistry } from '@/lesson/contracts';
-import { questionTypes as defaultQuestionTypes } from '@/lesson/questions';
+import { byEar } from '@/lesson/questions/by-ear';
+import { tapRhythm } from '@/lesson/questions/tap-rhythm';
 import '@/lesson/setup';
 import { useSettings } from '@/settings';
 import { buttonClasses } from '../button-link';
@@ -66,6 +67,12 @@ function Dots({ current }: { current: number }) {
  * components and the audio engine's own unlock (the pad's Start button is the gesture).
  * Nothing is stored or sent anywhere: the state lives in this component.
  */
+/**
+ * The demo only ever asks these two kinds of question (by ear, tap a rhythm), so it carries just their modules
+ * instead of the whole registry: the landing page then does not download the other eleven question types.
+ */
+const defaultQuestionTypes: QuestionTypeRegistry = { 'by-ear': byEar, 'tap-rhythm': tapRhythm };
+
 export function LandingDemo({ content, startHref, browseHref = '/learn', defaultOpen, questionTypes = defaultQuestionTypes, onFinishChange }: LandingDemoProps) {
   const { settings } = useSettings();
   const terminology = settings.terminology;

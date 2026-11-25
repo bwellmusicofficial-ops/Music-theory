@@ -229,3 +229,20 @@ amber close, red cross for a miss or a tap beyond tolerance), the results row
 and `mark` agree. The count-in is shown counting up through the felt beats of one
 bar (1 2 3 4, then "Tap!"). The helper `useTapAlong` turns the live events into
 stave `marks` and `cursor` (see docs/stave-interaction.md section 5.4).
+
+## Performance budget (P1-17)
+
+`npm run check:budget` (`scripts/check-bundle-budget.mjs`) runs after `npm run build`, and in the CI `check` job right
+after the build. It reads `.next/diagnostics/route-bundle-stats.json` and fails if:
+
+- a route's first-load JavaScript, gzipped, is over its line in `ROUTE_BUDGET_KB` (set about 8 percent above the
+  numbers measured on 25 Nov 2026: `/privacy` 157 KB, `/learn` 169, `/` 227, a lesson 284, a mock test 304);
+- VexFlow or Tone is in any route's first-load list (both must load on demand with `import()`);
+- a page that never shows a lesson (`/learn`, `/games`, `/settings`, the static pages) downloads zod;
+- the on-demand VexFlow chunk grows past 410 KB gzipped (now 381) or the Tone chunk past 90 KB (now 79).
+
+Rules that keep the numbers down: import `STRANDS`, `GRADES`, `STEP_ORDER` from `src/lesson/vocab.ts`, not from
+`schema.ts`, in code that runs outside lessons; do not import `zod` in anything the dashboard, course map or games load
+(`src/mock/store.ts` validates by hand, with `attempt-schema.test.ts` keeping it in step with the zod schema); the
+navigation bar's links do not prefetch. When a change makes a page heavier on purpose, raise its line in the script in
+the same commit and say why. Sizes are for a production build with accounts off, as on Vercel.
