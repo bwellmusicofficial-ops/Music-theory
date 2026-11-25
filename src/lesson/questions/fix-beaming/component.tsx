@@ -72,6 +72,7 @@ export function FixBeaming({
           offered,
           on,
           onToggle: toggle,
+          quiet: true,
           label: (at) => `Join note ${at.event + 1} and note ${at.event + 2}`,
         }}
       />

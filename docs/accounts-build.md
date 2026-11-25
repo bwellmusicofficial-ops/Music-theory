@@ -457,5 +457,7 @@ Prerequisite: accounts switched on for Preview (the P1-02 steps). No migration t
   Marketing opt-in is a separate, unticked box calling `set_marketing()`. `AccountUser` gains a field only if the
   UI needs it; the synthetic-address rule applies to code-name users only.
 - **Export and delete (P1-16):** built, see "Export and delete (P1-16)" above.
-- **Cookie notice:** the session cookie is strictly necessary and set only after sign-in, but the privacy page
-  must mention it before the switch goes on in production.
+- **Cookie notice. Done 25 Nov 2026:** the privacy page has a "Cookies" section: no tracking or advert cookies; if
+  you sign in, one small cookie keeps you signed in until you close your browser; none if you never sign in. It is
+  true with accounts off and on. Keep it true if the cookie's life or purpose changes
+  (`src/app/(site)/privacy/page.test.tsx` checks the wording).

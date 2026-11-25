@@ -37,6 +37,8 @@ export interface GapMarker {
   on: boolean;
   /** Hovered or focused: off gaps show a faint guide only then. */
   active: boolean;
+  /** An on gap is already shown by the notation (a beam): draw it only while hovered or focused. */
+  quiet?: boolean;
 }
 
 export interface StaveOverlayProps {
@@ -240,7 +242,14 @@ export function StaveOverlay(p: StaveOverlayProps) {
   // Gap toggles (read mode): an "on" gap is a solid accent line with a diamond cap that reaches past the
   // stave lines, so it is a shape and not only a colour; hover or focus shows a faint dashed guide.
   for (const g of p.gaps ?? []) {
-    if (g.on) {
+    if (g.on && g.quiet) {
+      // Quiet join: the beam is the marker. Hover or focus adds a thin solid line (off gaps get a dashed one).
+      if (g.active) {
+        out.push(
+          <line key={`gap-${g.key}`} data-testid="gap-guide" data-on="true" x1={g.x} x2={g.x} y1={g.top} y2={g.bottom} stroke="var(--stave-accent)" strokeWidth={1.5} strokeLinecap="round" opacity={0.8} />,
+        );
+      }
+    } else if (g.on) {
       out.push(
         <g key={`gap-${g.key}`} data-testid="gap-marker" data-on="true" className="mtn-gap-marker">
           <line x1={g.x} x2={g.x} y1={g.top} y2={g.bottom} stroke="var(--stave-accent)" strokeWidth={2.5} strokeLinecap="round" />

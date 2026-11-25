@@ -72,6 +72,7 @@ export function MultipleChoice({
                 : isChosen
                   ? "wrong"
                   : "other";
+          const markLabel = state === "selected" || state === "right" || state === "wrong";
           return (
             <li key={option.id}>
               <button
@@ -81,7 +82,7 @@ export function MultipleChoice({
                 data-state={state}
                 onClick={() => choose(option.id)}
                 className={cn(
-                  "flex min-h-14 w-full items-center gap-4 rounded-lg border-2 bg-surface px-4 py-3 text-left text-fg",
+                  "flex min-h-14 w-full flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border-2 bg-surface px-4 py-3 text-left text-fg",
                   "transition-[border-color,opacity] duration-(--motion-duration-fast) ease-standard",
                   "enabled:cursor-pointer enabled:hover:border-accent",
                   "disabled:cursor-default",
@@ -101,12 +102,26 @@ export function MultipleChoice({
                 <span className="flex min-w-0 flex-1 items-center text-lg font-semibold">
                   <FaceView face={option.face} />
                 </span>
-                {state === "selected" ? <SelectedMark /> : null}
-                {state === "right" ? (
-                  <ResultMark tone="right">Correct answer</ResultMark>
-                ) : null}
-                {state === "wrong" ? (
-                  <ResultMark tone="wrong">Your answer</ResultMark>
+                {/*
+                  A passage is wide, so the label goes on its own line under the stave, never over it. Short faces
+                  keep it on the right. The text label carries the meaning; colour and icon only support it.
+                */}
+                {markLabel ? (
+                  <span
+                    data-option-mark
+                    className={cn(
+                      option.face.kind === "passage" &&
+                        "basis-full ps-[calc(2.25rem+1rem)]",
+                    )}
+                  >
+                    {state === "selected" ? <SelectedMark /> : null}
+                    {state === "right" ? (
+                      <ResultMark tone="right">Correct answer</ResultMark>
+                    ) : null}
+                    {state === "wrong" ? (
+                      <ResultMark tone="wrong">Your answer</ResultMark>
+                    ) : null}
+                  </span>
                 ) : null}
               </button>
             </li>

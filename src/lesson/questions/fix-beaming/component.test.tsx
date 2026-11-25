@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { installStaveStubs } from '@/components/stave/test-utils';
@@ -64,6 +64,16 @@ describe('fix-beaming component', () => {
     expect(buttons.every((b) => b.getAttribute('aria-pressed') === 'true')).toBe(true);
     // Bar 1 has two minims and one bar, bar 2 has one beam over all eight quavers.
     expect(beams(container)).toBe(1);
+  });
+
+  it('joined gaps are quiet: no line-and-diamond marker over the beam, but still aria-pressed and a hover line', async () => {
+    const { container } = renderQuestion();
+    await drawn(container);
+    const buttons = await gaps();
+    expect(container.querySelectorAll('[data-testid="gap-marker"]')).toHaveLength(0);
+    expect(buttons.every((b) => b.getAttribute('aria-pressed') === 'true')).toBe(true);
+    fireEvent.pointerEnter(buttons[2]!);
+    await waitFor(() => expect(container.querySelectorAll('[data-testid="gap-guide"]')).toHaveLength(1));
   });
 
   it('offers no gap next to a note that cannot be beamed', async () => {

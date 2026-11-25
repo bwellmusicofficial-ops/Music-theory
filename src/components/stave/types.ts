@@ -70,6 +70,11 @@ export interface StaveGaps {
   onToggle: (at: StaveGapRef) => void;
   /** Spoken name of one gap, e.g. "Bar line after note 3". */
   label: (at: StaveGapRef) => string;
+  /**
+   * The notation already shows an on gap (a beam joins the notes), so draw no marker for it at rest. Hover or
+   * focus still shows a thin solid line (an off gap shows a dashed one). `aria-pressed` is unchanged.
+   */
+  quiet?: boolean;
 }
 
 /** One key-signature sign: 1 sharp, -1 flat, at a stave position (0 = bottom line). */
