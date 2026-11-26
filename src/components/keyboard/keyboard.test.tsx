@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { pitch } from '@/engine/pitch';
 import type { Pitch } from '@/engine/types';
 
@@ -376,5 +376,192 @@ describe('audio', () => {
     fireEvent.pointerDown(key('C 4'), { pointerId: 1 });
     act(() => unmount());
     expect(audio.noteOff).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('fit to width and scrolling', () => {
+  /** jsdom has no layout: give the scrolling box a width and a scroll position we control. */
+  let width = 0;
+  let observers: (() => void)[] = [];
+  let scrollLeft = 0;
+  const scrollTo = vi.fn((opts: ScrollToOptions) => {
+    scrollLeft = opts.left ?? 0;
+  });
+
+  beforeEach(() => {
+    width = 0;
+    scrollLeft = 0;
+    observers = [];
+    scrollTo.mockClear();
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(cb: () => void) {
+          observers.push(cb);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    Object.defineProperty(HTMLElement.prototype, 'clientWidth', { configurable: true, get: () => width });
+    Object.defineProperty(HTMLElement.prototype, 'scrollLeft', {
+      configurable: true,
+      get: () => scrollLeft,
+      set: (v: number) => {
+        scrollLeft = v;
+      },
+    });
+    HTMLElement.prototype.scrollTo = scrollTo as unknown as HTMLElement['scrollTo'];
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    // @ts-expect-error: remove the test stubs so other suites see plain jsdom
+    delete HTMLElement.prototype.clientWidth;
+    // @ts-expect-error: as above
+    delete HTMLElement.prototype.scrollLeft;
+    // @ts-expect-error: as above
+    delete HTMLElement.prototype.scrollTo;
+  });
+
+  const resizeTo = (w: number) => {
+    width = w;
+    act(() => observers.forEach((cb) => cb()));
+  };
+  const kb = () => screen.getByTestId('keyboard');
+  const lower = () => screen.queryByRole('button', { name: 'Show lower keys' });
+  const higher = () => screen.queryByRole('button', { name: 'Show higher keys' });
+
+  it('keys fill the width: narrower as the box shrinks, until the minimum', () => {
+    width = 600;
+    render(<Keyboard low={p('C4')} high={p('C6')} sound={false} />); // 15 white keys
+    expect(kb()).toHaveAttribute('data-fit', 'fit');
+    expect(kb()).toHaveAttribute('data-key-px', '40.0');
+    resizeTo(450);
+    expect(kb()).toHaveAttribute('data-key-px', '30.0');
+    resizeTo(342);
+    expect(kb()).toHaveAttribute('data-key-px', '22.8');
+    expect(kb()).toHaveAttribute('data-fit', 'fit');
+    expect(lower()).toBeNull();
+    expect(higher()).toBeNull();
+    // The minimum: 15 keys x 21px = 315px. At exactly that it still fits.
+    resizeTo(315);
+    expect(kb()).toHaveAttribute('data-key-px', '21.0');
+    expect(kb()).toHaveAttribute('data-fit', 'fit');
+  });
+
+  it('below the minimum it stops shrinking and offers scroll buttons', () => {
+    width = 342;
+    render(<Keyboard low={p('C4')} high={p('C6')} sound={false} />);
+    expect(lower()).toBeNull();
+    resizeTo(280);
+    expect(kb()).toHaveAttribute('data-fit', 'scroll');
+    expect(kb()).toHaveAttribute('data-key-px', '21.0');
+    expect(lower()).toBeInTheDocument();
+    expect(higher()).toBeInTheDocument();
+    // Growing again removes them.
+    resizeTo(400);
+    expect(lower()).toBeNull();
+    expect(kb()).toHaveAttribute('data-fit', 'fit');
+  });
+
+  it('a long range overflows on a phone', () => {
+    width = 342;
+    render(<Keyboard low={p('C3')} high={p('C6')} sound={false} />); // 22 white keys = 462px
+    expect(kb()).toHaveAttribute('data-fit', 'scroll');
+    expect(higher()).toBeEnabled();
+  });
+
+  it('the buttons are labelled, at least 44px, and disabled at the ends', () => {
+    width = 300;
+    render(<Keyboard low={p('C3')} high={p('C5')} sound={false} />); // 15 keys = 315px, max scroll 15
+    // Opens centred: scrolled to the middle of a 15px overflow
+    expect(scrollTo).toHaveBeenCalledWith({ left: 7.5, behavior: 'auto' });
+    expect(lower()).toBeEnabled();
+    expect(higher()).toBeEnabled();
+    expect(lower()!.className).toMatch(/min-h-11/);
+    expect(lower()!.className).toMatch(/min-w-11/);
+    act(() => {
+      scrollLeft = 0;
+      fireEvent.scroll(document.querySelector('[data-overflow]')!);
+    });
+    expect(lower()).toBeDisabled();
+    expect(higher()).toBeEnabled();
+    act(() => {
+      scrollLeft = 15;
+      fireEvent.scroll(document.querySelector('[data-overflow]')!);
+    });
+    expect(lower()).toBeEnabled();
+    expect(higher()).toBeDisabled();
+  });
+
+  it('the buttons scroll by pointer and by keyboard, and the hint goes after the first use', async () => {
+    const user = userEvent.setup();
+    width = 342;
+    render(<Keyboard low={p('C3')} high={p('C6')} sound={false} />); // content 462, max scroll 120
+    const hint = screen.getByTestId('keyboard-scroll-hint');
+    expect(hint).toHaveTextContent(/More keys this way/);
+    scrollTo.mockClear();
+    act(() => {
+      scrollLeft = 0;
+      fireEvent.scroll(document.querySelector('[data-overflow]')!);
+    });
+    await user.click(higher()!);
+    expect(scrollTo).toHaveBeenLastCalledWith({ left: 120, behavior: 'smooth' });
+    expect(hint).toBeEmptyDOMElement();
+    // Keyboard: Tab to the button, press Enter.
+    act(() => {
+      scrollLeft = 120;
+      fireEvent.scroll(document.querySelector('[data-overflow]')!);
+    });
+    expect(higher()).toBeDisabled();
+    expect(lower()).toBeEnabled();
+    lower()!.focus();
+    await user.keyboard('{Enter}');
+    expect(scrollTo).toHaveBeenLastCalledWith({ left: 0, behavior: 'smooth' });
+    // The scroll reaches the start: the button disables itself.
+    act(() => {
+      scrollLeft = 0;
+      fireEvent.scroll(document.querySelector('[data-overflow]')!);
+    });
+    expect(lower()).toBeDisabled();
+    // The button that hit the end handed focus to the other one rather than dropping it.
+    expect(higher()).toHaveFocus();
+  });
+
+  it('reduced motion scrolls without animation', async () => {
+    const user = userEvent.setup();
+    document.documentElement.dataset.reducedMotion = 'true';
+    try {
+      width = 342;
+      render(<Keyboard low={p('C3')} high={p('C6')} sound={false} />);
+      await user.click(higher()!);
+      expect(scrollTo).toHaveBeenLastCalledWith(expect.objectContaining({ behavior: 'auto' }));
+    } finally {
+      delete document.documentElement.dataset.reducedMotion;
+    }
+  });
+
+  it('opens on the highlighted keys, else the middle of the range', () => {
+    width = 242; // 22 keys = 462px; max scroll 220
+    const view = render(<Keyboard low={p('C3')} high={p('C6')} sound={false} />);
+    expect(scrollTo).toHaveBeenLastCalledWith({ left: 110, behavior: 'auto' });
+    view.unmount();
+    scrollTo.mockClear();
+    render(
+      <Keyboard low={p('C3')} high={p('C6')} sound={false} highlight={[{ pitch: p('C6'), state: 'target' }]} />,
+    );
+    // Highlight at the far right: scrolled as far right as it goes.
+    expect(scrollTo).toHaveBeenLastCalledWith({ left: 220, behavior: 'auto' });
+  });
+
+  it('the scroll buttons are not keys: key presses still report notes', async () => {
+    const onNote = vi.fn();
+    const user = userEvent.setup();
+    width = 242;
+    render(<Keyboard low={p('C3')} high={p('C6')} sound={false} onNote={onNote} />);
+    expect(screen.getAllByRole('button').filter((b) => b.hasAttribute('data-midi'))).toHaveLength(37);
+    await user.click(higher()!);
+    expect(onNote).not.toHaveBeenCalled();
   });
 });

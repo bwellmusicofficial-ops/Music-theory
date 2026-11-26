@@ -54,6 +54,14 @@ export async function targetProblems(page: Page, relaxPrimary = false): Promise<
         while (host && getComputedStyle(host).display === 'inline' && (host.textContent ?? '').trim() === (e.textContent ?? '').trim()) host = host.parentElement;
         const inline = (cs.display === 'inline' || cs.display === 'inline-block') && (host?.textContent ?? '').trim().length > (e.textContent ?? '').trim().length;
         if (inline) continue;
+        // Piano keys follow the instrument's proportions (SC 2.5.8 "essential"): tall and narrow, so they fill
+        // the width and are checked against a floor of their own (white 20px, black 12px wide; 24px tall)
+        // instead of 24x24. The keyboard stops shrinking its keys at 21px and scrolls instead.
+        if (e.matches('button[data-midi]')) {
+          const needW = e.getAttribute('data-key') === 'black' ? 12 : 20;
+          if (box.width + 0.5 < needW || box.height + 0.5 < min) out.push({ el: describe(e), w: Math.round(box.width), h: Math.round(box.height), need: needW });
+          continue;
+        }
         const isPrimary = e.matches(primarySel);
         const need = isPrimary ? primary : min;
         if (box.width + 0.5 < need || box.height + 0.5 < need) out.push({ el: describe(e), w: Math.round(box.width), h: Math.round(box.height), need });

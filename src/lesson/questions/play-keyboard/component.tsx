@@ -8,6 +8,7 @@ import type { Passage, Pitch } from '@/engine/types';
 import type { QuestionProps } from '@/lesson/contracts';
 import { ResultMark } from '@/lesson/questions/face-view';
 import { useAnswerReporting } from '@/lesson/questions/use-answer-reporting';
+import { playKeyboardInstruction } from './instruction';
 import { name } from './reason';
 import type { PlayKeyboardAnswer, PlayKeyboardPayload } from './types';
 
@@ -144,11 +145,7 @@ export function PlayKeyboard({
       : payload.nameNotes === false
         ? `${played.length} ${played.length === 1 ? 'key' : 'keys'}`
         : played.map(keyName).join(', ');
-  const instruction = sequence
-    ? `Play ${payload.targets.length === 1 ? 'the note' : `the ${payload.targets.length} notes`} one after another.`
-    : hideCheck
-      ? 'Press each key of the chord to turn it on or off.'
-      : 'Press each key of the chord to turn it on or off, then press Check.';
+  const instruction = playKeyboardInstruction(payload, hideCheck);
 
   return (
     <div className="flex flex-col gap-4">

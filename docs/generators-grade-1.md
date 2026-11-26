@@ -734,6 +734,14 @@ interface KeyboardFindParams {
 }
 ```
 
+The instruction line under the prompt is chosen from the payload, not the
+params: `find-every` and `black-keys` say "Press each key to choose it (press
+again to undo), then press Check." (black keys: "each black key"), `next-note`,
+`previous-note` and `step` say "Press the key that plays the note." (the first two
+add "Any octave is fine."). Chord wording is only for chords (`play-scale-or-triad`
+triads). `find-every` uses a 15-key range (C3 to C5 or C4 to C6), the widest
+keyboard in the app; it fits a phone at 360px and wider.
+
 `nameNotes` changes only the reasons (and the keyboard question's played-keys
 summary), not the prompt: `find-every`, `next-note`, `previous-note` and `step`
 ask for a note *by name*, so their prompts always name it. For a lesson before
