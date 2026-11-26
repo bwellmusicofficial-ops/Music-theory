@@ -246,3 +246,26 @@ describe('PlayKeyboard: notation', () => {
     expect(screen.queryByTestId('notation')).toBeNull();
   });
 });
+
+describe('PlayKeyboard: instruction wording on screen', () => {
+  it('a find-every question does not talk about chords', () => {
+    const findEvery: PlayKeyboardPayload = { ...sequence, high: p('C6'), targets: ps('C4', 'C5', 'C6'), mode: 'together' };
+    renderQuestion(findEvery);
+    expect(
+      screen.getByText('Press each key to choose it (press again to undo), then press Check.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/chord/i)).toBeNull();
+  });
+
+  it('a chord question keeps the chord wording', () => {
+    renderQuestion(chord);
+    expect(
+      screen.getByText('Press each key of the chord to turn it on or off, then press Check.'),
+    ).toBeInTheDocument();
+  });
+
+  it('a single-note question reads naturally', () => {
+    renderQuestion({ ...sequence, targets: ps('E4') });
+    expect(screen.getByText('Press the key that plays the note.')).toBeInTheDocument();
+  });
+});

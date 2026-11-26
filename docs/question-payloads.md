@@ -513,6 +513,24 @@ sound the same.
 
 Component: the keyboard sounds as usual.
 
+The line under the prompt says how to answer, worded for the question
+(`instruction.ts`). `sequence` with one target: "Press the key that plays the
+note."; with several: "Play the N notes one after another."; `together` where
+every target is the same note name (find every C): "Press each key to choose it
+(press again to undo), then press Check."; `together` where the targets are a
+group of black keys (each a tone above the last): the same with "each black
+key"; any other `together` is a chord: "Press each key of the chord to turn it
+on or off, then press Check." `octave: 'any'` adds "Any octave is fine." With
+no Check button (`hideCheck`) the "then press Check" part is dropped.
+
+Keyboard size: the keys fill the width of the question, so a range such as C4 to
+C6 (15 white keys) is fully visible on a 360px phone and wider. White keys never
+get narrower than 21px (`MIN_WHITE_KEY_PX`); a range too long for that scrolls,
+and then the keyboard shows a fade at each edge that hides keys, "Show lower
+keys" and "Show higher keys" buttons (44px, disabled at the ends) and, until the
+learner first scrolls, the hint "More keys this way". It opens scrolled to the
+highlighted keys, else the middle of the range.
+
 - `sequence`: each key press is appended to `played`. The answer commits
   automatically when `played.length === targets.length`.
 - `together`: each key press toggles that key on or off. A Check button
