@@ -18,7 +18,7 @@
   "newTerms": [
     "tie"
   ],
-  "status": "draft",
+  "status": "reviewed",
   "steps": {
     "hook": {
       "text": "Some notes are too long for one [[bar|bar]]. A singer can hold a note over the [[bar-line|bar line]], but you cannot write a note on top of a line. Press play and listen for the note that carries on into the next [[bar|bar]]. How would you write it?",

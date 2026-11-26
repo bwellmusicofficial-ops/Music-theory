@@ -19,7 +19,7 @@
   "newTerms": [
     "rhythm"
   ],
-  "status": "draft",
+  "status": "reviewed",
   "steps": {
     "hook": {
       "text": "In Morse code, every letter is a pattern of long and short beeps. SOS is three short, three long, then three short. Tap it on your desk: short, short, short, long, long, long, short, short, short. What makes a long one feel long?"

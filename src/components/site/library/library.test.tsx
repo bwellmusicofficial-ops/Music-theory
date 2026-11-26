@@ -89,7 +89,7 @@ describe('lessons tab', () => {
     seed([row(lessons[0]!.id, 'complete')]);
     renderPage(<LibraryPage />);
     await waitFor(() => expect(screen.getAllByText('Complete').length).toBeGreaterThan(0));
-    expect(screen.getAllByText('Draft').length).toBeGreaterThan(30);
+    expect(screen.queryAllByText('Draft')).toHaveLength(lessons.filter((l) => l.status === 'draft').length);
   });
 });
 

@@ -22,7 +22,7 @@
     "al-fine",
     "metronome-mark"
   ],
-  "status": "draft",
+  "status": "reviewed",
   "steps": {
     "hook": {
       "text": "A song’s chorus comes back again and again. Printing it every time would waste paper, so music has shortcuts. Press play. This music is only two [[bar|bars]] long on the page. How many [[bar|bars]] do you hear, and what does the cursor do?",

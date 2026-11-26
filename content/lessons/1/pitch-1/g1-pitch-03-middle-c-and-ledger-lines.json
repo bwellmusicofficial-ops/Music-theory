@@ -20,7 +20,7 @@
   "newTerms": [
     "ledger-line"
   ],
-  "status": "draft",
+  "status": "reviewed",
   "steps": {
     "hook": {
       "text": "Piano music is written on two [[stave|staves]], one above the other: the top one for higher notes, the bottom one for lower notes. Somewhere in the gap between them sits one special key. Press the glowing key. Where do you think it gets written?",

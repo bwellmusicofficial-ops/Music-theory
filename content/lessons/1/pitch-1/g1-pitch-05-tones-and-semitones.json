@@ -20,7 +20,7 @@
     "semitone",
     "tone"
   ],
-  "status": "draft",
+  "status": "reviewed",
   "steps": {
     "hook": {
       "text": "Press play: the tune takes two small steps, and they are not the same size. Each step goes from one white key to the next white key. Which step is smaller?",

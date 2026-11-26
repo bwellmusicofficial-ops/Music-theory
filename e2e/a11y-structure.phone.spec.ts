@@ -133,8 +133,8 @@ test.describe('structure', () => {
     expect(italian.length).toBeGreaterThan(5);
     await page.goto('/library?tab=glossary');
     await waitReady(page);
-    const marked = await page.locator('main li h2[lang="it"]').count();
-    expect(marked, 'Italian glossary headings with lang="it"').toBe(italian.length);
+    // Wait for the glossary list to render (counting at once raced the render under load).
+    await expect(page.locator('main li h2[lang="it"]'), 'Italian glossary headings with lang="it"').toHaveCount(italian.length);
     const wrong = await page.locator('main li h2[lang]:not([lang="it"]):not([lang="fr"]):not([lang="de"])').count();
     expect(wrong).toBe(0);
   });

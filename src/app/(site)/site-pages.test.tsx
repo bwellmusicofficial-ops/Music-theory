@@ -95,9 +95,11 @@ describe('learn page (course map)', () => {
     for (const g of [2, 3, 4, 5, 6, 7, 8]) expect(screen.getByRole('heading', { level: 2, name: `Grade ${g}` })).toBeInTheDocument();
     expect(screen.getByText('Compound time, keys to four sharps and flats, intervals by type.')).toBeInTheDocument();
     expect(screen.getAllByText('Coming soon')).toHaveLength(7);
-    // Unit headers open unit pages; drafts are badged.
+    // Unit headers open unit pages; drafts (and only drafts) are badged.
     expect(screen.getByRole('link', { name: /Note values and time/ })).toHaveAttribute('href', '/learn/1/rhythm-1');
-    expect(screen.getAllByText('Draft').length).toBeGreaterThan(20);
+    // (The draft note at the top also says <strong>Draft</strong>; count only the badges.)
+    const badges = screen.queryAllByText('Draft').filter((e) => e.tagName !== 'STRONG');
+    expect(badges).toHaveLength(lessons.filter((l) => l.status === 'draft').length);
   });
 
   it('marks state by name and icon, and the current position', async () => {
@@ -163,8 +165,12 @@ describe('unit page', () => {
     expect(items[0]).toHaveTextContent('Crotchets and minims');
     expect(items[0]).toHaveTextContent('Not started');
     expect(items[0]).toHaveTextContent('min');
-    expect(within(items[0]!).queryByText('Draft')).toBeNull(); // the one reviewed lesson
-    expect(within(items[1]!).getByText('Draft')).toBeInTheDocument();
+    // A lesson carries a Draft badge exactly when it is still a draft.
+    unit.lessons.forEach((l, i) => {
+      const badge = within(items[i]!).queryByText('Draft');
+      if (l.status === 'draft') expect(badge).toBeInTheDocument();
+      else expect(badge).toBeNull();
+    });
     cleanup();
 
     seed([row(unit.lessons[0]!.id, 'complete', { bestScore: 0.875 }), row(unit.lessons[1]!.id, 'in-progress')]);

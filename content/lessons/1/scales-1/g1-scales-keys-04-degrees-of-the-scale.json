@@ -18,7 +18,7 @@
     "degree",
     "tonic"
   ],
-  "status": "draft",
+  "status": "reviewed",
   "steps": {
     "hook": {
       "text": "A teacher says: \"Play the 5th note of the scale.\" No letter, only a number. Press play to hear a little tune that goes 1, 2, 3, jumps to 5, then walks home 3, 2, 1. Can you tell which note is number 5?",

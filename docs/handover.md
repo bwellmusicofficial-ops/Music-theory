@@ -405,7 +405,7 @@ Nothing here stops the site working. Roughly in order of how much it matters.
 | Needed | Unblocks |
 | --- | --- |
 | ~~A Supabase project~~ Created 22 Nov 2026 in eu-west-2 (London): project ref `rnefqcvlxbvhacyjmknz`, URL `https://rnefqcvlxbvhacyjmknz.supabase.co`, publishable key `sb_publishable_CviqSlSdQVKOzn13uTzyPA_hKmthc9Q` (safe to publish). Vercel env vars `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (secret, Vercel only; Supabase's new key names replace anon and service_role) | P1-02, P1-03, P1-16, P1-17 |
-| Review of the 36 draft lessons (`/learn` lists them with Draft badges) | Publishing Grade 1; the Phase 1 gate |
+| ~~Review of the 36 draft lessons~~ Done 26 Nov 2026: the owner approved 35; `start-pitch-04-finding-c` stays draft until the keyboard fit fix (his feedback: the keyboard scrolled off screen with no sign of more keys) is in and he has seen it (`/learn` lists them with Draft badges) | Publishing Grade 1; the Phase 1 gate |
 | Answers to four questions at the end of `docs/accounts-and-data.md`: lost recovery code, deleting inactive accounts, who sends marketing email and is the data controller, whether teachers will see pupils' progress | Final account build and privacy wording |
 | A listen on his phone to the four terms lessons (rit in lesson 2, accents in lesson 3, staccato, pp) | Tuning the expression numbers in `docs/expression.md` |
 | Whether to keep the terms lessons split in four or merge back | Lesson structure |
